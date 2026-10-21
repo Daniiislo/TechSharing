@@ -89,6 +89,7 @@ export const PHASE2 = [
     title: "Phát cho mọi người", fn: 'Clients.All.SendAsync("updateItem", …) + ("updateEvent", …)',
     explain: "Geronimo viết một dòng. SignalR serialize một lần rồi ghi vào mọi connection đang mở. Production: RedisHubLifetimeManager publish qua Redis để các server khác phát cho client của chúng.",
     without: "tự giữ danh sách socket, tự lặp gửi, tự bỏ socket đã chết, tự pub/sub giữa các server.",
+    warn: "Tham số cuối của updateItem là max bid cao nhất (highMaxBid) và được gửi cho mọi người: ai mở DevTools cũng đọc được max bid của đối thủ.",
   },
   {
     id: "caller", owner: "signalr", path: ["sr-server", "wire", "sr-x"], trace: ["server.sendCaller"],

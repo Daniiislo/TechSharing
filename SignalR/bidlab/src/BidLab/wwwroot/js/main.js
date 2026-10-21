@@ -46,7 +46,7 @@ function render(view) {
   $("ctl-play").textContent = view.playing ? "⏸ Dừng" : "▶ Chạy";
   for (const win of document.querySelectorAll(".win")) win.classList.toggle("is-active", busy && win.dataset.user === view.user);
   for (const b of Object.values(bidders)) b.refreshButton();
-  if (view.state === "idle") $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của An hoặc Bình" : SCENARIOS[$("ctl-scenario").value].hint;
+  if (!busy) $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của An hoặc Bình" : SCENARIOS[$("ctl-scenario").value].hint;
   else $("sim-sub").textContent = `${NAMES[view.user]} · bước ${view.index + 1}/${view.steps.length}`;
 }
 

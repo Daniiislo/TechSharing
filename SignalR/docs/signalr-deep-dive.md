@@ -668,6 +668,16 @@ public async Task AddBid(int itemId, decimal bidAmount, bool isBuyNow, bool isMa
 - Client đổi lời gọi thành `connection.invoke("AddBid", itemId, bidAmount, false, isReserveBid)`.
 - Bài học chung: **mọi tham số đến từ client là input không tin cậy**. Danh tính và quyền phải lấy từ phía server.
 
+### 5.2b Lộ max bid của đối thủ qua `updateItem`
+
+**Hiện trạng**: `BroadcastBidUpdateAsync` phát `highestMaxBid?.Amount` làm tham số thứ 9 của `updateItem` cho **mọi** client (`BidHub.cs:278-283`; nhánh lỗi cũng gửi `context.HighMaxBid`, L355-356). Max bid là con số bí mật của người đặt: hệ thống chỉ trả thay họ khi bị trả giá cao hơn.
+
+**Hệ quả**: ai mở DevTools → Network → WS đều đọc được max bid của người đang dẫn, rồi đặt bid vừa đủ vượt qua. Demo BidLab cho thấy đúng frame này: `updateItem(…, "u-binh", true, 2000)`. Đây là suy ra từ code; chưa kiểm trên production.
+
+**Cách sửa**: client chỉ dùng con số này để so với giá Buy Now và quyết định ẩn nút (`itemBid.js:171`). Server nên tự so sánh rồi gửi cờ `isBuyNowAvailable` (boolean) thay cho số tiền.
+
+**Bài học chung**: mọi thứ gửi qua `Clients.All` là **công khai** với mọi người đang mở trang. Chỉ broadcast dữ liệu ai cũng được phép thấy; dữ liệu riêng gửi bằng `Clients.Caller` / `Clients.User`.
+
 ### 5.3 Public hub method là public API
 
 `EventHub.CloseItem`, `CloseItems`, `CloseEvent` (`EventHub.cs:11-23`) là `public`, nên bất kỳ client nào kết nối `/eventhub` đều gọi được, và mỗi method phát cho **All**. Server không dùng các method này (dùng `IHubContext` thay thế). Một client có thể làm mọi trang Event khác hiện "ITEM CLOSED" giả (chỉ ảnh hưởng UI, không đổi DB). Đề xuất: xóa các method không dùng, hoặc ít nhất `[Authorize(Roles = ...)]`. **Cần xác nhận với team.**
