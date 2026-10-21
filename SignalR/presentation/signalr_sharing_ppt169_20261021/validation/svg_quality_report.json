@@ -1,0 +1,1122 @@
+{
+  "schema": "ppt-master.svg-quality-report.v1",
+  "stage": "final",
+  "target": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
+  "source_fingerprint": {
+    "algorithm": "sha256",
+    "digest": "0aadadf169719f588d49fd50260ae6de86b5c8a11ed31f57f210efaec27808db",
+    "file_count": 15,
+    "files": [
+      {
+        "file": "01_cover.svg",
+        "sha256": "2af027b78b9212991d84a59a6bb3be50395ad1946428d387702fd6e1bfad51af"
+      },
+      {
+        "file": "02_the_moment.svg",
+        "sha256": "e65f8a57ce0905d8a3b6eda6980e82e4739967ee784797770bdd24172b8dafb9"
+      },
+      {
+        "file": "03_hand_built.svg",
+        "sha256": "761403bf1ddff993b6a3433f3b18b200426be00a1a32f98daac0d009dd2eaa9f"
+      },
+      {
+        "file": "04_framework_layers.svg",
+        "sha256": "5bba8bafdc2b9ce4267d2538250ecd3125aa9f8630ea42d90b89f302ff568eed"
+      },
+      {
+        "file": "05_six_jobs.svg",
+        "sha256": "a50698f4f46b43cf25737cb7bfaf008802f0cd2927afa7b7a3fd349a171761c6"
+      },
+      {
+        "file": "06_when_to_use.svg",
+        "sha256": "f25e902c2bb6732980d5ddf1db7a8dd492880733ca7a206ab8068366b4e1f9d1"
+      },
+      {
+        "file": "07_mindset.svg",
+        "sha256": "c46177b18a22099588b8693bd533fbadc7e980890356df8e9e1e1bf41bcb1747"
+      },
+      {
+        "file": "08_at_a_glance.svg",
+        "sha256": "7a4746a5e7f6657e507110692cea3b7a384ad80b21e42df6a568dd8fac35f1ac"
+      },
+      {
+        "file": "09_phase1_connect.svg",
+        "sha256": "930886d1e39082d38aed9fc9e6092b4dd444b388dd941477bd884beb7baf6937"
+      },
+      {
+        "file": "10_phase2_place_bid.svg",
+        "sha256": "5b624a3efd9524456a4e4bcf581fde91758dcb3c13c5726793b40b1257e19eee"
+      },
+      {
+        "file": "11_phase2_fan_out.svg",
+        "sha256": "80583401988772d18ff4ae4e8ba1481dc4dd28f74d63ee891ab38c70d777d63d"
+      },
+      {
+        "file": "12_server_push.svg",
+        "sha256": "6e7245cea0130c700385dfa67ccdf688e665c733dc99a4a2a4477807f7fee050"
+      },
+      {
+        "file": "13_two_holes.svg",
+        "sha256": "c27bcbaa05873bc2d9facd9d4610f6803845613875ffae684150421b7d267f1c"
+      },
+      {
+        "file": "14_do_avoid.svg",
+        "sha256": "e53172103828ccabfe210f5720eea3c48b7914ee1e9601c7c1dddd4de93e50d0"
+      },
+      {
+        "file": "15_demo_qa.svg",
+        "sha256": "1084a9991265546e00defd7e8e0bed7a2ea119e40d45d34cd8504ea713bf02b3"
+      }
+    ]
+  },
+  "summary": {
+    "total": 15,
+    "passed": 13,
+    "warnings": 2,
+    "errors": 0
+  },
+  "issue_types": {},
+  "categories": {
+    "blocking": {
+      "count": 0,
+      "issues": []
+    },
+    "introduced": {
+      "count": 2,
+      "issues": [
+        {
+          "file": "08_at_a_glance.svg",
+          "message": "Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id=\"server\"> x=484.0, y=302.0..334.0, 2 lines; <g id=\"server\"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+        },
+        {
+          "file": "11_phase2_fan_out.svg",
+          "message": "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"browser-ben\"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+        }
+      ]
+    },
+    "inherited": {
+      "count": 0,
+      "issues": []
+    },
+    "source-import": {
+      "count": 0,
+      "summary": {
+        "warning_count": 0,
+        "by_code": {}
+      }
+    }
+  },
+  "drift": {
+    "colors": {
+      "#F6C177": [
+        "13_two_holes.svg"
+      ],
+      "#FFFFFF": [
+        "01_cover.svg",
+        "04_framework_layers.svg",
+        "08_at_a_glance.svg",
+        "10_phase2_place_bid.svg",
+        "11_phase2_fan_out.svg"
+      ]
+    },
+    "fonts": {},
+    "sizes": {}
+  },
+  "carrier_receipt": {
+    "scope": "informational-not-a-quota",
+    "pages": 15,
+    "totals": {
+      "text_elements": 361,
+      "image_placements": 0,
+      "icons": 24,
+      "svg_geometry_elements": 146,
+      "preset_shapes": 6,
+      "page_frame_elements": 20,
+      "marker_uses": 34,
+      "inline_emphasis_runs": 19,
+      "gradient_uses": 0,
+      "filter_uses": 0,
+      "text_effects": 0
+    },
+    "pages_with": {
+      "images": 0,
+      "icons": 9,
+      "presets": 3,
+      "charts": 0,
+      "tables": 1,
+      "formulas": 0,
+      "inline_emphasis_runs": 9,
+      "gradient_uses": 0,
+      "filter_uses": 0,
+      "text_effects": 0
+    },
+    "relationship_pages": 13,
+    "geometry_elements": {
+      "circle": 5,
+      "ellipse": 0,
+      "line": 79,
+      "path": 0,
+      "polygon": 0,
+      "polyline": 0,
+      "rect": 62
+    },
+    "preset_names": {
+      "chevron": 4,
+      "downArrow": 1,
+      "flowChartDecision": 1
+    },
+    "native_objects": {
+      "chart": 0,
+      "formula_block": 0,
+      "formula_inline": 0,
+      "other": 0,
+      "table": 1
+    },
+    "image_page_max_frame_share_range": []
+  },
+  "project_issues": {
+    "template": [],
+    "animation": [],
+    "illustration": [],
+    "communication_trace": [],
+    "pptx_structure": []
+  },
+  "files": [
+    {
+      "file": "01_cover.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\01_cover.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 16,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 1,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 1,
+            "preset_names": {
+              "downArrow": 1
+            },
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 16,
+        "tspan_elements": 2,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "2af027b78b9212991d84a59a6bb3be50395ad1946428d387702fd6e1bfad51af"
+    },
+    {
+      "file": "02_the_moment.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\02_the_moment.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 20,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 2,
+          "effects": {
+            "inline_emphasis_runs": 2,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 1,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 5,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 1
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 20,
+        "tspan_elements": 2
+      },
+      "passed": true,
+      "source_sha256": "e65f8a57ce0905d8a3b6eda6980e82e4739967ee784797770bdd24172b8dafb9"
+    },
+    {
+      "file": "03_hand_built.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\03_hand_built.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 18,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 1,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 12,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 6
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 18,
+        "tspan_elements": 0
+      },
+      "passed": true,
+      "source_sha256": "761403bf1ddff993b6a3433f3b18b200426be00a1a32f98daac0d009dd2eaa9f"
+    },
+    {
+      "file": "04_framework_layers.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\04_framework_layers.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 18,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 10,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 1,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 18,
+        "tspan_elements": 5,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "5bba8bafdc2b9ce4267d2538250ecd3125aa9f8630ea42d90b89f302ff568eed"
+    },
+    {
+      "file": "05_six_jobs.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\05_six_jobs.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 16,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 6,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 1,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 6,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 16,
+        "tspan_elements": 8
+      },
+      "passed": true,
+      "source_sha256": "a50698f4f46b43cf25737cb7bfaf008802f0cd2927afa7b7a3fd349a171761c6"
+    },
+    {
+      "file": "06_when_to_use.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\06_when_to_use.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 45,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 2,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 7,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 1,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 45,
+        "tspan_elements": 0
+      },
+      "passed": true,
+      "source_sha256": "f25e902c2bb6732980d5ddf1db7a8dd492880733ca7a206ab8068366b4e1f9d1"
+    },
+    {
+      "file": "07_mindset.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\07_mindset.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 25,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 3,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 1,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 6,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 25,
+        "tspan_elements": 8
+      },
+      "passed": true,
+      "source_sha256": "c46177b18a22099588b8693bd533fbadc7e980890356df8e9e1e1bf41bcb1747"
+    },
+    {
+      "file": "08_at_a_glance.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\08_at_a_glance.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id=\"server\"> x=484.0, y=302.0..334.0, 2 lines; <g id=\"server\"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 31,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 4,
+          "effects": {
+            "inline_emphasis_runs": 1,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 12,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 5,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 2,
+              "mid": 0,
+              "end": 3
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 31,
+        "tspan_elements": 1,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "7a4746a5e7f6657e507110692cea3b7a384ad80b21e42df6a568dd8fac35f1ac"
+    },
+    {
+      "file": "09_phase1_connect.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\09_phase1_connect.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 25,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 1,
+          "effects": {
+            "inline_emphasis_runs": 4,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 11,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 7
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 25,
+        "tspan_elements": 4
+      },
+      "passed": true,
+      "source_sha256": "930886d1e39082d38aed9fc9e6092b4dd444b388dd941477bd884beb7baf6937"
+    },
+    {
+      "file": "10_phase2_place_bid.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\10_phase2_place_bid.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 33,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 1,
+          "effects": {
+            "inline_emphasis_runs": 2,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 8,
+              "circle": 5,
+              "ellipse": 0,
+              "line": 8,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 1,
+            "preset_names": {
+              "flowChartDecision": 1
+            },
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 5
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 33,
+        "tspan_elements": 6,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "5b624a3efd9524456a4e4bcf581fde91758dcb3c13c5726793b40b1257e19eee"
+    },
+    {
+      "file": "11_phase2_fan_out.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\11_phase2_fan_out.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"browser-ben\"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 31,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 1,
+          "effects": {
+            "inline_emphasis_runs": 1,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 7,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 6,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 5
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 31,
+        "tspan_elements": 5,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "80583401988772d18ff4ae4e8ba1481dc4dd28f74d63ee891ab38c70d777d63d"
+    },
+    {
+      "file": "12_server_push.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\12_server_push.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 16,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 4,
+          "effects": {
+            "inline_emphasis_runs": 3,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 6,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 5
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 16,
+        "tspan_elements": 4
+      },
+      "passed": true,
+      "source_sha256": "6e7245cea0130c700385dfa67ccdf688e665c733dc99a4a2a4477807f7fee050"
+    },
+    {
+      "file": "13_two_holes.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\13_two_holes.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 28,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 4,
+          "effects": {
+            "inline_emphasis_runs": 2,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 5,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 1,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 28,
+        "tspan_elements": 5,
+        "contextual_values": {
+          "colors": [
+            "#F6C177"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "c27bcbaa05873bc2d9facd9d4610f6803845613875ffae684150421b7d267f1c"
+    },
+    {
+      "file": "14_do_avoid.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\14_do_avoid.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 27,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 1,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 3,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 27,
+        "tspan_elements": 2
+      },
+      "passed": true,
+      "source_sha256": "e53172103828ccabfe210f5720eea3c48b7914ee1e9601c7c1dddd4de93e50d0"
+    },
+    {
+      "file": "15_demo_qa.svg",
+      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\15_demo_qa.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 12,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 1,
+          "effects": {
+            "inline_emphasis_runs": 1,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 1,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 1,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 4,
+            "preset_names": {
+              "chevron": 4
+            },
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 12,
+        "tspan_elements": 2
+      },
+      "passed": true,
+      "source_sha256": "1084a9991265546e00defd7e8e0bed7a2ea119e40d45d34cd8504ea713bf02b3"
+    }
+  ]
+}

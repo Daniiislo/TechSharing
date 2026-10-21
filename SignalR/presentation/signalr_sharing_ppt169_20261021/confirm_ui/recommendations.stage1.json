@@ -1,0 +1,20 @@
+{
+  "stage": "stage1",
+  "lang": "vi",
+  "primary_language": "en",
+  "recommend": { "canvas": "ppt169" },
+  "audience": { "value": "Dev trong team Geronimo, đã dự buổi ProtoLab (Polling, Long polling, SSE, WebSocket, vấn đề mất kết nối); quen .NET và code TravelPledgeAuctions ở mức khác nhau" },
+  "communication_intent": { "value": "Giải thích SignalR là framework (không chỉ WebSocket) và nó làm gì thay mình; định hướng mindset chuẩn bị khi dùng; mổ xẻ cách Geronimo dùng SignalR để sync bid (Phase 1 kết nối, Phase 2 bid và nhận cập nhật) bằng diagram flow code; chốt bằng best practice, nêu thẳng lỗ hổng bidderId và lộ max bid" },
+  "audience_outcome": { "value": "Người nghe nói được SignalR làm thay mình những gì và khi nào nên/không nên dùng; nhìn sơ đồ là biết một bid đi từ PLACE BID tới màn hình người khác ra sao, phần nào code Geronimo, phần nào SignalR; nhớ được vài best practice và hai lỗ hổng cần sửa" },
+  "core_message": { "value": "SignalR is a real-time framework, not a transport: it negotiates the transport, keeps the connection alive, turns calls into messages and fans them out — you write the business logic, and you still own identity and what you broadcast." },
+  "delivery_context": { "value": "Thuyết trình trực tiếp 30 phút cho team, slide tiếng Anh, nói tiếng Việt, demo BidLab chạy live ở slide Demo & Q&A; không speaker notes" },
+  "artifact_afterlife": { "value": "File PPTX chỉnh sửa được, chia sẻ lại cho team kèm tài liệu deep-dive và presenter guide tiếng Việt" },
+  "content_divergence": { "value": "" },
+  "template_options": {
+    "schema_version": 1,
+    "phase": "template",
+    "lang": "vi",
+    "explicit_workspace_roots": [],
+    "default_mode": "free_design"
+  }
+}

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <defs>
+    <marker id="arrowViolet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#5B21B6"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#007F9E"/>
+    </marker>
+  </defs>
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Server push</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">No click needed: closing items</text>
+  </g>
+
+  <g id="sources" data-pptx-bounds="64 228 492 320">
+    <use data-icon="tabler-outline/clock" x="64" y="234" width="28" height="28" fill="#007F9E" stroke-width="2"/>
+    <text x="104" y="256" font-size="22" font-weight="bold" fill="#102A43">Quartz close job</text>
+    <text x="104" y="288" font-size="20" fill="#526B80"><tspan font-family="Consolas, monospace" fill="#007F9E">closeItems</tspan> · batch, sent first</text>
+    <use data-icon="tabler-outline/hand-click" x="64" y="354" width="28" height="28" fill="#007F9E" stroke-width="2"/>
+    <text x="104" y="376" font-size="22" font-weight="bold" fill="#102A43">Buy Now</text>
+    <text x="104" y="408" font-size="20" fill="#526B80"><tspan font-family="Consolas, monospace" fill="#007F9E">closeItem</tspan> · ItemService</text>
+    <use data-icon="tabler-outline/server" x="64" y="474" width="28" height="28" fill="#007F9E" stroke-width="2"/>
+    <text x="104" y="496" font-size="22" font-weight="bold" fill="#102A43">Event closes</text>
+    <text x="104" y="528" font-size="20" fill="#526B80"><tspan font-family="Consolas, monospace" fill="#007F9E">closeEvent</tspan> · EventOrderService</text>
+    <g stroke="#007F9E" stroke-width="2">
+      <line x1="400" y1="272" x2="556" y2="376" marker-end="url(#arrowCyan)"/>
+      <line x1="400" y1="392" x2="556" y2="392" marker-end="url(#arrowCyan)"/>
+      <line x1="400" y1="512" x2="556" y2="408" marker-end="url(#arrowCyan)"/>
+    </g>
+  </g>
+
+  <g id="hub-context" data-pptx-bounds="560 336 304 112">
+    <rect x="560" y="340" width="300" height="104" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+    <text x="580" y="380" font-family="Consolas, monospace" font-size="22" font-weight="bold" fill="#007F9E">IHubContext&lt;EventHub&gt;</text>
+    <text x="580" y="416" font-size="20" fill="#243B53">push from outside any hub</text>
+  </g>
+
+  <g id="signalr-all" data-pptx-bounds="864 336 352 124">
+    <line x1="862" y1="392" x2="912" y2="392" stroke="#5B21B6" stroke-width="2" marker-end="url(#arrowViolet)"/>
+    <rect x="916" y="352" width="148" height="80" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <text x="990" y="384" font-size="20" font-weight="bold" fill="#5B21B6" text-anchor="middle">SignalR</text>
+    <text x="990" y="412" font-family="Consolas, monospace" font-size="20" fill="#5B21B6" text-anchor="middle">Clients.All</text>
+    <line x1="1066" y1="392" x2="1096" y2="392" stroke="#5B21B6" stroke-width="2" marker-end="url(#arrowViolet)"/>
+    <use data-icon="tabler-outline/browser" x="1102" y="352" width="40" height="40" fill="#007F9E" stroke-width="2"/>
+    <text x="1102" y="420" font-size="20" fill="#243B53">every open<tspan x="1102" dy="26">page</tspan></text>
+  </g>
+
+  <g id="takeaway" data-pptx-bounds="64 584 1152 56">
+    <line x1="64" y1="588" x2="1216" y2="588" stroke="#CAD7E2" stroke-width="1"/>
+    <text x="64" y="626" font-size="22" fill="#526B80">Same plumbing as a bid — triggered by the server, not by a click.</text>
+  </g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">12</text>
+  </g>
+</svg>

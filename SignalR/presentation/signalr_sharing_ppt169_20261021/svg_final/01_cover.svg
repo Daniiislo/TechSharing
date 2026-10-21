@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="cover" font-family="Segoe UI, sans-serif">
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
+
+  <g id="kicker" data-pptx-bounds="64 104 520 34">
+    <text x="64" y="128" font-size="20" font-weight="600" fill="#007F9E">Tech sharing · Geronimo</text>
+  </g>
+
+  <g id="title" data-pptx-bounds="64 160 820 304" font-family="Cambria, serif" font-size="88" fill="#102A43">
+    <text x="64" y="240">SignalR —</text><text x="64" y="336">More Than</text><text x="64" y="432">WebSocket</text></g>
+
+  <g id="hook" data-pptx-bounds="64 474 820 60">
+    <text x="64" y="516" font-family="Cambria, serif" font-size="38" font-style="italic" fill="#243B53">One click. Every screen. Who did the work?</text>
+  </g>
+
+  <g id="presenter" data-pptx-bounds="64 552 760 76">
+    <line x1="64" y1="556" x2="820" y2="556" stroke="#CAD7E2" stroke-width="1" />
+    <text x="64" y="608" font-size="22" fill="#526B80">Tavian Nguyen · Geronimo team · 23/10/2026</text>
+  </g>
+
+  <g id="browser-an" data-pptx-bounds="900 146 316 182">
+    <rect x="900" y="150" width="316" height="174" rx="4" fill="#FFFFFF" stroke="#CAD7E2" stroke-width="1" />
+    <rect x="900" y="150" width="316" height="30" rx="4" fill="#E8F4F8" />
+    <text x="914" y="171" font-size="16" font-weight="bold" fill="#243B53">Anna</text>
+    <text x="962" y="171" font-family="Consolas, monospace" font-size="16" fill="#526B80">…/Item/1042</text>
+    <text x="924" y="214" font-size="16" fill="#526B80">Current high bid</text>
+    <text x="924" y="266" font-family="Cambria, serif" font-size="50" fill="#102A43">$1,300</text>
+    <text x="924" y="304" font-size="20" font-weight="bold" fill="#007F9E">You are winning</text>
+  </g>
+
+  <g id="signalr-band" data-pptx-bounds="900 336 316 80">
+    <rect x="900" y="340" width="316" height="72" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4" />
+    <text x="916" y="383" font-size="20" font-weight="bold" fill="#5B21B6">SignalR</text>
+    <text x="1062" y="383" font-family="Consolas, monospace" font-size="20" fill="#5B21B6">updateItem</text>
+  </g>
+  <g id="p01-signalr-arrow" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="downArrow" data-pptx-frame="1012 350 36 52" fill="#5B21B6" stroke="none">
+<path d="M 1012 384 L 1021 384 L 1021 350 L 1039 350 L 1039 384 L 1048 384 L 1030 402 Z" />
+</g>
+
+  <g id="browser-binh" data-pptx-bounds="900 424 316 182">
+    <rect x="900" y="428" width="316" height="174" rx="4" fill="#FFFFFF" stroke="#CAD7E2" stroke-width="1" />
+    <rect x="900" y="428" width="316" height="30" rx="4" fill="#E8F4F8" />
+    <text x="914" y="449" font-size="16" font-weight="bold" fill="#243B53">Ben</text>
+    <text x="952" y="449" font-family="Consolas, monospace" font-size="16" fill="#526B80">…/Item/1042</text>
+    <text x="924" y="492" font-size="16" fill="#526B80">Current high bid</text>
+    <text x="924" y="544" font-family="Cambria, serif" font-size="50" fill="#102A43">$1,300</text>
+    <text x="924" y="582" font-size="20" font-weight="bold" fill="#B36A13">You have been outbid</text>
+  </g>
+</svg>

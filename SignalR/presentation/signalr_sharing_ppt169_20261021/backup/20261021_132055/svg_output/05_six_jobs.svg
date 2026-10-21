@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Six jobs you no longer write</text>
+  </g>
+
+  <g id="job-negotiate" data-pptx-bounds="64 196 360 210">
+    <line x1="64" y1="200" x2="424" y2="200" stroke="#5B21B6" stroke-width="2"/>
+    <use data-icon="tabler-outline/route" x="64" y="222" width="40" height="40" fill="#5B21B6" stroke-width="2"/>
+    <text x="64" y="316" font-family="Cambria, serif" font-size="38" fill="#102A43">Negotiate</text>
+    <text x="64" y="352" font-size="22" fill="#526B80">Picks the best transport<tspan x="64" dy="30">both sides support</tspan></text>
+  </g>
+  <g id="job-alive" data-pptx-bounds="448 196 360 210">
+    <line x1="448" y1="200" x2="808" y2="200" stroke="#5B21B6" stroke-width="2"/>
+    <use data-icon="tabler-outline/clock" x="448" y="222" width="40" height="40" fill="#5B21B6" stroke-width="2"/>
+    <text x="448" y="316" font-family="Cambria, serif" font-size="38" fill="#102A43">Stay alive</text>
+    <text x="448" y="352" font-size="22" fill="#526B80">Ping every 15 s; drop after<tspan x="448" dy="30">30 s of silence</tspan></text>
+  </g>
+  <g id="job-reconnect" data-pptx-bounds="832 196 384 210">
+    <line x1="832" y1="200" x2="1216" y2="200" stroke="#5B21B6" stroke-width="2"/>
+    <use data-icon="tabler-outline/refresh" x="832" y="222" width="40" height="40" fill="#5B21B6" stroke-width="2"/>
+    <text x="832" y="316" font-family="Cambria, serif" font-size="38" fill="#102A43">Reconnect</text>
+    <text x="832" y="352" font-size="22" fill="#526B80">Retries after 0, 2, 10, 30 s,<tspan x="832" dy="30">then gives up</tspan></text>
+  </g>
+
+  <g id="job-rpc" data-pptx-bounds="64 424 360 210">
+    <line x1="64" y1="428" x2="424" y2="428" stroke="#5B21B6" stroke-width="2"/>
+    <use data-icon="tabler-outline/plug-connected" x="64" y="450" width="40" height="40" fill="#5B21B6" stroke-width="2"/>
+    <text x="64" y="544" font-family="Cambria, serif" font-size="38" fill="#102A43">RPC both ways</text>
+    <text x="64" y="580" font-size="22" fill="#526B80"><tspan font-family="Consolas, monospace">invoke()</tspan> to the server,<tspan x="64" dy="30"><tspan font-family="Consolas, monospace">on()</tspan> from the server</tspan></text>
+  </g>
+  <g id="job-targeting" data-pptx-bounds="448 424 360 210">
+    <line x1="448" y1="428" x2="808" y2="428" stroke="#5B21B6" stroke-width="2"/>
+    <use data-icon="tabler-outline/users" x="448" y="450" width="40" height="40" fill="#5B21B6" stroke-width="2"/>
+    <text x="448" y="544" font-family="Cambria, serif" font-size="38" fill="#102A43">Targeting</text>
+    <text x="448" y="580" font-size="22" fill="#526B80">All · Caller · Others<tspan x="448" dy="30">User · Group</tspan></text>
+  </g>
+  <g id="job-scale" data-pptx-bounds="832 424 384 210">
+    <line x1="832" y1="428" x2="1216" y2="428" stroke="#5B21B6" stroke-width="2"/>
+    <use data-icon="tabler-outline/stack-2" x="832" y="450" width="40" height="40" fill="#5B21B6" stroke-width="2"/>
+    <text x="832" y="544" font-family="Cambria, serif" font-size="38" fill="#102A43">Scale-out</text>
+    <text x="832" y="580" font-size="22" fill="#526B80">Redis backplane or<tspan x="832" dy="30">Azure SignalR Service</tspan></text>
+  </g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">05</text>
+  </g>
+</svg>
