@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">A framework, not a transport</text>
+  </g>
+
+  <g id="layer-code" data-pptx-bounds="64 196 940 104">
+    <rect x="64" y="200" width="936" height="96" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+    <text x="84" y="230" font-size="20" font-weight="bold" fill="#007F9E">Your code</text>
+    <text x="84" y="272" font-size="28" fill="#243B53">Hub methods · client handlers · business rules</text>
+  </g>
+
+  <g id="layer-signalr" data-pptx-bounds="64 312 940 184">
+    <rect x="64" y="316" width="936" height="176" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <text x="84" y="344" font-size="20" font-weight="bold" fill="#5B21B6">SignalR</text>
+    <g fill="#FFFFFF" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4">
+      <rect x="84" y="358" width="284" height="52" rx="4"/>
+      <rect x="380" y="358" width="284" height="52" rx="4"/>
+      <rect x="684" y="358" width="304" height="52" rx="4"/>
+      <rect x="84" y="424" width="284" height="52" rx="4"/>
+      <rect x="380" y="424" width="284" height="52" rx="4"/>
+      <rect x="684" y="424" width="304" height="52" rx="4"/>
+    </g>
+    <g font-family="Consolas, monospace" font-size="22" fill="#5B21B6" text-anchor="middle">
+      <text x="226" y="391">HubConnection</text>
+      <text x="522" y="391">Hub dispatch</text>
+      <text x="836" y="391">HubLifetimeManager</text>
+      <text x="226" y="457">Hub Protocol</text>
+      <text x="522" y="457">Negotiate</text>
+      <text x="836" y="457">Keep-alive, reconnect</text>
+    </g>
+  </g>
+
+  <g id="layer-transport" data-pptx-bounds="64 508 940 104">
+    <rect x="64" y="512" width="936" height="96" rx="4" fill="#FFFFFF" stroke="#CAD7E2" stroke-width="1.5"/>
+    <text x="84" y="542" font-size="20" font-weight="600" fill="#526B80">Transport · picked for you</text>
+    <text x="84" y="584" font-size="28" fill="#243B53">WebSockets › Server-Sent Events › Long Polling</text>
+  </g>
+
+  <g id="margin-note" data-pptx-bounds="1036 196 180 320">
+    <line x1="1040" y1="200" x2="1040" y2="508" stroke="#007F9E" stroke-width="2"/>
+    <text x="1060" y="226" font-size="20" font-weight="600" fill="#007F9E">Where it lives</text>
+    <text x="1060" y="266" font-size="22" fill="#243B53">Built into<tspan x="1060" dy="30">ASP.NET Core:</tspan><tspan x="1060" dy="30">AddSignalR()</tspan><tspan x="1060" dy="30">+ MapHub()</tspan></text>
+    <text x="1060" y="412" font-size="22" fill="#243B53">Clients:<tspan x="1060" dy="30">JavaScript,</tspan><tspan x="1060" dy="30">.NET, Java</tspan></text>
+  </g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">04</text>
+  </g>
+</svg>

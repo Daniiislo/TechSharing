@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <defs>
+    <marker id="arrowViolet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#5B21B6"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#007F9E"/>
+    </marker>
+  </defs>
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Phase 2</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">One line, every screen</text>
+  </g>
+
+  <g id="geronimo-broadcast" data-pptx-bounds="64 192 352 460">
+    <rect x="64" y="196" width="340" height="452" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+    <text x="84" y="226" font-size="20" font-weight="bold" fill="#007F9E">Geronimo writes</text>
+    <text x="84" y="254" font-family="Consolas, monospace" font-size="20" fill="#526B80">BroadcastBidUpdateAsync</text>
+    <g font-family="Consolas, monospace" font-size="20" fill="#102A43">
+      <text x="84" y="304">Clients.All.SendAsync(</text>
+      <text x="104" y="332">"updateItem", 9 args)</text>
+      <text x="84" y="380">Clients.All.SendAsync(</text>
+      <text x="104" y="408">"updateEvent", 7 args)</text>
+      <text x="84" y="456">Clients.Caller.SendAsync(</text>
+      <text x="104" y="484">"addBidSuccess", …)</text>
+    </g>
+    <line x1="84" y1="520" x2="384" y2="520" stroke="#CAD7E2" stroke-width="1"/>
+    <text x="84" y="556" font-size="20" fill="#243B53">Winner = <tspan font-family="Consolas, monospace" font-weight="bold" fill="#102A43">HighBidUserId</tspan><tspan x="84" dy="28">not the person who clicked:</tspan><tspan x="84" dy="28">a rival max bid can win at once</tspan></text>
+  </g>
+
+  <g id="signalr-fanout" data-pptx-bounds="420 192 352 460">
+    <line x1="406" y1="300" x2="448" y2="300" stroke="#007F9E" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <rect x="432" y="196" width="336" height="452" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <text x="452" y="226" font-size="20" font-weight="bold" fill="#5B21B6">SignalR</text>
+    <rect x="452" y="258" width="296" height="104" rx="4" fill="#FFFFFF" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <text x="470" y="292" font-family="Consolas, monospace" font-size="22" fill="#5B21B6">HubLifetimeManager</text>
+    <text x="470" y="318" font-size="20" fill="#243B53">serialize once, write to<tspan x="470" dy="26">every open connection</tspan></text>
+    <line x1="600" y1="366" x2="600" y2="454" stroke="#5B21B6" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrowViolet)"/>
+    <rect x="452" y="460" width="296" height="92" rx="4" fill="#FFFFFF" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <use data-icon="tabler-outline/database" x="470" y="474" width="24" height="24" fill="#5B21B6" stroke-width="2"/>
+    <text x="502" y="494" font-size="20" font-weight="bold" fill="#5B21B6">Redis backplane</text>
+    <text x="470" y="530" font-size="20" fill="#243B53">same message → other servers</text>
+    <text x="452" y="604" font-size="20" fill="#526B80">Geronimo writes no loop,<tspan x="452" dy="28">no socket list</tspan></text>
+  </g>
+
+  <g id="edges" data-pptx-bounds="772 236 24 336" stroke="#5B21B6" stroke-width="2">
+    <line x1="750" y1="290" x2="796" y2="270" marker-end="url(#arrowViolet)"/>
+    <line x1="750" y1="310" x2="796" y2="300" marker-end="url(#arrowViolet)"/>
+    <line x1="750" y1="330" x2="796" y2="520" marker-end="url(#arrowViolet)"/>
+  </g>
+
+  <g id="browser-anna" data-pptx-bounds="800 192 416 222">
+    <rect x="800" y="196" width="416" height="214" rx="4" fill="#FFFFFF" stroke="#CAD7E2" stroke-width="1.5"/>
+    <text x="820" y="228" font-size="22" font-weight="bold" fill="#102A43">Anna · bidder</text>
+    <text x="1196" y="228" font-size="20" fill="#5B21B6" text-anchor="end">All + Caller</text>
+    <g font-family="Consolas, monospace" font-size="20" fill="#007F9E">
+      <text x="820" y="270">on("updateItem") → price</text>
+      <text x="820" y="304">on("addBidSuccess") → toast</text>
+    </g>
+    <text x="820" y="346" font-size="20" font-weight="bold" fill="#007F9E">“You’re winning!”</text>
+    <text x="820" y="388" font-size="20" fill="#526B80">updateEvent → no handler, ignored</text>
+  </g>
+
+  <g id="browser-ben" data-pptx-bounds="800 426 416 226">
+    <rect x="800" y="430" width="416" height="218" rx="4" fill="#FFFFFF" stroke="#CAD7E2" stroke-width="1.5"/>
+    <text x="820" y="462" font-size="22" font-weight="bold" fill="#102A43">Ben · watching</text>
+    <text x="1196" y="462" font-size="20" fill="#5B21B6" text-anchor="end">All</text>
+    <text x="820" y="504" font-family="Consolas, monospace" font-size="20" fill="#007F9E">on("updateItem") → $1,300</text>
+    <text x="820" y="546" font-size="20" font-weight="bold" fill="#B36A13">“You have been outbid”</text>
+    <text x="820" y="588" font-size="20" fill="#526B80">updateEvent → no handler, ignored</text>
+    <text x="820" y="622" font-size="20" fill="#526B80">no addBidSuccess</text>
+  </g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">11</text>
+  </g>
+</svg>

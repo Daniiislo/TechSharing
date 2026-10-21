@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="ending" font-family="Segoe UI, sans-serif">
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+
+  <g id="kicker" data-pptx-bounds="64 104 600 34">
+    <text x="64" y="128" font-size="20" font-weight="600" fill="#007F9E">Demo &amp; Q&amp;A</text>
+  </g>
+
+  <g id="takeaway" data-pptx-bounds="64 160 1152 150" font-family="Cambria, serif" font-size="50" fill="#102A43">
+    <text x="64" y="220">SignalR moves the message.<tspan x="64" dy="64"><tspan fill="#5B21B6">You</tspan> own who sends it and what it says.</tspan></text>
+  </g>
+
+  <line id="takeaway-rule" data-pptx-role="decoration" x1="64" y1="336" x2="1216" y2="336" stroke="#CAD7E2" stroke-width="1"/>
+
+  <g id="p15-scene-1" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="64 372 316 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
+<path d="M 64 372 L 340 372 L 380 412 L 340 452 L 64 452 L 104 412 Z"/>
+</g>
+  <g id="p15-scene-2" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="340 372 316 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
+<path d="M 340 372 L 616 372 L 656 412 L 616 452 L 340 452 L 380 412 Z"/>
+</g>
+  <g id="p15-scene-3" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="616 372 316 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
+<path d="M 616 372 L 892 372 L 932 412 L 892 452 L 616 452 L 656 412 Z"/>
+</g>
+  <g id="p15-scene-4" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="892 372 316 80" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5">
+<path d="M 892 372 L 1168 372 L 1208 412 L 1168 452 L 892 452 L 932 412 Z"/>
+</g>
+
+  <g id="scene-labels" data-pptx-bounds="64 392 1152 120" text-anchor="middle">
+    <g font-size="22" font-weight="bold" fill="#102A43">
+      <text x="222" y="420">1 · Connect</text>
+      <text x="498" y="420">2 · Bid</text>
+      <text x="774" y="420">3 · Max bid</text>
+      <text x="1050" y="420" fill="#5B21B6">4 · Go offline</text>
+    </g>
+    <g font-size="20" fill="#526B80">
+      <text x="222" y="492">negotiate → handshake</text>
+      <text x="498" y="492">8 steps, Ben updates last</text>
+      <text x="774" y="492">Anna is outbid at once</text>
+      <text x="1050" y="492">retry 0 · 2 · 10 s</text>
+    </g>
+  </g>
+
+  <g id="demo-link" data-pptx-bounds="64 560 1152 76">
+    <use data-icon="tabler-outline/browser" x="64" y="574" width="32" height="32" fill="#007F9E" stroke-width="2"/>
+    <text x="108" y="600" font-family="Consolas, monospace" font-size="22" fill="#102A43">SignalR BidLab · http://127.0.0.1:5080</text>
+    <text x="1216" y="606" font-family="Cambria, serif" font-size="38" font-style="italic" fill="#102A43" text-anchor="end">Questions?</text>
+  </g>
+</svg>

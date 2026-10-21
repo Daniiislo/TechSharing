@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">2 · What do we prepare?</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Before the first hub: six decisions</text>
+  </g>
+
+  <g id="steps" data-pptx-bounds="64 192 900 448">
+    <g font-family="Cambria, serif" font-size="38" fill="#007F9E">
+      <text x="64" y="244">1</text>
+      <text x="64" y="316">2</text>
+      <text x="64" y="388">3</text>
+      <text x="64" y="460">4</text>
+      <text x="64" y="532">5</text>
+      <text x="64" y="604">6</text>
+    </g>
+    <g font-size="28" font-weight="bold" fill="#102A43">
+      <text x="112" y="242">Server</text>
+      <text x="112" y="314">Hub design</text>
+      <text x="112" y="386">Client</text>
+      <text x="112" y="458">Identity</text>
+      <text x="112" y="530">Infrastructure</text>
+      <text x="112" y="602">Limits</text>
+    </g>
+    <g font-size="22" fill="#526B80">
+      <text x="340" y="241"><tspan font-family="Consolas, monospace" fill="#243B53">AddSignalR() + MapHub&lt;T&gt;()</tspan> — built in</text>
+      <text x="340" y="313">Methods are public API; event names are a contract</text>
+      <text x="340" y="385"><tspan font-family="Consolas, monospace" fill="#243B53">@microsoft/signalr</tspan> + withAutomaticReconnect()</text>
+      <text x="340" y="457"><tspan font-family="Consolas, monospace" fill="#243B53">[Authorize]</tspan>, read Context.UserIdentifier</text>
+      <text x="340" y="529">Proxy passes WebSockets · sticky sessions · backplane</text>
+      <text x="340" y="601">Timeouts · 32 KB max message · groups planned up front</text>
+    </g>
+    <g stroke="#CAD7E2" stroke-width="1">
+      <line x1="64" y1="272" x2="960" y2="272" />
+      <line x1="64" y1="344" x2="960" y2="344" />
+      <line x1="64" y1="416" x2="960" y2="416" />
+      <line x1="64" y1="488" x2="960" y2="488" />
+      <line x1="64" y1="560" x2="960" y2="560" />
+    </g>
+  </g>
+
+  <g id="pull-quote" data-pptx-bounds="984 192 232 420">
+    <line x1="988" y1="200" x2="988" y2="600" stroke="#5B21B6" stroke-width="2" />
+    <text x="1008" y="226" font-size="20" font-weight="600" fill="#5B21B6">Mindset</text>
+    <text font-size="38" font-family="Cambria, serif" fill="#102A43" font-style="italic" x="1008" y="288">A hub is</text><text font-size="38" font-family="Cambria, serif" fill="#102A43" font-style="italic" x="1008" y="334">a public</text><text font-size="38" font-family="Cambria, serif" fill="#102A43" font-style="italic" x="1008" y="380">API.</text><text font-size="22" fill="#526B80" x="1008" y="440">Anyone connected</text><text font-size="22" fill="#526B80" x="1008" y="470">can call any public</text><text font-size="22" fill="#526B80" x="1008" y="500">method, with any</text><text font-size="22" fill="#526B80" x="1008" y="530">arguments.</text></g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">07</text>
+  </g>
+</svg>

@@ -1,0 +1,118 @@
+{
+  "roles": {
+    "body": {
+      "family": "Segoe UI, sans-serif",
+      "size": 28.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 3.4,
+      "latin_chars_per_100px": 7.6,
+      "caps_chars_per_100px": 6.4,
+      "digits_chars_per_100px": 6.2,
+      "citation_chars_per_100px": 7.3,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": {
+        "px": 1789.5,
+        "slide": "P13",
+        "text": "Hole 1 — client-supplied identity: cons…"
+      }
+    },
+    "title": {
+      "family": "Cambria, serif",
+      "size": 50.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 1.8,
+      "latin_chars_per_100px": 4.1,
+      "caps_chars_per_100px": 3.0,
+      "digits_chars_per_100px": 3.2,
+      "citation_chars_per_100px": 3.8,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": {
+        "px": 1093.8,
+        "slide": "P13",
+        "text": "Two holes: who bids, and what everyone …"
+      }
+    },
+    "subtitle": {
+      "family": "Cambria, serif",
+      "size": 38.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 2.3,
+      "latin_chars_per_100px": 5.3,
+      "caps_chars_per_100px": 3.9,
+      "digits_chars_per_100px": 4.2,
+      "citation_chars_per_100px": 5.0,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": {
+        "px": 1207.2,
+        "slide": "P09",
+        "text": "SignalR negotiates, upgrades, handshake…"
+      }
+    },
+    "annotation": {
+      "family": "Segoe UI, sans-serif",
+      "size": 22.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 4.3,
+      "latin_chars_per_100px": 9.7,
+      "caps_chars_per_100px": 8.2,
+      "digits_chars_per_100px": 8.0,
+      "citation_chars_per_100px": 9.3,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": null
+    },
+    "code": {
+      "family": "Consolas, monospace",
+      "size": 22.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 4.3,
+      "latin_chars_per_100px": 7.7,
+      "caps_chars_per_100px": 7.4,
+      "digits_chars_per_100px": 7.8,
+      "citation_chars_per_100px": 7.7,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": null
+    },
+    "display": {
+      "family": "Cambria, serif",
+      "size": 88.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 1.0,
+      "latin_chars_per_100px": 2.3,
+      "caps_chars_per_100px": 1.7,
+      "digits_chars_per_100px": 1.8,
+      "citation_chars_per_100px": 2.1,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": null
+    },
+    "footnote": {
+      "family": "Segoe UI, sans-serif",
+      "size": 16.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 5.9,
+      "latin_chars_per_100px": 13.3,
+      "caps_chars_per_100px": 11.3,
+      "digits_chars_per_100px": 10.9,
+      "citation_chars_per_100px": 12.7,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": null
+    },
+    "kicker": {
+      "family": "Segoe UI, sans-serif",
+      "size": 20.0,
+      "weight": "normal",
+      "cjk_chars_per_100px": 4.7,
+      "latin_chars_per_100px": 10.7,
+      "caps_chars_per_100px": 9.0,
+      "digits_chars_per_100px": 8.7,
+      "citation_chars_per_100px": 10.2,
+      "script_clusters_per_100px": {},
+      "longest_planned_line": null
+    }
+  },
+  "script_samples": {},
+  "source": "spec_lock.md",
+  "generated_at": "2026-10-21T03:52:49Z",
+  "notes": [
+    "every role is measured at normal weight; recalibrate a role realized as bold deck-wide with --role NAME:FAMILY:SIZE:bold: bold widens Latin and digits about 7%, while the bundled advance table gives CJK one width for both weights"
+  ]
+}

@@ -1,0 +1,333 @@
+
+=== 2026-10-21T03:39:41.592Z NOTE id=dfe4e23436d4 ===
+Project initialized: profile=default; canvas=ppt169; path=SignalR\presentation\signalr_sharing_ppt169_20261021
+
+=== 2026-10-21T03:39:41.786Z PYTHON run=381c32d89c50 ===
+cwd: D:\TechSharing
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/project_manager.py", "import-sources", "SignalR/presentation/signalr_sharing_ppt169_20261021", "SignalR/docs/signalr-deep-dive.md", "docs/superpowers/specs/2026-10-21-signalr-sharing-design.md"]
+stdout:
+  [OK] Imported sources into: SignalR/presentation/signalr_sharing_ppt169_20261021
+=== 2026-10-21T03:39:42.388Z END run=381c32d89c50 elapsed_ms=609 output_lines=7 retained=1 omitted=6 ===
+
+=== 2026-10-21T03:40:04.143Z PYTHON run=a8da785ab2b2 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/confirm_ui/server.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--daemon"]
+stderr:
+  [10:40:04] [INFO] confirm_ui: log: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\confirm_ui\server.log
+  [10:40:06] [INFO] confirm_ui: started confirm UI in background: http://127.0.0.1:5050 (pid=24308)
+  [10:40:06] [INFO] confirm_ui: browser launch request accepted by OS: http://127.0.0.1:5050
+=== 2026-10-21T03:40:06.545Z END run=a8da785ab2b2 elapsed_ms=2405 output_lines=3 retained=3 omitted=0 ===
+
+=== 2026-10-21T03:40:10.238Z PYTHON run=004004d24313 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/confirm_ui/server.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--wait-only", "--wait-stage", "stage1"]
+stderr:
+  [10:40:10] [INFO] confirm_ui: waiting for browser confirmation stage=stage1...
+  [10:42:09] [INFO] confirm_ui: confirmation stage=stage1 received: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\confirm_ui\result.json
+  [10:42:09] [INFO] confirm_ui: [NEXT] Stage 1 is intermediate: install the selected roots (if any), author fresh Stage 2, then wait for final confirmation.
+=== 2026-10-21T03:42:09.640Z END run=004004d24313 elapsed_ms=119405 output_lines=3 retained=3 omitted=0 ===
+
+=== 2026-10-21T03:43:40.098Z PYTHON run=000df418f5fa ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/confirm_ui/server.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--wait-only"]
+stderr:
+  [10:43:40] [INFO] confirm_ui: waiting for browser confirmation stage=final...
+  [10:50:12] [INFO] confirm_ui: confirmation stage=final received: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\confirm_ui\result.json
+=== 2026-10-21T03:50:12.363Z END run=000df418f5fa elapsed_ms=392265 output_lines=2 retained=2 omitted=0 ===
+
+=== 2026-10-21T03:50:18.777Z PYTHON run=d2d97046392c ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/confirm_ui/server.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--shutdown"]
+stderr:
+  [10:50:18] [INFO] confirm_ui: no confirm server running — nothing to stop
+=== 2026-10-21T03:50:18.778Z END run=d2d97046392c elapsed_ms=0 output_lines=1 retained=1 omitted=0 ===
+
+=== 2026-10-21T03:50:51.955Z PYTHON run=03f513ce6ebe ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/visualization_recall.py", "validate", "table/comparison_matrix"]
+=== 2026-10-21T03:50:52.001Z END run=03f513ce6ebe elapsed_ms=47 output_lines=12 retained=0 omitted=12 ===
+
+=== 2026-10-21T03:50:52.189Z PYTHON run=bff2db5ac16c ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/icon_sync.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "tabler-outline/browser", "tabler-outline/server", "tabler-outline/plug-connected", "tabler-outline/refresh", "tabler-outline/shield-lock", "tabler-outline/users", "tabler-outline/user", "tabler-outline/database", "tabler-outline/alert-triangle", "tabler-outline/terminal-2", "tabler-outline/eye", "tabler-outline/clock", "tabler-outline/route", "tabler-outline/stack-2", "tabler-outline/hand-click"]
+stderr:
+  [OK] 15 icon(s) in D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\icons:
+       + tabler-outline/browser
+       + tabler-outline/server
+       + tabler-outline/plug-connected
+       + tabler-outline/refresh
+       + tabler-outline/shield-lock
+       + tabler-outline/users
+       + tabler-outline/user
+       + tabler-outline/database
+stderr-tail:
+       + tabler-outline/clock
+       + tabler-outline/route
+       + tabler-outline/stack-2
+       + tabler-outline/hand-click
+=== 2026-10-21T03:50:52.196Z END run=bff2db5ac16c elapsed_ms=14 output_lines=16 retained=13 omitted=3 ===
+
+=== 2026-10-21T03:50:55.026Z PYTHON run=2d88cd994b21 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/visualization_recall.py", "validate", "table/comparison_matrix"]
+=== 2026-10-21T03:50:55.036Z END run=2d88cd994b21 elapsed_ms=0 output_lines=12 retained=0 omitted=12 ===
+
+=== 2026-10-21T03:52:22.305Z PYTHON run=2651aaf076a7 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/project_manager.py", "validate", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021"]
+stdout:
+  [WARN]
+  [OK] Project structure is valid, with warnings.
+=== 2026-10-21T03:52:23.087Z END run=2651aaf076a7 elapsed_ms=780 output_lines=5 retained=2 omitted=3 ===
+
+=== 2026-10-21T03:52:49.081Z PYTHON run=a45a3981ee34 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/text_measure.py", "calibrate", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--outline"]
+=== 2026-10-21T03:52:49.468Z END run=a45a3981ee34 elapsed_ms=391 output_lines=17 retained=0 omitted=17 ===
+
+=== 2026-10-21T03:52:49.797Z PYTHON run=53e436aa6c94 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_editor/server.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--live", "--daemon"]
+stderr:
+  [10:52:50] [INFO] svg_editor: started live preview in background: http://127.0.0.1:6060 (pid=24384)
+  [10:52:50] [INFO] svg_editor: log: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\live_preview\server.log
+  [10:52:50] [INFO] svg_editor: browser launch request accepted by OS: http://127.0.0.1:6060
+=== 2026-10-21T03:52:50.551Z END run=53e436aa6c94 elapsed_ms=750 output_lines=3 retained=3 omitted=0 ===
+
+=== 2026-10-21T03:53:21.744Z PYTHON run=e01453beee72 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/preset_shape_svg.py", "render-batch", "--input", "-"]
+=== 2026-10-21T03:53:21.790Z END run=e01453beee72 elapsed_ms=46 output_lines=3 retained=0 omitted=3 ===
+
+=== 2026-10-21T03:53:39.908Z PYTHON run=16e2ff059543 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/preset_shape_svg.py", "render-batch", "--input", "-"]
+=== 2026-10-21T03:53:39.943Z END run=16e2ff059543 elapsed_ms=32 output_lines=3 retained=0 omitted=3 ===
+
+=== 2026-10-21T03:56:25.194Z PYTHON run=2179cf7d632e ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\svg_output
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/stamp_native_fallbacks.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021/svg_output/06_when_to_use.svg", "--write"]
+stderr:
+  Error: 06_when_to_use.svg: invalid SVG XML: not well-formed (invalid token): line 10, column 1747
+=== 2026-10-21T03:56:25.196Z END run=2179cf7d632e elapsed_ms=14 output_lines=2 retained=1 omitted=1 ===
+
+=== 2026-10-21T03:56:29.987Z PYTHON run=251db5e178f6 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\svg_output
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/stamp_native_fallbacks.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021/svg_output/06_when_to_use.svg", "--write"]
+=== 2026-10-21T03:56:29.994Z END run=251db5e178f6 elapsed_ms=15 output_lines=2 retained=0 omitted=2 ===
+
+=== 2026-10-21T03:58:13.971Z PYTHON run=409d30bd65c5 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "early", "--json"]
+stdout:
+  [ERROR] 01_cover.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=64, y=290; text='SignalR —More Than W…') exceeds <g id="title"> data-pptx-bounds on the horizontal axis: content (64.0, 215.2)-(1063.5, 420.8), container (64.0, 200.0)-(884.0, 436.0), overflow horizontal 21.9%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈58.8 px per Latin char at 88px incl. headroom; ≈13 chars fit in 820 px
+  [OK] 02_the_moment.svg - Passed
+     viewBox: 0 0 1280 720
+  [ERROR] 03_hand_built.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g> marker-end is allowed only on <line> or <path>
+  [OK] 04_framework_layers.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 05_six_jobs.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 06_when_to_use.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Cannot verify root viewBox bounds for visible text with unsupported or unresolved geometry: <text> (x=484, y=334; text='out: updateItemupdat…'), <text> (x=794, y=334; text='out: closeItem(s)clo…'); use supported explicit text positioning when page fit matters (continuation <tspan> lines repeat the parent x; a hanging indent needs its own <text>)
+  [SUMMARY] Check Summary
+  Total files: 8
+    [OK] Fully passed: 5 (62%)
+    [WARN] With warnings: 1 (12%)
+    [ERROR] With errors: 2 (25%)
+  Provenance categories:
+    blocking: 2          hard findings; gate also requires exit 0
+    introduced: 1        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 8 | text: 186 | images: 0 | icons: 12
+    Geometry: SVG elements 77 | native presets 1 | page-frame elements 9 | marker uses 6
+  [REPORT] JSON quality report exported: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\svg_quality_early_report.json
+=== 2026-10-21T03:58:16.138Z END run=409d30bd65c5 elapsed_ms=2171 output_lines=53 retained=29 omitted=24 ===
+
+=== 2026-10-21T03:58:19.649Z PYTHON run=56f9451bd7c9 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "early"]
+stdout:
+  [ERROR] 01_cover.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=64, y=290; text='SignalR —More Than W…') exceeds <g id="title"> data-pptx-bounds on the horizontal axis: content (64.0, 215.2)-(1063.5, 420.8), container (64.0, 200.0)-(884.0, 436.0), overflow horizontal 21.9%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈58.8 px per Latin char at 88px incl. headroom; ≈13 chars fit in 820 px
+  [OK] 02_the_moment.svg - Passed
+     viewBox: 0 0 1280 720
+  [ERROR] 03_hand_built.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g> marker-end is allowed only on <line> or <path>
+  [OK] 04_framework_layers.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 05_six_jobs.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 06_when_to_use.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Cannot verify root viewBox bounds for visible text with unsupported or unresolved geometry: <text> (x=484, y=334; text='out: updateItemupdat…'), <text> (x=794, y=334; text='out: closeItem(s)clo…'); use supported explicit text positioning when page fit matters (continuation <tspan> lines repeat the parent x; a hanging indent needs its own <text>)
+  [SUMMARY] Check Summary
+  Total files: 8
+    [OK] Fully passed: 5 (62%)
+    [WARN] With warnings: 1 (12%)
+    [ERROR] With errors: 2 (25%)
+  Provenance categories:
+    blocking: 2          hard findings; gate also requires exit 0
+    introduced: 1        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 8 | text: 186 | images: 0 | icons: 12
+    Geometry: SVG elements 77 | native presets 1 | page-frame elements 9 | marker uses 6
+=== 2026-10-21T03:58:21.104Z END run=56f9451bd7c9 elapsed_ms=1453 output_lines=52 retained=28 omitted=24 ===
+
+=== 2026-10-21T03:58:44.656Z PYTHON run=84c5523cea6c ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "early", "--json"]
+stdout:
+  [OK] 01_cover.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id="server"> x=484.0, y=302.0..334.0, 2 lines; <g id="server"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [SUMMARY] Check Summary
+  Total files: 8
+    [OK] Fully passed: 7 (87%)
+    [WARN] With warnings: 1 (12%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 1        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 8 | text: 189 | images: 0 | icons: 12
+    Geometry: SVG elements 77 | native presets 1 | page-frame elements 9 | marker uses 12
+  [REPORT] JSON quality report exported: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\svg_quality_early_report.json
+=== 2026-10-21T03:58:46.046Z END run=84c5523cea6c elapsed_ms=1390 output_lines=49 retained=17 omitted=32 ===
+
+=== 2026-10-21T04:00:09.362Z PYTHON run=7da1dcd0cfc9 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\svg_output
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/preset_shape_svg.py", "render-batch", "--input", "-"]
+=== 2026-10-21T04:00:09.397Z END run=7da1dcd0cfc9 elapsed_ms=30 output_lines=3 retained=0 omitted=3 ===
+
+=== 2026-10-21T04:00:55.813Z PYTHON run=aa873ec90d4d ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/project_manager.py", "validate", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021"]
+stdout:
+  [OK] Project structure is complete.
+=== 2026-10-21T04:00:56.658Z END run=aa873ec90d4d elapsed_ms=842 output_lines=3 retained=1 omitted=2 ===
+
+=== 2026-10-21T04:03:27.458Z PYTHON run=2f29523cf6b8 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\svg_output
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/preset_shape_svg.py", "render-batch", "--input", "-"]
+=== 2026-10-21T04:03:27.497Z END run=2f29523cf6b8 elapsed_ms=47 output_lines=12 retained=0 omitted=12 ===
+
+=== 2026-10-21T04:03:36.243Z PYTHON run=2a52b3857c1d ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\svg_output
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/preset_shape_svg.py", "render-batch", "--input", "-"]
+=== 2026-10-21T04:03:36.272Z END run=2a52b3857c1d elapsed_ms=15 output_lines=12 retained=0 omitted=12 ===
+
+=== 2026-10-21T04:03:53.077Z PYTHON run=912a574da53d ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [OK] 01_cover.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id="server"> x=484.0, y=302.0..334.0, 2 lines; <g id="server"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [WARN] 11_phase2_fan_out.svg - Passed (with warnings)
+     [WARN] Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id="browser-ben"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [SUMMARY] Check Summary
+  Total files: 15
+    [OK] Fully passed: 12 (80%)
+    [WARN] With warnings: 3 (20%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 3        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 15 | text: 361 | images: 0 | icons: 24
+    Geometry: SVG elements 146 | native presets 6 | page-frame elements 20 | marker uses 34
+  [REPORT] JSON quality report exported: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\svg_quality_report.json
+=== 2026-10-21T04:03:54.657Z END run=912a574da53d elapsed_ms=1578 output_lines=66 retained=19 omitted=47 ===
+
+=== 2026-10-21T04:04:12.416Z PYTHON run=bbf6158f8bf1 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [OK] 01_cover.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id="server"> x=484.0, y=302.0..334.0, 2 lines; <g id="server"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [WARN] 11_phase2_fan_out.svg - Passed (with warnings)
+     [WARN] Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id="browser-ben"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [SUMMARY] Check Summary
+  Total files: 15
+    [OK] Fully passed: 13 (86%)
+    [WARN] With warnings: 2 (13%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 2        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 15 | text: 361 | images: 0 | icons: 24
+    Geometry: SVG elements 146 | native presets 6 | page-frame elements 20 | marker uses 34
+  [REPORT] JSON quality report exported: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\svg_quality_report.json
+=== 2026-10-21T04:04:14.113Z END run=bbf6158f8bf1 elapsed_ms=1688 output_lines=65 retained=19 omitted=46 ===
+
+=== 2026-10-21T04:04:19.912Z PYTHON run=196625e2c40c ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/finalize_svg.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021"]
+stdout:
+  [OK] 02_the_moment.svg (2 icons)
+  [OK] Done!
+=== 2026-10-21T04:04:20.504Z END run=196625e2c40c elapsed_ms=594 output_lines=21 retained=2 omitted=19 ===
+
+=== 2026-10-21T04:04:57.451Z PYTHON run=6406e96dfd51 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [OK] 01_cover.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id="server"> x=484.0, y=302.0..334.0, 2 lines; <g id="server"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [WARN] 11_phase2_fan_out.svg - Passed (with warnings)
+     [WARN] Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id="browser-ben"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [SUMMARY] Check Summary
+  Total files: 15
+    [OK] Fully passed: 13 (86%)
+    [WARN] With warnings: 2 (13%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 2        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 15 | text: 361 | images: 0 | icons: 24
+    Geometry: SVG elements 146 | native presets 6 | page-frame elements 20 | marker uses 34
+  [REPORT] JSON quality report exported: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\svg_quality_report.json
+=== 2026-10-21T04:04:59.101Z END run=6406e96dfd51 elapsed_ms=1641 output_lines=65 retained=19 omitted=46 ===
+
+=== 2026-10-21T04:05:03.180Z PYTHON run=3f9e996e9392 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/finalize_svg.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021"]
+stdout:
+  [OK] 02_the_moment.svg (2 icons)
+  [OK] Done!
+=== 2026-10-21T04:05:03.640Z END run=3f9e996e9392 elapsed_ms=452 output_lines=21 retained=2 omitted=19 ===
+
+=== 2026-10-21T04:05:03.908Z PYTHON run=1dd5c9bb72e2 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_to_pptx.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--no-notes"]
+stdout:
+  [Done] Saved: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\exports\signalr_sharing_20261021_110505.pptx
+    [POSTFLIGHT] status=passed-with-warnings quality_gate=passed slides=15 warning_categories=1
+    [POSTFLIGHT][WARNING] quality_introduced_warnings=2
+    [PPTX] D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\exports\signalr_sharing_20261021_110505.pptx
+    [REPORT] D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\signalr_sharing_20261021_110505.report.json
+=== 2026-10-21T04:05:06.795Z END run=1dd5c9bb72e2 elapsed_ms=2890 output_lines=71 retained=5 omitted=66 ===

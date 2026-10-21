@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <defs>
+    <marker id="arrowViolet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#5B21B6" />
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#007F9E" />
+    </marker>
+    <marker id="arrowNavy" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#526B80" />
+    </marker>
+  </defs>
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Phase 2</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">One click becomes AddBid</text>
+  </g>
+
+  <g id="lane-browser" data-pptx-bounds="64 192 300 460">
+    <rect x="64" y="196" width="296" height="452" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
+    <text x="84" y="226" font-size="20" font-weight="bold" fill="#007F9E">Browser · itemBid.js</text>
+    
+  <g transform="translate(84, 258) scale(1.16667)" fill="none" stroke="#007F9E" stroke-width="2">
+    <path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5" />
+    <path d="M11 11.5v-2a1.5 1.5 0 0 1 3 0v2.5" />
+    <path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5" />
+    <path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7l-.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" />
+    <path d="M5 3l-1 -1" />
+    <path d="M4 7h-1" />
+    <path d="M14 3l1 -1" />
+    <path d="M15 6h1" />
+  </g>
+    <text x="122" y="280" font-size="22" font-weight="bold" fill="#102A43">PLACE BID</text>
+    <text x="122" y="312" font-size="22" fill="#526B80">→ CONFIRM panel</text>
+    <g font-family="Consolas, monospace" font-size="20" fill="#102A43">
+      <text x="84" y="384">connection.invoke(</text>
+      <text x="104" y="414">"AddBid", itemId,</text>
+      <text x="104" y="444"><tspan font-weight="bold" fill="#B36A13">bidderId</tspan>, bidAmount,</text>
+      <text x="104" y="474">isBuyNow, isMaxBid)</text>
+    </g>
+    <text font-size="20" fill="#526B80" x="84" y="560">The Promise waits for</text><text font-size="20" fill="#526B80" x="84" y="588">a Completion (type 3)</text></g>
+
+  <g id="lane-signalr" data-pptx-bounds="368 192 304 460">
+    <rect x="384" y="196" width="284" height="452" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5" />
+    <text x="404" y="226" font-size="20" font-weight="bold" fill="#5B21B6">SignalR</text>
+    <line x1="348" y1="378" x2="396" y2="378" stroke="#5B21B6" stroke-width="2" marker-end="url(#arrowViolet)" />
+    <g fill="#FFFFFF" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4">
+      <rect x="400" y="352" width="252" height="52" rx="4" />
+      <rect x="400" y="432" width="252" height="52" rx="4" />
+      <rect x="400" y="512" width="252" height="52" rx="4" />
+    </g>
+    <g font-family="Consolas, monospace" font-size="20" fill="#5B21B6" text-anchor="middle">
+      <text x="526" y="384">Invocation · type 1</text>
+      <text x="526" y="464">Find method by name</text>
+      <text x="526" y="544">Create BidHub (DI)</text>
+    </g>
+    <g stroke="#5B21B6" stroke-width="2">
+      <line x1="526" y1="406" x2="526" y2="428" marker-end="url(#arrowViolet)" />
+      <line x1="526" y1="486" x2="526" y2="508" marker-end="url(#arrowViolet)" />
+    </g>
+    <text font-size="20" fill="#526B80" x="404" y="270">Frame on the open</text><text font-size="20" fill="#526B80" x="404" y="298">WebSocket, with an</text><text font-size="20" fill="#526B80" x="404" y="326">invocationId</text></g>
+
+  <rect id="lane-bidhub-field" data-pptx-role="decoration" x="692" y="196" width="524" height="452" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
+  <g id="p10-validate-decision" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="flowChartDecision" data-pptx-frame="698 296 40 40" fill="#FFFFFF" stroke="#007F9E" stroke-width="2">
+<path d="M 698 316 L 718 296 L 738 316 L 718 336 Z" />
+</g>
+
+  <g id="lane-bidhub" data-pptx-bounds="672 192 548 460">
+    <line x1="656" y1="538" x2="678" y2="538" stroke="#007F9E" stroke-width="2" />
+    <line x1="678" y1="538" x2="678" y2="264" stroke="#007F9E" stroke-width="2" />
+    <line x1="678" y1="264" x2="698" y2="264" stroke="#007F9E" stroke-width="2" marker-end="url(#arrowCyan)" />
+    <text x="712" y="226" font-size="20" font-weight="bold" fill="#007F9E">BidHub.AddBid · Geronimo</text>
+    <g fill="#FFFFFF" stroke="#007F9E" stroke-width="2">
+      <circle cx="718" cy="264" r="16" />
+      <circle cx="718" cy="368" r="16" />
+      <circle cx="718" cy="420" r="16" />
+      <circle cx="718" cy="472" r="16" />
+      <circle cx="718" cy="524" r="16" />
+    </g>
+    <g font-size="18" font-weight="bold" fill="#007F9E" text-anchor="middle">
+      <text x="718" y="270">1</text>
+      <text x="718" y="322">2</text>
+      <text x="718" y="374">3</text>
+      <text x="718" y="426">4</text>
+      <text x="718" y="478">5</text>
+      <text x="718" y="530">6</text>
+    </g>
+    <g font-family="Consolas, monospace" font-size="22" fill="#102A43">
+      <text x="752" y="272">GetBidContextAsync</text>
+      <text x="752" y="324">ValidateBidRequest</text>
+      <text x="752" y="376">ProcessBidCreationAsync</text>
+      <text x="752" y="428">ProcessPostBidActionsAsync</text>
+      <text x="752" y="480">HandleBuyNowPurchaseAsync</text>
+      <text x="752" y="532">BroadcastBidUpdateAsync</text>
+    </g>
+    <text x="1062" y="532" font-size="20" fill="#5B21B6">→ next slide</text>
+    <line x1="992" y1="316" x2="1188" y2="316" stroke="#526B80" stroke-width="1.5" />
+    <line x1="1188" y1="316" x2="1188" y2="560" stroke="#526B80" stroke-width="1.5" marker-end="url(#arrowNavy)" />
+    <text x="1004" y="306" font-size="20" fill="#526B80">invalid</text>
+    <rect x="752" y="566" width="448" height="70" rx="4" fill="#FFFFFF" stroke="#526B80" stroke-width="1" />
+    <text font-size="20" fill="#243B53" x="768" y="594"><tspan font-family="Consolas, monospace" fill="#102A43">addBidFail</tspan> → Caller (e.g. BID_TOO_LOW)</text><text font-size="20" fill="#243B53" x="768" y="622">current price → All, isSuccessful = false</text></g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">10</text>
+  </g>
+</svg>

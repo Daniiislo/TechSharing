@@ -1,0 +1,65 @@
+{
+  "primary_language": "en",
+  "canvas": "ppt169",
+  "audience": "Dev trong team Geronimo, đã dự buổi ProtoLab (Polling, Long polling, SSE, WebSocket, vấn đề mất kết nối); quen .NET và code TravelPledgeAuctions ở mức khác nhau",
+  "communication_intent": "Giải thích SignalR là framework (không chỉ WebSocket) và nó làm gì thay mình; định hướng mindset chuẩn bị khi dùng; mổ xẻ cách Geronimo dùng SignalR để sync bid (Phase 1 kết nối, Phase 2 bid và nhận cập nhật) bằng diagram flow code; chốt bằng best practice, nêu thẳng lỗ hổng bidderId và lộ max bid",
+  "audience_outcome": "Người nghe nói được SignalR làm thay mình những gì và khi nào nên/không nên dùng; nhìn sơ đồ là biết một bid đi từ PLACE BID tới màn hình người khác ra sao, phần nào code Geronimo, phần nào SignalR; nhớ được vài best practice và hai lỗ hổng cần sửa",
+  "core_message": "SignalR is a real-time framework, not a transport: it negotiates the transport, keeps the connection alive, turns calls into messages and fans them out — you write the business logic, and you still own identity and what you broadcast.",
+  "delivery_context": "Thuyết trình trực tiếp 30 phút cho team, slide tiếng Anh, nói tiếng Việt, demo BidLab chạy live ở slide Demo & Q&A; không speaker notes",
+  "artifact_afterlife": "File PPTX chỉnh sửa được, chia sẻ lại cho team kèm tài liệu deep-dive và presenter guide tiếng Việt",
+  "content_divergence": "",
+  "delivery_purpose": "presentation",
+  "page_count": "13-15",
+  "mode": "custom",
+  "mode_behavior": "Mở bằng một khoảnh khắc: An bấm PLACE BID, Bình thấy giá đổi. Câu hỏi 'ai đã làm việc đó?' kéo người nghe qua SignalR là gì, chuẩn bị gì, rồi lần theo dấu vết từng hàm; cao trào là hai lỗ hổng, kết bằng bài học. Tiêu đề là nhịp kể, không phải nhãn.",
+  "visual_style": "custom",
+  "visual_style_behavior": "Bố cục biên tập: kicker nhỏ, tiêu đề serif lớn, đường kẻ mảnh và cột lệch; sơ đồ đặt như hình minh hoạ trong bài báo, có chú thích ngoài lề. Màu tím đánh dấu bằng chứng về SignalR, cyan cho code Geronimo, còn lại đơn sắc.",
+  "color": {
+    "name": "ProtoLab + lớp SignalR",
+    "palette": {
+      "background": "#F7F9FC",
+      "secondary_bg": "#E8F4F8",
+      "primary": "#102A43",
+      "accent": "#007F9E",
+      "secondary_accent": "#5B21B6",
+      "body_text": "#243B53"
+    }
+  },
+  "icons": "tabler-outline",
+  "typography": {
+    "name": "Cambria tiêu đề + Segoe UI nội dung (contrast)",
+    "heading": {
+      "css": "serif",
+      "primary": "Cambria",
+      "sample_primary": ""
+    },
+    "body": {
+      "css": "sans-serif",
+      "primary": "Segoe UI",
+      "sample_primary": ""
+    },
+    "body_size": 28,
+    "sizes": {
+      "title": 50,
+      "subtitle": 38,
+      "annotation": 22
+    },
+    "note": "",
+    "body_size_unit": "px"
+  },
+  "image_usage": [
+    "none"
+  ],
+  "image_notes": "Không cần ảnh: mọi hình là sơ đồ native (lớp Geronimo / SignalR / mạng, flow hàm, fan-out) để chỉnh sửa được trong PowerPoint. Lỗ hổng minh hoạ bằng khung console vẽ native, không dùng screenshot.",
+  "proactive_speaker_notes": false,
+  "proactive_custom_animations": false,
+  "proactive_narration_audio": false,
+  "generation_mode": "continuous",
+  "refine_spec": false,
+  "design_spec_depth": "brief",
+  "stage": "final",
+  "status": "confirmed",
+  "stage1_sha256": "5a1271fcf997e8310523ea37e1c0749393db9be6244d419bed77f94b704e6966",
+  "selection_sha256": "21860dcb84e110ec83552415561c11732663d3e555d62c9d28fa6dd1ff7a4cee",
+  "confirmed_at": "2026-10-21T10:50:11"
+}
