@@ -22,6 +22,7 @@ export class Simulator {
   #armed = [];     // bộ lọc của các bước có gate đã được đi tới trong lượt này
   #captures = [];
   #traces = [];
+  #tickGeneration = 0; // tick cũ (trước lần Dừng/Chạy gần nhất) tự bỏ qua
 
   constructor({ gate, render = () => {}, schedule = (fn, ms) => setTimeout(fn, ms) }) {
     this.#gate = gate;
@@ -76,12 +77,14 @@ export class Simulator {
 
   play() {
     this.playing = true;
+    this.#tickGeneration += 1;
     this.#emit();
     this.#tick();
   }
 
   pause() {
     this.playing = false;
+    this.#tickGeneration += 1;
     this.#emit();
   }
 
@@ -115,8 +118,9 @@ export class Simulator {
   }
 
   #tick() {
+    const generation = this.#tickGeneration;
     this.#schedule(() => {
-      if (!this.playing || !this.isBusy) return;
+      if (generation !== this.#tickGeneration || !this.playing || !this.isBusy) return;
       this.next();
       if (this.isBusy) this.#tick();
     }, this.stepMs);

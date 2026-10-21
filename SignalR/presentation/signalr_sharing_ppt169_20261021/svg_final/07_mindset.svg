@@ -43,7 +43,7 @@
   <g id="pull-quote" data-pptx-bounds="984 192 232 420">
     <line x1="988" y1="200" x2="988" y2="600" stroke="#5B21B6" stroke-width="2" />
     <text x="1008" y="226" font-size="20" font-weight="600" fill="#5B21B6">Mindset</text>
-    <text font-size="38" font-family="Cambria, serif" fill="#102A43" font-style="italic" x="1008" y="288">A hub is</text><text font-size="38" font-family="Cambria, serif" fill="#102A43" font-style="italic" x="1008" y="334">a public</text><text font-size="38" font-family="Cambria, serif" fill="#102A43" font-style="italic" x="1008" y="380">API.</text><text font-size="22" fill="#526B80" x="1008" y="440">Anyone connected</text><text font-size="22" fill="#526B80" x="1008" y="470">can call any public</text><text font-size="22" fill="#526B80" x="1008" y="500">method, with any</text><text font-size="22" fill="#526B80" x="1008" y="530">arguments.</text></g>
+    <text font-family="Cambria, serif" font-size="38" font-style="italic" fill="#102A43" x="1008" y="288">A hub is</text><text font-family="Cambria, serif" font-size="38" font-style="italic" fill="#102A43" x="1008" y="334">a public</text><text font-family="Cambria, serif" font-size="38" font-style="italic" fill="#102A43" x="1008" y="380">API.</text><text font-size="22" fill="#526B80" x="1008" y="440">Anyone connected</text><text font-size="22" fill="#526B80" x="1008" y="470">can call any public</text><text font-size="22" fill="#526B80" x="1008" y="500">method, with any</text><text font-size="22" fill="#526B80" x="1008" y="530">arguments.</text></g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
     <text x="64" y="684">SignalR — More Than WebSocket</text>

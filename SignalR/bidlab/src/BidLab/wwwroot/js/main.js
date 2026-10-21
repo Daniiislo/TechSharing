@@ -88,6 +88,11 @@ function toggleOffline(user) {
   const goingOffline = !tap.offline;
   document.querySelector(`.win[data-user="${user}"] [data-role="offline"]`).setAttribute("aria-pressed", String(goingOffline));
   if (!goingOffline) return tap.setOffline(false);
+  // Chưa kết nối (hoặc đã bỏ cuộc) thì không có gì để reconnect: chỉ đổi trạng thái mạng.
+  if (bidders[user].connection.state !== "Connected") {
+    if (sim.isBusy && sim.view().user === user) sim.abort("offline");
+    return tap.setOffline(true);
+  }
   if (sim.isBusy) {
     // Người kia không mất mạng: giao nốt frame của họ rồi mới dừng lượt đang chạy.
     gate.releaseAll((i) => i.user !== user);
@@ -104,6 +109,7 @@ async function connectWithSim(user) {
   $("sim-title").textContent = "Kết nối vào trang bid";
   sim.start("phase1", PHASE1, user);
   await bidder.connect();
+  if (!bidder.connected && sim.isBusy) sim.abort("disconnected");
   syncConnectButtons();
 }
 

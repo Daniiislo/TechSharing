@@ -122,7 +122,7 @@ Phải (tím) là những gì SignalR làm sau `start()`:
 4. Handshake `{"protocol":"json","version":1}`, server trả `{}` và gọi `OnConnectedAsync`.
 5. Ping mỗi 15 giây theo cả hai chiều.
 
-Dải dưới: mất mạng thì `onreconnecting` hiện banner (code Geronimo), SignalR thử lại sau 0/2/10/30 giây, `onreconnected` ẩn banner.
+Dải dưới: mất mạng thì `onreconnecting` hiện banner (code Geronimo), SignalR thử lại sau 0/2/10/30 giây, `onreconnected` hiện “You’re connected… Refresh your page for the latest bid updates.” (`itemBid.js:442`), tức người dùng phải tự tải lại.
 
 ### Slide 10 — Phase 2: One click becomes AddBid (2,5 phút)
 

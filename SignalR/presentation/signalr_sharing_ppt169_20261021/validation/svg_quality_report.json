@@ -4,7 +4,7 @@
   "target": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "9f76cc83c90d296ea6af11465848989eaddf5168a25828cd144924367c9e9105",
+    "digest": "0aadadf169719f588d49fd50260ae6de86b5c8a11ed31f57f210efaec27808db",
     "file_count": 15,
     "files": [
       {
@@ -41,7 +41,7 @@
       },
       {
         "file": "09_phase1_connect.svg",
-        "sha256": "ea325eff5fc808d51e05c84a59c66e1f5cdbc4f02c9ffbc06dd7818d41d66bff"
+        "sha256": "930886d1e39082d38aed9fc9e6092b4dd444b388dd941477bd884beb7baf6937"
       },
       {
         "file": "10_phase2_place_bid.svg",
@@ -736,7 +736,7 @@
         "tspan_elements": 4
       },
       "passed": true,
-      "source_sha256": "ea325eff5fc808d51e05c84a59c66e1f5cdbc4f02c9ffbc06dd7818d41d66bff"
+      "source_sha256": "930886d1e39082d38aed9fc9e6092b4dd444b388dd941477bd884beb7baf6937"
     },
     {
       "file": "10_phase2_place_bid.svg",

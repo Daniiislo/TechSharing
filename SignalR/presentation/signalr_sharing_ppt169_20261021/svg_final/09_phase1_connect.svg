@@ -72,7 +72,7 @@
     <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
     <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
   </g>
-    <text x="104" y="632" font-size="22" fill="#243B53"><tspan font-weight="bold" fill="#B36A13">Lost?</tspan>  <tspan fill="#007F9E">onreconnecting → banner</tspan>  ·  <tspan fill="#5B21B6">retry after 0, 2, 10, 30 s</tspan>  ·  <tspan fill="#007F9E">onreconnected → banner hides</tspan></text>
+    <text x="104" y="632" font-size="22" fill="#243B53"><tspan font-weight="bold" fill="#B36A13">Lost?</tspan>  <tspan fill="#007F9E">onreconnecting → banner</tspan>  ·  <tspan fill="#5B21B6">retry after 0, 2, 10, 30 s</tspan>  ·  <tspan fill="#007F9E">onreconnected → “Refresh your page”</tspan></text>
   </g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">

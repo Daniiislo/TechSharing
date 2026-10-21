@@ -149,3 +149,16 @@ test("a live run (hold: false) never holds frames", async () => {
   await gate.hold(frame("in", "updateItem")).then(() => (passed = true));
   assert.equal(passed, true);
 });
+
+test("pause then play keeps a single timer chain (no double-speed advance)", () => {
+  const gate = new GateQueue();
+  gate.holding = false;
+  const queued = [];
+  const sim = new Simulator({ gate, render: () => {}, schedule: (fn) => queued.push(fn) });
+  sim.start("t", [...TEMPLATE, TEMPLATE[2]].map((s, i) => ({ ...s, id: `${s.id}-${i}` })), "anna");
+  sim.play();
+  sim.pause();
+  sim.play();
+  for (const fn of queued.splice(0)) fn();
+  assert.equal(sim.view().index, 1);
+});

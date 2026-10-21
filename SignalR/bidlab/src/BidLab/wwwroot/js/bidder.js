@@ -106,7 +106,7 @@ export function createBidder(user, root, tap, hooks) {
     state.connected = true;
     updateBidButton();
     setConn("● WebSocket", "is-on");
-    banner(null);
+    banner(`<i class="fa fa-check-circle" aria-hidden="true"></i> <b>You're connected to WinningBidder.com.</b><br>Refresh your page for the latest bid updates.`);
     hooks.onReconnected?.(user);
   });
   connection.onclose(() => {

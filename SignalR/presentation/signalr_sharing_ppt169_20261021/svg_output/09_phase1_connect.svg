@@ -68,7 +68,7 @@
   <g id="reconnect" data-pptx-bounds="64 592 1152 56">
     <line x1="64" y1="596" x2="1216" y2="596" stroke="#CAD7E2" stroke-width="1"/>
     <use data-icon="tabler-outline/refresh" x="64" y="610" width="28" height="28" fill="#B36A13" stroke-width="2"/>
-    <text x="104" y="632" font-size="22" fill="#243B53"><tspan font-weight="bold" fill="#B36A13">Lost?</tspan>  <tspan fill="#007F9E">onreconnecting → banner</tspan>  ·  <tspan fill="#5B21B6">retry after 0, 2, 10, 30 s</tspan>  ·  <tspan fill="#007F9E">onreconnected → banner hides</tspan></text>
+    <text x="104" y="632" font-size="22" fill="#243B53"><tspan font-weight="bold" fill="#B36A13">Lost?</tspan>  <tspan fill="#007F9E">onreconnecting → banner</tspan>  ·  <tspan fill="#5B21B6">retry after 0, 2, 10, 30 s</tspan>  ·  <tspan fill="#007F9E">onreconnected → “Refresh your page”</tspan></text>
   </g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">

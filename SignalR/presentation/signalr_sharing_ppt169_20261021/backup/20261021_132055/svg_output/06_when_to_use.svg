@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+
+  <g id="header" data-pptx-bounds="64 60 1152 108">
+    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Reach for it when both sides talk, often</text>
+  </g>
+
+  <g id="when-to-use" data-pptx-replace-with="table" data-pptx-bounds="64 196 1152 440" data-pptx-fallback-sha256="5de304f2572f48c6ffb1f71e05384f7d1fec39b44148eae886e333b3aee785ce">
+    <metadata type="application/json">{"schema":"ppt-master.semantic-table.v2","name":"when-to-use","x":64,"y":196,"width":1152,"height":440,"header_rows":1,"column_widths":[212,188,188,188,188,188],"row_heights":[56,64,64,64,64,64,64],"style":{"font_family":"Segoe UI","font_size":22,"band_row":false,"header_text":"#102A43","body_text":"#243B53"},"defaults":{"cell":{"align":"l","valign":"middle","borders":{"left":{"style":"none"},"right":{"style":"none"},"top":{"style":"none"},"bottom":{"style":"solid","color":"#CAD7E2","width":1}}}},"columns":[{"text":"","align":"l","borders":{"bottom":{"style":"solid","color":"#102A43","width":1.5}}},{"text":"Polling","bold":true,"align":"l","borders":{"bottom":{"style":"solid","color":"#102A43","width":1.5}}},{"text":"SSE","bold":true,"align":"l","borders":{"bottom":{"style":"solid","color":"#102A43","width":1.5}}},{"text":"Raw WebSocket","bold":true,"align":"l","borders":{"bottom":{"style":"solid","color":"#102A43","width":1.5}}},{"text":"SignalR","bold":true,"align":"l","color":"#5B21B6","fill":"#F1EBFD","borders":{"bottom":{"style":"solid","color":"#102A43","width":1.5}}},{"text":"Azure SignalR","bold":true,"align":"l","borders":{"bottom":{"style":"solid","color":"#102A43","width":1.5}}}],"rows":[[{"text":"Two-way","bold":true,"color":"#102A43"},"Request only","Server → client","Yes",{"text":"Yes, RPC","color":"#5B21B6","fill":"#F1EBFD"},"Yes, RPC"],[{"text":"Fallback","bold":true,"color":"#102A43"},"Works anywhere","HTTP only","Write it",{"text":"Built in","color":"#5B21B6","fill":"#F1EBFD"},"Built in"],[{"text":"Auto reconnect","bold":true,"color":"#102A43"},"Next poll","Built in","Write it",{"text":"Built in","color":"#5B21B6","fill":"#F1EBFD"},"Built in"],[{"text":"Fan-out &amp; groups","bold":true,"color":"#102A43"},"Write it","Write it","Write it",{"text":"All/User/Group","color":"#5B21B6","fill":"#F1EBFD"},"All/User/Group"],[{"text":"Multi-server","bold":true,"color":"#102A43"},"Shared store","Your pub/sub","Your pub/sub",{"text":"Redis backplane","color":"#5B21B6","fill":"#F1EBFD"},"Managed"],[{"text":"Best fit","bold":true,"color":"#102A43"},"Rare updates","Live feeds","Custom protocol",{"text":"Two-way on .NET","color":"#5B21B6","fill":"#F1EBFD"},"Same, managed"]]}</metadata>
+    <rect x="840" y="196" width="188" height="440" fill="#F1EBFD"/>
+    <g font-size="22" font-weight="bold" fill="#102A43">
+      <text x="292" y="231">Polling</text>
+      <text x="480" y="231">SSE</text>
+      <text x="668" y="231">Raw WebSocket</text>
+      <text x="856" y="231" fill="#5B21B6">SignalR</text>
+      <text x="1044" y="231">Azure SignalR</text>
+    </g>
+    <line x1="64" y1="252" x2="1216" y2="252" stroke="#102A43" stroke-width="1.5"/>
+    <g font-size="22" font-weight="bold" fill="#102A43">
+      <text x="80" y="291">Two-way</text>
+      <text x="80" y="355">Fallback</text>
+      <text x="80" y="419">Auto reconnect</text>
+      <text x="80" y="483">Fan-out &amp; groups</text>
+      <text x="80" y="547">Multi-server</text>
+      <text x="80" y="611">Best fit</text>
+    </g>
+    <g font-size="22" fill="#243B53">
+      <text x="292" y="291">Request only</text>
+      <text x="480" y="291">Server → client</text>
+      <text x="668" y="291">Yes</text>
+      <text x="1044" y="291">Yes, RPC</text>
+      <text x="292" y="355">Works anywhere</text>
+      <text x="480" y="355">HTTP only</text>
+      <text x="668" y="355">Write it</text>
+      <text x="1044" y="355">Built in</text>
+      <text x="292" y="419">Next poll</text>
+      <text x="480" y="419">Built in</text>
+      <text x="668" y="419">Write it</text>
+      <text x="1044" y="419">Built in</text>
+      <text x="292" y="483">Write it</text>
+      <text x="480" y="483">Write it</text>
+      <text x="668" y="483">Write it</text>
+      <text x="1044" y="483">All/User/Group</text>
+      <text x="292" y="547">Shared store</text>
+      <text x="480" y="547">Your pub/sub</text>
+      <text x="668" y="547">Your pub/sub</text>
+      <text x="1044" y="547">Managed</text>
+      <text x="292" y="611">Rare updates</text>
+      <text x="480" y="611">Live feeds</text>
+      <text x="668" y="611">Custom protocol</text>
+      <text x="1044" y="611">Same, managed</text>
+    </g>
+    <g font-size="22" fill="#5B21B6">
+      <text x="856" y="291">Yes, RPC</text>
+      <text x="856" y="355">Built in</text>
+      <text x="856" y="419">Built in</text>
+      <text x="856" y="483">All/User/Group</text>
+      <text x="856" y="547">Redis backplane</text>
+      <text x="856" y="611">Two-way on .NET</text>
+    </g>
+    <g stroke="#CAD7E2" stroke-width="1">
+      <line x1="64" y1="316" x2="1216" y2="316"/>
+      <line x1="64" y1="380" x2="1216" y2="380"/>
+      <line x1="64" y1="444" x2="1216" y2="444"/>
+      <line x1="64" y1="508" x2="1216" y2="508"/>
+      <line x1="64" y1="572" x2="1216" y2="572"/>
+      <line x1="64" y1="636" x2="1216" y2="636"/>
+    </g>
+  </g>
+
+  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
+    <text x="64" y="684">SignalR — More Than WebSocket</text>
+    <text x="1216" y="684" text-anchor="end">06</text>
+  </g>
+</svg>

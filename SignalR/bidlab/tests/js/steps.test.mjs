@@ -51,3 +51,14 @@ test("RECONNECT shows the real retry attempts (negotiate requests) and the socke
   assert.deepEqual(RECONNECT.find((s) => s.id === "retry").capture, { dir: "out", kind: "http" });
   assert.deepEqual(RECONNECT.find((s) => s.id === "drop").capture, { dir: "in", kind: "ws-close" });
 });
+
+test("nothing projected in the demo mentions ProtoLab", () => {
+  const text = JSON.stringify(all);
+  assert.doesNotMatch(text, /ProtoLab/i);
+});
+
+test("RECONNECT quotes what Geronimo really does on reconnect (asks to refresh, does not just hide the banner)", () => {
+  const note = RECONNECT.find((s) => s.id === "note-resync").explain;
+  assert.match(note, /Refresh your page/);
+  assert.doesNotMatch(note, /ẩn banner/);
+});

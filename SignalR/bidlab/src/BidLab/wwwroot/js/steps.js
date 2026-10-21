@@ -22,7 +22,7 @@ export const PHASE1 = [
     id: "negotiate-res", owner: "signalr", path: ["sr-server", "wire", "sr-x"], gate: { dir: "in", kind: "http" },
     title: "Server trả danh sách transport", fn: "{ connectionToken, availableTransports: [WebSockets, ServerSentEvents, LongPolling] }",
     explain: "Client chọn transport tốt nhất cả hai bên cùng hỗ trợ: WebSocket, rồi SSE, rồi Long polling.",
-    without: "tự phát hiện WebSocket bị proxy chặn và tự viết đường dự phòng (đúng những gì ProtoLab làm tay).",
+    without: "tự phát hiện WebSocket bị proxy chặn và tự viết đường dự phòng.",
   },
   {
     id: "ws-open", owner: "signalr", path: ["sr-x", "wire", "sr-server"], gate: { dir: "in", kind: "ws-open" },
@@ -146,11 +146,11 @@ export const RECONNECT = [
   },
   {
     id: "reconnected", owner: "signalr", path: ["sr-x", "wire", "sr-server"], title: "Kết nối lại được", fn: "connection.onreconnected(connectionId)",
-    explain: "Connection mới với connectionId mới. Server coi đây là client mới; Group (nếu có) phải join lại.",
+    explain: "Connection mới với connectionId mới; trang hiện thông báo đã kết nối lại. Server coi đây là client mới; Group (nếu có) phải join lại.",
     without: "tự kết nối lại và tự khôi phục trạng thái đăng ký.",
   },
   {
     id: "note-resync", owner: "geronimo", path: ["app-x"], title: "Bài học: đồng bộ lại", fn: "onreconnected → tải lại giá hiện tại",
-    explain: "Geronimo chỉ ẩn banner. Bid xảy ra lúc mất mạng sẽ bị lỡ cho tới lần updateItem kế tiếp. Nên gọi lại API lấy trạng thái mới nhất sau khi reconnect.",
+    explain: "itemBid.js:442 chỉ báo “You're connected to WinningBidder.com. Refresh your page for the latest bid updates.” và để người dùng tự tải lại. Bid xảy ra lúc mất mạng bị lỡ cho tới lần updateItem kế tiếp. Nên tự gọi API lấy trạng thái mới nhất ngay sau khi reconnect.",
   },
 ];
