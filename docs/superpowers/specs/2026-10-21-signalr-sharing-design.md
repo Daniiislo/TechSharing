@@ -63,7 +63,8 @@ Thành công nghĩa là sau 30 phút người nghe:
   5. `HandleBuyNowPurchaseAsync`.
   6. `BroadcastBidUpdateAsync`: `Clients.All.SendAsync("updateItem", 9 tham số)`, `Clients.All.SendAsync("updateEvent", 7 tham số)`, `Clients.Caller.SendAsync("addBidSuccess", itemId, bidderId, isHighBidder)`. High bidder lấy từ `HighBidUserId` vì max bid của người khác có thể thắng ngay (có comment "CRITICAL BUG FIX").
 - `Hubs/EventHub.cs` có `closeItem`, `closeItems`, `closeEvent`. Thực tế server gửi qua **`IHubContext<EventHub>`** từ `ItemService.CloseItemForBidding` (`ItemService.cs:574`) và `Jobs/CloseItemAndEventQuartzJob`. Đây là ví dụ **server tự đẩy, không cần client gọi**.
-- `Services/Notifications/WebService.cs` dùng `IHubContext<MessageHub>` với `Clients.User(userId)`.
+- `Services/Notifications/WebService.cs:24` gửi `Clients.All.SendAsync("sendMessage", …)` (không await); nhánh `Clients.User` bị comment ở L27-29 ("throwing an error during the bidding process"). `Clients.User` chỉ có trong `MessageHub.SendMessageToUser`, không ai gọi.
+- *(Đính chính khi viết deep-dive)* Đóng item có 3 đường: Quartz gửi `closeItems` theo lô (`CloseItemAndEventQuartzJob.cs:122`) **trước** khi đóng; `closeItem` lẻ (`ItemService.cs:574`) chỉ khi `sendNotification` = true, thực tế là đường Buy Now; `closeEvent` ở `EventOrderService.cs:162`.
 
 **Client** (bundle `wwwroot/js/signalr/dist/browser/signalr.js`, nạp trong `_LayoutEvent.cshtml:99`)
 - `itemBid.js` (trang Item):
