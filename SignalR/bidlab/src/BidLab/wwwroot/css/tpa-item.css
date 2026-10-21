@@ -1,0 +1,71 @@
+/* Bản clone trang Item của TravelPledgeAuctions. Giá trị lấy từ TPAuctions.css, item.css
+   và <style> trong Pages/Item.cshtml; mọi selector nằm dưới .page để không lan ra khung lab. */
+
+.page { zoom: .74; padding: 6px 18px 18px; color: #212529;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+.page a { color: #007bff; }
+.page .charity-logo .logo-box { display: inline-block; border: 1px solid #ddd; padding: 10px 18px; font-weight: 700; color: #385e7c; font-size: 22px; }
+.page .auction-title { font-weight: 300; font-size: 26px; margin: 0; }
+.page .auction-times { font-size: 15px; }
+.page .auction-status-live { font-weight: bold; }
+.page .header-wrapper { margin: 10px 0 5px 0; position: relative; }
+.page .line-header { display: flex; width: 100%; justify-content: center; align-items: center; text-align: center; margin-bottom: 10px; font-size: 1.5rem; }
+.page .line-header::before, .page .line-header::after { content: ''; border-top: 1px solid #ccc; margin: 0 15px 0 0; flex: 1 0 20px; }
+.page .line-header::after { margin: 0 0 0 5px; }
+.page .item-list-link { position: absolute; left: 15px; bottom: -5px; }
+.page .item-details h2 { font-size: 30px; color: #262626; }
+.page .item-details h4 { font-size: 16px; color: #262626; letter-spacing: .5px; }
+.page .sub-block-slider { position: relative; }
+.page .sub-block-slider img { width: 100%; height: auto; border-radius: 4px; }
+.page .bid-count-circle { position: absolute; right: 10px; top: 10px; border-radius: 50%; text-align: center; padding-top: 9px;
+  height: 75px; width: 75px; background-color: #385e7c; color: #fff; font-size: 24px; line-height: 1.1; }
+.page .bid-count-circle small { font-size: 16px; }
+.page .favorite-icon-detail { font-size: 16px; }
+.page .favorite-icon-detail i { color: red; }
+
+.page .bid-panel-box { padding: 5px 30px; text-align: center; }
+.page #winning-bid, .page #outbid-bid { color: #fff; width: 100%; text-align: center; padding: 4px; border-radius: 3px; margin-top: 12px; }
+.page #winning-bid { background-color: #52b05f; }
+.page #outbid-bid { background-color: #ffc107; color: #1f2d3d; }
+.page [hidden] { display: none !important; }
+.page .currentbid-label { color: #666; font-size: 12px; margin: 8px 0 0; }
+.page .currentbid-amount { color: #007bff; }
+.page .currentbid-amount.flash { animation: tpa-flash 1.2s ease-out; }
+@keyframes tpa-flash { from { background: #fff3c4; } to { background: transparent; } }
+
+.page .max-bid-amt { display: inline-flex; align-items: center; }
+.page .max-bid-amt .minus, .page .max-bid-amt .plus { margin: 0 10px; width: 50px; height: 50px; font-size: 28px; border-radius: 5px;
+  border: solid #385e7c 1px; color: #385e7c; background: #fff; display: flex; align-items: center; justify-content: center; }
+.page .max-bid-amt .minus:hover, .page .max-bid-amt .plus:hover { background-color: #385e7c; color: #fff; }
+.page .input-bid-amount { width: 180px; height: auto; font-size: 35px; text-align: center; border-radius: 10px; border: none; background: #fff; color: #385e7c; }
+.page .bid-type-wrapper { display: flex; margin-top: 6px; }
+.page .bid-type-tab { width: 50%; border: 1px solid #666; background-color: #ccc; color: #333; padding: 2px 0; font: inherit; }
+.page .bid-type-left { border-radius: 6px 0 0 6px; }
+.page .bid-type-right { border-radius: 0 6px 6px 0; border-left: 0; }
+.page .bid-type-tab-active { background-color: #385e7c; font-weight: bold; color: #fff; }
+.page .btn-style { font-size: 17px; width: 100%; max-width: 250px; margin-top: 10px; padding: 12px 0; }
+.page .btn-bid { color: #fff; background-color: #385e7c; border-color: #385e7c; }
+.page .btn-primary.disabled, .page .btn-primary:disabled { color: #ddd; background-color: #888; border-color: #666; }
+.page .btn-buy-it-now { background-color: transparent; color: #385e7c; border-color: #385e7c; font-size: 18px; padding: 12px 10px; }
+.page .clockdiv { text-align: center; margin-top: 14px; }
+.page .clockdiv .num { font-size: 20px; font-weight: 600; }
+.page .smalltext { font-size: 13px; color: #666; }
+
+.page .bid-panel-confirm { border-radius: 3px; background-color: #FFEFBF; padding: 16px; margin-top: 12px; }
+.page .bid-panel-confirm h2 { font-size: 26px; }
+.page .bid-panel-confirm h3 { font-size: 19px; }
+.page .font-size-12 { font-size: 12px; }
+.page .link-btn { border: 0; background: none; color: #007bff; padding: 0; }
+.page .link-btn:hover { text-decoration: underline; }
+
+/* toastr (plugins/toastr) — vị trí góc trên phải của khung trình duyệt */
+.toast-host { position: absolute; top: 10px; right: 10px; z-index: 5; display: flex; flex-direction: column; gap: 6px; width: min(300px, 80%); }
+.tpa-toast { color: #fff; padding: 12px 14px; border-radius: 3px; font-size: .875rem; box-shadow: 0 0 12px #999; opacity: .95;
+  font-family: "Helvetica Neue", Arial, sans-serif; }
+.tpa-toast.success { background-color: #51A351; }
+.tpa-toast.info { background-color: #2F96B4; }
+.tpa-toast.error { background-color: #BD362F; }
+
+/* showNotification() trong itemBid.js khi mất kết nối */
+.conn-banner { position: sticky; top: 0; z-index: 4; background: #fff3cd; color: #533f03; border-bottom: 1px solid #ffeeba;
+  padding: 8px 14px; font-size: .875rem; }
