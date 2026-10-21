@@ -140,3 +140,12 @@ test("reaching the last step finishes the run so the bid buttons unlock", () => 
   assert.equal(sim.isBusy, false);
   assert.equal(sim.view().state, "done");
 });
+
+test("a live run (hold: false) never holds frames", async () => {
+  const { gate, sim } = setup();
+  sim.start("reconnect", TEMPLATE, "an", { hold: false });
+  assert.equal(gate.holding, false);
+  let passed = false;
+  await gate.hold(frame("in", "updateItem")).then(() => (passed = true));
+  assert.equal(passed, true);
+});

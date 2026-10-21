@@ -1,6 +1,6 @@
 import { GateQueue } from "./gates.js";
 import { Simulator } from "./sim.js";
-import { PHASE1, PHASE2, PHASE2_FAIL } from "./steps.js";
+import { PHASE1, PHASE2, PHASE2_FAIL, RECONNECT } from "./steps.js";
 import { createTap } from "./tap.js";
 import { createBidder } from "./bidder.js";
 import { drawStage, renderDiagram, renderDetail, renderSteps } from "./diagram.js";
@@ -27,6 +27,13 @@ drawStage(svg);
 
 const sim = new Simulator({ gate, render });
 const bidders = {};
+const taps = {};
+
+// Lượt reconnect chạy theo sự kiện thật của SignalR client, không giữ frame.
+const inReconnectRun = (user) => sim.isBusy && sim.view().name === "reconnect" && sim.view().user === user;
+function advanceTo(id) {
+  while (sim.isBusy && sim.view().step.id !== id) sim.next();
+}
 
 function render(view) {
   renderSteps($("steps"), view);
@@ -46,6 +53,13 @@ function render(view) {
 const hooks = {
   isBusy: () => sim.isBusy,
   isStopping: () => stopping,
+  onReconnecting: (user) => inReconnectRun(user) && advanceTo("reconnecting"),
+  onReconnected(user) {
+    if (!inReconnectRun(user)) return;
+    advanceTo("reconnected");
+    setTimeout(() => inReconnectRun(user) && sim.next(), sim.stepMs);
+  },
+  onClosed: (user) => inReconnectRun(user) && sim.finish(),
   beforeInvoke(bid) {
     // Chọn template theo đúng quy tắc server (bid phải cao hơn giá hiện tại); max bid luôn đi luồng thành công.
     const template = !bid.isMaxBid && bid.bidAmount <= bid.currentAmount ? PHASE2_FAIL : PHASE2;
@@ -59,10 +73,29 @@ for (const user of USERS) {
   const win = document.querySelector(`.win[data-user="${user}"]`);
   win.append(template.content.cloneNode(true));
   win.querySelector(".who").textContent = NAMES[user];
-  const tap = createTap(user, gate, (capture) => sim.addCapture(capture));
+  const tap = createTap(user, gate, (capture) => {
+    sim.addCapture(capture);
+    if (capture.dir === "out" && capture.kind === "http" && inReconnectRun(user) && sim.view().step.id === "reconnecting") advanceTo("retry");
+  });
+  taps[user] = tap;
   bidders[user] = createBidder(user, win, tap, hooks);
   win.querySelector('[data-role="connect"]').addEventListener("click", () => connectWithSim(user));
-  win.querySelector('[data-role="offline"]').hidden = true; // bật ở Task 9
+  win.querySelector('[data-role="offline"]').addEventListener("click", () => toggleOffline(user));
+}
+
+function toggleOffline(user) {
+  const tap = taps[user];
+  const goingOffline = !tap.offline;
+  document.querySelector(`.win[data-user="${user}"] [data-role="offline"]`).setAttribute("aria-pressed", String(goingOffline));
+  if (!goingOffline) return tap.setOffline(false);
+  if (sim.isBusy) {
+    // Người kia không mất mạng: giao nốt frame của họ rồi mới dừng lượt đang chạy.
+    gate.releaseAll((i) => i.user !== user);
+    sim.abort("offline");
+  }
+  $("sim-title").textContent = "Mất mạng và tự kết nối lại";
+  sim.start("reconnect", RECONNECT, user, { hold: false });
+  tap.setOffline(true);
 }
 
 async function connectWithSim(user) {
@@ -84,6 +117,10 @@ function syncConnectButtons() {
 
 async function resetAll() {
   sim.abort("reset");
+  for (const user of USERS) {
+    taps[user].setOffline(false);
+    document.querySelector(`.win[data-user="${user}"] [data-role="offline"]`).setAttribute("aria-pressed", "false");
+  }
   stopping = true;
   await Promise.all(USERS.map((u) => bidders[u].disconnect()));
   stopping = false;

@@ -36,7 +36,8 @@ export class Simulator {
     return this.#state === "running";
   }
 
-  start(name, template, user) {
+  // hold: false cho lượt "trực tiếp" (reconnect): chỉ ghi lại, không hoãn frame nào.
+  start(name, template, user, { hold = true } = {}) {
     if (this.isBusy) return false;
     this.#name = name;
     this.#user = user;
@@ -45,7 +46,7 @@ export class Simulator {
     this.#traces = [];
     this.#armed = [];
     this.#state = "running";
-    this.#gate.holding = true;
+    this.#gate.holding = hold;
     this.#goTo(0);
     return true;
   }

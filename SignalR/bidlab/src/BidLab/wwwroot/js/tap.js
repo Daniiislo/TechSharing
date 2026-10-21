@@ -61,8 +61,10 @@ export function createTap(user, gate, onCapture) {
     }
 
     async send(request) {
+      const attempt = capture("out", "http", `${request.method} ${describeUrl(request.url)}`);
+      // Mất mạng: request vẫn được ghi lại (mỗi lần thử reconnect là một negotiate) rồi thất bại.
       if (offline) throw new signalR.HttpError("Mất mạng (demo)", 0);
-      await gate.hold(capture("out", "http", `${request.method} ${describeUrl(request.url)}`));
+      await gate.hold(attempt);
       const response = await super.send(request);
       await gate.hold(capture("in", "http", `${response.statusCode} ${response.content ?? ""}`));
       return response;

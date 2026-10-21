@@ -143,9 +143,10 @@ export function renderSteps(list, view) {
   list.querySelector('[aria-current="step"]')?.scrollIntoView({ block: "nearest" });
 }
 
-const frameLine = (f) => {
+const frameLine = (f, t0) => {
   const arrow = f.dir === "out" ? `${WHO[f.user]} → server` : `server → ${WHO[f.user]}`;
-  return `<span class="dir">${arrow}</span>  ${esc(String(f.text).replaceAll("\x1e", "␞"))}`;
+  const at = t0 === undefined ? "" : ` +${((f.at - t0) / 1000).toFixed(1)}s`;
+  return `<span class="dir">${arrow}${at}</span>  ${esc(String(f.text).replaceAll("\x1e", "␞"))}`;
 };
 
 const short = (v) => esc(JSON.stringify(v));
@@ -171,7 +172,8 @@ export function renderDetail(el, view) {
     const seen = new Set(view.traces.map((t) => t.step));
     parts.push(`<ol class="substeps">${step.trace.map((name) => `<li class="${seen.has(name) ? "on" : ""}">${esc(name.replace("hub.", ""))}</li>`).join("")}</ol>`);
   }
-  const lines = [...view.frames.map(frameLine), ...(step.trace?.length > 1 ? [] : traceLines(view))];
+  const t0 = view.name === "reconnect" ? view.frames[0]?.at : undefined;
+  const lines = [...view.frames.map((f) => frameLine(f, t0)), ...(step.trace?.length > 1 ? [] : traceLines(view))];
   if (lines.length) parts.push(`<pre class="wire">${lines.join("\n")}</pre>`);
   else if (view.waiting) parts.push(`<pre class="wire">Đang chờ dữ liệu thật…</pre>`);
   if (step.warn) parts.push(`<div class="warn-note"><b>Lỗ hổng:</b> ${esc(step.warn)}</div>`);

@@ -46,3 +46,8 @@ test("inbound frames are released at the app step that consumes them", () => {
   assert.deepEqual(PHASE2.find((s) => s.id === "ui").gate, { dir: "in" });
   assert.deepEqual(PHASE1.find((s) => s.id === "started").gate, { dir: "in", kind: "frame" });
 });
+
+test("RECONNECT shows the real retry attempts (negotiate requests) and the socket close", () => {
+  assert.deepEqual(RECONNECT.find((s) => s.id === "retry").capture, { dir: "out", kind: "http" });
+  assert.deepEqual(RECONNECT.find((s) => s.id === "drop").capture, { dir: "in", kind: "ws-close" });
+});

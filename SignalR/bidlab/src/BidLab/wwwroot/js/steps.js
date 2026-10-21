@@ -130,7 +130,7 @@ export const PHASE2_FAIL = [
 
 export const RECONNECT = [
   {
-    id: "drop", owner: "signalr", path: ["sr-x", "wire"], title: "Mất mạng", fn: "WebSocket onclose",
+    id: "drop", owner: "signalr", path: ["sr-x", "wire"], capture: { dir: "in", kind: "ws-close" }, title: "Mất mạng", fn: "WebSocket onclose",
     explain: "Socket đóng bất thường. HubConnection không coi đây là kết thúc vì đã bật withAutomaticReconnect().",
     without: "tự phân biệt đóng chủ động với đứt mạng.",
   },
@@ -139,7 +139,7 @@ export const RECONNECT = [
     explain: 'itemBid.js:437 hiện "Connection to WinningBidder.com was lost. Attempting to reconnect…".',
   },
   {
-    id: "retry", owner: "signalr", path: ["sr-x", "wire"], title: "Tự thử lại", fn: "withAutomaticReconnect(): sau 0s, 2s, 10s, 30s",
+    id: "retry", owner: "signalr", path: ["sr-x", "wire"], capture: { dir: "out", kind: "http" }, title: "Tự thử lại", fn: "withAutomaticReconnect(): sau 0s, 2s, 10s, 30s",
     explain: "Mỗi lần thử là negotiate + mở WebSocket + handshake lại từ đầu. Hết 4 lần mà vẫn lỗi thì onclose.",
     without: "tự viết vòng retry có backoff, tự dừng khi người dùng rời trang.",
   },
