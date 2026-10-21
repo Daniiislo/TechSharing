@@ -3,7 +3,7 @@
 
 const BASE_STEP_MS = 2000;
 
-const other = (user) => (user === "an" ? "binh" : "an");
+const other = (user) => (user === "anna" ? "ben" : "anna");
 const resolveNode = (node, user) =>
   node.endsWith("-x") ? node.replace(/-x$/, `-${user}`) : node.endsWith("-y") ? node.replace(/-y$/, `-${other(user)}`) : node;
 const resolvePath = (path, user) => path.map((n) => resolveNode(n, user));

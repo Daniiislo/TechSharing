@@ -13,6 +13,6 @@ public record BidCreationRequest(Item Item, string BidderId, decimal BidAmount, 
 
 public static class Users
 {
-    public const string An = "u-an";
-    public const string Binh = "u-binh";
+    public const string Anna = "u-anna";
+    public const string Ben = "u-ben";
 }

@@ -67,41 +67,41 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
     public async Task AddBid_Valid_AllGetUpdateItem_CallerGetsSuccess()
     {
         var an = await ConnectAsync("bidhub");
-        var binh = await ConnectAsync("bidhub");
-        var binhUpdate = NextUpdateItem(binh);
+        var ben = await ConnectAsync("bidhub");
+        var benUpdate = NextUpdateItem(ben);
         var anSuccess = Next(an, "addBidSuccess", a => a, SuccessTypes);
-        var binhGotSuccess = false;
-        binh.On("addBidSuccess", SuccessTypes, (_, _) => { binhGotSuccess = true; return Task.CompletedTask; }, null!);
+        var benGotSuccess = false;
+        ben.On("addBidSuccess", SuccessTypes, (_, _) => { benGotSuccess = true; return Task.CompletedTask; }, null!);
 
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1300m, false, false);
 
-        var u = await binhUpdate.WaitAsync(Wait);
+        var u = await benUpdate.WaitAsync(Wait);
         Assert.Equal(ItemId, u[0]);
         Assert.Equal(1300m, u[1]);
         Assert.Equal(1350m, u[2]);
         Assert.Equal(8, u[3]);
         Assert.IsType<string>(u[4]);
         Assert.IsType<double>(u[5]);
-        Assert.Equal(Users.An, u[6]);
+        Assert.Equal(Users.Anna, u[6]);
         Assert.Equal(true, u[7]);
         Assert.Equal(0m, u[8]);
-        Assert.Equal(new object?[] { ItemId, Users.An, true }, await anSuccess.WaitAsync(Wait));
+        Assert.Equal(new object?[] { ItemId, Users.Anna, true }, await anSuccess.WaitAsync(Wait));
         await Task.Delay(200);
-        Assert.False(binhGotSuccess);
+        Assert.False(benGotSuccess);
     }
 
     [Fact]
     public async Task AddBid_TooLow_CallerGetsFail_AllGetCurrentState()
     {
         var an = await ConnectAsync("bidhub");
-        var binh = await ConnectAsync("bidhub");
-        var binhUpdate = NextUpdateItem(binh);
+        var ben = await ConnectAsync("bidhub");
+        var benUpdate = NextUpdateItem(ben);
         var anFail = Next(an, "addBidFail", a => a, FailTypes);
 
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1200m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1200m, false, false);
 
-        Assert.Equal(new object?[] { ItemId, Users.An, "BID_TOO_LOW" }, await anFail.WaitAsync(Wait));
-        var u = await binhUpdate.WaitAsync(Wait);
+        Assert.Equal(new object?[] { ItemId, Users.Anna, "BID_TOO_LOW" }, await anFail.WaitAsync(Wait));
+        var u = await benUpdate.WaitAsync(Wait);
         Assert.Equal(1250m, u[1]);
         Assert.Equal(false, u[7]);
     }
@@ -110,15 +110,15 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
     public async Task AddBid_OutbidByMax_SuccessButNotHigh()
     {
         var an = await ConnectAsync("bidhub");
-        var binh = await ConnectAsync("bidhub");
-        await binh.InvokeAsync("AddBid", ItemId, Users.Binh, 2000m, false, true);
+        var ben = await ConnectAsync("bidhub");
+        await ben.InvokeAsync("AddBid", ItemId, Users.Ben, 2000m, false, true);
         var anUpdate = NextUpdateItem(an);
         var anSuccess = Next(an, "addBidSuccess", a => a, SuccessTypes);
 
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1300m, false, false);
 
-        Assert.Equal(new object?[] { ItemId, Users.An, false }, await anSuccess.WaitAsync(Wait));
-        Assert.Equal(Users.Binh, (await anUpdate.WaitAsync(Wait))[6]);
+        Assert.Equal(new object?[] { ItemId, Users.Anna, false }, await anSuccess.WaitAsync(Wait));
+        Assert.Equal(Users.Ben, (await anUpdate.WaitAsync(Wait))[6]);
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
         var anSuccess = Next(an, "addBidSuccess", a => a, SuccessTypes);
         lock (events) events.Clear();
 
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1300m, false, false);
         await anSuccess.WaitAsync(Wait);
         await Task.Delay(300);
 
@@ -148,12 +148,12 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
     [Fact]
     public async Task ItemApi_ReturnsCurrentStateAndMyBid()
     {
-        var json = await _factory.CreateClient().GetFromJsonAsync<JsonElement>($"/api/item?user={Users.An}");
+        var json = await _factory.CreateClient().GetFromJsonAsync<JsonElement>($"/api/item?user={Users.Anna}");
 
         Assert.Equal(1250m, json.GetProperty("currentAmount").GetDecimal());
         Assert.Equal(1300m, json.GetProperty("nextBidAmount").GetDecimal());
         Assert.Equal(7, json.GetProperty("numberOfBids").GetInt32());
-        Assert.Equal(Users.Binh, json.GetProperty("highBidderUserId").GetString());
+        Assert.Equal(Users.Ben, json.GetProperty("highBidderUserId").GetString());
         Assert.Equal(1000m, json.GetProperty("myBidAmount").GetDecimal());
     }
 
@@ -170,18 +170,18 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
             })
             .Build();
         var an = Ws();
-        var binh = Ws();
+        var ben = Ws();
         _connections.Add(an);
-        _connections.Add(binh);
+        _connections.Add(ben);
         await an.StartAsync();
-        await binh.StartAsync();
-        var binhUpdate = NextUpdateItem(binh);
+        await ben.StartAsync();
+        var benUpdate = NextUpdateItem(ben);
 
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1300m, false, false);
 
-        var u = await binhUpdate.WaitAsync(Wait);
+        var u = await benUpdate.WaitAsync(Wait);
         Assert.Equal(1300m, u[1]);
-        Assert.Equal(Users.An, u[6]);
+        Assert.Equal(Users.Anna, u[6]);
     }
 
     [Fact]
@@ -197,11 +197,11 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
     public async Task Reset_RestoresSeed()
     {
         var an = await ConnectAsync("bidhub");
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1300m, false, false);
         await _factory.CreateClient().PostAsync("/api/reset", null);
         var anSuccess = Next(an, "addBidSuccess", a => a, SuccessTypes);
 
-        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+        await an.InvokeAsync("AddBid", ItemId, Users.Anna, 1300m, false, false);
 
         Assert.Equal(true, (await anSuccess.WaitAsync(Wait))[2]);
     }

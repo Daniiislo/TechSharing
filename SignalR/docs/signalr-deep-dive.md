@@ -514,13 +514,13 @@ sequenceDiagram
         participant LM2 as RedisHubLifetimeManager (server B)
     end
     box rgb(241,235,253) SignalR (browser)
-        participant HA as HubConnection An (bidder, server A)
-        participant HB as HubConnection Bình (item page, server B)
+        participant HA as HubConnection Anna (bidder, server A)
+        participant HB as HubConnection Ben (item page, server B)
         participant HE as HubConnection Chi (event page)
     end
     box rgb(232,244,248) Geronimo (browser)
-        participant UA as itemBid.js An
-        participant UB as itemBid.js Bình
+        participant UA as itemBid.js Anna
+        participant UB as itemBid.js Ben
         participant UE as eventBidUpdates.js Chi
     end
 
@@ -672,7 +672,7 @@ public async Task AddBid(int itemId, decimal bidAmount, bool isBuyNow, bool isMa
 
 **Hiện trạng**: `BroadcastBidUpdateAsync` phát `highestMaxBid?.Amount` làm tham số thứ 9 của `updateItem` cho **mọi** client (`BidHub.cs:278-283`; nhánh lỗi cũng gửi `context.HighMaxBid`, L355-356). Max bid là con số bí mật của người đặt: hệ thống chỉ trả thay họ khi bị trả giá cao hơn.
 
-**Hệ quả**: ai mở DevTools → Network → WS đều đọc được max bid của người đang dẫn, rồi đặt bid vừa đủ vượt qua. Demo BidLab cho thấy đúng frame này: `updateItem(…, "u-binh", true, 2000)`. Đây là suy ra từ code; chưa kiểm trên production.
+**Hệ quả**: ai mở DevTools → Network → WS đều đọc được max bid của người đang dẫn, rồi đặt bid vừa đủ vượt qua. Demo BidLab cho thấy đúng frame này: `updateItem(…, "u-ben", true, 2000)`. Đây là suy ra từ code; chưa kiểm trên production.
 
 **Cách sửa**: client chỉ dùng con số này để so với giá Buy Now và quyết định ẩn nút (`itemBid.js:171`). Server nên tự so sánh rồi gửi cờ `isBuyNowAvailable` (boolean) thay cho số tiền.
 

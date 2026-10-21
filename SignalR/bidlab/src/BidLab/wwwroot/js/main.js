@@ -6,14 +6,14 @@ import { createBidder } from "./bidder.js";
 import { drawStage, renderDiagram, renderDetail, renderSteps } from "./diagram.js";
 
 const $ = (id) => document.getElementById(id);
-const USERS = ["an", "binh"];
-const NAMES = { an: "An", binh: "Bình" };
+const USERS = ["anna", "ben"];
+const NAMES = { anna: "Anna", ben: "Ben" };
 const SCENARIOS = {
-  normal: { hint: "Bấm PLACE BID ở trình duyệt An (Exact $1,300)", setup: (b) => b.an.setBid(1300, true) },
-  "too-low": { hint: "Bấm PLACE BID ở trình duyệt An ($1,200, thấp hơn giá hiện tại)", setup: (b) => b.an.setBid(1200, true) },
+  normal: { hint: "Bấm PLACE BID ở trình duyệt Anna (Exact $1,300)", setup: (b) => b.anna.setBid(1300, true) },
+  "too-low": { hint: "Bấm PLACE BID ở trình duyệt Anna ($1,200, thấp hơn giá hiện tại)", setup: (b) => b.anna.setBid(1200, true) },
   "max-bid": {
-    hint: "① Bình đặt Maximum Bid $2,000 · ② An bid $1,300 và bị vượt ngay",
-    setup: (b) => { b.binh.setBid(2000, false); b.an.setBid(1300, true); },
+    hint: "① Ben đặt Maximum Bid $2,000 · ② Anna bid $1,300 và bị vượt ngay",
+    setup: (b) => { b.ben.setBid(2000, false); b.anna.setBid(1300, true); },
   },
 };
 
@@ -46,7 +46,7 @@ function render(view) {
   $("ctl-play").textContent = view.playing ? "⏸ Dừng" : "▶ Chạy";
   for (const win of document.querySelectorAll(".win")) win.classList.toggle("is-active", busy && win.dataset.user === view.user);
   for (const b of Object.values(bidders)) b.refreshButton();
-  if (!busy) $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của An hoặc Bình" : SCENARIOS[$("ctl-scenario").value].hint;
+  if (!busy) $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của Anna hoặc Ben" : SCENARIOS[$("ctl-scenario").value].hint;
   else $("sim-sub").textContent = `${NAMES[view.user]} · bước ${view.index + 1}/${view.steps.length}`;
 }
 

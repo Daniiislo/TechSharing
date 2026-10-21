@@ -2,17 +2,17 @@
 
 const NS = "http://www.w3.org/2000/svg";
 const WIRE_Y = 300;
-const COL = { an: 170, server: 450, binh: 730 };
+const COL = { anna: 170, server: 450, ben: 730 };
 const NODE = {
-  "app-an": { x: COL.an, y: 83, w: 180, h: 70, kind: "app", title: "itemBid.js", sub: "code trang Item" },
-  "sr-an": { x: COL.an, y: 196, w: 180, h: 68, kind: "sr", title: "HubConnection", sub: "SignalR client" },
+  "app-anna": { x: COL.anna, y: 83, w: 180, h: 70, kind: "app", title: "itemBid.js", sub: "code trang Item" },
+  "sr-anna": { x: COL.anna, y: 196, w: 180, h: 68, kind: "sr", title: "HubConnection", sub: "SignalR client" },
   "app-server": { x: COL.server, y: 83, w: 210, h: 70, kind: "app", title: "BidHub", sub: "AddBid · 6 bước" },
   "sr-server": { x: COL.server, y: 196, w: 240, h: 68, kind: "sr", title: "Hub runtime", sub: "dispatch · HubLifetimeManager" },
-  "app-binh": { x: COL.binh, y: 83, w: 180, h: 70, kind: "app", title: "itemBid.js", sub: "code trang Item" },
-  "sr-binh": { x: COL.binh, y: 196, w: 180, h: 68, kind: "sr", title: "HubConnection", sub: "SignalR client" },
+  "app-ben": { x: COL.ben, y: 83, w: 180, h: 70, kind: "app", title: "itemBid.js", sub: "code trang Item" },
+  "sr-ben": { x: COL.ben, y: 196, w: 180, h: 68, kind: "sr", title: "HubConnection", sub: "SignalR client" },
   redis: { x: COL.server, y: 366, w: 180, h: 48, kind: "sr", title: "Redis backplane", sub: "production: nhiều server" },
 };
-const WHO = { an: "An", binh: "Bình" };
+const WHO = { anna: "Anna", ben: "Ben" };
 const OWNER_LABEL = { geronimo: "Geronimo viết", signalr: "SignalR tự làm" };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -33,9 +33,9 @@ export function drawStage(svg) {
       <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B21B6"/></marker>
       <marker id="ah-app" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#007595"/></marker>
     </defs>
-    <text x="${COL.an}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Trình duyệt An</text>
+    <text x="${COL.anna}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Trình duyệt Anna</text>
     <text x="${COL.server}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Server (ASP.NET Core)</text>
-    <text x="${COL.binh}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Trình duyệt Bình</text>
+    <text x="${COL.ben}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Trình duyệt Ben</text>
     <text x="10" y="83" font-size="12" fill="#45556C" transform="rotate(-90 10 83)" text-anchor="middle">Code Geronimo</text>
     <text x="10" y="196" font-size="12" fill="#5B21B6" font-weight="700" transform="rotate(-90 10 196)" text-anchor="middle">SignalR</text>
     <text x="10" y="300" font-size="12" fill="#45556C" transform="rotate(-90 10 300)" text-anchor="middle">Mạng</text>
@@ -47,7 +47,7 @@ export function drawStage(svg) {
     <g id="packets"></g>`;
 }
 
-const columnOf = (id) => (id.endsWith("-an") ? "an" : id.endsWith("-binh") ? "binh" : "server");
+const columnOf = (id) => (id.endsWith("-anna") ? "anna" : id.endsWith("-ben") ? "ben" : "server");
 
 // Chuyển path của bước thành các đoạn đường: cùng cột thì đi thẳng, khác cột thì xuống "Mạng" rồi đi ngang.
 function routesFor(path) {
@@ -164,7 +164,7 @@ function traceLines(view) {
 export function renderDetail(el, view) {
   const step = view.step;
   if (!step) {
-    el.innerHTML = `<p>Bấm <b>PLACE BID</b> ở trình duyệt An (hoặc <b>Kết nối</b> ở giai đoạn ①). Mỗi bước sẽ chỉ rõ phần nào Geronimo viết, phần nào SignalR làm.</p>`;
+    el.innerHTML = `<p>Bấm <b>PLACE BID</b> ở trình duyệt Anna (hoặc <b>Kết nối</b> ở giai đoạn ①). Mỗi bước sẽ chỉ rõ phần nào Geronimo viết, phần nào SignalR làm.</p>`;
     return;
   }
   const parts = [`<span class="owner ${step.owner}">${OWNER_LABEL[step.owner]}</span>`, `<h3>${esc(step.fn)}</h3>`, `<p>${esc(step.explain)}</p>`];

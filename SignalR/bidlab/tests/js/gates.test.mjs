@@ -28,7 +28,7 @@ test("classifyFrame splits several records in one text frame", () => {
   assert.deepEqual(frames.map((f) => f.type), [1, 3]);
 });
 
-const frame = (text, user = "an", dir = "in") => ({ user, dir, kind: "frame", text });
+const frame = (text, user = "anna", dir = "in") => ({ user, dir, kind: "frame", text });
 
 test("GateQueue releases held items in FIFO order", async () => {
   const gate = new GateQueue();
@@ -63,12 +63,12 @@ test("GateQueue passes everything through when not holding", async () => {
 
 test("GateQueue releaseAll with predicate only releases matching items", async () => {
   const gate = new GateQueue();
-  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "an"));
-  gate.hold(frame(`{"type":1,"target":"y"}${RS}`, "binh"));
-  const released = gate.releaseAll((i) => i.user === "binh");
+  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "anna"));
+  gate.hold(frame(`{"type":1,"target":"y"}${RS}`, "ben"));
+  const released = gate.releaseAll((i) => i.user === "ben");
   assert.equal(released.length, 1);
   assert.equal(gate.pending.length, 1);
-  assert.equal(gate.pending[0].user, "an");
+  assert.equal(gate.pending[0].user, "anna");
 });
 
 test("GateQueue dropAll rejects waiting holders with the reason", async () => {
@@ -83,24 +83,24 @@ test("GateQueue notifies listener when an item is held", () => {
   const gate = new GateQueue();
   const seen = [];
   gate.onHold = (item) => seen.push(item.user);
-  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "binh"));
-  assert.deepEqual(seen, ["binh"]);
+  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "ben"));
+  assert.deepEqual(seen, ["ben"]);
 });
 
 test("GateQueue dropAll with predicate keeps other users' items", async () => {
   const gate = new GateQueue();
-  const an = gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "an"));
-  gate.hold(frame(`{"type":1,"target":"y"}${RS}`, "binh"));
-  gate.dropAll("closed", (i) => i.user === "an");
+  const an = gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "anna"));
+  gate.hold(frame(`{"type":1,"target":"y"}${RS}`, "ben"));
+  gate.dropAll("closed", (i) => i.user === "anna");
   await assert.rejects(an, /closed/);
-  assert.deepEqual(gate.pending.map((i) => i.user), ["binh"]);
+  assert.deepEqual(gate.pending.map((i) => i.user), ["ben"]);
 });
 
 test("GateQueue keeps per-stream order: a ping behind a held frame waits, then follows it", async () => {
   const gate = new GateQueue();
   const order = [];
-  gate.hold(frame(`{}${RS}`, "an", "in")).then(() => order.push("handshake"));
-  gate.hold(frame(`{"type":6}${RS}`, "an", "in")).then(() => order.push("ping"));
+  gate.hold(frame(`{}${RS}`, "anna", "in")).then(() => order.push("handshake"));
+  gate.hold(frame(`{"type":6}${RS}`, "anna", "in")).then(() => order.push("ping"));
   await Promise.resolve();
   assert.deepEqual(order, []);
 
@@ -113,8 +113,8 @@ test("GateQueue keeps per-stream order: a ping behind a held frame waits, then f
 
 test("GateQueue lets a ping through when its own stream has nothing held", async () => {
   const gate = new GateQueue();
-  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "an", "out"));
+  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "anna", "out"));
   let passed = false;
-  await gate.hold(frame(`{"type":6}${RS}`, "an", "in")).then(() => (passed = true));
+  await gate.hold(frame(`{"type":6}${RS}`, "anna", "in")).then(() => (passed = true));
   assert.equal(passed, true);
 });

@@ -4,7 +4,7 @@
 
 const ITEM_ID = 1042;
 const STEP = 50;
-const USER_IDS = { an: "u-an", binh: "u-binh" };
+const USER_IDS = { anna: "u-anna", ben: "u-ben" };
 const money = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(n);
 const parseMoney = (text) => Number(String(text).replace(/[^0-9.]/g, "")) || 0;
 

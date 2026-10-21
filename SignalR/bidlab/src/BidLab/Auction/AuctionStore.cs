@@ -22,8 +22,8 @@ public class AuctionStore
             _bids.Clear();
             _maxBids.Clear();
             _nextId = 0;
-            var seed = new[] { (Users.An, 500m), (Users.Binh, 600m), (Users.An, 750m), (Users.Binh, 900m),
-                (Users.An, 1000m), (Users.Binh, 1150m), (Users.Binh, 1250m) };
+            var seed = new[] { (Users.Anna, 500m), (Users.Ben, 600m), (Users.Anna, 750m), (Users.Ben, 900m),
+                (Users.Anna, 1000m), (Users.Ben, 1150m), (Users.Ben, 1250m) };
             foreach (var (user, amount) in seed) Add(user, amount);
         }
     }

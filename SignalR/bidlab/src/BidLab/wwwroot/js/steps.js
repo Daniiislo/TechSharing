@@ -4,7 +4,7 @@
 // gate: bước này nhả các frame/HTTP đang bị giữ. Frame chiều vào được nhả ở bước code app dùng nó.
 // trace: tên trace server (TraceBus) mà bước này hiển thị.
 
-export const NODES = ["app-an", "sr-an", "wire", "sr-server", "app-server", "redis", "sr-binh", "app-binh", "app-x", "sr-x", "app-y", "sr-y"];
+export const NODES = ["app-anna", "sr-anna", "wire", "sr-server", "app-server", "redis", "sr-ben", "app-ben", "app-x", "sr-x", "app-y", "sr-y"];
 
 export const PHASE1 = [
   {
