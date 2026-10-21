@@ -27,6 +27,7 @@ export function classifyFrame(text) {
 
 const isPingOnly = (item) =>
   item.kind === "frame" && classifyFrame(item.text).every((f) => f.isPing);
+const sameStream = (a, b) => a.user === b.user && a.dir === b.dir;
 
 export class GateQueue {
   holding = true;
@@ -34,24 +35,37 @@ export class GateQueue {
   #entries = [];
 
   hold(item) {
-    // Ping luôn đi thẳng: giữ ping lâu sẽ làm server/client tưởng mất kết nối.
-    if (!this.holding || isPingOnly(item)) return Promise.resolve();
+    if (!this.holding) return Promise.resolve();
+    const ping = isPingOnly(item);
+    // Ping đi thẳng (giữ lâu thì hai bên tưởng mất kết nối), trừ khi phía trước trong cùng luồng
+    // còn frame bị giữ: vượt lên sẽ sai thứ tự, ví dụ ping tới trước handshake response.
+    if (ping && !this.#entries.some((e) => sameStream(e.item, item))) return Promise.resolve();
     return new Promise((resolve, reject) => {
-      this.#entries.push({ item, resolve, reject });
-      this.onHold?.(item);
+      this.#entries.push({ item, resolve, reject, ping });
+      if (!ping) this.onHold?.(item);
     });
   }
 
   get pending() {
-    return this.#entries.map((e) => e.item);
+    return this.#entries.filter((e) => !e.ping).map((e) => e.item);
   }
 
   releaseNext(predicate = () => true) {
-    const index = this.#entries.findIndex((e) => predicate(e.item));
+    const index = this.#entries.findIndex((e) => !e.ping && predicate(e.item));
     if (index < 0) return null;
     const [entry] = this.#entries.splice(index, 1);
     entry.resolve();
+    this.#drainPings();
     return entry.item;
+  }
+
+  // Nhả các ping không còn frame nào bị giữ đứng trước trong cùng luồng.
+  #drainPings() {
+    this.#entries = this.#entries.filter((entry, i) => {
+      if (!entry.ping || this.#entries.slice(0, i).some((e) => !e.ping && sameStream(e.item, entry.item))) return true;
+      entry.resolve();
+      return false;
+    });
   }
 
   releaseAll(predicate = () => true) {
@@ -64,5 +78,6 @@ export class GateQueue {
     const dropped = this.#entries.filter((e) => predicate(e.item));
     this.#entries = this.#entries.filter((e) => !predicate(e.item));
     for (const e of dropped) e.reject(new Error(reason));
+    this.#drainPings();
   }
 }

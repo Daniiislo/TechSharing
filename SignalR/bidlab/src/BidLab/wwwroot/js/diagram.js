@@ -60,20 +60,25 @@ function routesFor(path) {
   });
   const targets = wireAt < 0 ? [] : path.slice(wireAt + 1).filter((id) => NODE[id]);
 
+  const top = (n) => n.y - n.h / 2;
+  const bottom = (n) => n.y + n.h / 2;
+  // Đoạn thẳng đứng giữa hai node cùng cột, từ mép node này tới mép node kia.
+  const vertical = (a, b) => (b.y > a.y ? `M${a.x} ${bottom(a)} V${top(b) - 2}` : `M${a.x} ${top(a)} V${bottom(b) + 2}`);
+
   if (wireAt < 0) {
-    // Không qua mạng: nối các node liên tiếp cùng cột.
     for (let i = 0; i + 1 < chain.length; i++) {
-      const a = NODE[chain[i]], b = NODE[chain[i + 1]];
-      if (columnOf(chain[i]) === columnOf(chain[i + 1])) routes.push(`M${a.x} ${a.y} V${b.y}`);
+      if (columnOf(chain[i]) === columnOf(chain[i + 1])) routes.push(vertical(NODE[chain[i]], NODE[chain[i + 1]]));
     }
   } else {
-    for (let i = 0; i + 1 < chain.length; i++) routes.push(`M${NODE[chain[i]].x} ${NODE[chain[i]].y} V${NODE[chain[i + 1]].y}`);
-    const from = NODE[chain.at(-1)] ?? { x: COL[columnOf(targets[0] ?? "x")], y: WIRE_Y };
-    for (const t of targets) {
+    for (let i = 0; i + 1 < chain.length; i++) routes.push(vertical(NODE[chain[i]], NODE[chain[i + 1]]));
+    const from = NODE[chain.at(-1)];
+    targets.forEach((t, i) => {
       const to = NODE[t];
-      const offset = to.x === from.x ? 0 : to.x > from.x ? 20 : -20;
-      routes.push(`M${from.x + offset} ${from.y} V${WIRE_Y} H${to.x} V${to.y}`);
-    }
+      // Path bắt đầu từ "Mạng" (frame đang tới): chỉ vẽ đoạn từ đường truyền lên node.
+      if (!from) return routes.push(`M${to.x} ${WIRE_Y} V${bottom(to) + 2}`);
+      const offset = targets.length > 1 ? (to.x > from.x ? 24 : -24) : 0;
+      routes.push(`M${from.x + offset} ${bottom(from)} V${WIRE_Y + (i ? 8 : 0)} H${to.x} V${bottom(to) + 2}`);
+    });
   }
   return { routes, side };
 }

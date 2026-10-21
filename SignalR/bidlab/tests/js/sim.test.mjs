@@ -57,7 +57,7 @@ test("prev_thenNext_doesNotReleaseTwice", async () => {
 
 test("gate user x means the user of the run", async () => {
   const { gate, sim } = setup();
-  sim.start("t", [TEMPLATE[0], { ...TEMPLATE[1], path: ["sr-server"], gate: { dir: "out", kind: "frame", user: "x" } }], "binh");
+  sim.start("t", [TEMPLATE[0], { ...TEMPLATE[1], path: ["sr-server"], gate: { dir: "out", kind: "frame", user: "x" } }, TEMPLATE[2]], "binh");
   let an = false, binh = false;
   gate.hold(frame("out", "A", "an")).then(() => (an = true));
   gate.hold(frame("out", "B", "binh")).then(() => (binh = true));
@@ -123,11 +123,20 @@ test("view resolves the x placeholder, collects captures and traces for the step
 
 test("a gate on a step that touches both users releases both users' frames", async () => {
   const { gate, sim } = setup();
-  sim.start("t", [TEMPLATE[0], { ...TEMPLATE[3], path: ["sr-x", "app-x", "sr-y", "app-y"] }], "an");
+  sim.start("t", [TEMPLATE[0], { ...TEMPLATE[3], path: ["sr-x", "app-x", "sr-y", "app-y"] }, TEMPLATE[2]], "an");
   let an = false, binh = false;
   gate.hold(frame("in", "updateItem", "an")).then(() => (an = true));
   gate.hold(frame("in", "updateItem", "binh")).then(() => (binh = true));
   sim.next();
   await Promise.resolve();
   assert.deepEqual([an, binh], [true, true]);
+});
+
+test("reaching the last step finishes the run so the bid buttons unlock", () => {
+  const { sim } = setup();
+  sim.start("t", TEMPLATE, "an");
+  for (let i = 1; i < TEMPLATE.length; i++) sim.next();
+  assert.equal(sim.view().step.id, "in");
+  assert.equal(sim.isBusy, false);
+  assert.equal(sim.view().state, "done");
 });

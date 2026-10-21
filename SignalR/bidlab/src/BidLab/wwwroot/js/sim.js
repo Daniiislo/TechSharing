@@ -62,7 +62,6 @@ export class Simulator {
 
   next() {
     if (!this.isBusy) return;
-    if (this.#index >= this.#template.length - 1) return this.finish();
     this.#goTo(this.#index + 1);
   }
 
@@ -138,6 +137,8 @@ export class Simulator {
       this.#armed.push(match);
       this.#gate.releaseAll(match);
     }
+    // Bước cuối: kết thúc lượt luôn để nút bid mở lại, không cần bấm thêm.
+    if (index === this.#template.length - 1) return this.finish();
     this.#emit();
   }
 

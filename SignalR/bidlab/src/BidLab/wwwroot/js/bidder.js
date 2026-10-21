@@ -122,6 +122,7 @@ export function createBidder(user, root, tap, hooks) {
   async function loadState() {
     const item = await (await fetch(`/api/item?user=${USER_IDS[user]}`)).json();
     state.myBidAmount = item.myBidAmount;
+    $("toast-host").replaceChildren();
     state.currentAmount = 0;
     updateItem(item.itemId, item.currentAmount, item.nextBidAmount, item.numberOfBids, "", 0, item.highBidderUserId);
   }

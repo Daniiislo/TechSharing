@@ -95,3 +95,26 @@ test("GateQueue dropAll with predicate keeps other users' items", async () => {
   await assert.rejects(an, /closed/);
   assert.deepEqual(gate.pending.map((i) => i.user), ["binh"]);
 });
+
+test("GateQueue keeps per-stream order: a ping behind a held frame waits, then follows it", async () => {
+  const gate = new GateQueue();
+  const order = [];
+  gate.hold(frame(`{}${RS}`, "an", "in")).then(() => order.push("handshake"));
+  gate.hold(frame(`{"type":6}${RS}`, "an", "in")).then(() => order.push("ping"));
+  await Promise.resolve();
+  assert.deepEqual(order, []);
+
+  gate.releaseNext((i) => !classifyFrame(i.text)[0].isPing);
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.deepEqual(order, ["handshake", "ping"]);
+  assert.equal(gate.pending.length, 0);
+});
+
+test("GateQueue lets a ping through when its own stream has nothing held", async () => {
+  const gate = new GateQueue();
+  gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "an", "out"));
+  let passed = false;
+  await gate.hold(frame(`{"type":6}${RS}`, "an", "in")).then(() => (passed = true));
+  assert.equal(passed, true);
+});
