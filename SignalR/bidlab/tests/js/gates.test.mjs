@@ -86,3 +86,12 @@ test("GateQueue notifies listener when an item is held", () => {
   gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "binh"));
   assert.deepEqual(seen, ["binh"]);
 });
+
+test("GateQueue dropAll with predicate keeps other users' items", async () => {
+  const gate = new GateQueue();
+  const an = gate.hold(frame(`{"type":1,"target":"x"}${RS}`, "an"));
+  gate.hold(frame(`{"type":1,"target":"y"}${RS}`, "binh"));
+  gate.dropAll("closed", (i) => i.user === "an");
+  await assert.rejects(an, /closed/);
+  assert.deepEqual(gate.pending.map((i) => i.user), ["binh"]);
+});

@@ -60,8 +60,9 @@ export class GateQueue {
     return released;
   }
 
-  dropAll(reason) {
-    const entries = this.#entries.splice(0);
-    for (const e of entries) e.reject(new Error(reason));
+  dropAll(reason, predicate = () => true) {
+    const dropped = this.#entries.filter((e) => predicate(e.item));
+    this.#entries = this.#entries.filter((e) => !predicate(e.item));
+    for (const e of dropped) e.reject(new Error(reason));
   }
 }

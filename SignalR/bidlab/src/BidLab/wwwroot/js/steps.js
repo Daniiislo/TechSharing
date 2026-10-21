@@ -43,7 +43,7 @@ export const PHASE1 = [
     without: "tự giữ danh sách socket đang mở và dọn socket đã chết.",
   },
   {
-    id: "handshake-res", owner: "signalr", path: ["sr-server", "wire", "sr-x"],
+    id: "handshake-res", owner: "signalr", path: ["sr-server", "wire", "sr-x"], capture: { dir: "in", kind: "frame" },
     title: "Server xác nhận handshake", fn: "{}␞",
     explain: "Message rỗng nghĩa là handshake thành công. Từ đây hai bên gửi ping (type 6) mỗi 15 giây để giữ kết nối.",
     without: "tự viết heartbeat và timeout để phát hiện kết nối chết.",
@@ -97,7 +97,7 @@ export const PHASE2 = [
     without: "tự nhớ socket nào gửi request để trả lời đúng người.",
   },
   {
-    id: "receive", owner: "signalr", path: ["wire", "sr-an", "sr-binh"],
+    id: "receive", owner: "signalr", path: ["wire", "sr-an", "sr-binh"], capture: { dir: "in", kind: "frame" },
     title: "Trình duyệt nhận frame", fn: 'connection.on("updateItem", handler)',
     explain: 'SignalR client đọc target của từng message và gọi handler đã đăng ký. Trang Item không đăng ký "updateEvent" (chỉ trang Event có), nên SignalR bỏ qua message đó và ghi warning.',
     without: "tự parse message, tự viết bảng tra tên sự kiện → hàm xử lý.",
