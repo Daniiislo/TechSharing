@@ -1,0 +1,177 @@
+// Vẽ sơ đồ 3 lớp × 3 cột (bố cục đã duyệt ở mockup v4), danh sách bước và ô chi tiết.
+
+const NS = "http://www.w3.org/2000/svg";
+const WIRE_Y = 300;
+const COL = { an: 170, server: 450, binh: 730 };
+const NODE = {
+  "app-an": { x: COL.an, y: 83, w: 180, h: 70, kind: "app", title: "itemBid.js", sub: "code trang Item" },
+  "sr-an": { x: COL.an, y: 196, w: 180, h: 68, kind: "sr", title: "HubConnection", sub: "SignalR client" },
+  "app-server": { x: COL.server, y: 83, w: 210, h: 70, kind: "app", title: "BidHub", sub: "AddBid · 6 bước" },
+  "sr-server": { x: COL.server, y: 196, w: 240, h: 68, kind: "sr", title: "Hub runtime", sub: "dispatch · HubLifetimeManager" },
+  "app-binh": { x: COL.binh, y: 83, w: 180, h: 70, kind: "app", title: "itemBid.js", sub: "code trang Item" },
+  "sr-binh": { x: COL.binh, y: 196, w: 180, h: 68, kind: "sr", title: "HubConnection", sub: "SignalR client" },
+  redis: { x: COL.server, y: 366, w: 180, h: 48, kind: "sr", title: "Redis backplane", sub: "production: nhiều server" },
+};
+const WHO = { an: "An", binh: "Bình" };
+const OWNER_LABEL = { geronimo: "Geronimo viết", signalr: "SignalR tự làm" };
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+function nodeSvg(id, n) {
+  const app = n.kind === "app";
+  return `<g class="node" data-node="${id}">
+    <rect x="${n.x - n.w / 2}" y="${n.y - n.h / 2}" width="${n.w}" height="${n.h}" rx="10"
+      fill="${app ? "#E6F6FA" : "#fff"}" stroke="${app ? "#007595" : "#5B21B6"}" stroke-width="1.5" ${app ? "" : 'stroke-dasharray="6 4"'}/>
+    <text x="${n.x}" y="${n.y - 2}" text-anchor="middle" font-size="15" font-weight="700" fill="${app ? "#007595" : "#5B21B6"}" class="${app ? "mono" : ""}">${n.title}</text>
+    <text x="${n.x}" y="${n.y + 19}" text-anchor="middle" font-size="12" fill="#45556C">${n.sub}</text>
+  </g>`;
+}
+
+export function drawStage(svg) {
+  svg.innerHTML = `
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5B21B6"/></marker>
+      <marker id="ah-app" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#007595"/></marker>
+    </defs>
+    <text x="${COL.an}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Trình duyệt An</text>
+    <text x="${COL.server}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Server (ASP.NET Core)</text>
+    <text x="${COL.binh}" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#0F172B">Trình duyệt Bình</text>
+    <text x="10" y="83" font-size="12" fill="#45556C" transform="rotate(-90 10 83)" text-anchor="middle">Code Geronimo</text>
+    <text x="10" y="196" font-size="12" fill="#5B21B6" font-weight="700" transform="rotate(-90 10 196)" text-anchor="middle">SignalR</text>
+    <text x="10" y="300" font-size="12" fill="#45556C" transform="rotate(-90 10 300)" text-anchor="middle">Mạng</text>
+    <rect x="24" y="140" width="868" height="112" rx="14" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <rect x="24" y="282" width="868" height="36" rx="18" fill="#F1F5F9" stroke="#CAD5E2"/>
+    <text x="36" y="338" font-size="12" fill="#45556C" class="mono">WebSocket · fallback SSE → Long polling</text>
+    <g id="routes"></g>
+    <g id="nodes">${Object.entries(NODE).map(([id, n]) => nodeSvg(id, n)).join("")}</g>
+    <g id="packets"></g>`;
+}
+
+const columnOf = (id) => (id.endsWith("-an") ? "an" : id.endsWith("-binh") ? "binh" : "server");
+
+// Chuyển path của bước thành các đoạn đường: cùng cột thì đi thẳng, khác cột thì xuống "Mạng" rồi đi ngang.
+function routesFor(path) {
+  const routes = [];
+  const side = [];
+  const wireAt = path.indexOf("wire");
+  const chain = (wireAt < 0 ? path : path.slice(0, wireAt)).filter((id) => {
+    if (id === "redis") side.push(id);
+    return NODE[id] && id !== "redis";
+  });
+  const targets = wireAt < 0 ? [] : path.slice(wireAt + 1).filter((id) => NODE[id]);
+
+  if (wireAt < 0) {
+    // Không qua mạng: nối các node liên tiếp cùng cột.
+    for (let i = 0; i + 1 < chain.length; i++) {
+      const a = NODE[chain[i]], b = NODE[chain[i + 1]];
+      if (columnOf(chain[i]) === columnOf(chain[i + 1])) routes.push(`M${a.x} ${a.y} V${b.y}`);
+    }
+  } else {
+    for (let i = 0; i + 1 < chain.length; i++) routes.push(`M${NODE[chain[i]].x} ${NODE[chain[i]].y} V${NODE[chain[i + 1]].y}`);
+    const from = NODE[chain.at(-1)] ?? { x: COL[columnOf(targets[0] ?? "x")], y: WIRE_Y };
+    for (const t of targets) {
+      const to = NODE[t];
+      const offset = to.x === from.x ? 0 : to.x > from.x ? 20 : -20;
+      routes.push(`M${from.x + offset} ${from.y} V${WIRE_Y} H${to.x} V${to.y}`);
+    }
+  }
+  return { routes, side };
+}
+
+export function renderDiagram(svg, view) {
+  const step = view.step;
+  const active = new Set(step?.path ?? []);
+  for (const g of svg.querySelectorAll(".node")) {
+    const on = active.has(g.dataset.node);
+    const rect = g.querySelector("rect");
+    rect.setAttribute("stroke-width", on ? "3.5" : "1.5");
+    g.style.opacity = step && !on ? ".55" : "1";
+  }
+  const routesEl = svg.querySelector("#routes");
+  const packetsEl = svg.querySelector("#packets");
+  routesEl.innerHTML = "";
+  packetsEl.innerHTML = "";
+  if (!step || view.state === "idle") return;
+
+  const color = step.owner === "signalr" ? "#5B21B6" : "#007595";
+  const { routes, side } = routesFor(step.path);
+  const dur = Math.max(0.6, (view.stepMs * 0.6) / 1000);
+  routes.forEach((d, i) => {
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("id", `route-${i}`);
+    path.setAttribute("d", d);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", color);
+    path.setAttribute("stroke-width", "3");
+    path.setAttribute("marker-end", step.owner === "signalr" ? "url(#ah)" : "url(#ah-app)");
+    routesEl.append(path);
+    const dot = document.createElementNS(NS, "circle");
+    dot.setAttribute("r", "7");
+    dot.setAttribute("fill", color);
+    dot.setAttribute("class", "packet");
+    dot.innerHTML = `<animateMotion dur="${dur}s" repeatCount="indefinite"><mpath href="#route-${i}"/></animateMotion>`;
+    packetsEl.append(dot);
+  });
+  if (side.includes("redis")) {
+    const path = document.createElementNS(NS, "path");
+    path.setAttribute("d", `M${COL.server + 60} ${NODE["sr-server"].y + 34} V${NODE.redis.y - 24}`);
+    path.setAttribute("stroke", "#5B21B6");
+    path.setAttribute("stroke-width", "2.5");
+    path.setAttribute("stroke-dasharray", "4 4");
+    path.setAttribute("fill", "none");
+    routesEl.append(path);
+  }
+}
+
+export function renderSteps(list, view) {
+  if (!view.steps.length) {
+    list.innerHTML = '<li class="empty">Chưa có lượt nào.</li>';
+    return;
+  }
+  list.innerHTML = view.steps
+    .map((s, i) => {
+      const current = i === view.index ? ' aria-current="step"' : "";
+      const done = i < view.index || view.state === "done" ? " done" : "";
+      return `<li class="${s.owner}${done}"${current}><span class="n">${i + 1}</span>${esc(s.title)}<span class="tag">${s.owner === "signalr" ? "SignalR" : "Geronimo"}</span></li>`;
+    })
+    .join("");
+  list.querySelector('[aria-current="step"]')?.scrollIntoView({ block: "nearest" });
+}
+
+const frameLine = (f) => {
+  const arrow = f.dir === "out" ? `${WHO[f.user]} → server` : `server → ${WHO[f.user]}`;
+  return `<span class="dir">${arrow}</span>  ${esc(String(f.text).replaceAll("\x1e", "␞"))}`;
+};
+
+const short = (v) => esc(JSON.stringify(v));
+
+function traceLines(view) {
+  return view.traces.map((t) => {
+    if (t.step === "server.sendAll") return `<span class="dir">Clients.All → ${t.data.recipients} connection</span>  ${esc(t.data.method)}(${short(t.data.args).slice(1, -1)})`;
+    if (t.step === "server.sendCaller") return `<span class="dir">Clients.Caller</span>  ${esc(t.data.method)}(${short(t.data.args).slice(1, -1)})`;
+    if (t.step === "server.dispatch") return `<span class="dir">gọi</span>  ${esc(t.fn)}(${short(t.data).slice(1, -1)})`;
+    if (t.step === "server.connected") return `<span class="dir">connectionId</span>  ${esc(t.connectionId)} · tổng ${t.data.total} connection`;
+    return `<span class="dir">${esc(t.fn)}</span>  ${t.data ? short(t.data) : ""}`;
+  });
+}
+
+export function renderDetail(el, view) {
+  const step = view.step;
+  if (!step) {
+    el.innerHTML = `<p>Bấm <b>PLACE BID</b> ở trình duyệt An (hoặc <b>Kết nối</b> ở giai đoạn ①). Mỗi bước sẽ chỉ rõ phần nào Geronimo viết, phần nào SignalR làm.</p>`;
+    return;
+  }
+  const parts = [`<span class="owner ${step.owner}">${OWNER_LABEL[step.owner]}</span>`, `<h3>${esc(step.fn)}</h3>`, `<p>${esc(step.explain)}</p>`];
+  if (step.trace?.length > 1) {
+    const seen = new Set(view.traces.map((t) => t.step));
+    parts.push(`<ol class="substeps">${step.trace.map((name) => `<li class="${seen.has(name) ? "on" : ""}">${esc(name.replace("hub.", ""))}</li>`).join("")}</ol>`);
+  }
+  const lines = [...view.frames.map(frameLine), ...(step.trace?.length > 1 ? [] : traceLines(view))];
+  if (lines.length) parts.push(`<pre class="wire">${lines.join("\n")}</pre>`);
+  else if (view.waiting) parts.push(`<pre class="wire">Đang chờ dữ liệu thật…</pre>`);
+  if (step.warn) parts.push(`<div class="warn-note"><b>Lỗ hổng:</b> ${esc(step.warn)}</div>`);
+  if (step.without) parts.push(`<div class="without"><b>Không có SignalR:</b> ${esc(step.without)}</div>`);
+  if (view.state === "done") parts.push(`<p><b>Xong lượt.</b> Chọn kịch bản khác hoặc bid tiếp.</p>`);
+  if (view.state === "disconnected") parts.push(`<p><b>Lượt dừng vì mất kết nối.</b></p>`);
+  el.innerHTML = parts.join("");
+}

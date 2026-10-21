@@ -34,6 +34,10 @@ for (const [name, steps] of Object.entries(all)) {
   });
 }
 
+test("PHASE2 is written for any bidder: no hard-coded an/binh nodes", () => {
+  for (const s of [...PHASE2, ...PHASE2_FAIL]) assert.ok(!s.path.some((n) => /-(an|binh)$/.test(n)), s.id);
+});
+
 test("invoke-frame warns about the client-supplied bidderId", () => {
   assert.match(PHASE2.find((s) => s.id === "invoke-frame").warn, /bidderId/);
 });

@@ -3,7 +3,10 @@
 
 const BASE_STEP_MS = 2000;
 
-const resolvePath = (path, user) => path.map((n) => (n.endsWith("-x") ? n.replace("-x", `-${user}`) : n));
+const other = (user) => (user === "an" ? "binh" : "an");
+const resolveNode = (node, user) =>
+  node.endsWith("-x") ? node.replace(/-x$/, `-${user}`) : node.endsWith("-y") ? node.replace(/-y$/, `-${other(user)}`) : node;
+const resolvePath = (path, user) => path.map((n) => resolveNode(n, user));
 
 export class Simulator {
   speed = 0.5;
@@ -120,8 +123,9 @@ export class Simulator {
   }
 
   #filterFor(step, spec) {
-    const usesX = step.path.some((n) => n.endsWith("-x"));
-    const user = spec.user ?? (usesX ? this.#user : null);
+    // Bước chỉ chạm người dùng của lượt (x, không có y) thì mặc định lọc theo người đó.
+    const onlyX = step.path.some((n) => n.endsWith("-x")) && !step.path.some((n) => n.endsWith("-y"));
+    const user = spec.user === "x" ? this.#user : spec.user ?? (onlyX ? this.#user : null);
     return (item) =>
       item.dir === spec.dir && (!spec.kind || item.kind === spec.kind) && (!user || item.user === user);
   }

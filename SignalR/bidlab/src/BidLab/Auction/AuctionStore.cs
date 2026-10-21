@@ -45,6 +45,12 @@ public class AuctionStore
         lock (_lock) return Stats();
     }
 
+    // Geronimo render MyBidAmount phía server vào hidden field #my-bid-amount.
+    public decimal GetMyBidAmount(int itemId, string userId)
+    {
+        lock (_lock) return _bids.Where(b => b.UserId == userId).Select(b => b.Amount).DefaultIfEmpty(0).Max();
+    }
+
     public ItemBidStats CreateBid(BidCreationRequest r)
     {
         lock (_lock)

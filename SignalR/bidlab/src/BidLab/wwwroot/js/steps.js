@@ -1,10 +1,10 @@
 // Template các bước mô phỏng. Dữ liệu thật (frame, trace) được gắn vào lúc chạy.
 // owner: "geronimo" = code TravelPledgeAuctions tự viết; "signalr" = framework làm thay.
-// path: các node trên sơ đồ mà gói tin đi qua; "x" là người dùng của lượt chạy (an hoặc binh).
+// path: các node trên sơ đồ mà gói tin đi qua; "x" là người dùng của lượt chạy, "y" là người còn lại.
 // gate: bước này nhả các frame/HTTP đang bị giữ. Frame chiều vào được nhả ở bước code app dùng nó.
 // trace: tên trace server (TraceBus) mà bước này hiển thị.
 
-export const NODES = ["app-an", "sr-an", "wire", "sr-server", "app-server", "redis", "sr-binh", "app-binh", "app-x", "sr-x"];
+export const NODES = ["app-an", "sr-an", "wire", "sr-server", "app-server", "redis", "sr-binh", "app-binh", "app-x", "sr-x", "app-y", "sr-y"];
 
 export const PHASE1 = [
   {
@@ -60,12 +60,12 @@ const WARN_BIDDER_ID =
 
 export const PHASE2 = [
   {
-    id: "click", owner: "geronimo", path: ["app-an"], title: "Click PLACE BID → CONFIRM",
+    id: "click", owner: "geronimo", path: ["app-x"], title: "Click PLACE BID → CONFIRM",
     fn: "itemBid.js: #bid-button → .bid-panel-confirm → #confirm-bid-button",
     explain: "Bước xác nhận chạy hoàn toàn trên trình duyệt, chưa có gì đi qua mạng.",
   },
   {
-    id: "invoke-frame", owner: "signalr", path: ["app-an", "sr-an", "wire", "sr-server"], gate: { dir: "out", kind: "frame", user: "an" },
+    id: "invoke-frame", owner: "signalr", path: ["app-x", "sr-x", "wire", "sr-server"], gate: { dir: "out", kind: "frame", user: "x" },
     title: "Đóng gói lời gọi", fn: 'connection.invoke("AddBid", itemId, bidderId, bidAmount, isBuyNow, isMaxBid)',
     explain: "HubConnection biến lời gọi hàm thành message Invocation (type 1) có invocationId, gửi trên WebSocket đang mở. invoke() trả về Promise, chờ server trả Completion (type 3).",
     without: "tự định nghĩa format message, tự ghép request với response bằng id, tự xử lý lỗi trả về.",
@@ -85,25 +85,25 @@ export const PHASE2 = [
     explain: "Business logic của Geronimo: gom dữ liệu một lần, kiểm tra, tạo bid (kể cả proxy bid từ max bid), rồi nhờ SignalR phát kết quả.",
   },
   {
-    id: "fanout", owner: "signalr", path: ["app-server", "sr-server", "redis", "wire", "sr-an", "sr-binh"], trace: ["server.sendAll"],
+    id: "fanout", owner: "signalr", path: ["app-server", "sr-server", "redis", "wire", "sr-x", "sr-y"], trace: ["server.sendAll"],
     title: "Phát cho mọi người", fn: 'Clients.All.SendAsync("updateItem", …) + ("updateEvent", …)',
     explain: "Geronimo viết một dòng. SignalR serialize một lần rồi ghi vào mọi connection đang mở. Production: RedisHubLifetimeManager publish qua Redis để các server khác phát cho client của chúng.",
     without: "tự giữ danh sách socket, tự lặp gửi, tự bỏ socket đã chết, tự pub/sub giữa các server.",
   },
   {
-    id: "caller", owner: "signalr", path: ["sr-server", "wire", "sr-an"], trace: ["server.sendCaller"],
+    id: "caller", owner: "signalr", path: ["sr-server", "wire", "sr-x"], trace: ["server.sendCaller"],
     title: "Báo riêng người bid", fn: 'Clients.Caller.SendAsync("addBidSuccess", itemId, bidderId, isHighBidder)',
     explain: "Caller là đúng connection vừa gọi AddBid. isHighBidder dựa trên HighBidUserId vì max bid của người khác có thể thắng ngay.",
     without: "tự nhớ socket nào gửi request để trả lời đúng người.",
   },
   {
-    id: "receive", owner: "signalr", path: ["wire", "sr-an", "sr-binh"], capture: { dir: "in", kind: "frame" },
+    id: "receive", owner: "signalr", path: ["wire", "sr-x", "sr-y"], capture: { dir: "in", kind: "frame" },
     title: "Trình duyệt nhận frame", fn: 'connection.on("updateItem", handler)',
     explain: 'SignalR client đọc target của từng message và gọi handler đã đăng ký. Trang Item không đăng ký "updateEvent" (chỉ trang Event có), nên SignalR bỏ qua message đó và ghi warning.',
     without: "tự parse message, tự viết bảng tra tên sự kiện → hàm xử lý.",
   },
   {
-    id: "ui", owner: "geronimo", path: ["sr-an", "app-an", "sr-binh", "app-binh"], gate: { dir: "in" },
+    id: "ui", owner: "geronimo", path: ["sr-x", "app-x", "sr-y", "app-y"], gate: { dir: "in" },
     title: "Cập nhật giao diện", fn: 'itemBid.js: on("updateItem") · on("addBidSuccess")',
     explain: "Handler của Geronimo đổi giá, số bid, banner winning/outbid, rồi toast cho người bid.",
   },

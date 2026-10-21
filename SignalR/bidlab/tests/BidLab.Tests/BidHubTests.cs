@@ -1,4 +1,6 @@
 using BidLab.Auction;
+using System.Net.Http.Json;
+using System.Text.Json;
 using BidLab.Tracing;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -141,6 +143,45 @@ public class BidHubTests : IClassFixture<WebApplicationFactory<Program>>, IAsync
             "hub.ProcessPostBidActionsAsync", "hub.HandleBuyNowPurchaseAsync", "hub.BroadcastBidUpdateAsync",
             "server.sendAll(updateItem)", "server.sendAll(updateEvent)", "server.sendCaller(addBidSuccess)",
         }, labels);
+    }
+
+    [Fact]
+    public async Task ItemApi_ReturnsCurrentStateAndMyBid()
+    {
+        var json = await _factory.CreateClient().GetFromJsonAsync<JsonElement>($"/api/item?user={Users.An}");
+
+        Assert.Equal(1250m, json.GetProperty("currentAmount").GetDecimal());
+        Assert.Equal(1300m, json.GetProperty("nextBidAmount").GetDecimal());
+        Assert.Equal(7, json.GetProperty("numberOfBids").GetInt32());
+        Assert.Equal(Users.Binh, json.GetProperty("highBidderUserId").GetString());
+        Assert.Equal(1000m, json.GetProperty("myBidAmount").GetDecimal());
+    }
+
+    [Fact]
+    public async Task TwoClients_EndToEnd_WebSockets()
+    {
+        var server = _factory.Server;
+        HubConnection Ws() => new HubConnectionBuilder()
+            .WithUrl(new Uri(server.BaseAddress, "bidhub"), o =>
+            {
+                o.Transports = HttpTransportType.WebSockets;
+                o.HttpMessageHandlerFactory = _ => server.CreateHandler();
+                o.WebSocketFactory = async (ctx, ct) => await server.CreateWebSocketClient().ConnectAsync(ctx.Uri, ct);
+            })
+            .Build();
+        var an = Ws();
+        var binh = Ws();
+        _connections.Add(an);
+        _connections.Add(binh);
+        await an.StartAsync();
+        await binh.StartAsync();
+        var binhUpdate = NextUpdateItem(binh);
+
+        await an.InvokeAsync("AddBid", ItemId, Users.An, 1300m, false, false);
+
+        var u = await binhUpdate.WaitAsync(Wait);
+        Assert.Equal(1300m, u[1]);
+        Assert.Equal(Users.An, u[6]);
     }
 
     [Fact]

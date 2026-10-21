@@ -5,7 +5,7 @@ import { Simulator } from "../../src/BidLab/wwwroot/js/sim.js";
 
 const RS = "\x1e";
 const TEMPLATE = [
-  { id: "a", owner: "geronimo", path: ["app-x"], title: "A", fn: "a", explain: "a" },
+  { id: "a", owner: "geronimo", path: ["app-x", "app-y"], title: "A", fn: "a", explain: "a" },
   { id: "out", owner: "signalr", path: ["sr-x"], title: "Out", fn: "o", explain: "o", without: "w", gate: { dir: "out", kind: "frame" } },
   { id: "srv", owner: "signalr", path: ["sr-server"], title: "Srv", fn: "s", explain: "s", without: "w", trace: ["server.dispatch"] },
   { id: "in", owner: "geronimo", path: ["app-x"], title: "In", fn: "i", explain: "i", gate: { dir: "in" } },
@@ -55,6 +55,17 @@ test("prev_thenNext_doesNotReleaseTwice", async () => {
   assert.equal(sim.view().step.id, "out");
 });
 
+test("gate user x means the user of the run", async () => {
+  const { gate, sim } = setup();
+  sim.start("t", [TEMPLATE[0], { ...TEMPLATE[1], path: ["sr-server"], gate: { dir: "out", kind: "frame", user: "x" } }], "binh");
+  let an = false, binh = false;
+  gate.hold(frame("out", "A", "an")).then(() => (an = true));
+  gate.hold(frame("out", "B", "binh")).then(() => (binh = true));
+  sim.next();
+  await Promise.resolve();
+  assert.deepEqual([an, binh], [false, true]);
+});
+
 test("item held after its step was reached is released immediately", async () => {
   const { gate, sim } = setup();
   sim.start("t", TEMPLATE, "an");
@@ -102,9 +113,21 @@ test("view resolves the x placeholder, collects captures and traces for the step
   sim.start("t", TEMPLATE, "binh");
   sim.addCapture({ user: "binh", dir: "out", kind: "frame", text: `{"type":1,"target":"AddBid"}${RS}` });
   sim.addTrace({ seq: 1, step: "server.dispatch", fn: "BidHub.AddBid", data: [1042] });
+  assert.deepEqual(sim.view().step.path, ["app-binh", "app-an"]);
   sim.next();
   assert.deepEqual(sim.view().step.path, ["sr-binh"]);
   assert.equal(sim.view().frames.length, 1);
   sim.next();
   assert.equal(sim.view().traces[0].fn, "BidHub.AddBid");
+});
+
+test("a gate on a step that touches both users releases both users' frames", async () => {
+  const { gate, sim } = setup();
+  sim.start("t", [TEMPLATE[0], { ...TEMPLATE[3], path: ["sr-x", "app-x", "sr-y", "app-y"] }], "an");
+  let an = false, binh = false;
+  gate.hold(frame("in", "updateItem", "an")).then(() => (an = true));
+  gate.hold(frame("in", "updateItem", "binh")).then(() => (binh = true));
+  sim.next();
+  await Promise.resolve();
+  assert.deepEqual([an, binh], [true, true]);
 });

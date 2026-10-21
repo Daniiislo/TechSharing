@@ -24,6 +24,20 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapHub<BidHub>("/bidhub");
 app.MapHub<TraceHub>("/tracehub");
+// Thay cho phần Razor Page render trạng thái item lúc tải trang.
+app.MapGet("/api/item", (string user, AuctionStore store) =>
+{
+    var current = store.GetCurrentBid(AuctionStore.SeedItemId);
+    return Results.Ok(new
+    {
+        itemId = AuctionStore.SeedItemId,
+        currentAmount = current.Amount,
+        nextBidAmount = current.NextBidIncrement,
+        numberOfBids = current.NumberOfBids,
+        highBidderUserId = current.HighBidUserId,
+        myBidAmount = store.GetMyBidAmount(AuctionStore.SeedItemId, user),
+    });
+});
 app.MapPost("/api/reset", (AuctionStore store) =>
 {
     store.Reset();
