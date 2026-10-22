@@ -375,3 +375,47 @@ stdout:
     [PPTX] D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\exports\signalr_sharing_20261021_132055.pptx
     [REPORT] D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\signalr_sharing_20261021_132055.report.json
 === 2026-10-21T06:20:57.118Z END run=8b994b67cfcb elapsed_ms=2514 output_lines=71 retained=5 omitted=66 ===
+
+=== 2026-10-22T02:29:53.140Z PYTHON run=55652b55b9a6 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_quality_checker.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [OK] 01_cover.svg - Passed
+  [WARN] 08_at_a_glance.svg - Passed (with warnings)
+     [WARN] Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id="server"> x=484.0, y=302.0..334.0, 2 lines; <g id="server"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [WARN] 11_phase2_fan_out.svg - Passed (with warnings)
+     [WARN] Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id="browser-ben"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy="0". Keep semantically independent text frames separate.
+  [SUMMARY] Check Summary
+  Total files: 15
+    [OK] Fully passed: 13 (86%)
+    [WARN] With warnings: 2 (13%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 2        advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 15 | text: 359 | images: 0 | icons: 24
+    Geometry: SVG elements 146 | native presets 5 | page-frame elements 20 | marker uses 34
+  [REPORT] JSON quality report exported: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\svg_quality_report.json
+=== 2026-10-22T02:29:56.407Z END run=55652b55b9a6 elapsed_ms=3265 output_lines=65 retained=19 omitted=46 ===
+
+=== 2026-10-22T02:30:16.671Z PYTHON run=b58404a6455f ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/finalize_svg.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021"]
+stdout:
+  [OK] 02_the_moment.svg (2 icons)
+  [OK] Done!
+=== 2026-10-22T02:30:17.221Z END run=b58404a6455f elapsed_ms=547 output_lines=21 retained=2 omitted=19 ===
+
+=== 2026-10-22T02:30:17.412Z PYTHON run=25f86e1263d5 ===
+cwd: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021
+argv: ["C:\\Users\\Tavian\\AppData\\Local\\Programs\\Python\\Python312\\python.exe", "C:/Users/Tavian/.claude/skills/ppt-master/scripts/svg_to_pptx.py", "D:/TechSharing/SignalR/presentation/signalr_sharing_ppt169_20261021", "--no-notes"]
+stdout:
+  [Done] Saved: D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\exports\signalr_sharing_20261022_093018.pptx
+    [POSTFLIGHT] status=passed-with-warnings quality_gate=passed slides=15 warning_categories=1
+    [POSTFLIGHT][WARNING] quality_introduced_warnings=2
+    [PPTX] D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\exports\signalr_sharing_20261022_093018.pptx
+    [REPORT] D:\TechSharing\SignalR\presentation\signalr_sharing_ppt169_20261021\validation\signalr_sharing_20261022_093018.report.json
+=== 2026-10-22T02:30:20.043Z END run=25f86e1263d5 elapsed_ms=2640 output_lines=71 retained=5 omitted=66 ===

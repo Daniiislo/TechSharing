@@ -19,13 +19,6 @@
     <button type="button" data-phase="phase2" aria-pressed="false">② Bid &amp; nhận cập nhật</button>
   </div>
   <div class="spacer"></div>
-  <label class="scenario">Kịch bản
-    <select id="ctl-scenario">
-      <option value="normal">Anna bid $1,300</option>
-      <option value="too-low">Bid quá thấp</option>
-      <option value="max-bid">Max bid của Ben</option>
-    </select>
-  </label>
   <button type="button" id="ctl-reset" class="ghost">Đặt lại</button>
 </header>
 
@@ -38,7 +31,7 @@
   <section class="sim" aria-label="Mô phỏng phía dưới">
     <div class="sim-head">
       <h2 id="sim-title">Phía sau nút PLACE BID</h2>
-      <p id="sim-sub">Chọn kịch bản rồi bấm PLACE BID ở trình duyệt Anna</p>
+      <p id="sim-sub"></p>
       <div class="legend">
         <span class="chip app">Geronimo viết</span>
         <span class="chip sr">SignalR tự làm</span>
@@ -124,7 +117,7 @@
                   <button type="button" class="bid-type-tab bid-type-right" data-role="bid-type-max" aria-pressed="false">Maximum Bid</button>
                 </div>
                 <button type="button" class="btn btn-primary btn-style btn-bid mt-4" data-role="bid-button" disabled>PLACE BID</button><br>
-                <button type="button" class="btn btn-style btn-buy-it-now" data-role="buynow-button" disabled title="Không thuộc phạm vi demo">Buy it now for $3,000</button>
+                <button type="button" class="btn btn-style btn-buy-it-now" data-role="buynow-button" disabled>Buy it now for $3,000</button>
               </div>
               <div class="clockdiv"><span class="smalltext">Time left:</span> <span class="num">8</span><span class="smalltext">d</span> <span class="num">4</span><span class="smalltext">h</span> <span class="num">12</span><span class="smalltext">m</span> <span class="num">37</span><span class="smalltext">s</span></div>
             </div>

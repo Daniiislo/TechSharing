@@ -191,19 +191,18 @@ Cột **Avoid** gói lại ba lỗi. Dòng xám cuối nêu thật lòng hiện 
 - Bấm **Đặt lại**; kiểm tra cả hai trình duyệt đều hiện "● WebSocket" và giá $1,250.
 
 1. **Connect (khoảng 1 phút).** Bấm "① Kết nối vào bid", rồi **Kết nối** trên thanh trình duyệt của Anna. Bấm **Tiếp** (hoặc phím →) qua 8 bước. Chỉ ra frame negotiate thật, `101 Switching Protocols`, handshake `{}`, rồi nút PLACE BID sáng lên.
-2. **Bid (khoảng 2 phút).** Bấm "② Bid & nhận cập nhật", kịch bản "Anna bid $1,300". Anna bấm PLACE BID → CONFIRM, rồi bấm Tiếp:
+2. **Bid (khoảng 2 phút).** Bấm "② Bid & nhận cập nhật", Anna bid $1,300. Anna bấm PLACE BID → CONFIRM, rồi bấm Tiếp:
    - **Bước 2:** frame `{"type":1,"target":"AddBid",...}` và ghi chú lỗ hổng `bidderId`.
    - **Bước 4:** 6 bước con của AddBid sáng dần.
    - **Bước 5:** `Clients.All → 2 connection` và ghi chú lộ `highMaxBid`.
    - **Bước 8:** Ben mới đổi sang $1,300 và banner vàng. Mở DevTools (F12 → Console) để thấy warning `No client method with the name 'updateevent' found`.
-3. *(nếu còn thời gian)* **Max bid.** Chọn kịch bản "Max bid của Ben". Ben đặt Maximum $2,000 trước, rồi Anna bid $1,300: Anna nhận toast "immediately outbid", giá lên $1,350 và Ben vẫn dẫn.
-4. *(nếu còn thời gian)* **Go offline.** Bấm **Ngắt mạng** ở Ben: banner "Connection to WinningBidder.com was lost", mô phỏng đứng yên cho tới khi bạn bấm Tiếp; ở bước "Tự thử lại" thấy các lần negotiate. Bỏ Ngắt mạng rồi bấm Tiếp để kết nối lại.
+3. *(nếu còn thời gian)* **Go offline.** Bấm **Ngắt mạng** ở Ben: banner "Connection to WinningBidder.com was lost", mô phỏng tự chạy tới bước "Tự thử lại" rồi chờ kết quả thật. Bỏ Ngắt mạng thì kết nối lại được (khoảng 12 giây); giữ Ngắt mạng hết 4 lần thử (khoảng 42 giây) thì SignalR bỏ cuộc và gọi `onclose`.
 
 **Phương án dự phòng:**
 
 | Sự cố | Cách xử lý |
 | --- | --- |
-| App không chạy hoặc treo | Mở ảnh trong `SignalR/presentation/backup/` theo thứ tự: `demo-phase1-negotiate.png` → `demo-phase2-step2-invoke.png` → `demo-phase2-step5-fanout.png` → `demo-phase2-step8-ui.png` → `demo-max-bid.png` → `demo-reconnect-retry.png` |
+| App không chạy hoặc treo | Mở ảnh trong `SignalR/presentation/backup/` theo thứ tự: `demo-phase1-negotiate.png` → `demo-phase2-step2-invoke.png` → `demo-phase2-step5-fanout.png` → `demo-phase2-step8-ui.png` → `demo-reconnect-retry.png` |
 | Một lượt chạy rối | Bấm **Đặt lại** (đưa về $1,250, 7 bids, Ben dẫn) |
 | Dừng lâu ở một bước để giải thích | Không sao: timeout của demo được nới lên 10 phút |
 

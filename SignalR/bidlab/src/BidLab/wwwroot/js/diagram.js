@@ -130,7 +130,7 @@ export function renderDiagram(svg, view) {
 
 export function renderSteps(list, view) {
   if (!view.steps.length) {
-    list.innerHTML = '<li class="empty">Chưa có lượt nào.</li>';
+    list.innerHTML = "";
     return;
   }
   list.innerHTML = view.steps
@@ -164,7 +164,7 @@ function traceLines(view) {
 export function renderDetail(el, view) {
   const step = view.step;
   if (!step) {
-    el.innerHTML = `<p>Bấm <b>PLACE BID</b> ở trình duyệt Anna (hoặc <b>Kết nối</b> ở giai đoạn ①). Mỗi bước sẽ chỉ rõ phần nào Geronimo viết, phần nào SignalR làm.</p>`;
+    el.innerHTML = "";
     return;
   }
   const parts = [`<span class="owner ${step.owner}">${OWNER_LABEL[step.owner]}</span>`, `<h3>${esc(step.fn)}</h3>`, `<p>${esc(step.explain)}</p>`];
@@ -175,8 +175,8 @@ export function renderDetail(el, view) {
   const t0 = view.name === "reconnect" ? view.frames[0]?.at : undefined;
   const lines = [...view.frames.map((f) => frameLine(f, t0)), ...(step.trace?.length > 1 ? [] : traceLines(view))];
   if (lines.length) parts.push(`<pre class="wire">${lines.join("\n")}</pre>`);
-  else if (view.waiting) parts.push(`<pre class="wire">Đang chờ dữ liệu thật…</pre>`);
-  if (view.blocked) parts.push(`<div class="warn-note"><b>Chưa xong:</b> ${esc(view.blocked)}</div>`);
+  else if (view.waiting) parts.push(`<pre class="wire">…</pre>`);
+  if (view.blocked) parts.push(`<div class="warn-note"><b>Đang chờ:</b> ${esc(view.blocked)}</div>`);
   if (step.warn) parts.push(`<div class="warn-note"><b>Lỗ hổng:</b> ${esc(step.warn)}</div>`);
   if (step.without) parts.push(`<div class="without"><b>Không có SignalR:</b> ${esc(step.without)}</div>`);
   if (view.state === "done") parts.push(`<p><b>Xong lượt.</b> Chọn kịch bản khác hoặc bid tiếp.</p>`);

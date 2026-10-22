@@ -4,7 +4,7 @@
   "target": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "0aadadf169719f588d49fd50260ae6de86b5c8a11ed31f57f210efaec27808db",
+    "digest": "46c7836d05472cc5678fbd345df80fc4965827bb58d6ba255901a6e391698b2f",
     "file_count": 15,
     "files": [
       {
@@ -21,19 +21,19 @@
       },
       {
         "file": "04_framework_layers.svg",
-        "sha256": "5bba8bafdc2b9ce4267d2538250ecd3125aa9f8630ea42d90b89f302ff568eed"
+        "sha256": "4f7de4f84bed233ccc89df8659f209076e70949d474b4d254293dbbe75233576"
       },
       {
         "file": "05_six_jobs.svg",
-        "sha256": "a50698f4f46b43cf25737cb7bfaf008802f0cd2927afa7b7a3fd349a171761c6"
+        "sha256": "dabd1f19696a04fac490bea5e6a6902e8070a9a60dd8d50d63d392b29b566e52"
       },
       {
         "file": "06_when_to_use.svg",
-        "sha256": "f25e902c2bb6732980d5ddf1db7a8dd492880733ca7a206ab8068366b4e1f9d1"
+        "sha256": "b1e18bcd851c19db73f99b198b80e1f2735ac69b91dc098517f5352df220db97"
       },
       {
         "file": "07_mindset.svg",
-        "sha256": "c46177b18a22099588b8693bd533fbadc7e980890356df8e9e1e1bf41bcb1747"
+        "sha256": "760b95ab67480b6bc6692f9c0ccac5ea3593a5c6ef63ad98bb70d8fe575f5db0"
       },
       {
         "file": "08_at_a_glance.svg",
@@ -41,7 +41,7 @@
       },
       {
         "file": "09_phase1_connect.svg",
-        "sha256": "930886d1e39082d38aed9fc9e6092b4dd444b388dd941477bd884beb7baf6937"
+        "sha256": "062cc0713f06de3a31720c44e41db3768c1887676e50a9f06b9d5d17d352e1d1"
       },
       {
         "file": "10_phase2_place_bid.svg",
@@ -53,19 +53,19 @@
       },
       {
         "file": "12_server_push.svg",
-        "sha256": "6e7245cea0130c700385dfa67ccdf688e665c733dc99a4a2a4477807f7fee050"
+        "sha256": "e0eb2b86fad98b80c12ff145810863b9f9e1857d09f847f6dd2cfd8dd6b0f94b"
       },
       {
         "file": "13_two_holes.svg",
-        "sha256": "c27bcbaa05873bc2d9facd9d4610f6803845613875ffae684150421b7d267f1c"
+        "sha256": "b6b67547235bf3e35e397555570e07bbfd509e8ecd08dc90dfb9504c43807736"
       },
       {
         "file": "14_do_avoid.svg",
-        "sha256": "e53172103828ccabfe210f5720eea3c48b7914ee1e9601c7c1dddd4de93e50d0"
+        "sha256": "eeebbbb2a699fc619970b13990967445b29d20752cf798c96c2f084fba5760b7"
       },
       {
         "file": "15_demo_qa.svg",
-        "sha256": "1084a9991265546e00defd7e8e0bed7a2ea119e40d45d34cd8504ea713bf02b3"
+        "sha256": "1c029cf8ece007f9da6d6c42dbe201ae09837f8540bc7a790e35ab3d2c9a9f6e"
       }
     ]
   },
@@ -126,11 +126,11 @@
     "scope": "informational-not-a-quota",
     "pages": 15,
     "totals": {
-      "text_elements": 361,
+      "text_elements": 359,
       "image_placements": 0,
       "icons": 24,
       "svg_geometry_elements": 146,
-      "preset_shapes": 6,
+      "preset_shapes": 5,
       "page_frame_elements": 20,
       "marker_uses": 34,
       "inline_emphasis_runs": 19,
@@ -161,7 +161,7 @@
       "rect": 62
     },
     "preset_names": {
-      "chevron": 4,
+      "chevron": 3,
       "downArrow": 1,
       "flowChartDecision": 1
     },
@@ -430,7 +430,7 @@
         }
       },
       "passed": true,
-      "source_sha256": "5bba8bafdc2b9ce4267d2538250ecd3125aa9f8630ea42d90b89f302ff568eed"
+      "source_sha256": "4f7de4f84bed233ccc89df8659f209076e70949d474b4d254293dbbe75233576"
     },
     {
       "file": "05_six_jobs.svg",
@@ -490,7 +490,7 @@
         "tspan_elements": 8
       },
       "passed": true,
-      "source_sha256": "a50698f4f46b43cf25737cb7bfaf008802f0cd2927afa7b7a3fd349a171761c6"
+      "source_sha256": "dabd1f19696a04fac490bea5e6a6902e8070a9a60dd8d50d63d392b29b566e52"
     },
     {
       "file": "06_when_to_use.svg",
@@ -549,7 +549,7 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "f25e902c2bb6732980d5ddf1db7a8dd492880733ca7a206ab8068366b4e1f9d1"
+      "source_sha256": "b1e18bcd851c19db73f99b198b80e1f2735ac69b91dc098517f5352df220db97"
     },
     {
       "file": "07_mindset.svg",
@@ -609,7 +609,7 @@
         "tspan_elements": 8
       },
       "passed": true,
-      "source_sha256": "c46177b18a22099588b8693bd533fbadc7e980890356df8e9e1e1bf41bcb1747"
+      "source_sha256": "760b95ab67480b6bc6692f9c0ccac5ea3593a5c6ef63ad98bb70d8fe575f5db0"
     },
     {
       "file": "08_at_a_glance.svg",
@@ -736,7 +736,7 @@
         "tspan_elements": 4
       },
       "passed": true,
-      "source_sha256": "930886d1e39082d38aed9fc9e6092b4dd444b388dd941477bd884beb7baf6937"
+      "source_sha256": "062cc0713f06de3a31720c44e41db3768c1887676e50a9f06b9d5d17d352e1d1"
     },
     {
       "file": "10_phase2_place_bid.svg",
@@ -930,7 +930,7 @@
         "tspan_elements": 4
       },
       "passed": true,
-      "source_sha256": "6e7245cea0130c700385dfa67ccdf688e665c733dc99a4a2a4477807f7fee050"
+      "source_sha256": "e0eb2b86fad98b80c12ff145810863b9f9e1857d09f847f6dd2cfd8dd6b0f94b"
     },
     {
       "file": "13_two_holes.svg",
@@ -995,7 +995,7 @@
         }
       },
       "passed": true,
-      "source_sha256": "c27bcbaa05873bc2d9facd9d4610f6803845613875ffae684150421b7d267f1c"
+      "source_sha256": "b6b67547235bf3e35e397555570e07bbfd509e8ecd08dc90dfb9504c43807736"
     },
     {
       "file": "14_do_avoid.svg",
@@ -1054,7 +1054,7 @@
         "tspan_elements": 2
       },
       "passed": true,
-      "source_sha256": "e53172103828ccabfe210f5720eea3c48b7914ee1e9601c7c1dddd4de93e50d0"
+      "source_sha256": "eeebbbb2a699fc619970b13990967445b29d20752cf798c96c2f084fba5760b7"
     },
     {
       "file": "15_demo_qa.svg",
@@ -1065,7 +1065,7 @@
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 12,
+          "text_elements": 10,
           "images": {
             "placements": 0,
             "files": [],
@@ -1088,9 +1088,9 @@
               "polygon": 0,
               "path": 0
             },
-            "preset_shapes": 4,
+            "preset_shapes": 3,
             "preset_names": {
-              "chevron": 4
+              "chevron": 3
             },
             "page_frame_elements": 2,
             "marker_uses": {
@@ -1112,11 +1112,11 @@
           "Consolas, monospace",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 12,
+        "text_elements": 10,
         "tspan_elements": 2
       },
       "passed": true,
-      "source_sha256": "1084a9991265546e00defd7e8e0bed7a2ea119e40d45d34cd8504ea713bf02b3"
+      "source_sha256": "1c029cf8ece007f9da6d6c42dbe201ae09837f8540bc7a790e35ab3d2c9a9f6e"
     }
   ]
 }

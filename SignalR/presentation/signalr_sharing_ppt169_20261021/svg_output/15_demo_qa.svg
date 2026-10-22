@@ -11,31 +11,27 @@
 
   <line id="takeaway-rule" data-pptx-role="decoration" x1="64" y1="336" x2="1216" y2="336" stroke="#CAD7E2" stroke-width="1"/>
 
-  <g id="p15-scene-1" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="64 372 316 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
-<path d="M 64 372 L 340 372 L 380 412 L 340 452 L 64 452 L 104 412 Z"/>
+  <g id="p15-scene-1" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="64 372 420 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
+<path d="M 64 372 L 444 372 L 484 412 L 444 452 L 64 452 L 104 412 Z"/>
 </g>
-  <g id="p15-scene-2" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="340 372 316 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
-<path d="M 340 372 L 616 372 L 656 412 L 616 452 L 340 452 L 380 412 Z"/>
+  <g id="p15-scene-2" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="444 372 420 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
+<path d="M 444 372 L 824 372 L 864 412 L 824 452 L 444 452 L 484 412 Z"/>
 </g>
-  <g id="p15-scene-3" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="616 372 316 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
-<path d="M 616 372 L 892 372 L 932 412 L 892 452 L 616 452 L 656 412 Z"/>
+  <g id="p15-scene-3" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="824 372 392 80" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5">
+<path d="M 824 372 L 1176 372 L 1216 412 L 1176 452 L 824 452 L 864 412 Z"/>
 </g>
-  <g id="p15-scene-4" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="892 372 316 80" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5">
-<path d="M 892 372 L 1168 372 L 1208 412 L 1168 452 L 892 452 L 932 412 Z"/>
-</g>
+
 
   <g id="scene-labels" data-pptx-bounds="64 392 1152 120" text-anchor="middle">
     <g font-size="22" font-weight="bold" fill="#102A43">
-      <text x="222" y="420">1 · Connect</text>
-      <text x="498" y="420">2 · Bid</text>
-      <text x="774" y="420">3 · Max bid</text>
-      <text x="1050" y="420" fill="#5B21B6">4 · Go offline</text>
+      <text x="274" y="420">1 · Connect</text>
+      <text x="654" y="420">2 · Bid</text>
+      <text x="1020" y="420" fill="#5B21B6">3 · Go offline</text>
     </g>
     <g font-size="20" fill="#526B80">
-      <text x="222" y="492">negotiate → handshake</text>
-      <text x="498" y="492">8 steps, Ben updates last</text>
-      <text x="774" y="492">Anna is outbid at once</text>
-      <text x="1050" y="492">retry 0 · 2 · 10 s</text>
+      <text x="274" y="492">negotiate → handshake</text>
+      <text x="654" y="492">8 steps, Ben updates last</text>
+      <text x="1020" y="492">retry 0 · 2 · 10 · 30 s</text>
     </g>
   </g>
 

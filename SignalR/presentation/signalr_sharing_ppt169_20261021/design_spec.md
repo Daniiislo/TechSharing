@@ -283,7 +283,7 @@
 - **Closing impact**: takeaway "SignalR moves the message. You own who sends it and what it says." composition Reference: big serif takeaway with the four demo scenes as a small numbered strip
 - **Title**: See it run: SignalR BidLab
 - **Core message**: SignalR moves the message; you own identity and what you broadcast.
-- **Content**: 1 Connect (negotiate → handshake) · 2 Bid (8 steps, Ben updates last) · 3 Max bid (outbid instantly) · 4 Go offline (reconnect 0/2/10 s) · http://127.0.0.1:5080 · Q&A
+- **Content**: 1 Connect (negotiate → handshake) · 2 Bid (8 steps, Ben updates last) · 3 Go offline (retry 0/2/10/30 s) · http://127.0.0.1:5080 · Q&A
 
 ## X. Speaker Notes Requirements
 

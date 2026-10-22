@@ -8,14 +8,6 @@ import { drawStage, renderDiagram, renderDetail, renderSteps } from "./diagram.j
 const $ = (id) => document.getElementById(id);
 const USERS = ["anna", "ben"];
 const NAMES = { anna: "Anna", ben: "Ben" };
-const SCENARIOS = {
-  normal: { hint: "Bấm PLACE BID ở trình duyệt Anna (Exact $1,300)", setup: (b) => b.anna.setBid(1300, true) },
-  "too-low": { hint: "Bấm PLACE BID ở trình duyệt Anna ($1,200, thấp hơn giá hiện tại)", setup: (b) => b.anna.setBid(1200, true) },
-  "max-bid": {
-    hint: "① Ben đặt Maximum Bid $2,000 · ② Anna bid $1,300 và bị vượt ngay",
-    setup: (b) => { b.ben.setBid(2000, false); b.anna.setBid(1300, true); },
-  },
-};
 
 let phase = "phase1";
 let stopping = false;
@@ -30,7 +22,7 @@ const sim = new Simulator({
   render,
   canAdvance: (step, view) =>
     view.name === "reconnect" && ["reconnected", "note-resync"].includes(step.id) && !bidders[view.user].connected
-      ? "Chưa kết nối lại được: đang mất mạng nên SignalR vẫn thử lại. Bỏ Ngắt mạng rồi bấm Tiếp để thấy kết quả."
+      ? "Mất mạng: SignalR vẫn đang thử lại."
       : null,
 });
 const bidders = {};
@@ -51,8 +43,7 @@ function render(view) {
   $("ctl-play").textContent = view.playing ? "⏸ Dừng" : "▶ Chạy";
   for (const win of document.querySelectorAll(".win")) win.classList.toggle("is-active", busy && win.dataset.user === view.user);
   for (const b of Object.values(bidders)) b.refreshButton();
-  if (view.state === "idle") $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của Anna hoặc Ben" : SCENARIOS[$("ctl-scenario").value].hint;
-  else $("sim-sub").textContent = `${NAMES[view.user]} · bước ${view.index + 1}/${view.steps.length}`;
+  $("sim-sub").textContent = view.state === "idle" ? "" : `${NAMES[view.user]} · bước ${view.index + 1}/${view.steps.length}`;
 }
 
 const hooks = {
@@ -134,7 +125,7 @@ async function resetAll() {
   await fetch("/api/reset", { method: "POST" });
   await Promise.all(USERS.map((u) => bidders[u].loadState()));
   if (phase === "phase2") await Promise.all(USERS.map((u) => bidders[u].connect()));
-  SCENARIOS[$("ctl-scenario").value].setup(bidders);
+  bidders.anna.setBid(1300, true);
   syncConnectButtons();
   render(sim.view());
 }
@@ -148,7 +139,6 @@ async function setPhase(next) {
 
 for (const b of document.querySelectorAll("[data-phase]")) b.addEventListener("click", () => setPhase(b.dataset.phase));
 $("ctl-reset").addEventListener("click", resetAll);
-$("ctl-scenario").addEventListener("change", resetAll);
 $("ctl-next").addEventListener("click", () => sim.next());
 $("ctl-prev").addEventListener("click", () => sim.prev());
 $("ctl-play").addEventListener("click", () => (sim.playing ? sim.pause() : sim.play()));

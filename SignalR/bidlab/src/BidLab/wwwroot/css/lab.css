@@ -17,8 +17,7 @@ body.lab { margin: 0; background: var(--lab-bg); color: var(--ink); font: 1rem/1
 .phase button { border: 0; background: transparent; padding: 6px 14px; border-radius: 7px; font-size: .9375rem; color: var(--muted); }
 .phase button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgb(15 23 43 / .12); }
 .lab-top .spacer { flex: 1; }
-.scenario { display: flex; align-items: center; gap: 8px; margin: 0; font-size: .875rem; color: var(--muted); }
-.scenario select, .speed select { border: 1px solid #62748E; border-radius: 6px; padding: 3px 6px; color: var(--ink); background: var(--surface); }
+.speed select { border: 1px solid #62748E; border-radius: 6px; padding: 3px 6px; color: var(--ink); background: var(--surface); }
 .ghost { border: 1px solid #62748E; background: var(--surface); border-radius: 8px; padding: 5px 14px; color: var(--ink); }
 
 .lab-main { display: grid; grid-template-columns: minmax(540px, 44fr) 56fr; gap: 16px; padding: 16px; height: calc(100vh - 57px); box-sizing: border-box; }
