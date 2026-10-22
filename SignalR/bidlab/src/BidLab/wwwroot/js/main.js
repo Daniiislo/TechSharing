@@ -25,7 +25,14 @@ gate.holding = false;
 const svg = $("stage");
 drawStage(svg);
 
-const sim = new Simulator({ gate, render });
+const sim = new Simulator({
+  gate,
+  render,
+  canAdvance: (step, view) =>
+    view.name === "reconnect" && ["reconnected", "note-resync"].includes(step.id) && !bidders[view.user].connected
+      ? "Chưa kết nối lại được: đang mất mạng nên SignalR vẫn thử lại. Bỏ Ngắt mạng rồi bấm Tiếp để thấy kết quả."
+      : null,
+});
 const bidders = {};
 const taps = {};
 

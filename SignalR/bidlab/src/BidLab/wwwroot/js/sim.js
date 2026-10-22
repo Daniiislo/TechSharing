@@ -9,11 +9,13 @@ const resolveNode = (node, user) =>
 const resolvePath = (path, user) => path.map((n) => resolveNode(n, user));
 
 export class Simulator {
-  speed = 0.5;
+  speed = 1;
   playing = false;
   #gate;
   #render;
   #schedule;
+  #canAdvance;
+  #blocked = null; // lý do bước kế chưa đi tiếp được (kết quả thật chưa xảy ra)
   #name = null;
   #user = null;
   #template = [];
@@ -24,7 +26,8 @@ export class Simulator {
   #traces = [];
   #tickGeneration = 0; // tick cũ (trước lần Dừng/Chạy gần nhất) tự bỏ qua
 
-  constructor({ gate, render = () => {}, schedule = (fn, ms) => setTimeout(fn, ms) }) {
+  constructor({ gate, render = () => {}, schedule = (fn, ms) => setTimeout(fn, ms), canAdvance = () => null }) {
+    this.#canAdvance = canAdvance;
     this.#gate = gate;
     this.#render = render;
     this.#schedule = schedule;
@@ -72,6 +75,10 @@ export class Simulator {
       return;
     }
     if (!this.isBusy) return;
+    // Bước kế mô tả một kết quả thật (ví dụ "kết nối lại được"): chưa xảy ra thì đứng yên.
+    const reason = this.#canAdvance(this.#template[this.#index + 1], this.view());
+    this.#blocked = reason;
+    if (reason) return this.#emit();
     this.#goTo(this.#index + 1);
   }
 
@@ -175,6 +182,7 @@ export class Simulator {
       playing: this.playing,
       speed: this.speed,
       stepMs: this.stepMs,
+      blocked: this.#blocked,
     };
   }
 

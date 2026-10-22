@@ -176,3 +176,19 @@ test("after a run finishes, prev/next still scrub the picture without releasing 
   assert.equal(sim.view().index, TEMPLATE.length - 1);
   assert.equal(sim.view().state, "done");
 });
+
+test("a step that describes a real outcome does not advance until it has happened", () => {
+  const gate = new GateQueue();
+  gate.holding = false;
+  let happened = false;
+  const sim = new Simulator({ gate, render: () => {}, schedule: () => {}, canAdvance: (step) => (step.id === "srv" && !happened ? "not yet" : null) });
+  sim.start("t", TEMPLATE, "anna");
+  sim.next();
+  sim.next();
+  assert.equal(sim.view().step.id, "out");
+  assert.equal(sim.view().blocked, "not yet");
+  happened = true;
+  sim.next();
+  assert.equal(sim.view().step.id, "srv");
+  assert.equal(sim.view().blocked, null);
+});
