@@ -1,9 +1,9 @@
 import { GateQueue } from "./gates.js";
 import { Simulator } from "./sim.js";
-import { PHASE1, PHASE2, PHASE2_FAIL, RECONNECT, RECONNECT_CLOSED } from "./steps.js";
+import { PHASE1, PHASE2, PHASE2_FAIL, RECONNECT } from "./steps.js";
 import { createTap } from "./tap.js";
 import { createBidder } from "./bidder.js";
-import { drawStage, renderDiagram, renderDetail, renderSteps } from "./diagram.js";
+import { drawStage, renderDiagram, renderDetail, renderSteps, numbering } from "./diagram.js";
 
 const $ = (id) => document.getElementById(id);
 const USERS = ["anna", "ben"];
@@ -43,14 +43,15 @@ function render(view) {
   $("ctl-play").textContent = view.playing ? "⏸ Dừng" : "▶ Chạy";
   for (const win of document.querySelectorAll(".win")) win.classList.toggle("is-active", busy && win.dataset.user === view.user);
   for (const b of Object.values(bidders)) b.refreshButton();
-  $("sim-sub").textContent = view.state === "idle" ? "" : `${NAMES[view.user]} · bước ${view.index + 1}/${view.steps.length}`;
+  $("sim-sub").textContent = view.state === "idle" ? "" : `${NAMES[view.user]} · bước ${numbering(view).numbers[view.index]}/${numbering(view).total}`;
 }
 
 const hooks = {
   isBusy: () => sim.isBusy,
   isStopping: () => stopping,
   // Lượt reconnect do người trình bày điều khiển (Tiếp / Chạy); SignalR chỉ bị giữ lại ở mỗi lần thử.
-  onClosed: (user) => inReconnectRun(user) && sim.branch(RECONNECT_CLOSED),
+  onReconnected: (user) => inReconnectRun(user) && sim.chooseBranch("ok"),
+  onClosed: (user) => inReconnectRun(user) && sim.chooseBranch("fail"),
   beforeInvoke(bid) {
     // Chọn template theo đúng quy tắc server (bid phải cao hơn giá hiện tại); max bid luôn đi luồng thành công.
     const template = !bid.isMaxBid && bid.bidAmount <= bid.currentAmount ? PHASE2_FAIL : PHASE2;

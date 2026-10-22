@@ -128,16 +128,31 @@ export function renderDiagram(svg, view) {
   }
 }
 
+// Số thứ tự: các nhánh của một ngã rẽ cùng bắt đầu từ số kế tiếp, mỗi nhánh đếm riêng.
+// total: số bước thực sự phải đi (nhánh đã xảy ra, hoặc nhánh dài nhất khi chưa rõ).
+export function numbering(view) {
+  const seen = {};
+  let main = 0;
+  const numbers = view.steps.map((s) => (s.branch ? main + (seen[s.branch] = (seen[s.branch] ?? 0) + 1) : ++main));
+  const branchLength = view.branch ? (seen[view.branch] ?? 0) : Math.max(0, ...Object.values(seen));
+  return { numbers, total: main + branchLength };
+}
+
 export function renderSteps(list, view) {
   if (!view.steps.length) {
     list.innerHTML = "";
     return;
   }
+  const { numbers } = numbering(view);
   list.innerHTML = view.steps
     .map((s, i) => {
+      const n = numbers[i];
+      const label = s.branchLabel ? `<li class="fork" aria-hidden="true">${esc(s.branchLabel)}</li>` : "";
+      const skipped = s.branch && view.branch && s.branch !== view.branch ? " skipped" : "";
       const current = i === view.index ? ' aria-current="step"' : "";
-      const done = i < view.index || view.state === "done" ? " done" : "";
-      return `<li class="${s.owner}${done}"${current}><span class="n">${i + 1}</span>${esc(s.title)}<span class="tag">${s.owner === "signalr" ? "SignalR" : "Geronimo"}</span></li>`;
+      const done = !skipped && (i < view.index || view.state === "done") ? " done" : "";
+      const branch = s.branch ? " branch" : "";
+      return `${label}<li class="${s.owner}${done}${skipped}${branch}"${current}><span class="n">${n}</span>${esc(s.title)}<span class="tag">${s.owner === "signalr" ? "SignalR" : "Geronimo"}</span></li>`;
     })
     .join("");
   list.querySelector('[aria-current="step"]')?.scrollIntoView({ block: "nearest" });
@@ -179,7 +194,5 @@ export function renderDetail(el, view) {
   if (view.blocked) parts.push(`<div class="warn-note"><b>Đang chờ:</b> ${esc(view.blocked)}</div>`);
   if (step.warn) parts.push(`<div class="warn-note"><b>Lỗ hổng:</b> ${esc(step.warn)}</div>`);
   if (step.without) parts.push(`<div class="without"><b>Không có SignalR:</b> ${esc(step.without)}</div>`);
-  if (view.state === "done") parts.push(`<p><b>Xong lượt.</b> Chọn kịch bản khác hoặc bid tiếp.</p>`);
-  if (view.state === "disconnected") parts.push(`<p><b>Lượt dừng vì mất kết nối.</b></p>`);
   el.innerHTML = parts.join("");
 }

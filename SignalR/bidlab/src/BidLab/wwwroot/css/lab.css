@@ -66,6 +66,10 @@ body.lab { margin: 0; background: var(--lab-bg); color: var(--ink); font: 1rem/1
 .steps li.done { color: var(--ink); }
 .steps li[aria-current="step"] { background: var(--sr-tint); border-left-color: var(--sr); color: var(--ink); font-weight: 600; }
 .steps li.geronimo[aria-current="step"] { background: var(--app-tint); border-left-color: var(--app); }
+.steps li.fork { padding: 6px 14px 2px; margin-top: 4px; font-size: .75rem; font-weight: 600; color: var(--muted); border-left: 3px solid transparent; border-top: 1px dashed var(--line); }
+.steps li.branch { padding-left: 26px; }
+.steps li.skipped { opacity: .4; }
+.steps li.skipped .n::before { content: ""; }
 .steps .empty { color: var(--muted); padding: 5px 14px; }
 
 .detail { padding: 14px 22px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }

@@ -145,25 +145,23 @@ export const RECONNECT = [
     without: "tự viết vòng retry có backoff, tự dừng khi người dùng rời trang.",
   },
   {
-    id: "reconnected", owner: "signalr", path: ["sr-x", "wire", "sr-server"], title: "Kết nối lại được", fn: "connection.onreconnected(connectionId)",
+    id: "reconnected", branch: "ok", branchLabel: "Mạng về trước khi hết 4 lần", owner: "signalr", path: ["sr-x", "wire", "sr-server"], title: "Kết nối lại được", fn: "connection.onreconnected(connectionId)",
     explain: "Connection mới với connectionId mới; trang hiện thông báo đã kết nối lại. Server coi đây là client mới; Group (nếu có) phải join lại.",
     without: "tự kết nối lại và tự khôi phục trạng thái đăng ký.",
   },
   {
-    id: "note-resync", owner: "geronimo", path: ["app-x"], title: "Bài học: đồng bộ lại", fn: "onreconnected → tải lại giá hiện tại",
+    id: "note-resync", branch: "ok", owner: "geronimo", path: ["app-x"], title: "Bài học: đồng bộ lại", fn: "onreconnected → tải lại giá hiện tại",
     explain: "itemBid.js:442 chỉ báo “You're connected to WinningBidder.com. Refresh your page for the latest bid updates.” và để người dùng tự tải lại. Bid xảy ra lúc mất mạng bị lỡ cho tới lần updateItem kế tiếp. Nên tự gọi API lấy trạng thái mới nhất ngay sau khi reconnect.",
   },
-];
 
-// Kết thúc khác của lượt reconnect: mất mạng suốt 4 lần thử (0, 2, 10, 30 s) thì SignalR bỏ cuộc.
-export const RECONNECT_CLOSED = [
   {
-    id: "closed", owner: "signalr", path: ["sr-x", "wire"], title: "Bỏ cuộc: onclose", fn: "connection.onclose(error)",
+    id: "closed", branch: "fail", branchLabel: "Mất mạng suốt 4 lần thử", owner: "signalr", path: ["sr-x", "wire"], title: "Bỏ cuộc: onclose", fn: "connection.onclose(error)",
     explain: "Sau lần thử thứ 4 (30 s) vẫn lỗi, SignalR dừng hẳn và gọi onclose. Connection ở trạng thái Disconnected, không tự thử lại nữa.",
     without: "tự đếm số lần thử và quyết định khi nào dừng.",
   },
   {
-    id: "note-closed", owner: "geronimo", path: ["app-x"], title: "Geronimo: yêu cầu tải lại trang", fn: "onclose → showNotification(…)",
+    id: "note-closed", branch: "fail", owner: "geronimo", path: ["app-x"], title: "Geronimo: yêu cầu tải lại trang", fn: "onclose → showNotification(…)",
     explain: 'itemBid.js:447 hiện "Connection to WinningBidder.com was closed due to an error. Refresh this page to restart the connection." Người dùng phải tải lại trang; tốt hơn là tự dựng lại connection hoặc có nút Thử lại.',
   },
 ];
+

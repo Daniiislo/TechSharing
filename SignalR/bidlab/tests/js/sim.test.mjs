@@ -177,29 +177,60 @@ test("after a run finishes, prev/next still scrub the picture without releasing 
   assert.equal(sim.view().state, "done");
 });
 
-test("a step that describes a real outcome does not advance until it has happened", () => {
+
+
+const FORK = [
+  { id: "a", owner: "geronimo", path: ["app-x"], title: "A", fn: "a", explain: "a" },
+  { id: "ok-1", owner: "signalr", path: ["sr-x"], title: "OK1", fn: "o", explain: "o", without: "w", branch: "ok" },
+  { id: "ok-2", owner: "geronimo", path: ["app-x"], title: "OK2", fn: "o", explain: "o", branch: "ok" },
+  { id: "fail-1", owner: "signalr", path: ["sr-x"], title: "F1", fn: "f", explain: "f", without: "w", branch: "fail" },
+  { id: "fail-2", owner: "geronimo", path: ["app-x"], title: "F2", fn: "f", explain: "f", branch: "fail" },
+];
+
+function forkSim() {
   const gate = new GateQueue();
   gate.holding = false;
-  let happened = false;
-  const sim = new Simulator({ gate, render: () => {}, schedule: () => {}, canAdvance: (step) => (step.id === "srv" && !happened ? "not yet" : null) });
-  sim.start("t", TEMPLATE, "anna");
+  const sim = new Simulator({ gate, render: () => {}, schedule: () => {}, canAdvance: () => "waiting" });
+  sim.start("t", FORK, "anna");
+  return sim;
+}
+
+test("fork: waits at the fork until the outcome is known", () => {
+  const sim = forkSim();
   sim.next();
-  sim.next();
-  assert.equal(sim.view().step.id, "out");
-  assert.equal(sim.view().blocked, "not yet");
-  happened = true;
-  sim.next();
-  assert.equal(sim.view().step.id, "srv");
-  assert.equal(sim.view().blocked, null);
+  assert.equal(sim.view().step.id, "a");
+  assert.equal(sim.view().blocked, "waiting");
+  assert.equal(sim.view().branch, null);
 });
 
-test("branch swaps the rest of the run for a different ending", () => {
-  const { sim } = setup();
-  sim.start("t", TEMPLATE, "anna");
+test("fork: the success outcome walks only the ok branch, then finishes", () => {
+  const sim = forkSim();
+  sim.chooseBranch("ok");
   sim.next();
-  sim.branch([{ id: "end-a", owner: "geronimo", path: ["app-x"], title: "A", fn: "a", explain: "a" }]);
-  assert.deepEqual(sim.view().steps.map((s) => s.id), ["a", "out", "end-a"]);
+  assert.equal(sim.view().step.id, "ok-1");
+  assert.equal(sim.view().blocked, null);
   sim.next();
-  assert.equal(sim.view().step.id, "end-a");
+  assert.equal(sim.view().step.id, "ok-2");
   assert.equal(sim.view().state, "done");
+});
+
+test("fork: the failure outcome walks only the fail branch, and stepping back skips the other branch", () => {
+  const sim = forkSim();
+  sim.chooseBranch("fail");
+  sim.next();
+  assert.equal(sim.view().step.id, "fail-1");
+  sim.next();
+  assert.equal(sim.view().step.id, "fail-2");
+  assert.equal(sim.view().state, "done");
+  sim.prev();
+  assert.equal(sim.view().step.id, "fail-1");
+  sim.prev();
+  assert.equal(sim.view().step.id, "a");
+});
+
+test("fork: the first outcome wins; a later chooseBranch is ignored", () => {
+  const sim = forkSim();
+  sim.chooseBranch("ok");
+  sim.chooseBranch("fail");
+  assert.equal(sim.view().branch, "ok");
 });

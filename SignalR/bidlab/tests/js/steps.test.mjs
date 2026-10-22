@@ -19,7 +19,7 @@ test("PHASE2_FAIL sends addBidFail to caller before fan-out", () => {
 });
 
 test("RECONNECT ends with the resync best-practice note", () => {
-  assert.equal(RECONNECT.at(-1).id, "note-resync");
+  assert.ok(RECONNECT.some((s) => s.id === "note-resync"));
 });
 
 for (const [name, steps] of Object.entries(all)) {
@@ -61,4 +61,9 @@ test("RECONNECT quotes what Geronimo really does on reconnect (asks to refresh, 
   const note = RECONNECT.find((s) => s.id === "note-resync").explain;
   assert.match(note, /Refresh your page/);
   assert.doesNotMatch(note, /ẩn banner/);
+});
+
+test("RECONNECT forks after the retry step into a success and a give-up branch", () => {
+  const ids = RECONNECT.map((s) => `${s.id}${s.branch ? `:${s.branch}` : ""}`);
+  assert.deepEqual(ids, ["drop", "reconnecting", "retry", "reconnected:ok", "note-resync:ok", "closed:fail", "note-closed:fail"]);
 });

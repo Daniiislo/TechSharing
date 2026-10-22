@@ -15,6 +15,7 @@ export class Simulator {
   #render;
   #schedule;
   #canAdvance;
+  #branch = null; // nhánh kết quả đã xảy ra ("ok" / "fail"), null khi chưa rõ
   #blocked = null; // lý do bước kế chưa đi tiếp được (kết quả thật chưa xảy ra)
   #name = null;
   #user = null;
@@ -49,6 +50,8 @@ export class Simulator {
     this.#captures = [];
     this.#traces = [];
     this.#armed = [];
+    this.#branch = null;
+    this.#blocked = null;
     this.#state = "running";
     this.#gate.holding = hold;
     this.#goTo(0);
@@ -65,35 +68,61 @@ export class Simulator {
     this.#emit();
   }
 
+  // Chỉ đi qua các bước không thuộc nhánh nào, hoặc thuộc nhánh đã xảy ra.
+  #eligible(step) {
+    return !step.branch || step.branch === this.#branch;
+  }
+
+  #after(index) {
+    for (let i = index + 1; i < this.#template.length; i++) if (this.#eligible(this.#template[i])) return i;
+    return -1;
+  }
+
+  // Còn việc phía sau: bước đủ điều kiện, hoặc một ngã rẽ đang chờ kết quả.
+  #hasMore(index) {
+    return this.#after(index) >= 0 || (!this.#branch && this.#template.slice(index + 1).some((s) => s.branch));
+  }
+
+  #before(index) {
+    for (let i = index - 1; i >= 0; i--) if (this.#eligible(this.#template[i])) return i;
+    return -1;
+  }
+
+  // Kết quả thật đã xảy ra: chọn nhánh tương ứng (kết quả đầu tiên là kết quả cuối cùng).
+  chooseBranch(branch) {
+    if (!this.isBusy || this.#branch) return;
+    this.#branch = branch;
+    this.#blocked = null;
+    this.#emit();
+  }
+
   next() {
     if (this.#state === "done") {
       // Xem lại sau khi xong lượt: chỉ đổi hình, không nhả thêm gì.
-      if (this.#index < this.#template.length - 1) {
-        this.#index += 1;
+      const to = this.#after(this.#index);
+      if (to >= 0) {
+        this.#index = to;
         this.#emit();
       }
       return;
     }
     if (!this.isBusy) return;
-    // Bước kế mô tả một kết quả thật (ví dụ "kết nối lại được"): chưa xảy ra thì đứng yên.
-    const reason = this.#canAdvance(this.#template[this.#index + 1], this.view());
-    this.#blocked = reason;
-    if (reason) return this.#emit();
-    this.#goTo(this.#index + 1);
-  }
-
-  // Đổi phần còn lại của lượt sang một kết thúc khác (ví dụ SignalR bỏ cuộc thay vì kết nối lại được).
-  branch(tail) {
-    if (!this.isBusy) return;
-    this.#template = [...this.#template.slice(0, this.#index + 1), ...tail];
+    const nextStep = this.#template[this.#index + 1];
+    // Ngã rẽ: chưa biết kết quả thật thì đứng yên, kèm lý do.
+    if (nextStep?.branch && !this.#branch) {
+      this.#blocked = this.#canAdvance(nextStep, this.view()) ?? "Đang chờ kết quả…";
+      return this.#emit();
+    }
     this.#blocked = null;
-    this.#emit();
+    const to = this.#after(this.#index);
+    if (to >= 0) this.#goTo(to);
   }
 
   prev() {
     // Chỉ tua hình: những gì đã nhả không gửi lại.
-    if (this.#index > 0) {
-      this.#index -= 1;
+    const to = this.#before(this.#index);
+    if (to >= 0) {
+      this.#index = to;
       this.#emit();
     }
   }
@@ -166,7 +195,7 @@ export class Simulator {
       this.#gate.releaseAll(match);
     }
     // Bước cuối: kết thúc lượt luôn để nút bid mở lại, không cần bấm thêm.
-    if (index === this.#template.length - 1) return this.finish();
+    if (!this.#hasMore(index)) return this.finish();
     this.#emit();
   }
 
@@ -191,6 +220,7 @@ export class Simulator {
       speed: this.speed,
       stepMs: this.stepMs,
       blocked: this.#blocked,
+      branch: this.#branch,
     };
   }
 
