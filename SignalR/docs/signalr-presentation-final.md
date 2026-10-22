@@ -197,7 +197,7 @@ Cột **Avoid** gói lại ba lỗi. Dòng xám cuối nêu thật lòng hiện 
    - **Bước 5:** `Clients.All → 2 connection` và ghi chú lộ `highMaxBid`.
    - **Bước 8:** Ben mới đổi sang $1,300 và banner vàng. Mở DevTools (F12 → Console) để thấy warning `No client method with the name 'updateevent' found`.
 3. *(nếu còn thời gian)* **Max bid.** Chọn kịch bản "Max bid của Ben". Ben đặt Maximum $2,000 trước, rồi Anna bid $1,300: Anna nhận toast "immediately outbid", giá lên $1,350 và Ben vẫn dẫn.
-4. *(nếu còn thời gian)* **Go offline.** Bấm **Ngắt mạng** ở Ben: banner "Connection to WinningBidder.com was lost", các lần thử lại hiện mốc +0s, +2s. Bỏ Ngắt mạng **trước mốc +12s** thì Ben kết nối lại ngay; nếu lỡ thì phải chờ tới khoảng +42s.
+4. *(nếu còn thời gian)* **Go offline.** Bấm **Ngắt mạng** ở Ben: banner "Connection to WinningBidder.com was lost", mô phỏng đứng yên cho tới khi bạn bấm Tiếp; ở bước "Tự thử lại" thấy các lần negotiate. Bỏ Ngắt mạng rồi bấm Tiếp để kết nối lại.
 
 **Phương án dự phòng:**
 

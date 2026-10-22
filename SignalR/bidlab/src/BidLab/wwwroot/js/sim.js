@@ -139,7 +139,7 @@ export class Simulator {
     const onlyX = step.path.some((n) => n.endsWith("-x")) && !step.path.some((n) => n.endsWith("-y"));
     const user = spec.user === "x" ? this.#user : spec.user ?? (onlyX ? this.#user : null);
     return (item) =>
-      item.dir === spec.dir && (!spec.kind || item.kind === spec.kind) && (!user || item.user === user);
+      (!spec.dir || item.dir === spec.dir) && (!spec.kind || item.kind === spec.kind) && (!user || item.user === user);
   }
 
   #goTo(index) {

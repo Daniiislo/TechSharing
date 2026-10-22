@@ -140,12 +140,12 @@ export const RECONNECT = [
     explain: 'itemBid.js:437 hiện "Connection to WinningBidder.com was lost. Attempting to reconnect…".',
   },
   {
-    id: "retry", owner: "signalr", path: ["sr-x", "wire"], capture: { dir: "out", kind: "http" }, title: "Tự thử lại", fn: "withAutomaticReconnect(): sau 0s, 2s, 10s, 30s",
+    id: "retry", owner: "signalr", path: ["sr-x", "wire"], capture: { dir: "out", kind: "http" }, gate: { dir: "out", kind: "http" }, title: "Tự thử lại", fn: "withAutomaticReconnect(): sau 0s, 2s, 10s, 30s",
     explain: "Mỗi lần thử là negotiate + mở WebSocket + handshake lại từ đầu. Hết 4 lần mà vẫn lỗi thì onclose.",
     without: "tự viết vòng retry có backoff, tự dừng khi người dùng rời trang.",
   },
   {
-    id: "reconnected", owner: "signalr", path: ["sr-x", "wire", "sr-server"], title: "Kết nối lại được", fn: "connection.onreconnected(connectionId)",
+    id: "reconnected", owner: "signalr", path: ["sr-x", "wire", "sr-server"], gate: {}, title: "Kết nối lại được", fn: "connection.onreconnected(connectionId)",
     explain: "Connection mới với connectionId mới; trang hiện thông báo đã kết nối lại. Server coi đây là client mới; Group (nếu có) phải join lại.",
     without: "tự kết nối lại và tự khôi phục trạng thái đăng ký.",
   },

@@ -31,9 +31,6 @@ const taps = {};
 
 // Lượt reconnect chạy theo sự kiện thật của SignalR client, không giữ frame.
 const inReconnectRun = (user) => sim.isBusy && sim.view().name === "reconnect" && sim.view().user === user;
-function advanceTo(id) {
-  while (sim.isBusy && sim.view().step.id !== id) sim.next();
-}
 
 function render(view) {
   renderSteps($("steps"), view);
@@ -54,12 +51,7 @@ function render(view) {
 const hooks = {
   isBusy: () => sim.isBusy,
   isStopping: () => stopping,
-  onReconnecting: (user) => inReconnectRun(user) && advanceTo("reconnecting"),
-  onReconnected(user) {
-    if (!inReconnectRun(user)) return;
-    advanceTo("reconnected");
-    setTimeout(() => inReconnectRun(user) && sim.next(), sim.stepMs);
-  },
+  // Lượt reconnect do người trình bày điều khiển (Tiếp / Chạy); SignalR chỉ bị giữ lại ở mỗi lần thử.
   onClosed: (user) => inReconnectRun(user) && sim.finish(),
   beforeInvoke(bid) {
     // Chọn template theo đúng quy tắc server (bid phải cao hơn giá hiện tại); max bid luôn đi luồng thành công.
@@ -76,7 +68,6 @@ for (const user of USERS) {
   win.querySelector(".who").textContent = NAMES[user];
   const tap = createTap(user, gate, (capture) => {
     sim.addCapture(capture);
-    if (capture.dir === "out" && capture.kind === "http" && inReconnectRun(user) && sim.view().step.id === "reconnecting") advanceTo("retry");
   });
   taps[user] = tap;
   bidders[user] = createBidder(user, win, tap, hooks);
@@ -100,7 +91,7 @@ function toggleOffline(user) {
     sim.abort("offline");
   }
   $("sim-title").textContent = "Mất mạng và tự kết nối lại";
-  sim.start("reconnect", RECONNECT, user, { hold: false });
+  sim.start("reconnect", RECONNECT, user);
   tap.setOffline(true);
 }
 
