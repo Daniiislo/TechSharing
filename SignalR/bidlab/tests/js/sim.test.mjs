@@ -162,3 +162,17 @@ test("pause then play keeps a single timer chain (no double-speed advance)", () 
   for (const fn of queued.splice(0)) fn();
   assert.equal(sim.view().index, 1);
 });
+
+test("after a run finishes, prev/next still scrub the picture without releasing anything", () => {
+  const { sim } = setup();
+  sim.start("t", TEMPLATE, "anna");
+  for (let i = 1; i < TEMPLATE.length; i++) sim.next();
+  assert.equal(sim.view().state, "done");
+  sim.prev();
+  assert.equal(sim.view().index, TEMPLATE.length - 2);
+  sim.next();
+  assert.equal(sim.view().index, TEMPLATE.length - 1);
+  sim.next();
+  assert.equal(sim.view().index, TEMPLATE.length - 1);
+  assert.equal(sim.view().state, "done");
+});

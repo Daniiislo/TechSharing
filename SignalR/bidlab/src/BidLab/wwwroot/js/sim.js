@@ -63,6 +63,14 @@ export class Simulator {
   }
 
   next() {
+    if (this.#state === "done") {
+      // Xem lại sau khi xong lượt: chỉ đổi hình, không nhả thêm gì.
+      if (this.#index < this.#template.length - 1) {
+        this.#index += 1;
+        this.#emit();
+      }
+      return;
+    }
     if (!this.isBusy) return;
     this.#goTo(this.#index + 1);
   }

@@ -17,7 +17,7 @@ const SCENARIOS = {
   },
 };
 
-let phase = "phase2";
+let phase = "phase1";
 let stopping = false;
 
 const gate = new GateQueue();
@@ -40,13 +40,14 @@ function render(view) {
   renderDetail($("detail"), view);
   renderDiagram(svg, view);
   const busy = view.state === "running";
-  $("ctl-prev").disabled = !busy || view.index <= 0;
-  $("ctl-next").disabled = !busy;
+  const reviewing = view.state === "done";
+  $("ctl-prev").disabled = !(busy || reviewing) || view.index <= 0;
+  $("ctl-next").disabled = !(busy || (reviewing && view.index < view.steps.length - 1));
   $("ctl-play").disabled = !busy;
   $("ctl-play").textContent = view.playing ? "⏸ Dừng" : "▶ Chạy";
   for (const win of document.querySelectorAll(".win")) win.classList.toggle("is-active", busy && win.dataset.user === view.user);
   for (const b of Object.values(bidders)) b.refreshButton();
-  if (!busy) $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của Anna hoặc Ben" : SCENARIOS[$("ctl-scenario").value].hint;
+  if (view.state === "idle") $("sim-sub").textContent = phase === "phase1" ? "Bấm Kết nối trên thanh trình duyệt của Anna hoặc Ben" : SCENARIOS[$("ctl-scenario").value].hint;
   else $("sim-sub").textContent = `${NAMES[view.user]} · bước ${view.index + 1}/${view.steps.length}`;
 }
 
@@ -108,6 +109,7 @@ async function connectWithSim(user) {
   if (bidder.connected || sim.isBusy) return;
   $("sim-title").textContent = "Kết nối vào trang bid";
   sim.start("phase1", PHASE1, user);
+  sim.play(); // tự chạy ngay, không cần bấm Chạy
   await bidder.connect();
   if (!bidder.connected && sim.isBusy) sim.abort("disconnected");
   syncConnectButtons();
@@ -162,4 +164,4 @@ document.addEventListener("keydown", (e) => {
 const traceConnection = new signalR.HubConnectionBuilder().withUrl("/tracehub").withAutomaticReconnect().build();
 traceConnection.on("trace", (t) => sim.addTrace(t));
 await traceConnection.start();
-await setPhase("phase2");
+await setPhase("phase1");
