@@ -192,3 +192,14 @@ test("a step that describes a real outcome does not advance until it has happene
   assert.equal(sim.view().step.id, "srv");
   assert.equal(sim.view().blocked, null);
 });
+
+test("branch swaps the rest of the run for a different ending", () => {
+  const { sim } = setup();
+  sim.start("t", TEMPLATE, "anna");
+  sim.next();
+  sim.branch([{ id: "end-a", owner: "geronimo", path: ["app-x"], title: "A", fn: "a", explain: "a" }]);
+  assert.deepEqual(sim.view().steps.map((s) => s.id), ["a", "out", "end-a"]);
+  sim.next();
+  assert.equal(sim.view().step.id, "end-a");
+  assert.equal(sim.view().state, "done");
+});

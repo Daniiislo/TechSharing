@@ -1,6 +1,6 @@
 import { GateQueue } from "./gates.js";
 import { Simulator } from "./sim.js";
-import { PHASE1, PHASE2, PHASE2_FAIL, RECONNECT } from "./steps.js";
+import { PHASE1, PHASE2, PHASE2_FAIL, RECONNECT, RECONNECT_CLOSED } from "./steps.js";
 import { createTap } from "./tap.js";
 import { createBidder } from "./bidder.js";
 import { drawStage, renderDiagram, renderDetail, renderSteps } from "./diagram.js";
@@ -59,7 +59,7 @@ const hooks = {
   isBusy: () => sim.isBusy,
   isStopping: () => stopping,
   // Lượt reconnect do người trình bày điều khiển (Tiếp / Chạy); SignalR chỉ bị giữ lại ở mỗi lần thử.
-  onClosed: (user) => inReconnectRun(user) && sim.finish(),
+  onClosed: (user) => inReconnectRun(user) && sim.branch(RECONNECT_CLOSED),
   beforeInvoke(bid) {
     // Chọn template theo đúng quy tắc server (bid phải cao hơn giá hiện tại); max bid luôn đi luồng thành công.
     const template = !bid.isMaxBid && bid.bidAmount <= bid.currentAmount ? PHASE2_FAIL : PHASE2;

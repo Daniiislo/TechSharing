@@ -154,3 +154,16 @@ export const RECONNECT = [
     explain: "itemBid.js:442 chỉ báo “You're connected to WinningBidder.com. Refresh your page for the latest bid updates.” và để người dùng tự tải lại. Bid xảy ra lúc mất mạng bị lỡ cho tới lần updateItem kế tiếp. Nên tự gọi API lấy trạng thái mới nhất ngay sau khi reconnect.",
   },
 ];
+
+// Kết thúc khác của lượt reconnect: mất mạng suốt 4 lần thử (0, 2, 10, 30 s) thì SignalR bỏ cuộc.
+export const RECONNECT_CLOSED = [
+  {
+    id: "closed", owner: "signalr", path: ["sr-x", "wire"], title: "Bỏ cuộc: onclose", fn: "connection.onclose(error)",
+    explain: "Sau lần thử thứ 4 (30 s) vẫn lỗi, SignalR dừng hẳn và gọi onclose. Connection ở trạng thái Disconnected, không tự thử lại nữa.",
+    without: "tự đếm số lần thử và quyết định khi nào dừng.",
+  },
+  {
+    id: "note-closed", owner: "geronimo", path: ["app-x"], title: "Geronimo: yêu cầu tải lại trang", fn: "onclose → showNotification(…)",
+    explain: 'itemBid.js:447 hiện "Connection to WinningBidder.com was closed due to an error. Refresh this page to restart the connection." Người dùng phải tải lại trang; tốt hơn là tự dựng lại connection hoặc có nút Thử lại.',
+  },
+];

@@ -82,6 +82,14 @@ export class Simulator {
     this.#goTo(this.#index + 1);
   }
 
+  // Đổi phần còn lại của lượt sang một kết thúc khác (ví dụ SignalR bỏ cuộc thay vì kết nối lại được).
+  branch(tail) {
+    if (!this.isBusy) return;
+    this.#template = [...this.#template.slice(0, this.#index + 1), ...tail];
+    this.#blocked = null;
+    this.#emit();
+  }
+
   prev() {
     // Chỉ tua hình: những gì đã nhả không gửi lại.
     if (this.#index > 0) {
