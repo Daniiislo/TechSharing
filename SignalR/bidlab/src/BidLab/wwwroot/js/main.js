@@ -99,6 +99,7 @@ function toggleOffline(user) {
   }
   $("sim-title").textContent = "Mất mạng và tự kết nối lại";
   sim.start("reconnect", RECONNECT, user);
+  sim.play(); // tự chạy; bước "kết nối lại được" chỉ qua khi mạng thật sự đã về
   tap.setOffline(true);
 }
 
