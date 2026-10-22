@@ -22,7 +22,7 @@ const sim = new Simulator({
   render,
   canAdvance: (step, view) =>
     view.name === "reconnect" && ["reconnected", "note-resync"].includes(step.id) && !bidders[view.user].connected
-      ? "Mất mạng: SignalR vẫn đang thử lại."
+      ? "Chưa kết nối lại được; SignalR tiếp tục thử lại."
       : null,
 });
 const bidders = {};
@@ -89,7 +89,7 @@ function toggleOffline(user) {
     gate.releaseAll((i) => i.user !== user);
     sim.abort("offline");
   }
-  $("sim-title").textContent = "Mất mạng và tự kết nối lại";
+  $("sim-title").textContent = "Mất kết nối và kết nối lại";
   sim.start("reconnect", RECONNECT, user);
   sim.play(); // tự chạy; bước "kết nối lại được" chỉ qua khi mạng thật sự đã về
   tap.setOffline(true);

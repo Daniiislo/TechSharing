@@ -193,6 +193,6 @@ export function renderDetail(el, view) {
   else if (view.waiting) parts.push(`<pre class="wire">…</pre>`);
   if (view.blocked) parts.push(`<div class="warn-note"><b>Đang chờ:</b> ${esc(view.blocked)}</div>`);
   if (step.warn) parts.push(`<div class="warn-note"><b>Lỗ hổng:</b> ${esc(step.warn)}</div>`);
-  if (step.without) parts.push(`<div class="without"><b>Không có SignalR:</b> ${esc(step.without)}</div>`);
+  if (step.without) parts.push(`<div class="without"><b>Nếu không dùng SignalR:</b> ${esc(step.without)}</div>`);
   el.innerHTML = parts.join("");
 }
