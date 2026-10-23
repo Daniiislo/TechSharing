@@ -1,78 +1,78 @@
 {
   "schema": "ppt-master.svg-quality-report.v1",
   "stage": "final",
-  "target": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
+  "target": "F:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "46c7836d05472cc5678fbd345df80fc4965827bb58d6ba255901a6e391698b2f",
+    "digest": "fc6cdcaf3b38b0870c1a1ff6765b7f57a5060593693fc90199d7b4869c02c21e",
     "file_count": 15,
     "files": [
       {
         "file": "01_cover.svg",
-        "sha256": "2af027b78b9212991d84a59a6bb3be50395ad1946428d387702fd6e1bfad51af"
+        "sha256": "efaf0a30f20eeab49456c3b2031278acdc96ce9c17fae5eb5594a1bbb9434eac"
       },
       {
         "file": "02_the_moment.svg",
-        "sha256": "e65f8a57ce0905d8a3b6eda6980e82e4739967ee784797770bdd24172b8dafb9"
+        "sha256": "0097a94431fd21333c71faca3c798f75bdd8990d33e99935bf32d94c61e6c11f"
       },
       {
         "file": "03_hand_built.svg",
-        "sha256": "761403bf1ddff993b6a3433f3b18b200426be00a1a32f98daac0d009dd2eaa9f"
+        "sha256": "b52ab60ed2d2be74bd9ca18a325ac28137e73a97f0415110958f7a62e8767e5f"
       },
       {
         "file": "04_framework_layers.svg",
-        "sha256": "4f7de4f84bed233ccc89df8659f209076e70949d474b4d254293dbbe75233576"
+        "sha256": "965e16c2ef44c6169ae898cff541bb4b4c19aa928f451b67e7aa8eed32d6a57e"
       },
       {
         "file": "05_six_jobs.svg",
-        "sha256": "dabd1f19696a04fac490bea5e6a6902e8070a9a60dd8d50d63d392b29b566e52"
+        "sha256": "aff1cffa1612e1b2139699beb225ba96cff59785b266615de80924e653cc292f"
       },
       {
         "file": "06_when_to_use.svg",
-        "sha256": "b1e18bcd851c19db73f99b198b80e1f2735ac69b91dc098517f5352df220db97"
+        "sha256": "cb275b90f863654173dc963becfd83ad9d2afb013f8b8afb57d17c6b6644836b"
       },
       {
         "file": "07_mindset.svg",
-        "sha256": "760b95ab67480b6bc6692f9c0ccac5ea3593a5c6ef63ad98bb70d8fe575f5db0"
+        "sha256": "665b4890ce957b0267cf22c74326491ecaa59f8f9a34d40da4d5a6039844583f"
       },
       {
         "file": "08_at_a_glance.svg",
-        "sha256": "7a4746a5e7f6657e507110692cea3b7a384ad80b21e42df6a568dd8fac35f1ac"
+        "sha256": "9b5d6192448cf735cae25cf04f9962f86be4533dfed08fb8f47eda3b06306f39"
       },
       {
         "file": "09_phase1_connect.svg",
-        "sha256": "062cc0713f06de3a31720c44e41db3768c1887676e50a9f06b9d5d17d352e1d1"
+        "sha256": "a63b814658debafdbff175af7c396a9fa8c0cd04e55de342675c360ff6327a36"
       },
       {
         "file": "10_phase2_place_bid.svg",
-        "sha256": "5b624a3efd9524456a4e4bcf581fde91758dcb3c13c5726793b40b1257e19eee"
+        "sha256": "d18680acd1aabff22ec1d19d25513ddc354b0c971f52a09c3ecc728ee0bca635"
       },
       {
         "file": "11_phase2_fan_out.svg",
-        "sha256": "80583401988772d18ff4ae4e8ba1481dc4dd28f74d63ee891ab38c70d777d63d"
+        "sha256": "b69375a57dd3b822eda7d87539345a3c86883d2067b6796db67c6775bb44d9ce"
       },
       {
         "file": "12_server_push.svg",
-        "sha256": "e0eb2b86fad98b80c12ff145810863b9f9e1857d09f847f6dd2cfd8dd6b0f94b"
+        "sha256": "de0ebb80272e3274e834a1bcde0d6de03d247c8adb604b9e34feb665d1631243"
       },
       {
         "file": "13_two_holes.svg",
-        "sha256": "b6b67547235bf3e35e397555570e07bbfd509e8ecd08dc90dfb9504c43807736"
+        "sha256": "7f36832a75cfbe402b801bc72a4b2ccffe0c7ea387e775c8097ab2c8ee0a9eae"
       },
       {
         "file": "14_do_avoid.svg",
-        "sha256": "eeebbbb2a699fc619970b13990967445b29d20752cf798c96c2f084fba5760b7"
+        "sha256": "cba4403e03d3aab329ae14e52daacaee066975dea43633f0b0230f459f87dae2"
       },
       {
         "file": "15_demo_qa.svg",
-        "sha256": "1c029cf8ece007f9da6d6c42dbe201ae09837f8540bc7a790e35ab3d2c9a9f6e"
+        "sha256": "757c868334b13502bcc0c0a52581287a9292e877e67e9588d1bde4fa32c19797"
       }
     ]
   },
   "summary": {
     "total": 15,
-    "passed": 13,
-    "warnings": 2,
+    "passed": 12,
+    "warnings": 3,
     "errors": 0
   },
   "issue_types": {},
@@ -82,15 +82,27 @@
       "issues": []
     },
     "introduced": {
-      "count": 2,
+      "count": 5,
       "issues": [
         {
           "file": "08_at_a_glance.svg",
           "message": "Detected 2 paragraph-like line run(s) split across sibling <text> elements (<g id=\"server\"> x=484.0, y=302.0..334.0, 2 lines; <g id=\"server\"> x=532.0, y=364.0..394.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
         },
         {
-          "file": "11_phase2_fan_out.svg",
-          "message": "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"browser-ben\"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
+          "file": "13_two_holes.svg",
+          "message": "<text> (x=704, y=416; text='Records Ben as the b…') exceeds <g id=\"server\"> data-pptx-bounds on the vertical axis: content (704.0, 390.5)-(1103.5, 426.5), container (704.0, 202.0)-(1216.0, 424.0), overflow horizontal 0.0%, vertical 1.1% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+        },
+        {
+          "file": "13_two_holes.svg",
+          "message": "<text> (x=64, y=566; text='[Authorize]') exceeds <g id=\"fix-auth\"> data-pptx-bounds on the vertical axis: content (64.0, 533.7)-(309.2, 579.3), container (64.0, 536.0)-(604.0, 636.0), overflow horizontal 0.0%, vertical 2.3% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+        },
+        {
+          "file": "13_two_holes.svg",
+          "message": "1 ungrouped top-level Slide-local element(s) in svg_output (<text> #4); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "14_do_avoid.svg",
+          "message": "<text> (x=64, y=482; text='[Authorize] + Contex…') exceeds <g id=\"do-list\"> data-pptx-bounds on the horizontal axis: content (64.0, 459.9)-(613.8, 491.1), container (64.0, 206.0)-(608.0, 624.0), overflow horizontal 1.1%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈16.2 px per Latin char at 26px incl. headroom; ≈33 chars fit in 544 px"
         }
       ]
     },
@@ -108,9 +120,6 @@
   },
   "drift": {
     "colors": {
-      "#F6C177": [
-        "13_two_holes.svg"
-      ],
       "#FFFFFF": [
         "01_cover.svg",
         "04_framework_layers.svg",
@@ -120,32 +129,45 @@
       ]
     },
     "fonts": {},
-    "sizes": {}
+    "sizes": {
+      "25": [
+        "13_two_holes.svg"
+      ],
+      "32": [
+        "13_two_holes.svg"
+      ],
+      "44": [
+        "13_two_holes.svg"
+      ],
+      "76": [
+        "15_demo_qa.svg"
+      ]
+    }
   },
   "carrier_receipt": {
     "scope": "informational-not-a-quota",
     "pages": 15,
     "totals": {
-      "text_elements": 359,
+      "text_elements": 331,
       "image_placements": 0,
-      "icons": 24,
-      "svg_geometry_elements": 146,
+      "icons": 20,
+      "svg_geometry_elements": 136,
       "preset_shapes": 5,
-      "page_frame_elements": 20,
+      "page_frame_elements": 18,
       "marker_uses": 34,
-      "inline_emphasis_runs": 19,
+      "inline_emphasis_runs": 16,
       "gradient_uses": 0,
       "filter_uses": 0,
       "text_effects": 0
     },
     "pages_with": {
       "images": 0,
-      "icons": 9,
+      "icons": 8,
       "presets": 3,
       "charts": 0,
       "tables": 1,
       "formulas": 0,
-      "inline_emphasis_runs": 9,
+      "inline_emphasis_runs": 7,
       "gradient_uses": 0,
       "filter_uses": 0,
       "text_effects": 0
@@ -154,11 +176,11 @@
     "geometry_elements": {
       "circle": 5,
       "ellipse": 0,
-      "line": 79,
+      "line": 74,
       "path": 0,
       "polygon": 0,
       "polyline": 0,
-      "rect": 62
+      "rect": 57
     },
     "preset_names": {
       "chevron": 3,
@@ -184,7 +206,7 @@
   "files": [
     {
       "file": "01_cover.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\01_cover.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\01_cover.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -247,18 +269,18 @@
         }
       },
       "passed": true,
-      "source_sha256": "2af027b78b9212991d84a59a6bb3be50395ad1946428d387702fd6e1bfad51af"
+      "source_sha256": "efaf0a30f20eeab49456c3b2031278acdc96ce9c17fae5eb5594a1bbb9434eac"
     },
     {
       "file": "02_the_moment.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\02_the_moment.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\02_the_moment.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 20,
+          "text_elements": 19,
           "images": {
             "placements": 0,
             "files": [],
@@ -302,15 +324,15 @@
           "Cambria, serif",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 20,
+        "text_elements": 19,
         "tspan_elements": 2
       },
       "passed": true,
-      "source_sha256": "e65f8a57ce0905d8a3b6eda6980e82e4739967ee784797770bdd24172b8dafb9"
+      "source_sha256": "0097a94431fd21333c71faca3c798f75bdd8990d33e99935bf32d94c61e6c11f"
     },
     {
       "file": "03_hand_built.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\03_hand_built.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\03_hand_built.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -365,11 +387,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "761403bf1ddff993b6a3433f3b18b200426be00a1a32f98daac0d009dd2eaa9f"
+      "source_sha256": "b52ab60ed2d2be74bd9ca18a325ac28137e73a97f0415110958f7a62e8767e5f"
     },
     {
       "file": "04_framework_layers.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\04_framework_layers.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\04_framework_layers.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -430,11 +452,11 @@
         }
       },
       "passed": true,
-      "source_sha256": "4f7de4f84bed233ccc89df8659f209076e70949d474b4d254293dbbe75233576"
+      "source_sha256": "965e16c2ef44c6169ae898cff541bb4b4c19aa928f451b67e7aa8eed32d6a57e"
     },
     {
       "file": "05_six_jobs.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\05_six_jobs.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\05_six_jobs.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -490,11 +512,11 @@
         "tspan_elements": 8
       },
       "passed": true,
-      "source_sha256": "dabd1f19696a04fac490bea5e6a6902e8070a9a60dd8d50d63d392b29b566e52"
+      "source_sha256": "aff1cffa1612e1b2139699beb225ba96cff59785b266615de80924e653cc292f"
     },
     {
       "file": "06_when_to_use.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\06_when_to_use.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\06_when_to_use.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -549,11 +571,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "b1e18bcd851c19db73f99b198b80e1f2735ac69b91dc098517f5352df220db97"
+      "source_sha256": "cb275b90f863654173dc963becfd83ad9d2afb013f8b8afb57d17c6b6644836b"
     },
     {
       "file": "07_mindset.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\07_mindset.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\07_mindset.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -609,11 +631,11 @@
         "tspan_elements": 8
       },
       "passed": true,
-      "source_sha256": "760b95ab67480b6bc6692f9c0ccac5ea3593a5c6ef63ad98bb70d8fe575f5db0"
+      "source_sha256": "665b4890ce957b0267cf22c74326491ecaa59f8f9a34d40da4d5a6039844583f"
     },
     {
       "file": "08_at_a_glance.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\08_at_a_glance.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\08_at_a_glance.svg",
       "exists": true,
       "errors": [],
       "warnings": [
@@ -622,7 +644,7 @@
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 31,
+          "text_elements": 29,
           "images": {
             "placements": 0,
             "files": [],
@@ -637,7 +659,7 @@
           },
           "geometry": {
             "svg_elements": {
-              "rect": 12,
+              "rect": 11,
               "circle": 0,
               "ellipse": 0,
               "line": 5,
@@ -667,7 +689,7 @@
           "Consolas, monospace",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 31,
+        "text_elements": 29,
         "tspan_elements": 1,
         "contextual_values": {
           "colors": [
@@ -676,11 +698,11 @@
         }
       },
       "passed": true,
-      "source_sha256": "7a4746a5e7f6657e507110692cea3b7a384ad80b21e42df6a568dd8fac35f1ac"
+      "source_sha256": "9b5d6192448cf735cae25cf04f9962f86be4533dfed08fb8f47eda3b06306f39"
     },
     {
       "file": "09_phase1_connect.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\09_phase1_connect.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\09_phase1_connect.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -736,11 +758,11 @@
         "tspan_elements": 4
       },
       "passed": true,
-      "source_sha256": "062cc0713f06de3a31720c44e41db3768c1887676e50a9f06b9d5d17d352e1d1"
+      "source_sha256": "a63b814658debafdbff175af7c396a9fa8c0cd04e55de342675c360ff6327a36"
     },
     {
       "file": "10_phase2_place_bid.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\10_phase2_place_bid.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\10_phase2_place_bid.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -803,20 +825,18 @@
         }
       },
       "passed": true,
-      "source_sha256": "5b624a3efd9524456a4e4bcf581fde91758dcb3c13c5726793b40b1257e19eee"
+      "source_sha256": "d18680acd1aabff22ec1d19d25513ddc354b0c971f52a09c3ecc728ee0bca635"
     },
     {
       "file": "11_phase2_fan_out.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\11_phase2_fan_out.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\11_phase2_fan_out.svg",
       "exists": true,
       "errors": [],
-      "warnings": [
-        "Detected 1 paragraph-like line run(s) split across sibling <text> elements (<g id=\"browser-ben\"> x=820.0, y=588.0..622.0, 2 lines). If each run is one prose paragraph, combine it into one <text>: keep its first line as direct text and use direct <tspan> children with the parent x and positive relative dy values for later lines. An all-<tspan> form may start with dy=\"0\". Keep semantically independent text frames separate."
-      ],
+      "warnings": [],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 31,
+          "text_elements": 25,
           "images": {
             "placements": 0,
             "files": [],
@@ -824,7 +844,7 @@
           },
           "icons": 1,
           "effects": {
-            "inline_emphasis_runs": 1,
+            "inline_emphasis_runs": 0,
             "gradient_uses": 0,
             "filter_uses": 0,
             "text_effects": 0
@@ -834,7 +854,7 @@
               "rect": 7,
               "circle": 0,
               "ellipse": 0,
-              "line": 6,
+              "line": 5,
               "polyline": 0,
               "polygon": 0,
               "path": 0
@@ -861,8 +881,8 @@
           "Consolas, monospace",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 31,
-        "tspan_elements": 5,
+        "text_elements": 25,
+        "tspan_elements": 0,
         "contextual_values": {
           "colors": [
             "#FFFFFF"
@@ -870,11 +890,11 @@
         }
       },
       "passed": true,
-      "source_sha256": "80583401988772d18ff4ae4e8ba1481dc4dd28f74d63ee891ab38c70d777d63d"
+      "source_sha256": "b69375a57dd3b822eda7d87539345a3c86883d2067b6796db67c6775bb44d9ce"
     },
     {
       "file": "12_server_push.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\12_server_push.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\12_server_push.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -930,43 +950,47 @@
         "tspan_elements": 4
       },
       "passed": true,
-      "source_sha256": "e0eb2b86fad98b80c12ff145810863b9f9e1857d09f847f6dd2cfd8dd6b0f94b"
+      "source_sha256": "de0ebb80272e3274e834a1bcde0d6de03d247c8adb604b9e34feb665d1631243"
     },
     {
       "file": "13_two_holes.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\13_two_holes.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\13_two_holes.svg",
       "exists": true,
       "errors": [],
-      "warnings": [],
+      "warnings": [
+        "<text> (x=704, y=416; text='Records Ben as the b…') exceeds <g id=\"server\"> data-pptx-bounds on the vertical axis: content (704.0, 390.5)-(1103.5, 426.5), container (704.0, 202.0)-(1216.0, 424.0), overflow horizontal 0.0%, vertical 1.1% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text",
+        "<text> (x=64, y=566; text='[Authorize]') exceeds <g id=\"fix-auth\"> data-pptx-bounds on the vertical axis: content (64.0, 533.7)-(309.2, 579.3), container (64.0, 536.0)-(604.0, 636.0), overflow horizontal 0.0%, vertical 2.3% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text",
+        "1 ungrouped top-level Slide-local element(s) in svg_output (<text> #4); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+      ],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 28,
+          "text_elements": 19,
           "images": {
             "placements": 0,
             "files": [],
             "max_frame_share": 0.0
           },
-          "icons": 4,
+          "icons": 0,
           "effects": {
-            "inline_emphasis_runs": 2,
+            "inline_emphasis_runs": 1,
             "gradient_uses": 0,
             "filter_uses": 0,
             "text_effects": 0
           },
           "geometry": {
             "svg_elements": {
-              "rect": 5,
+              "rect": 1,
               "circle": 0,
               "ellipse": 0,
-              "line": 1,
+              "line": 0,
               "polyline": 0,
               "polygon": 0,
               "path": 0
             },
             "preset_shapes": 0,
             "preset_names": {},
-            "page_frame_elements": 2,
+            "page_frame_elements": 1,
             "marker_uses": {
               "start": 0,
               "mid": 0,
@@ -986,27 +1010,29 @@
           "Consolas, monospace",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 28,
-        "tspan_elements": 5,
-        "contextual_values": {
-          "colors": [
-            "#F6C177"
-          ]
+        "text_elements": 19,
+        "tspan_elements": 1,
+        "sparse_typography_sizes": {
+          "25": 2,
+          "32": 1,
+          "44": 1
         }
       },
       "passed": true,
-      "source_sha256": "b6b67547235bf3e35e397555570e07bbfd509e8ecd08dc90dfb9504c43807736"
+      "source_sha256": "7f36832a75cfbe402b801bc72a4b2ccffe0c7ea387e775c8097ab2c8ee0a9eae"
     },
     {
       "file": "14_do_avoid.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\14_do_avoid.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\14_do_avoid.svg",
       "exists": true,
       "errors": [],
-      "warnings": [],
+      "warnings": [
+        "<text> (x=64, y=482; text='[Authorize] + Contex…') exceeds <g id=\"do-list\"> data-pptx-bounds on the horizontal axis: content (64.0, 459.9)-(613.8, 491.1), container (64.0, 206.0)-(608.0, 624.0), overflow horizontal 1.1%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈16.2 px per Latin char at 26px incl. headroom; ≈33 chars fit in 544 px"
+      ],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 27,
+          "text_elements": 18,
           "images": {
             "placements": 0,
             "files": [],
@@ -1024,14 +1050,14 @@
               "rect": 1,
               "circle": 0,
               "ellipse": 0,
-              "line": 3,
+              "line": 0,
               "polyline": 0,
               "polygon": 0,
               "path": 0
             },
             "preset_shapes": 0,
             "preset_names": {},
-            "page_frame_elements": 2,
+            "page_frame_elements": 1,
             "marker_uses": {
               "start": 0,
               "mid": 0,
@@ -1048,24 +1074,25 @@
         },
         "fonts": [
           "Cambria, serif",
+          "Consolas, monospace",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 27,
-        "tspan_elements": 2
+        "text_elements": 18,
+        "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "eeebbbb2a699fc619970b13990967445b29d20752cf798c96c2f084fba5760b7"
+      "source_sha256": "cba4403e03d3aab329ae14e52daacaee066975dea43633f0b0230f459f87dae2"
     },
     {
       "file": "15_demo_qa.svg",
-      "path": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\15_demo_qa.svg",
+      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\15_demo_qa.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 10,
+          "text_elements": 9,
           "images": {
             "placements": 0,
             "files": [],
@@ -1073,7 +1100,7 @@
           },
           "icons": 1,
           "effects": {
-            "inline_emphasis_runs": 1,
+            "inline_emphasis_runs": 0,
             "gradient_uses": 0,
             "filter_uses": 0,
             "text_effects": 0
@@ -1112,11 +1139,14 @@
           "Consolas, monospace",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 10,
-        "tspan_elements": 2
+        "text_elements": 9,
+        "tspan_elements": 0,
+        "sparse_typography_sizes": {
+          "76": 1
+        }
       },
       "passed": true,
-      "source_sha256": "1c029cf8ece007f9da6d6c42dbe201ae09837f8540bc7a790e35ab3d2c9a9f6e"
+      "source_sha256": "757c868334b13502bcc0c0a52581287a9292e877e67e9588d1bde4fa32c19797"
     }
   ]
 }

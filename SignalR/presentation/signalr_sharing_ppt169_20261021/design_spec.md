@@ -12,8 +12,8 @@
 | Target Audience | Dev trong team Geronimo, đã dự buổi ProtoLab (Polling, Long polling, SSE, WebSocket, vấn đề mất kết nối); quen .NET và code TravelPledgeAuctions ở mức khác nhau |
 | Communication Intent | Giải thích SignalR là framework (không chỉ WebSocket) và nó làm gì thay mình; định hướng mindset chuẩn bị khi dùng; mổ xẻ cách Geronimo dùng SignalR để sync bid (Phase 1 kết nối, Phase 2 bid và nhận cập nhật) bằng diagram flow code; chốt bằng best practice, nêu thẳng lỗ hổng bidderId và lộ max bid |
 | Desired Audience Outcome | Người nghe nói được SignalR làm thay mình những gì và khi nào nên/không nên dùng; nhìn sơ đồ là biết một bid đi từ PLACE BID tới màn hình người khác ra sao, phần nào code Geronimo, phần nào SignalR; nhớ được vài best practice và hai lỗ hổng cần sửa |
-| Core Message / Ask / Action | SignalR is a real-time framework, not a transport: it negotiates the transport, keeps the connection alive, turns calls into messages and fans them out — you write the business logic, and you still own identity and what you broadcast. |
-| Delivery Context | Thuyết trình trực tiếp 30 phút cho team, slide tiếng Anh, nói tiếng Việt, demo BidLab chạy live ở slide Demo & Q&A; không speaker notes |
+| Core Message / Ask / Action | SignalR is a real-time library, not a transport: it negotiates the transport, keeps the connection alive, turns calls into messages and fans them out — you write the business logic, and you still own identity and what you broadcast. |
+| Delivery Context | Thuyết trình trực tiếp 30 phút cho team, slide tiếng Anh, nói tiếng Việt, demo BidLab chạy live ở slide Demo & Questions; không speaker notes |
 | Artifact Afterlife | File PPTX chỉnh sửa được, chia sẻ lại cho team kèm tài liệu deep-dive và presenter guide tiếng Việt |
 | Reading Mode | presentation |
 | Content Strategy | balanced (blank divergence field) — re-architect the deep-dive into a story arc, keep all substance, no outside facts. User revision: on slides use English names Anna (bidder, was An) and Ben (viewer, was Bình); never mention ProtoLab on slides. |
@@ -158,7 +158,7 @@
 - **Composition**: left: the moment as two stacked mini item cards (Anna $1,300 → Ben "outbid"); right: the four questions as a numbered editorial list that doubles as the agenda
 - **Title**: Anna clicks. Ben's price changes.
 - **Core message**: Four questions take us from the click to the fix.
-- **Content**: Anna bids $1,300 on Item #12 · Ben's screen: $1,300, "You have been outbid" — no refresh · 1 What is SignalR? · 2 What do we prepare? · 3 How does Geronimo sync a bid? · 4 What should we fix? · then live demo
+- **Content**: Anna bids $1,300 on Item #12 · Ben's screen: $1,300, "You have been outbid" — no refresh · 1 What is SignalR? · 2 What do we prepare? · 3 How does Geronimo sync a bid? · 4 Best practices: Do & Avoid
 
 #### Slide 03 - What raw WebSocket leaves to you
 
@@ -169,12 +169,12 @@
 - **Core message**: The plumbing raw WebSocket leaves to you is exactly what SignalR ships.
 - **Content**: Reconnect loop → withAutomaticReconnect() · WebSocket blocked → transport fallback (WS → SSE → Long polling) · Message format → Hub Protocol (JSON / MessagePack) · Request ↔ response matching → invoke() + invocationId · Socket list & broadcast → Clients.All / Caller / User / Group · Many servers → backplane (Redis / Azure SignalR)
 
-#### Slide 04 - Framework, not transport
+#### Slide 04 - Library, not transport
 
 - **Audience move**: thinks "SignalR = WebSocket" → sees three layers
 - **Relationships**: app code over SignalR over transport (parent / order); SignalR parts belong to the middle layer (membership)
 - **Composition**: one wide stack diagram — top cyan "Your code: Hub methods · client handlers", middle dashed violet band "SignalR: HubConnection · Hub dispatch · HubLifetimeManager · Hub Protocol · negotiate · keep-alive", bottom grey "Transport: WebSockets › Server-Sent Events › Long Polling"; margin note
-- **Title**: A framework, not a transport
+- **Title**: A real-time library, not a transport
 - **Core message**: SignalR sits between your code and the wire.
 - **Content**: Your code · SignalR layer (5–6 labelled parts) · Transport (3 options, auto-chosen) · margin note "built into ASP.NET Core; JS / .NET / Java clients"
 
@@ -215,10 +215,10 @@
 
 - **Audience move**: knows SignalR in general → sees Geronimo's map
 - **Relationships**: browsers ↔ BidHub / EventHub (link); Quartz job and services push through IHubContext (link); Redis backplane joins servers (link)
-- **Composition**: one map: browser pages on the left, server box with three hubs in the middle, Redis below, background job feeding EventHub; violet band marks SignalR parts
-- **Title**: Three hubs, one Redis backplane
+- **Composition**: one map: browser pages on the left, server box with two hubs in the middle, Redis below, background job feeding EventHub; violet band marks SignalR parts
+- **Title**: Two hubs, one Redis backplane
 - **Core message**: Bids flow through BidHub; closing pushes come from the server.
-- **Content**: BidHub /bidhub — AddBid · AddBids → updateItem · updateEvent · addBidSuccess / addBidFail · EventHub /eventhub — closeItem(s) · closeEvent via IHubContext · MessageHub — sendMessage (not mapped) · AddSignalR().AddStackExchangeRedis(...) · clients: itemBid.js (Item page) · eventBidUpdates.js (Event page)
+- **Content**: BidHub /bidhub — AddBid · AddBids → updateItem · updateEvent · addBidSuccess / addBidFail · EventHub /eventhub — closeItem(s) · closeEvent via IHubContext · AddSignalR().AddStackExchangeRedis(...) · clients: itemBid.js (Item page) · eventBidUpdates.js (Event page)
 
 #### Slide 09 - Phase 1: connecting to a bid
 
@@ -258,32 +258,32 @@
 
 ### Part 4: What to fix
 
-#### Slide 13 - Two holes in the bid path
+#### Slide 13 - Client-supplied bidder identity
 
-- **Audience move**: trusts the flow → sees two concrete vulnerabilities and their fixes
-- **Relationships**: hole 1 cause → effect → fix (order); hole 2 cause → effect → fix (order); the two holes are parallel (membership)
-- **Composition**: two editorial columns, each with a native console/DevTools frame as evidence, warning rule, and a one-line fix
-- **Title**: Two holes: who bids, and what everyone sees
-- **Core message**: Take identity from the connection and broadcast only public data.
-- **Content**: Hole 1 — client-supplied identity: console › connection.invoke("AddBid", 1042, "<victim id>", 1300, false, false) → bid in the victim's name · bidderId from a hidden field · no [Authorize] · ids already broadcast in updateItem · fix: [Authorize] on AddBid + Context.UserIdentifier · Hole 2 — max bid leak: DevTools › WS › updateItem(…, "u-binh", true, 2000) → rival's max bid visible · fix: send isBuyNowAvailable, not the amount · not yet tested on production
+- **Audience move**: understands the flow → sees why trusting bidderId permits impersonation
+- **Relationships**: client argument → server processing → impersonation risk (order); mitigation below
+- **Composition**: two columns: exact client invocation and shortened server signature; server processing described with source lines, missing identity check and fix below
+- **Title**: The server trusts a client-supplied bidder ID
+- **Core message**: Derive bidder identity from the authenticated connection.
+- **Content**: Client controls bidderId → GetBidContext → CreateBid uses the supplied ID without checking the authenticated caller → risk of a bid in someone else's name. Fix: [Authorize] on AddBid/AddBids; Context.UserIdentifier; remove bidderId from client arguments. 
 
 #### Slide 14 - Do / Avoid
 
-- **Audience move**: knows the holes → leaves with a short checklist
-- **Relationships**: paired do / avoid items (contrast)
-- **Composition**: two-column checklist with hairline divider; Do in cyan check marks, Avoid in warning marks
-- **Title**: Seven habits for the next hub
-- **Core message**: Small habits keep a hub safe and cheap.
-- **Content**: Do: Groups per event/item, not Clients.All · identity from Context · broadcast only public data · resync after onreconnected · DetailedErrors only in Development · short, stateless hub methods · plan scale-out (sticky sessions / backplane) · Avoid: trusting ids in arguments · leaking private values · relying on reconnect to replay missed updates
+- **Audience move**: understands the risk → keeps three practical rules
+- **Relationships**: three paired do / avoid rows (contrast)
+- **Composition**: balanced two columns with three aligned rows; bold rule and one short explanation per row
+- **Title**: Three rules for the next hub
+- **Core message**: Choose the audience, verify identity, connect servers.
+- **Content**: Groups per event/item + audience-appropriate payload; [Authorize] + Context.UserIdentifier; backplane and sticky sessions where needed. Avoid indiscriminate broadcasts, client-supplied identity and isolated server fan-out. Remove Geronimo footnote and old rules 4–6.
 
-#### Slide 15 - Demo & Q&A
+#### Slide 15 - Demo & Questions
 
 - **Audience move**: has the model → sees it run live and asks questions
 - **Relationships**: demo scenes in order (order); core message as takeaway
-- **Closing impact**: takeaway "SignalR moves the message. You own who sends it and what it says." composition Reference: big serif takeaway with the four demo scenes as a small numbered strip
-- **Title**: See it run: SignalR BidLab
+- **Closing impact**: Large, direct title "Demo & Questions" above the three demo steps
+- **Title**: Demo & Questions
 - **Core message**: SignalR moves the message; you own identity and what you broadcast.
-- **Content**: 1 Connect (negotiate → handshake) · 2 Bid (8 steps, Ben updates last) · 3 Go offline (retry 0/2/10/30 s) · http://127.0.0.1:5080 · Q&A
+- **Content**: 1 Connect (negotiate → handshake) · 2 Bid (bid → broadcast → update clients) · 3 Go offline (reconnect or give up) · Q&A
 
 ## X. Speaker Notes Requirements
 

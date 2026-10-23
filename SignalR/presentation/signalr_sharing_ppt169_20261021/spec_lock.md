@@ -9,7 +9,7 @@
 - primary_language: en
 - audience: Geronimo devs who attended ProtoLab; varying familiarity with .NET and TravelPledgeAuctions
 - objective: Explain SignalR as a framework and what it does for us, set the preparation mindset, trace how Geronimo syncs a bid (Phase 1 connect, Phase 2 bid and update) with code-flow diagrams, and close with best practices and the bidderId and max-bid holes, so devs can tell which part is Geronimo code and which is SignalR and remember what to fix
-- core_message: SignalR is a real-time framework, not a transport: it negotiates the transport, keeps the connection alive, turns calls into messages and fans them out — you write the business logic, and you still own identity and what you broadcast.
+- core_message: SignalR is a real-time library, not a transport: it negotiates the transport, keeps the connection alive, turns calls into messages and fans them out — you write the business logic, and you still own identity and what you broadcast.
 - consumption_mode: presentation
 
 ## mode

@@ -1,21 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
   <defs>
     <marker id="arrowViolet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-      <polygon points="0,0 10,5 0,10" fill="#5B21B6"/>
+      <polygon points="0,0 10,5 0,10" fill="#5B21B6" />
     </marker>
     <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-      <polygon points="0,0 10,5 0,10" fill="#007F9E"/>
+      <polygon points="0,0 10,5 0,10" fill="#007F9E" />
     </marker>
   </defs>
-  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
 
   <g id="header" data-pptx-bounds="64 60 1152 108">
-    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid?</text>
-    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Three hubs, one Redis backplane</text>
+    <text x="64" y="84" font-size="24" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid?</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Two hubs, one Redis backplane</text>
   </g>
 
   <g id="page-item" data-pptx-bounds="64 216 280 128">
-    <rect x="64" y="220" width="280" height="120" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5"/>
+    <rect x="64" y="220" width="280" height="120" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5" />
     <!-- icon: tabler-outline/browser -->
   <g transform="translate(80, 234) scale(1.16667)" fill="none" stroke="#007F9E" stroke-width="2">
     <path d="M4 8h16" />
@@ -28,7 +29,7 @@
   </g>
 
   <g id="page-event" data-pptx-bounds="64 376 280 128">
-    <rect x="64" y="380" width="280" height="120" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5"/>
+    <rect x="64" y="380" width="280" height="120" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5" />
     <!-- icon: tabler-outline/browser -->
   <g transform="translate(80, 394) scale(1.16667)" fill="none" stroke="#007F9E" stroke-width="2">
     <path d="M4 8h16" />
@@ -41,32 +42,28 @@
   </g>
 
   <g id="links-browsers" data-pptx-bounds="344 268 94 156" stroke="#5B21B6" stroke-width="2" stroke-dasharray="8 4">
-    <line x1="348" y1="280" x2="460" y2="280" marker-start="url(#arrowViolet)" marker-end="url(#arrowViolet)"/>
-    <line x1="348" y1="410" x2="460" y2="410" marker-start="url(#arrowViolet)" marker-end="url(#arrowViolet)"/>
+    <line x1="348" y1="280" x2="460" y2="280" marker-start="url(#arrowViolet)" marker-end="url(#arrowViolet)" />
+    <line x1="348" y1="440.932" x2="460" y2="440.932" marker-start="url(#arrowViolet)" marker-end="url(#arrowViolet)" />
   </g>
 
   <g id="server" data-pptx-bounds="440 186 564 448">
-    <rect x="440" y="190" width="560" height="440" rx="4" fill="none" stroke="#102A43" stroke-width="1.5"/>
+    <rect x="440" y="190" width="560" height="440" rx="4" fill="none" stroke="#102A43" stroke-width="1.5" />
     <text x="464" y="220" font-size="20" font-weight="600" fill="#102A43">ASP.NET Core server</text>
 
-    <rect x="464" y="236" width="296" height="176" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+    <rect x="464" y="236" width="296" height="176" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
     <text x="484" y="268" font-family="Consolas, monospace" font-size="22" font-weight="bold" fill="#007F9E">BidHub <tspan font-weight="normal" fill="#526B80">/bidhub</tspan></text>
     <text x="484" y="302" font-size="22" fill="#243B53">in: AddBid · AddBids</text>
     <text x="484" y="334" font-size="22" fill="#243B53">out: updateItem</text>
     <text x="532" y="364" font-size="22" fill="#243B53">updateEvent</text>
     <text x="532" y="394" font-size="22" fill="#243B53">addBidSuccess · Fail</text>
 
-    <rect x="776" y="236" width="200" height="176" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+    <rect x="776" y="236" width="200" height="176" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
     <text x="794" y="268" font-family="Consolas, monospace" font-size="22" font-weight="bold" fill="#007F9E">EventHub</text>
     <text x="794" y="298" font-family="Consolas, monospace" font-size="22" fill="#526B80">/eventhub</text>
     <text x="794" y="334" font-size="22" fill="#243B53">out: closeItem(s)</text>
     <text x="840" y="364" font-size="22" fill="#243B53">closeEvent</text>
 
-    <rect x="464" y="452" width="296" height="96" rx="4" fill="#FFFFFF" stroke="#CAD7E2" stroke-width="1.5"/>
-    <text x="484" y="486" font-family="Consolas, monospace" font-size="22" font-weight="bold" fill="#526B80">MessageHub</text>
-    <text x="484" y="520" font-size="22" fill="#526B80">sendMessage · never mapped</text>
-
-    <rect x="776" y="452" width="200" height="96" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+<rect x="776" y="452" width="200" height="96" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
     <!-- icon: tabler-outline/clock -->
   <g transform="translate(794, 464)" fill="none" stroke="#007F9E" stroke-width="2">
     <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
@@ -74,16 +71,16 @@
   </g>
     <text x="826" y="484" font-size="22" font-weight="bold" fill="#102A43">Jobs push</text>
     <text x="794" y="522" font-family="Consolas, monospace" font-size="22" fill="#243B53">IHubContext</text>
-    <line x1="876" y1="450" x2="876" y2="418" stroke="#007F9E" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <line x1="876" y1="450" x2="876" y2="418" stroke="#007F9E" stroke-width="2" marker-end="url(#arrowCyan)" />
 
-    <rect x="464" y="568" width="512" height="48" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <rect x="464" y="568" width="512" height="48" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5" />
     <text x="484" y="599" font-size="20" font-weight="bold" fill="#5B21B6">SignalR runtime</text>
     <text x="660" y="599" font-family="Consolas, monospace" font-size="20" fill="#5B21B6">AddStackExchangeRedis()</text>
   </g>
 
   <g id="redis" data-pptx-bounds="1004 556 212 72">
-    <line x1="980" y1="592" x2="1036" y2="592" stroke="#5B21B6" stroke-width="2" stroke-dasharray="4 4"/>
-    <rect x="1040" y="560" width="176" height="64" rx="4" fill="#FFFFFF" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <line x1="980" y1="592" x2="1036" y2="592" stroke="#5B21B6" stroke-width="2" stroke-dasharray="4 4" />
+    <rect x="1040" y="560" width="176" height="64" rx="4" fill="#FFFFFF" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="6 4" />
     <!-- icon: tabler-outline/database -->
   <g transform="translate(1052, 572)" fill="none" stroke="#5B21B6" stroke-width="2">
     <path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" />
@@ -95,11 +92,11 @@
   </g>
 
   <g id="legend" data-pptx-bounds="1036 216 180 120">
-    <rect x="1040" y="226" width="20" height="20" rx="2" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
+    <rect x="1040" y="226" width="20" height="20" rx="2" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
     <text x="1070" y="243" font-size="20" fill="#243B53">Geronimo code</text>
-    <rect x="1040" y="266" width="20" height="20" rx="2" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <rect x="1040" y="266" width="20" height="20" rx="2" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="4 3" />
     <text x="1070" y="283" font-size="20" fill="#243B53">SignalR</text>
-    <line x1="1040" y1="316" x2="1060" y2="316" stroke="#5B21B6" stroke-width="2" stroke-dasharray="8 4"/>
+    <line x1="1040" y1="316" x2="1060" y2="316" stroke="#5B21B6" stroke-width="2" stroke-dasharray="8 4" />
     <text x="1070" y="323" font-size="20" fill="#243B53">WebSocket</text>
   </g>
 

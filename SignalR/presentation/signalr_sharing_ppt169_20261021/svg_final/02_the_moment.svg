@@ -52,14 +52,13 @@
       <text x="700" y="282">What is SignalR?</text>
       <text x="700" y="370">What do we prepare?</text>
       <text x="700" y="458">How does Geronimo sync a bid?</text>
-      <text x="700" y="546">What should we fix?</text>
+      <text x="700" y="546">Best practices: Do &amp; Avoid</text>
     </g>
     <g stroke="#CAD7E2" stroke-width="1">
       <line x1="640" y1="312" x2="1216" y2="312"/>
       <line x1="640" y1="400" x2="1216" y2="400"/>
       <line x1="640" y1="488" x2="1216" y2="488"/>
     </g>
-    <text x="640" y="612" font-size="22" fill="#526B80">Then: the same bid, live in BidLab</text>
   </g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">

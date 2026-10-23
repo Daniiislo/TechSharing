@@ -13,7 +13,7 @@
   <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
 
   <g id="header" data-pptx-bounds="64 60 1152 108">
-    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Phase 2</text>
+    <text x="64" y="84" font-size="24" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Phase 2</text>
     <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">One click becomes AddBid</text>
   </g>
 
@@ -39,7 +39,7 @@
       <text x="104" y="444"><tspan font-weight="bold" fill="#B36A13">bidderId</tspan>, bidAmount,</text>
       <text x="104" y="474">isBuyNow, isMaxBid)</text>
     </g>
-    <text font-size="20" fill="#526B80" x="84" y="560">The Promise waits for</text><text font-size="20" fill="#526B80" x="84" y="588">a Completion (type 3)</text></g>
+    <text fill="#526B80" font-size="20" x="84" y="560">The Promise waits for</text><text fill="#526B80" font-size="20" x="84" y="588">a Completion (type 3)</text></g>
 
   <g id="lane-signalr" data-pptx-bounds="368 192 304 460">
     <rect x="384" y="196" width="284" height="452" rx="4" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="7 5" />
@@ -59,7 +59,7 @@
       <line x1="526" y1="406" x2="526" y2="428" marker-end="url(#arrowViolet)" />
       <line x1="526" y1="486" x2="526" y2="508" marker-end="url(#arrowViolet)" />
     </g>
-    <text font-size="20" fill="#526B80" x="404" y="270">Frame on the open</text><text font-size="20" fill="#526B80" x="404" y="298">WebSocket, with an</text><text font-size="20" fill="#526B80" x="404" y="326">invocationId</text></g>
+    <text fill="#526B80" font-size="20" x="404" y="270">Frame on the open</text><text fill="#526B80" font-size="20" x="404" y="298">WebSocket, with an</text><text fill="#526B80" font-size="20" x="404" y="326">invocationId</text></g>
 
   <rect id="lane-bidhub-field" data-pptx-role="decoration" x="692" y="196" width="524" height="452" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2" />
   <g id="p10-validate-decision" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="flowChartDecision" data-pptx-frame="698 296 40 40" fill="#FFFFFF" stroke="#007F9E" stroke-width="2">
@@ -99,7 +99,7 @@
     <line x1="1188" y1="316" x2="1188" y2="560" stroke="#526B80" stroke-width="1.5" marker-end="url(#arrowNavy)" />
     <text x="1004" y="306" font-size="20" fill="#526B80">invalid</text>
     <rect x="752" y="566" width="448" height="70" rx="4" fill="#FFFFFF" stroke="#526B80" stroke-width="1" />
-    <text font-size="20" fill="#243B53" x="768" y="594"><tspan font-family="Consolas, monospace" fill="#102A43">addBidFail</tspan> → Caller (e.g. BID_TOO_LOW)</text><text font-size="20" fill="#243B53" x="768" y="622">current price → All, isSuccessful = false</text></g>
+    <text fill="#243B53" font-size="20" x="768" y="594"><tspan font-family="Consolas, monospace" fill="#102A43">addBidFail</tspan> → Caller (e.g. BID_TOO_LOW)</text><text fill="#243B53" font-size="20" x="768" y="622">current price → All, isSuccessful = false</text></g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
     <text x="64" y="684">SignalR — More Than WebSocket</text>

@@ -1,23 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="ending" font-family="Segoe UI, sans-serif">
-  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
+  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
 
-  <g id="kicker" data-pptx-bounds="64 104 600 34">
-    <text x="64" y="128" font-size="20" font-weight="600" fill="#007F9E">Demo &amp; Q&amp;A</text>
-  </g>
+<g id="takeaway" data-pptx-bounds="64 160 1152 150"><text x="64" y="250" font-family="Cambria, serif" font-size="76" fill="#102A43">Demo &amp; Questions</text></g>
 
-  <g id="takeaway" data-pptx-bounds="64 160 1152 150" font-family="Cambria, serif" font-size="50" fill="#102A43">
-    <text x="64" y="220">SignalR moves the message.</text><text x="64" y="284"><tspan><tspan fill="#5B21B6">You</tspan> own who sends it and what it says.</tspan></text></g>
-
-  <line id="takeaway-rule" data-pptx-role="decoration" x1="64" y1="336" x2="1216" y2="336" stroke="#CAD7E2" stroke-width="1" />
+  <line id="takeaway-rule" data-pptx-role="decoration" x1="64" y1="336" x2="1216" y2="336" stroke="#CAD7E2" stroke-width="1"/>
 
   <g id="p15-scene-1" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="64 372 420 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
-<path d="M 64 372 L 444 372 L 484 412 L 444 452 L 64 452 L 104 412 Z" />
+<path d="M 64 372 L 444 372 L 484 412 L 444 452 L 64 452 L 104 412 Z"/>
 </g>
   <g id="p15-scene-2" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="444 372 420 80" fill="#E8F4F8" stroke="#007F9E" stroke-width="1.5">
-<path d="M 444 372 L 824 372 L 864 412 L 824 452 L 444 452 L 484 412 Z" />
+<path d="M 444 372 L 824 372 L 864 412 L 824 452 L 444 452 L 484 412 Z"/>
 </g>
   <g id="p15-scene-3" data-pptx-authoring="preset" data-pptx-object="shape" data-pptx-prst="chevron" data-pptx-frame="824 372 392 80" fill="#F1EBFD" stroke="#5B21B6" stroke-width="1.5">
-<path d="M 824 372 L 1176 372 L 1216 412 L 1176 452 L 824 452 L 864 412 Z" />
+<path d="M 824 372 L 1176 372 L 1216 412 L 1176 452 L 824 452 L 864 412 Z"/>
 </g>
 
 
@@ -29,19 +24,19 @@
     </g>
     <g font-size="20" fill="#526B80">
       <text x="274" y="492">negotiate → handshake</text>
-      <text x="654" y="492">8 steps, Ben updates last</text>
-      <text x="1020" y="492">retry 0 · 2 · 10 · 30 s</text>
+      <text x="654" y="492">bid → broadcast → update clients</text>
+      <text x="1020" y="492">reconnect or give up</text>
     </g>
   </g>
 
   <g id="demo-link" data-pptx-bounds="64 560 1152 76">
-    
+    <!-- icon: tabler-outline/browser -->
   <g transform="translate(64, 574) scale(1.33333)" fill="none" stroke="#007F9E" stroke-width="2">
     <path d="M4 8h16" />
     <path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" />
     <path d="M8 4v4" />
   </g>
-    <text x="108" y="600" font-family="Consolas, monospace" font-size="22" fill="#102A43">SignalR BidLab · http://127.0.0.1:5080</text>
+    <text x="108" y="600" font-family="Consolas, monospace" font-size="22" fill="#102A43">SignalR BidLab</text>
     <text x="1216" y="606" font-family="Cambria, serif" font-size="38" font-style="italic" fill="#102A43" text-anchor="end">Questions?</text>
   </g>
 </svg>

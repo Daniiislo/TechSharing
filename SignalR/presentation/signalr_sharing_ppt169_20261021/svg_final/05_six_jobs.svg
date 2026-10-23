@@ -2,7 +2,7 @@
   <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
 
   <g id="header" data-pptx-bounds="64 60 1152 108">
-    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
+    <text x="64" y="84" font-size="24" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
     <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Six jobs you no longer write</text>
   </g>
 
@@ -15,7 +15,7 @@
     <path d="M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5" />
   </g>
     <text x="64" y="316" font-family="Cambria, serif" font-size="38" fill="#102A43">Negotiate</text>
-    <text font-size="22" fill="#526B80" x="64" y="352">Picks the best transport</text><text font-size="22" fill="#526B80" x="64" y="382">both sides support</text></g>
+    <text fill="#526B80" font-size="22" x="64" y="352">Picks the best transport</text><text fill="#526B80" font-size="22" x="64" y="382">both sides support</text></g>
   <g id="job-alive" data-pptx-bounds="448 196 360 210">
     <line x1="448" y1="200" x2="808" y2="200" stroke="#5B21B6" stroke-width="2" />
     
@@ -24,7 +24,7 @@
     <path d="M12 7v5l3 3" />
   </g>
     <text x="448" y="316" font-family="Cambria, serif" font-size="38" fill="#102A43">Stay alive</text>
-    <text font-size="22" fill="#526B80" x="448" y="352">Ping every 15 s; drop after</text><text font-size="22" fill="#526B80" x="448" y="382">30 s of silence</text></g>
+    <text fill="#526B80" font-size="22" x="448" y="352">Ping every 15 s; drop after</text><text fill="#526B80" font-size="22" x="448" y="382">30 s of silence</text></g>
   <g id="job-reconnect" data-pptx-bounds="832 196 384 210">
     <line x1="832" y1="200" x2="1216" y2="200" stroke="#5B21B6" stroke-width="2" />
     
@@ -33,7 +33,7 @@
     <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
   </g>
     <text x="832" y="316" font-family="Cambria, serif" font-size="38" fill="#102A43">Reconnect</text>
-    <text font-size="22" fill="#526B80" x="832" y="352">Retries after 0, 2, 10, 30 s,</text><text font-size="22" fill="#526B80" x="832" y="382">then gives up</text></g>
+    <text fill="#526B80" font-size="22" x="832" y="352">Retries after 0, 2, 10, 30 s,</text><text fill="#526B80" font-size="22" x="832" y="382">then gives up</text></g>
 
   <g id="job-rpc" data-pptx-bounds="64 424 360 210">
     <line x1="64" y1="428" x2="424" y2="428" stroke="#5B21B6" stroke-width="2" />
@@ -47,7 +47,7 @@
     <path d="M13 14l-2 2" />
   </g>
     <text x="64" y="544" font-family="Cambria, serif" font-size="38" fill="#102A43">RPC both ways</text>
-    <text font-size="22" fill="#526B80" x="64" y="580"><tspan font-family="Consolas, monospace">invoke()</tspan> to the server,</text><text font-size="22" fill="#526B80" x="64" y="610"><tspan><tspan font-family="Consolas, monospace">on()</tspan> from the server</tspan></text></g>
+    <text fill="#526B80" font-size="22" x="64" y="580"><tspan font-family="Consolas, monospace">invoke()</tspan> to the server,</text><text fill="#526B80" font-size="22" x="64" y="610"><tspan><tspan font-family="Consolas, monospace">on()</tspan> from the server</tspan></text></g>
   <g id="job-targeting" data-pptx-bounds="448 424 360 210">
     <line x1="448" y1="428" x2="808" y2="428" stroke="#5B21B6" stroke-width="2" />
     
@@ -58,7 +58,7 @@
     <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
   </g>
     <text x="448" y="544" font-family="Cambria, serif" font-size="38" fill="#102A43">Targeting</text>
-    <text font-size="22" fill="#526B80" x="448" y="580">All · Caller · Others</text><text font-size="22" fill="#526B80" x="448" y="610">User · Group</text></g>
+    <text fill="#526B80" font-size="22" x="448" y="580">All · Caller · Others</text><text fill="#526B80" font-size="22" x="448" y="610">User · Group</text></g>
   <g id="job-scale" data-pptx-bounds="832 424 384 210">
     <line x1="832" y1="428" x2="1216" y2="428" stroke="#5B21B6" stroke-width="2" />
     
@@ -68,7 +68,7 @@
     <path d="M4 16l8 4l8 -4" />
   </g>
     <text x="832" y="544" font-family="Cambria, serif" font-size="38" fill="#102A43">Scale-out</text>
-    <text font-size="22" fill="#526B80" x="832" y="580">Redis backplane or</text><text font-size="22" fill="#526B80" x="832" y="610">Azure SignalR Service</text></g>
+    <text fill="#526B80" font-size="22" x="832" y="580">Redis backplane or</text><text fill="#526B80" font-size="22" x="832" y="610">Azure SignalR Service</text></g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
     <text x="64" y="684">SignalR — More Than WebSocket</text>

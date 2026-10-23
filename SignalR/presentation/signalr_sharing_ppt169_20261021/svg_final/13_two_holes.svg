@@ -1,84 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
-  <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC"/>
-
-  <g id="header" data-pptx-bounds="64 60 1152 108">
-    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">4 · What should we fix?</text>
-    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Two holes: who bids, and what everyone sees</text>
-  </g>
-
-  <g id="hole-identity" data-pptx-bounds="64 184 560 456">
-    <!-- icon: tabler-outline/alert-triangle -->
-  <g transform="translate(64, 190)" fill="none" stroke="#B36A13" stroke-width="2">
-    <path d="M12 9v4" />
-    <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0" />
-    <path d="M12 16h.01" />
-  </g>
-    <text x="96" y="210" font-size="20" font-weight="bold" fill="#B36A13">Hole 1 · who bids?</text>
-    <text x="64" y="254" font-family="Cambria, serif" font-size="38" fill="#102A43">Client-supplied identity</text>
-    <rect x="64" y="274" width="552" height="104" rx="4" fill="#102A43"/>
-    <!-- icon: tabler-outline/terminal-2 -->
-  <g transform="translate(80, 282) scale(0.833333)" fill="none" stroke="#E8F4F8" stroke-width="2">
-    <path d="M8 9l3 3l-3 3" />
-    <path d="M13 15l3 0" />
-    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
-  </g>
-    <text x="108" y="298" font-size="16" fill="#E8F4F8">DevTools · Console</text>
-    <g font-family="Consolas, monospace" font-size="20" fill="#E8F4F8">
-      <text x="80" y="334">&gt; connection.invoke("AddBid", 1042,</text>
-      <text x="80" y="362">    <tspan font-weight="bold" fill="#F6C177">"&lt;victim id&gt;"</tspan>, 1300, false, false)</text>
-    </g>
-    <text x="64" y="412" font-size="22" font-weight="bold" fill="#B36A13">→ a bid saved in someone else’s name</text>
-    <g font-size="20" fill="#243B53">
-      <text x="64" y="452">· <tspan font-family="Consolas, monospace">bidderId</tspan> comes from a hidden field</text>
-      <text x="64" y="482">· no <tspan font-family="Consolas, monospace">[Authorize]</tspan> on the hub</text>
-      <text x="64" y="512">· user ids already ride on every updateItem</text>
-    </g>
-    <rect x="64" y="540" width="552" height="96" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
-    <text x="84" y="572" font-size="20" font-weight="bold" fill="#007F9E">Fix</text>
-    <g font-family="Consolas, monospace" font-size="20" fill="#102A43">
-      <text x="140" y="572">[Authorize] on AddBid</text>
-      <text x="140" y="604">bidderId = Context.UserIdentifier</text>
-    </g>
-  </g>
-
-  <line id="column-rule" data-pptx-role="decoration" x1="640" y1="190" x2="640" y2="636" stroke="#CAD7E2" stroke-width="1"/>
-
-  <g id="hole-maxbid" data-pptx-bounds="656 184 560 456">
-    <!-- icon: tabler-outline/eye -->
-  <g transform="translate(664, 190)" fill="none" stroke="#B36A13" stroke-width="2">
-    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-  </g>
-    <text x="696" y="210" font-size="20" font-weight="bold" fill="#B36A13">Hole 2 · what everyone sees</text>
-    <text x="664" y="254" font-family="Cambria, serif" font-size="38" fill="#102A43">Max bid in plain sight</text>
-    <rect x="664" y="274" width="552" height="104" rx="4" fill="#102A43"/>
-    <!-- icon: tabler-outline/browser -->
-  <g transform="translate(680, 282) scale(0.833333)" fill="none" stroke="#E8F4F8" stroke-width="2">
-    <path d="M4 8h16" />
-    <path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" />
-    <path d="M8 4v4" />
-  </g>
-    <text x="708" y="298" font-size="16" fill="#E8F4F8">DevTools · Network · WS</text>
-    <g font-family="Consolas, monospace" font-size="20" fill="#E8F4F8">
-      <text x="680" y="334">↓ updateItem(1042, 1300, 1350, 8,</text>
-      <text x="680" y="362">    …, "u-ben", true, <tspan font-weight="bold" fill="#F6C177">2000</tspan>)</text>
-    </g>
-    <text x="664" y="412" font-size="22" font-weight="bold" fill="#B36A13">→ every rival reads Ben’s max bid</text>
-    <g font-size="20" fill="#243B53">
-      <text x="664" y="452">· <tspan font-family="Consolas, monospace">highMaxBid</tspan> goes to Clients.All</text>
-      <text x="664" y="482">· the page only uses it to hide Buy Now</text>
-      <text x="664" y="512">· anything in Clients.All is public</text>
-    </g>
-    <rect x="664" y="540" width="552" height="96" rx="4" fill="#E8F4F8" stroke="#007F9E" stroke-width="2"/>
-    <text x="684" y="572" font-size="20" font-weight="bold" fill="#007F9E">Fix</text>
-    <g font-family="Consolas, monospace" font-size="20" fill="#102A43">
-      <text x="740" y="572">send isBuyNowAvailable</text>
-      <text x="740" y="604">not the amount</text>
-    </g>
-  </g>
-
-  <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 650 1152 44" font-size="16" fill="#526B80">
-    <text x="64" y="684">SignalR — More Than WebSocket · inferred from code, not tested on production</text>
-    <text x="1216" y="684" text-anchor="end">13</text>
-  </g>
+<rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
+<g id="header" data-pptx-bounds="64 60 1152 108">
+<text x="64" y="84" font-size="24" font-weight="600" fill="#007F9E">4 · Best practices: Do &amp; Avoid</text>
+<text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">Who chooses the bidder? The client.</text>
+</g>
+<g id="client" data-pptx-bounds="64 202 520 222">
+<text x="64" y="230" font-size="26" font-weight="bold" fill="#007F9E">ANNA SENDS BEN’S ID</text>
+<text x="64" y="284" font-family="Consolas, monospace" font-size="27" fill="#102A43">invoke("AddBid", itemId,</text>
+<text x="64" y="338" font-family="Consolas, monospace" font-size="40" font-weight="bold" fill="#B36A13">  "ben-id"<tspan font-size="27" font-weight="normal" fill="#102A43">, amount, ...)</tspan></text>
+<text x="64" y="394" font-size="25" fill="#243B53">The argument says Ben. The caller is Anna.</text>
+</g>
+<text x="610" y="314" font-size="44" fill="#526B80">→</text>
+<g id="server" data-pptx-bounds="704 202 512 222">
+<text x="704" y="230" font-size="26" font-weight="bold" fill="#007F9E">SERVER USES THAT ID</text>
+<text x="704" y="284" font-family="Consolas, monospace" font-size="27" fill="#102A43">GetBidContextAsync</text>
+<text x="704" y="324" font-size="27" fill="#243B53">Loads Ben; checks Ben’s eligibility.</text>
+<text x="704" y="376" font-family="Consolas, monospace" font-size="27" fill="#102A43">CreateBid</text>
+<text x="704" y="416" font-size="30" font-weight="bold" fill="#B36A13">Records Ben as the bidder.</text>
+</g>
+<g id="risk" data-pptx-bounds="64 448 1152 64">
+<text x="64" y="488" font-family="Cambria, serif" font-size="36" font-weight="bold" fill="#B36A13">Anna places the bid. Ben is recorded as responsible.</text>
+</g>
+<g id="fix-auth" data-pptx-bounds="64 536 540 100">
+<text x="64" y="566" font-family="Consolas, monospace" font-size="38" font-weight="bold" fill="#007F9E">[Authorize]</text>
+<text x="64" y="610" font-size="26" fill="#243B53">Require login for AddBid / AddBids.</text>
+</g>
+<g id="fix-identity" data-pptx-bounds="672 536 544 100">
+<text x="672" y="566" font-family="Consolas, monospace" font-size="32" font-weight="bold" fill="#007F9E">Context.UserIdentifier</text>
+<text x="672" y="610" font-size="25" fill="#243B53">Use the caller’s ID; remove the client ID.</text>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 650 1152 44" font-size="16" fill="#526B80">
+<text x="64" y="684">SignalR — More Than WebSocket</text><text x="1216" y="684" text-anchor="end">13</text>
+</g>
 </svg>

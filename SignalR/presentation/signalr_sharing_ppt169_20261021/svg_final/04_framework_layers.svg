@@ -2,8 +2,8 @@
   <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
 
   <g id="header" data-pptx-bounds="64 60 1152 108">
-    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
-    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">A framework, not a transport</text>
+    <text x="64" y="84" font-size="24" font-weight="600" fill="#007F9E">1 · What is SignalR?</text>
+    <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">A real-time library, not a transport</text>
   </g>
 
   <g id="layer-code" data-pptx-bounds="64 196 940 104">
@@ -42,7 +42,7 @@
   <g id="margin-note" data-pptx-bounds="1036 196 180 320">
     <line x1="1040" y1="200" x2="1040" y2="508" stroke="#007F9E" stroke-width="2" />
     <text x="1060" y="226" font-size="20" font-weight="600" fill="#007F9E">Where it lives</text>
-    <text font-size="22" fill="#243B53" x="1060" y="266">Built into</text><text font-size="22" fill="#243B53" x="1060" y="296">ASP.NET Core:</text><text font-size="22" fill="#243B53" x="1060" y="326">AddSignalR()</text><text font-size="22" fill="#243B53" x="1060" y="356">+ MapHub()</text><text font-size="22" fill="#243B53" x="1060" y="412">Clients:</text><text font-size="22" fill="#243B53" x="1060" y="442">JavaScript,</text><text font-size="22" fill="#243B53" x="1060" y="472">.NET, Java</text></g>
+    <text fill="#243B53" font-size="22" x="1060" y="266">Built into</text><text fill="#243B53" font-size="22" x="1060" y="296">ASP.NET Core:</text><text fill="#243B53" font-size="22" x="1060" y="326">AddSignalR()</text><text fill="#243B53" font-size="22" x="1060" y="356">+ MapHub()</text><text fill="#243B53" font-size="22" x="1060" y="412">Clients:</text><text fill="#243B53" font-size="22" x="1060" y="442">JavaScript,</text><text fill="#243B53" font-size="22" x="1060" y="472">.NET, Java</text></g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
     <text x="64" y="684">SignalR — More Than WebSocket</text>

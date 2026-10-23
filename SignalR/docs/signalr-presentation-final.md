@@ -108,7 +108,6 @@ Bản đồ TravelPledgeAuctions:
 - **Trang Item** (`itemBid.js`) nối `/bidhub`; **trang Event** (`eventBidUpdates.js`) nối cả `/bidhub` và `/eventhub`.
 - **BidHub:** nhận `AddBid`/`AddBids`; phát `updateItem`, `updateEvent`, `addBidSuccess`/`addBidFail`.
 - **EventHub:** phát `closeItem(s)`, `closeEvent`, do job và service đẩy qua `IHubContext`.
-- **MessageHub:** có `sendMessage` nhưng không được map trong `Program.cs` (cần xác nhận với team).
 - **Dải tím dưới cùng:** `AddSignalR().AddStackExchangeRedis(...)` (`Program.cs:216-219`), tức Redis backplane để nhiều server cùng phát.
 
 ### Slide 09 — Phase 1: Two lines, then SignalR takes over (2,5 phút)

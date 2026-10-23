@@ -10,7 +10,7 @@
   <rect id="bg" data-pptx-role="background" x="0" y="0" width="1280" height="720" fill="#F7F9FC" />
 
   <g id="header" data-pptx-bounds="64 60 1152 108">
-    <text x="64" y="84" font-size="20" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Server push</text>
+    <text x="64" y="84" font-size="24" font-weight="600" fill="#007F9E">3 · How does Geronimo sync a bid? · Server push</text>
     <text x="64" y="140" font-family="Cambria, serif" font-size="50" fill="#102A43">No click needed: closing items</text>
   </g>
 
@@ -69,11 +69,11 @@
     <path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" />
     <path d="M8 4v4" />
   </g>
-    <text font-size="20" fill="#243B53" x="1102" y="420">every open</text><text font-size="20" fill="#243B53" x="1102" y="446">page</text></g>
+    <text fill="#243B53" font-size="20" x="1102" y="420">every open</text><text fill="#243B53" font-size="20" x="1102" y="446">page</text></g>
 
   <g id="takeaway" data-pptx-bounds="64 584 1152 56">
     <line x1="64" y1="588" x2="1216" y2="588" stroke="#CAD7E2" stroke-width="1" />
-    <text x="64" y="626" font-size="22" fill="#526B80">Same plumbing as a bid — triggered by the server, not by a click.</text>
+    <text x="64" y="626" font-size="22" fill="#526B80">A background job triggers the update, and SignalR delivers it to connected clients.</text>
   </g>
 
   <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 664 1152 30" font-size="16" fill="#526B80">
