@@ -1,1 +1,8 @@
 .superpowers/
+
+# PPT preview runtime and local revision history
+SignalR/presentation/signalr_sharing_ppt169_20261021/live_preview/
+SignalR/presentation/signalr_sharing_ppt169_20261021/backup/
+SignalR/presentation/signalr_sharing_ppt169_20261021/validation/workflow.log
+SignalR/presentation/signalr_sharing_ppt169_20261021/exports/*.pptx
+SignalR/presentation/signalr_sharing_ppt169_20261021/validation/signalr_sharing_*.report.json
