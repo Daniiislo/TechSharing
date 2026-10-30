@@ -1,11 +1,11 @@
 {
   "schema": "ppt-master.svg-quality-report.v1",
   "stage": "final",
-  "target": "F:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
+  "target": "D:\\TechSharing\\SignalR\\presentation\\signalr_sharing_ppt169_20261021",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "fc6cdcaf3b38b0870c1a1ff6765b7f57a5060593693fc90199d7b4869c02c21e",
-    "file_count": 15,
+    "digest": "c787439d23567a587dd4197de69642e22bbb0035ccb1fbf6b053715a7b416b3c",
+    "file_count": 16,
     "files": [
       {
         "file": "01_cover.svg",
@@ -66,12 +66,16 @@
       {
         "file": "15_demo_qa.svg",
         "sha256": "757c868334b13502bcc0c0a52581287a9292e877e67e9588d1bde4fa32c19797"
+      },
+      {
+        "file": "16_backplane.svg",
+        "sha256": "106c48492d82f192738436bf948f758a1d5c64b346aad416e6a50dfd6e6d2ef3"
       }
     ]
   },
   "summary": {
-    "total": 15,
-    "passed": 12,
+    "total": 16,
+    "passed": 13,
     "warnings": 3,
     "errors": 0
   },
@@ -125,7 +129,8 @@
         "04_framework_layers.svg",
         "08_at_a_glance.svg",
         "10_phase2_place_bid.svg",
-        "11_phase2_fan_out.svg"
+        "11_phase2_fan_out.svg",
+        "16_backplane.svg"
       ]
     },
     "fonts": {},
@@ -146,15 +151,15 @@
   },
   "carrier_receipt": {
     "scope": "informational-not-a-quota",
-    "pages": 15,
+    "pages": 16,
     "totals": {
-      "text_elements": 331,
+      "text_elements": 378,
       "image_placements": 0,
-      "icons": 20,
-      "svg_geometry_elements": 136,
+      "icons": 21,
+      "svg_geometry_elements": 167,
       "preset_shapes": 5,
-      "page_frame_elements": 18,
-      "marker_uses": 34,
+      "page_frame_elements": 19,
+      "marker_uses": 39,
       "inline_emphasis_runs": 16,
       "gradient_uses": 0,
       "filter_uses": 0,
@@ -162,7 +167,7 @@
     },
     "pages_with": {
       "images": 0,
-      "icons": 8,
+      "icons": 9,
       "presets": 3,
       "charts": 0,
       "tables": 1,
@@ -172,15 +177,15 @@
       "filter_uses": 0,
       "text_effects": 0
     },
-    "relationship_pages": 13,
+    "relationship_pages": 14,
     "geometry_elements": {
-      "circle": 5,
+      "circle": 16,
       "ellipse": 0,
-      "line": 74,
+      "line": 79,
       "path": 0,
       "polygon": 0,
       "polyline": 0,
-      "rect": 57
+      "rect": 72
     },
     "preset_names": {
       "chevron": 3,
@@ -206,7 +211,7 @@
   "files": [
     {
       "file": "01_cover.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\01_cover.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\01_cover.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -273,7 +278,7 @@
     },
     {
       "file": "02_the_moment.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\02_the_moment.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\02_the_moment.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -332,7 +337,7 @@
     },
     {
       "file": "03_hand_built.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\03_hand_built.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\03_hand_built.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -391,7 +396,7 @@
     },
     {
       "file": "04_framework_layers.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\04_framework_layers.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\04_framework_layers.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -456,7 +461,7 @@
     },
     {
       "file": "05_six_jobs.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\05_six_jobs.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\05_six_jobs.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -516,7 +521,7 @@
     },
     {
       "file": "06_when_to_use.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\06_when_to_use.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\06_when_to_use.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -575,7 +580,7 @@
     },
     {
       "file": "07_mindset.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\07_mindset.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\07_mindset.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -635,7 +640,7 @@
     },
     {
       "file": "08_at_a_glance.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\08_at_a_glance.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\08_at_a_glance.svg",
       "exists": true,
       "errors": [],
       "warnings": [
@@ -702,7 +707,7 @@
     },
     {
       "file": "09_phase1_connect.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\09_phase1_connect.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\09_phase1_connect.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -762,7 +767,7 @@
     },
     {
       "file": "10_phase2_place_bid.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\10_phase2_place_bid.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\10_phase2_place_bid.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -829,7 +834,7 @@
     },
     {
       "file": "11_phase2_fan_out.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\11_phase2_fan_out.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\11_phase2_fan_out.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -894,7 +899,7 @@
     },
     {
       "file": "12_server_push.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\12_server_push.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\12_server_push.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -954,7 +959,7 @@
     },
     {
       "file": "13_two_holes.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\13_two_holes.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\13_two_holes.svg",
       "exists": true,
       "errors": [],
       "warnings": [
@@ -1023,7 +1028,7 @@
     },
     {
       "file": "14_do_avoid.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\14_do_avoid.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\14_do_avoid.svg",
       "exists": true,
       "errors": [],
       "warnings": [
@@ -1085,7 +1090,7 @@
     },
     {
       "file": "15_demo_qa.svg",
-      "path": "SignalR\\presentation\\signalr_sharing_ppt169_20261021\\svg_output\\15_demo_qa.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\15_demo_qa.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -1147,6 +1152,71 @@
       },
       "passed": true,
       "source_sha256": "757c868334b13502bcc0c0a52581287a9292e877e67e9588d1bde4fa32c19797"
+    },
+    {
+      "file": "16_backplane.svg",
+      "path": "signalr_sharing_ppt169_20261021\\svg_output\\16_backplane.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 47,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 1,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 15,
+              "circle": 11,
+              "ellipse": 0,
+              "line": 5,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 5
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Cambria, serif",
+          "Consolas, monospace",
+          "Segoe UI, sans-serif"
+        ],
+        "text_elements": 47,
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
+      },
+      "passed": true,
+      "source_sha256": "106c48492d82f192738436bf948f758a1d5c64b346aad416e6a50dfd6e6d2ef3"
     }
   ]
 }

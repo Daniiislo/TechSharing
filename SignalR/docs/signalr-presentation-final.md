@@ -2,7 +2,7 @@
 
 **Người trình bày:** Tavian Nguyen
 **Buổi nói:** 23/10/2026 · 30 phút (kể cả demo và Q&A)
-**Deck:** [SignalR - More Than WebSocket.pptx](../presentation/SignalR%20-%20More%20Than%20WebSocket.pptx) (15 slide, tiếng Anh, không có speaker notes)
+**Deck:** [SignalR - More Than WebSocket.pptx](../presentation/SignalR%20-%20More%20Than%20WebSocket.pptx) (16 slide gồm 15 slide chính và 1 slide backup, tiếng Anh, không có speaker notes)
 **Demo:** SignalR BidLab, chạy bằng `dotnet run --project SignalR/bidlab/src/BidLab` rồi mở http://127.0.0.1:5080
 **Tài liệu nền:** [signalr-deep-dive.md](./signalr-deep-dive.md) (nguồn, file:line, câu hỏi phản biện)
 
@@ -195,6 +195,23 @@ Hàng giữa là phần sửa của slide 13. Slide không còn dòng xám về 
 ### Slide 15 — Demo & Questions (5 phút)
 
 Slide có ba bước demo: **1 · Connect** (negotiate → handshake), **2 · Bid** (bid → broadcast → update clients), **3 · Go offline** (reconnect or give up); bên dưới là "SignalR BidLab" và "Questions?". Slide không còn câu takeaway, nên nói miệng khi chuyển sang BidLab: *"SignalR moves the message. You own who sends it and what it says."*
+
+### Slide 16 — Redis backplane: one message, every server (backup, không tính giờ)
+
+Đặt sau Demo & Questions, chỉ mở khi có người hỏi "backplane là gì" hoặc "nhiều server thì sao". Đọc theo năm bước đánh số:
+1. Anna gọi `invoke("AddBid")` tới **Server A**.
+2. Server A chạy `Clients.All.SendAsync("updateItem")`; HubLifetimeManager của A chỉ biết connection của A nên mới gửi được cho Anna.
+3. Server A **publish** cùng message lên Redis (Pub/Sub).
+4. Redis chuyển message sang **Server B**.
+5. HubLifetimeManager của B ghi `updateItem` xuống connection của Ben. Server B không hề chạy `AddBid`.
+
+Dải Redis có dòng `.AddStackExchangeRedis()`: đây là phần duy nhất Geronimo thêm vào code.
+
+Khung bên phải:
+- **What it does:** chuyển message giữa các server; `Clients.All/Group/User` tới được client ở mọi server; code hub không đổi.
+- **What it does not do:** không chuyển connection (vẫn cần sticky session), không phát lại message client bỏ lỡ lúc offline, không thay database.
+
+Liên hệ: slide 08 (dải Redis), slide 11 (Redis relay), slide 07 (sticky sessions), câu Q&A "Redis backplane có làm mất message không?".
 
 ## 4. Kịch bản demo (BidLab)
 
