@@ -10,13 +10,15 @@ Slide chỉ có keyword và sơ đồ; lời giải thích nằm ở tài liệu
 
 ## 1. Thông điệp xuyên suốt
 
-**SignalR là framework real-time, không phải một transport.** Nó thương lượng transport, giữ kết nối sống, biến lời gọi hàm thành message và phát tới đúng người. Mình viết business logic, nhưng **danh tính và những gì mình broadcast vẫn là trách nhiệm của mình**.
+**SignalR là thư viện real-time, không phải một transport.** Nó thương lượng transport, giữ kết nối sống, biến lời gọi hàm thành message và phát tới đúng người. Mình viết business logic, nhưng **danh tính và những gì mình broadcast vẫn là trách nhiệm của mình**.
+
+Slide dùng chữ **library** (đúng cách Microsoft gọi). Khi nói có thể thêm "làm nhiều hơn một transport" để người nghe không hiểu nhầm là nó chỉ gói WebSocket.
 
 Quy ước màu dùng chung cho slide và demo:
 - **Cyan, viền liền:** code Geronimo viết.
 - **Tím, viền đứt:** SignalR tự làm.
 
-Nhắc quy ước này một lần ở slide 04, sau đó người nghe tự đọc được mọi sơ đồ.
+Nhắc quy ước này một lần ở slide 04 (slide 08 có chú giải màu, tức Geronimo code / SignalR / WebSocket), sau đó người nghe tự đọc được mọi sơ đồ.
 
 ## 2. Phân bổ thời gian
 
@@ -26,7 +28,7 @@ Nhắc quy ước này một lần ở slide 04, sau đó người nghe tự đ�
 | 1 · SignalR là gì | 03–06 | 5,5 |
 | 2 · Chuẩn bị gì | 07 | 4 |
 | 3 · Geronimo sync bid thế nào | 08–12 | 9,5 |
-| 4 · Sửa gì | 13–14 | 4 |
+| 4 · Best practices: Do & Avoid | 13–14 | 4 |
 | Demo & Q&A | 15 | 5 |
 | **Tổng** | | **29,5** |
 
@@ -58,7 +60,7 @@ Bốn câu hỏi bên phải chính là agenda. Cuối buổi sẽ chạy lại 
 
 **Chốt:** phần "đường ống" là thứ SignalR bán cho mình.
 
-### Slide 04 — A framework, not a transport (1,5 phút)
+### Slide 04 — A real-time library, not a transport (1,5 phút)
 
 Ba lớp từ trên xuống:
 - **Code của mình:** hub methods, client handlers, business rules.
@@ -102,13 +104,14 @@ Chỉ đọc dòng **Best fit** và cột tím:
 
 **Câu trích bên phải là ý cần nhớ:** "A hub is a public API." Ai kết nối được là gọi được mọi public method, với bất kỳ tham số nào. Câu này cài sẵn cho slide 13.
 
-### Slide 08 — Three hubs, one Redis backplane (1,5 phút)
+### Slide 08 — Two hubs, one Redis backplane (1,5 phút)
 
 Bản đồ TravelPledgeAuctions:
 - **Trang Item** (`itemBid.js`) nối `/bidhub`; **trang Event** (`eventBidUpdates.js`) nối cả `/bidhub` và `/eventhub`.
 - **BidHub:** nhận `AddBid`/`AddBids`; phát `updateItem`, `updateEvent`, `addBidSuccess`/`addBidFail`.
-- **EventHub:** phát `closeItem(s)`, `closeEvent`, do job và service đẩy qua `IHubContext`.
-- **Dải tím dưới cùng:** `AddSignalR().AddStackExchangeRedis(...)` (`Program.cs:216-219`), tức Redis backplane để nhiều server cùng phát.
+- **EventHub:** phát `closeItem(s)`, `closeEvent`, do job đẩy qua `IHubContext`.
+- **Dải tím dưới cùng ("SignalR runtime"):** `AddStackExchangeRedis()` nối với Redis "↔ other servers" (`Program.cs:216-219`), tức Redis backplane để nhiều server cùng phát.
+- **Chú giải màu** ở góc slide: Geronimo code, SignalR, WebSocket.
 
 ### Slide 09 — Phase 1: Two lines, then SignalR takes over (2,5 phút)
 
@@ -132,11 +135,13 @@ Dải dưới: mất mạng thì `onreconnecting` hiện banner (code Geronimo),
 - **Nhánh invalid:** `addBidFail` chỉ gửi cho Caller (ví dụ `BID_TOO_LOW`), giá hiện tại gửi cho All với `isSuccessful = false`.
 - Promise của `invoke()` chỉ resolve khi server trả Completion (type 3).
 
-### Slide 11 — Phase 2: One line, every screen (2 phút)
+### Slide 11 — Phase 2: One bid, two audiences (2 phút)
 
-- **Geronimo viết:** hai lệnh `Clients.All.SendAsync` (`updateItem` 9 tham số, `updateEvent` 7 tham số) và một `Clients.Caller.SendAsync("addBidSuccess", …)`.
-- **SignalR làm:** HubLifetimeManager serialize một lần rồi ghi vào mọi connection đang mở; Redis đưa cùng message sang các server khác. Geronimo không có vòng lặp, không giữ danh sách socket.
-- **Anna** nhận cả All lẫn Caller: giá mới và toast "You're winning!". **Ben** chỉ nhận All: giá $1,300 và banner outbid.
+- **Geronimo viết ("Server sends"):** hai lệnh `Clients.All.SendAsync` (`updateItem` 9 tham số, `updateEvent` 7 tham số) và một `Clients.Caller.SendAsync("addBidSuccess", …)`.
+- **SignalR làm:** HubLifetimeManager "Send to connected clients": serialize một lần rồi ghi vào mọi connection đang mở; Redis backplane đưa cùng message sang các server khác. Geronimo không có vòng lặp, không giữ danh sách socket.
+- **Hai nhóm người nhận:**
+  - **Anna (người bid)** nhận cả All lẫn Caller: `updateItem` cho giá mới và `addBidSuccess` làm xác nhận ("Bid accepted").
+  - **Ben (người xem)** chỉ nhận All: `updateItem` cho giá mới ("Price updates live").
 - **Chi tiết hay:** trang Item không đăng ký `updateEvent` (chỉ trang Event dùng), nên SignalR client bỏ qua và in warning. Demo sẽ cho thấy warning này.
 - **Người thắng** lấy từ `HighBidUserId`, không phải người vừa bấm, vì max bid của đối thủ có thể thắng ngay.
 
@@ -147,41 +152,49 @@ Server cũng tự đẩy. Ba nguồn đều đi qua `IHubContext<EventHub>` rồ
 - **Buy Now:** `ItemService` gửi `closeItem`.
 - **Đóng event:** `EventOrderService` gửi `closeEvent`.
 
-Cùng đường ống như lúc bid, chỉ khác là server khởi xướng, không phải một cú click.
+Câu chốt trên slide: *"A background job triggers the update, and SignalR delivers it to connected clients."* Cùng đường ống như lúc bid, chỉ khác là server khởi xướng, không phải một cú click.
 
-### Slide 13 — Two holes: who bids, and what everyone sees (2,5 phút)
+### Slide 13 — Who chooses the bidder? The client. (2,5 phút)
 
-**Hole 1, danh tính do client tự khai:**
+Slide chỉ còn **một** lỗ hổng: danh tính người bid do client tự khai. Đọc từ trái sang phải:
+- **Anna gửi ID của Ben:** `invoke("AddBid", itemId, "ben-id", amount, ...)`. Tham số nói là Ben, người gọi thật là Anna.
+- **Server dùng đúng ID đó:** `GetBidContextAsync` nạp Ben và kiểm tra tư cách của Ben; `CreateBid` ghi Ben là người bid.
+- **Hệ quả (dòng đỏ):** Anna đặt bid, nhưng Ben bị ghi là người chịu trách nhiệm.
+
+Căn cứ trong code:
 - `bidderId` lấy từ hidden field (`itemBid.js:920`).
 - Hub không có `[Authorize]`, không đọc `Context.UserIdentifier`.
-- `connection` là biến global, và user id của người đang dẫn được phát kèm mỗi `updateItem`.
-- Vì vậy chỉ cần một dòng trong Console là đặt được bid đứng tên người khác.
-- **Sửa:** đặt `[Authorize]` trên method `AddBid`/`AddBids` (không đặt cả class, vì khách chưa đăng nhập vẫn cần nhận update); lấy `bidderId = Context.UserIdentifier`; bỏ tham số `bidderId`.
+- `connection` là biến global, và user id của người đang dẫn được phát kèm mỗi `updateItem`, nên chỉ cần một dòng trong Console là đặt được bid đứng tên người khác.
 
-**Hole 2, max bid lộ ra ngoài:**
-- Tham số cuối của `updateItem` là `highMaxBid`, gửi cho All.
-- Mở DevTools, vào Network rồi tab WS là thấy max bid của đối thủ.
-- Trang chỉ dùng con số này để ẩn nút Buy Now.
-- **Sửa:** server tự so sánh rồi gửi `isBuyNowAvailable` (true/false).
+**Sửa (hai ô dưới slide):**
+- `[Authorize]`: bắt buộc đăng nhập cho `AddBid`/`AddBids`. Đặt trên method, không đặt cả class, vì khách chưa đăng nhập vẫn cần nhận update.
+- `Context.UserIdentifier`: dùng ID của người gọi, bỏ tham số `bidderId` từ client.
 
-**Nói rõ:** cả hai suy ra từ code, **chưa thử trên production**. Đây là bài học "hub là public API" của slide 07, chứ không phải đi tìm lỗi người viết.
+**Nói rõ:** suy ra từ code, **chưa thử trên production**. Đây là bài học "hub là public API" của slide 07, chứ không phải đi tìm lỗi người viết.
 
-### Slide 14 — Seven habits for the next hub (1,5 phút)
+**Lỗ hổng thứ hai không còn trên slide:** tham số cuối của `updateItem` là `highMaxBid`, gửi cho All, nên mở DevTools → Network → WS là thấy max bid của đối thủ. Cách sửa là server tự so sánh rồi gửi `isBuyNowAvailable`. Demo BidLab vẫn có ghi chú này ở bước 5. Dùng khi demo hoặc khi bị hỏi; không cần nói nếu thiếu giờ.
 
-Đọc cột **Do**:
-- Group theo event/item thay vì `Clients.All`.
-- Lấy danh tính từ Context.
-- Chỉ broadcast thứ ai cũng được thấy.
-- Resync sau `onreconnected`.
-- Detailed errors chỉ bật ở Development.
-- Hub method ngắn và không giữ state.
-- Lên kế hoạch scale-out.
+### Slide 14 — Three rules for the next hub (1,5 phút)
 
-Cột **Avoid** gói lại ba lỗi. Dòng xám cuối nêu thật lòng hiện trạng Geronimo: `Clients.All`, tham số `bidderId`, không resync.
+Ba hàng, mỗi hàng một cặp **Do** (cyan) và **Avoid**:
 
-### Slide 15 — Demo & Q&A (5 phút)
+| Do | Avoid |
+| --- | --- |
+| **Target the right audience:** Groups theo event/item | **Broadcasting everything:** chỉ gửi dữ liệu mà người nhận được phép thấy |
+| **Use authenticated identity:** `[Authorize]` + `Context.UserIdentifier` | **Trusting a client-supplied user ID:** caller có thể gửi ID của người khác |
+| **Plan for multiple servers:** backplane + sticky sessions khi cần | **Isolated servers:** không có scale-out thì message chỉ ở trong server đó |
 
-Đọc takeaway: *"SignalR moves the message. You own who sends it and what it says."* Sau đó chuyển sang BidLab.
+Hàng giữa là phần sửa của slide 13. Slide không còn dòng xám về hiện trạng Geronimo.
+
+**Không còn trên slide, giữ làm câu trả lời khi bị hỏi:**
+- Resync sau `onreconnected`: reconnect không phát lại message bị lỡ (slide 09 đã nói "Refresh your page").
+- `DetailedErrors` chỉ bật ở Development.
+- Hub method ngắn và không giữ state, vì Hub là transient.
+- Đừng broadcast thứ riêng tư như `highMaxBid`.
+
+### Slide 15 — Demo & Questions (5 phút)
+
+Slide có ba bước demo: **1 · Connect** (negotiate → handshake), **2 · Bid** (bid → broadcast → update clients), **3 · Go offline** (reconnect or give up); bên dưới là "SignalR BidLab" và "Questions?". Slide không còn câu takeaway, nên nói miệng khi chuyển sang BidLab: *"SignalR moves the message. You own who sends it and what it says."*
 
 ## 4. Kịch bản demo (BidLab)
 
@@ -193,7 +206,7 @@ Cột **Avoid** gói lại ba lỗi. Dòng xám cuối nêu thật lòng hiện 
 2. **Bid (khoảng 2 phút).** Bấm "② Bid & nhận cập nhật", Anna bid $1,300. Anna bấm PLACE BID → CONFIRM, rồi bấm Tiếp:
    - **Bước 2:** frame `{"type":1,"target":"AddBid",...}` và ghi chú lỗ hổng `bidderId`.
    - **Bước 4:** 6 bước con của AddBid sáng dần.
-   - **Bước 5:** `Clients.All → 2 connection` và ghi chú lộ `highMaxBid`.
+   - **Bước 5:** `Clients.All → 2 connection` và ghi chú lộ `highMaxBid` (ý này không còn trên slide 13, nói thoáng qua nếu còn giờ).
    - **Bước 8:** Ben mới đổi sang $1,300 và banner vàng. Mở DevTools (F12 → Console) để thấy warning `No client method with the name 'updateevent' found`.
 3. *(nếu còn thời gian)* **Go offline.** Bấm **Ngắt mạng** ở Ben: banner "Connection to WinningBidder.com was lost", mô phỏng tự chạy tới bước "Tự thử lại" rồi chờ kết quả thật. Bỏ Ngắt mạng thì kết nối lại được (khoảng 12 giây); giữ Ngắt mạng hết 4 lần thử (khoảng 42 giây) thì SignalR bỏ cuộc và gọi `onclose`.
 
