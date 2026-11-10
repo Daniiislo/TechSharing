@@ -70,6 +70,7 @@
 - P13: dense
 - P14: dense
 - P15: anchor
+- P16: dense
 
 ## page_visualizations
 - P06: table/comparison_matrix

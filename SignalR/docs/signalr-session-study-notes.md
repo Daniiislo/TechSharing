@@ -250,7 +250,58 @@ Các điểm cần nói chính xác:
 - Azure SignalR Service quản lý kết nối client; Redis backplane vẫn để app server giữ chúng.
 - BidLab ép WebSocket nên không chứng minh fallback.
 
-## 11. Slide 7 — Sáu điều chuẩn bị
+## 11. Slide 4 — SignalR là library real-time, không phải transport
+
+Slide “1 · What is SignalR?”, phụ đề *A real-time library, not a transport*. Thời lượng khoảng 1,5 phút.
+
+**Ý phải chốt:** WebSocket chỉ là đường truyền. SignalR là lớp nằm trên đường truyền, lo mọi việc còn lại để mình chỉ viết business logic.
+
+### Đọc sơ đồ từ trên xuống
+
+| Lớp trên slide | Gồm gì | Ai viết |
+|---|---|---|
+| **Your code** | Hub methods, client handlers, business rules | Mình (Geronimo) |
+| **SignalR** | HubConnection, Hub dispatch, HubLifetimeManager, Hub Protocol, Negotiate, Keep-alive/reconnect | SignalR tự làm |
+| **Transport · picked for you** | WebSockets › Server-Sent Events › Long Polling | SignalR chọn |
+
+Mỗi khối trong lớp SignalR chỉ cần một câu:
+
+- **HubConnection:** đối tượng phía client giữ kết nối tới một Hub (mục 5).
+- **Hub dispatch:** server nhận message gọi hàm và tìm đúng Hub method để chạy.
+- **HubLifetimeManager:** sổ danh sách connection và group, thực hiện việc gửi tới All/Caller/User/Group. Redis backplane thay bản này (mục 9).
+- **Hub Protocol:** quy ước vỏ message (Invocation, Completion, Ping…), mã hóa JSON hoặc MessagePack (mục 8).
+- **Negotiate:** bước đầu tiên để client và server chọn transport.
+- **Keep-alive, reconnect:** ping giữ kết nối và vòng thử lại khi mất mạng.
+
+Ghi chú “Where it lives”: server có sẵn trong ASP.NET Core (`AddSignalR()` + `MapHub()`); client có JavaScript, .NET, Java (mục 1).
+
+### Gợi ý lời nói (~90 giây)
+
+1. **Nối từ slide 3:** “Slide trước là những việc WebSocket thuần để lại cho mình. Vậy SignalR là gì?”
+2. **Đọc từ dưới lên:** “Dưới cùng là transport: WebSocket, nếu không được thì SSE hoặc Long polling. Mình không chọn, SignalR thương lượng giúp.”
+3. **Chỉ vào dải tím:** “Phần này là cái SignalR bán cho mình: giữ kết nối, biến lời gọi hàm thành message, biết ai đang kết nối để gửi đúng người.” Không đọc hết từng khối; chi tiết có ở slide 09–11.
+4. **Chỉ vào lớp trên cùng:** “Phần còn lại, luật bid, UI, event nào gửi cho ai, vẫn là code của mình.”
+5. **Giới thiệu quy ước màu một lần:** cyan viền liền là code Geronimo viết; tím viền đứt là SignalR tự làm. Các sơ đồ sau và demo đều dùng quy ước này.
+
+**Câu chốt:** SignalR không phải WebSocket xịn hơn; nó là lớp chạy phía trên WebSocket.
+
+### Các điểm cần nói chính xác
+
+- Slide dùng chữ **library** (đúng với cách Microsoft gọi). Presenter guide và tiêu đề cũ dùng “framework”. Chọn một cách nói, kèm lý do: nó làm nhiều hơn một transport (mục 1).
+- **“Picked for you”** nghĩa là negotiate chọn transport lúc thiết lập kết nối, không phải đang chạy WebSocket bị đứt thì tự chuyển sang SSE. BidLab ép WebSocket nên không chứng minh được fallback.
+- Gọi WebSocket là “transport” là cách gọi của SignalR. Theo mô hình mạng, WebSocket là giao thức tầng ứng dụng chạy trên TCP, mở đầu bằng HTTP Upgrade (`101 Switching Protocols`). Nếu bị hỏi: đây là cách nói rộng, “phương tiện chở message”.
+- WebSocket chỉ cung cấp đường hai chiều có đóng khung message. Nó không có phòng, ack, reconnect hay RPC; những thứ đó nằm ở lớp SignalR.
+- SignalR **không thay thế** WebSocket. Nó dùng WebSocket làm transport ưu tiên.
+
+### Có thể bị hỏi
+
+| Câu hỏi | Trả lời ngắn |
+|---|---|
+| Sao không dùng WebSocket thuần? | Dùng được, nhưng phải tự viết sáu việc ở slide 3 và 5. |
+| SignalR có thay WebSocket không? | Không, SignalR chạy trên WebSocket và chỉ hạ xuống SSE/Long polling khi cần. |
+| Có bắt buộc dùng .NET không? | Server SignalR chạy trên ASP.NET Core; client có JavaScript, .NET, Java. |
+
+## 12. Slide 7 — Sáu điều chuẩn bị
 
 | Dòng trên slide | Ý nghĩa |
 |---|---|
@@ -288,7 +339,7 @@ Server vẫn dùng `[Authorize]` và `Context.UserIdentifier`. Mặc định mã
 
 “A hub is a public API” nghĩa là client có thể tự tạo lời gọi và chọn input, không bị giới hạn bởi UI. Server vẫn áp dụng binding kiểu, authorization và validation; không phải client được vượt các kiểm tra này.
 
-## 12. Slide 8 — EventHub làm gì, ai kết nối?
+## 13. Slide 8 — EventHub làm gì, ai kết nối?
 
 Slide mô tả Geronimo:
 
@@ -309,7 +360,7 @@ Trong source được phân tích, job đóng theo lô phát `closeItems` trư�
 
 BidLab không triển khai EventHub; demo có BidHub và TraceHub. Sơ đồ slide 8 ghi `/bidhub + /eventhub` ở Event page nhưng đường nối chưa tách rõ từng Hub.
 
-## 13. `IHubContext` là gì?
+## 14. `IHubContext` là gì?
 
 **Công cụ gửi message tới client của Hub đích từ code phía server, đặc biệt là code ngoài Hub.**
 
@@ -346,7 +397,7 @@ TraceBus không phải Hub nhưng vẫn gửi được tới client của TraceH
 
 **Câu nhớ:** Trong Hub dùng `Clients`; ngoài Hub dùng `IHubContext<HubĐích>.Clients`.
 
-## 14. Tự kiểm tra trước khi present
+## 15. Tự kiểm tra trước khi present
 
 1. SignalR có sẵn phía server có nghĩa browser cũng có sẵn không? **Không.**
 2. `build()` đã mở mạng chưa? **Chưa, cần `start()`.**
@@ -360,8 +411,10 @@ TraceBus không phải Hub nhưng vẫn gửi được tới client của TraceH
 10. Reconnect có đồng nghĩa dữ liệu đã mới nhất không? **Không, cần resync; ordinary reconnect không tự replay các message bị lỡ.**
 11. Redis backplane có thay database/transaction không? **Không.**
 12. IHubContext có dùng để gọi Hub method không? **Không.**
+13. “Transport picked for you” có nghĩa WebSocket đứt thì tự chuyển sang SSE không? **Không, transport được chọn khi thiết lập kết nối.**
+14. SignalR có thay WebSocket không? **Không, nó chạy trên WebSocket.**
 
-## 15. Source để đọc lại
+## 16. Source để đọc lại
 
 - [Deep dive và phân tích Geronimo](signalr-deep-dive.md)
 - [Presenter guide](signalr-presentation-final.md)

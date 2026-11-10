@@ -7,7 +7,7 @@
 | --- | --- |
 | Project Name | signalr_sharing_ppt169_20261021 |
 | Canvas Format | PPT 16:9 (1280 × 720) |
-| Page Count | 15 |
+| Page Count | 16 |
 | Primary Language | en |
 | Target Audience | Dev trong team Geronimo, đã dự buổi ProtoLab (Polling, Long polling, SSE, WebSocket, vấn đề mất kết nối); quen .NET và code TravelPledgeAuctions ở mức khác nhau |
 | Communication Intent | Giải thích SignalR là framework (không chỉ WebSocket) và nó làm gì thay mình; định hướng mindset chuẩn bị khi dùng; mổ xẻ cách Geronimo dùng SignalR để sync bid (Phase 1 kết nối, Phase 2 bid và nhận cập nhật) bằng diagram flow code; chốt bằng best practice, nêu thẳng lỗ hổng bidderId và lộ max bid |
@@ -284,6 +284,17 @@
 - **Title**: Demo & Questions
 - **Core message**: SignalR moves the message; you own identity and what you broadcast.
 - **Content**: 1 Connect (negotiate → handshake) · 2 Bid (bid → broadcast → update clients) · 3 Go offline (reconnect or give up) · Q&A
+
+### Part 5: Backup
+
+#### Slide 16 - Redis backplane (backup)
+
+- **Audience move**: heard "backplane" on slides 08 and 11 → sees why a second server needs it and what it leaves out
+- **Relationships**: Anna → Server A → Redis → Server B → Ben (order); each server's HubLifetimeManager holds only its own connections (membership); does vs does-not (contrast)
+- **Composition**: left figure: two client cards over two server boxes, Redis band below, five numbered arrows; right margin: "What it does" (violet dashed) over "What it does not do" (warning accent)
+- **Title**: Redis backplane: one message, every server
+- **Core message**: The backplane relays SignalR messages between servers; it neither moves connections nor stores history.
+- **Content**: 1 Anna invoke("AddBid") → Server A · 2 Clients.All.SendAsync("updateItem") reaches Anna via A's HubLifetimeManager · 3 publish to Redis · 4 same message → Server B · 5 B's HubLifetimeManager writes updateItem to Ben · .AddStackExchangeRedis() · Does: relays messages between servers (Pub/Sub), Clients.All / Group / User reach every server's clients, hub code unchanged · Does not: move connections (sticky sessions still apply), replay missed messages, replace the database
 
 ## X. Speaker Notes Requirements
 
