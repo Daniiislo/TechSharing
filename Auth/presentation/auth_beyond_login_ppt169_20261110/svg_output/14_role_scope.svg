@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#007F9E"/></marker></defs><rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 48 1152 130"><text x="64" y="72" font-size="18" fill="#007F9E">ROLE-BASED ACCESS CONTROL / RBAC</text><text x="64" y="139" font-family="Cambria, serif" font-size="46" fill="#102A43">A Bidder Role Is Only the First Check</text></g>
+<g id="role-resource-scope" data-pptx-bounds="64 218 1152 333">
+<text x="88" y="340" font-family="Cambria, serif" font-size="46" fill="#102A43">Anna</text><text x="88" y="396" font-size="28" fill="#007F9E">Role: Bidder</text><text x="88" y="443" font-size="22" fill="#526B80">A group of capabilities</text>
+<line x1="365" y1="350" x2="780" y2="286" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/><line x1="365" y1="380" x2="780" y2="453" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="820" y="287" font-size="32" fill="#102A43">Auction 42</text><text x="820" y="333" font-size="22" fill="#007F9E">Within Anna's allowed scope</text><text x="820" y="454" font-size="32" fill="#102A43">Auction 99</text><text x="820" y="500" font-size="22" fill="#9C5A0A">A different organization or invitation</text>
+</g>
+<g id="takeaway" data-pptx-bounds="64 590 1152 76"><text x="64" y="621" font-size="28" fill="#102A43">A role does not settle every resource decision.</text><text x="64" y="654" font-size="22" fill="#526B80">Hiding Place Bid in the UI does not enforce the server's policy.</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">Source: OWASP Authorization Cheat Sheet. Auction IDs and rules are illustrative.</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">14 / 20</text></g>
+</svg>

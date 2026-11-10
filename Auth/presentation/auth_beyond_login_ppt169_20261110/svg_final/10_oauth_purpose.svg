@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#007F9E" /></marker></defs><rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC" />
+<g id="title" data-pptx-bounds="64 48 1152 156"><text x="64" y="72" font-size="18" fill="#007F9E">OAUTH / THE PROBLEM</text><text font-family="Cambria, serif" font-size="46" fill="#102A43" x="64" y="128">Let an App Act</text><text font-family="Cambria, serif" font-size="46" fill="#102A43" x="64" y="182">Without Sharing Your Password</text></g>
+<g id="delegated-access" data-pptx-bounds="64 225 1152 335">
+<text x="90" y="268" font-size="32" fill="#102A43">Seller</text><text x="90" y="308" font-size="22" fill="#526B80">Owns the account</text><text x="90" y="422" font-size="28" fill="#102A43">Seller tool</text><text x="90" y="462" font-size="22" fill="#526B80">Client application</text>
+<text x="700" y="268" font-size="28" fill="#102A43">Authorization server</text><text x="700" y="308" font-size="22" fill="#526B80">Processes consent and issues tokens</text><text x="930" y="453" font-size="28" fill="#102A43">eBay API</text><text x="930" y="493" font-size="22" fill="#526B80">Protected resources</text>
+<line x1="300" y1="265" x2="670" y2="265" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)" /><text x="485" y="245" text-anchor="middle" font-size="22" fill="#007F9E">Grants permission</text>
+<line x1="720" y1="342" x2="380" y2="397" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)" /><text x="465" y="343" font-size="22" fill="#007F9E">Scoped access token</text>
+<line x1="340" y1="453" x2="900" y2="453" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)" /><text x="620" y="433" text-anchor="middle" font-size="22" fill="#243B53">Calls API on the seller's behalf</text>
+<text x="90" y="546" font-size="22" fill="#526B80">Public eBay developer example: User access token after consent.</text>
+</g>
+<g id="takeaway" data-pptx-bounds="64 590 1152 76"><text x="64" y="625" font-size="28" fill="#102A43">OAuth delegates API access to an application.</text><text x="64" y="654" font-size="22" fill="#526B80">Application access tokens serve a separate application context.</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2" /><text x="64" y="698" font-size="16" fill="#526B80">Sources: eBay Developers, Authorization and Access Token Types</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">10 / 20</text></g>
+</svg>

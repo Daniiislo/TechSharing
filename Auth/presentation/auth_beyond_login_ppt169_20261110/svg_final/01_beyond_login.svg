@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="cover" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC" />
+<g id="cover-title" data-pptx-bounds="64 76 690 460">
+<text x="64" y="105" font-size="18" fill="#007F9E">AUTHENTICATION &amp; AUTHORIZATION</text>
+<text font-family="Cambria, serif" font-size="76" fill="#102A43" x="64" y="245">Beyond the</text><text font-family="Cambria, serif" font-size="76" fill="#102A43" x="64" y="333">Login Screen</text><text x="68" y="417" font-size="28" fill="#243B53">Anna is signed in.</text>
+<text x="68" y="465" font-size="32" fill="#007F9E">What happens to her next bid?</text>
+<text x="68" y="523" font-size="22" fill="#526B80">Tavian Nguyen</text>
+</g>
+<g id="bid-questions" data-pptx-bounds="800 160 416 425">
+<line x1="800" y1="164" x2="800" y2="572" stroke="#007F9E" stroke-width="3" />
+<text x="836" y="207" font-size="18" fill="#007F9E">PLACE BID</text>
+<text x="836" y="282" font-family="Cambria, serif" font-size="36" fill="#102A43">Who sent it?</text>
+<text x="836" y="354" font-family="Cambria, serif" font-size="36" fill="#102A43">Which auction?</text>
+<text x="836" y="426" font-family="Cambria, serif" font-size="36" fill="#102A43">Whose session?</text>
+<text x="836" y="498" font-family="Cambria, serif" font-size="36" fill="#102A43">Can access stop?</text>
+<text x="836" y="559" font-size="22" fill="#526B80">One request, several checks</text>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2" /><text x="64" y="698" font-size="16" fill="#526B80">TECH SHARING</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">01 / 20</text></g>
+</svg>

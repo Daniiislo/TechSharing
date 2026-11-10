@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#007F9E" /></marker></defs><rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC" />
+<g id="title" data-pptx-bounds="64 48 1152 130"><text x="64" y="72" font-size="18" fill="#007F9E">PROOF KEY FOR CODE EXCHANGE / PKCE</text><text x="64" y="139" font-family="Cambria, serif" font-size="46" fill="#102A43">A Stolen Code Should Not Be Enough</text></g>
+<g id="pkce-binding" data-pptx-bounds="64 201 1152 364">
+<rect x="64" y="201" width="370" height="338" fill="#E8F4F8" /><rect x="846" y="201" width="370" height="338" fill="none" stroke="#102A43" stroke-width="2" />
+<text x="92" y="247" font-size="28" fill="#102A43">Client</text><text x="874" y="247" font-size="28" fill="#102A43">Authorization server</text><text x="92" y="296" font-size="22" fill="#243B53">1  Generate and keep verifier</text><text x="92" y="336" font-family="Consolas, monospace" font-size="24" fill="#007F9E">challenge = S256(verifier)</text>
+<line x1="450" y1="348" x2="826" y2="348" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)" /><text x="640" y="319" text-anchor="middle" font-size="22" fill="#243B53">2  Send challenge first</text>
+<line x1="826" y1="410" x2="450" y2="410" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)" /><text x="640" y="394" text-anchor="middle" font-size="22" fill="#243B53">3  Receive code</text>
+<line x1="450" y1="472" x2="826" y2="472" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)" /><text x="640" y="456" text-anchor="middle" font-size="22" fill="#243B53">4  Send code + verifier</text>
+<text x="92" y="512" font-size="22" fill="#526B80">Fresh verifier for this transaction</text><text font-size="22" fill="#243B53" x="874" y="495">5  Recompute and compare</text><text font-size="22" fill="#243B53" x="874" y="526">before issuing tokens</text><text x="64" y="558" font-size="22" fill="#526B80">Code alone lacks the verifier required by the exchange.</text>
+</g>
+<g id="takeaway" data-pptx-bounds="64 590 1152 76"><text x="64" y="621" font-size="28" fill="#102A43">PKCE binds the exchange to the client that started it.</text><text x="64" y="654" font-size="22" fill="#9C5A0A">It does not neutralize an access token stolen after issuance.</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2" /><text x="64" y="698" font-size="16" fill="#526B80">Sources: RFC 7636; RFC 9700. S256 includes SHA-256 and Base64url encoding.</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">12 / 20</text></g>
+</svg>

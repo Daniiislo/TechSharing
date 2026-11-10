@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#007F9E"/></marker></defs><rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 48 1152 130"><text x="64" y="72" font-size="18" fill="#007F9E">PASSKEY / REGISTRATION</text><text x="64" y="139" font-family="Cambria, serif" font-size="46" fill="#102A43">Passkeys: Register a Public Key</text></g>
+<g id="registration-ceremony" data-pptx-bounds="64 194 1152 383">
+<text x="180" y="225" text-anchor="middle" font-size="28" fill="#102A43">Browser</text><text x="650" y="225" text-anchor="middle" font-size="28" fill="#102A43">Authenticator</text><text x="1090" y="225" text-anchor="middle" font-size="28" fill="#102A43">Backend</text>
+<line x1="180" y1="240" x2="180" y2="533" stroke="#CAD7E2" stroke-width="2"/><line x1="650" y1="240" x2="650" y2="533" stroke="#CAD7E2" stroke-width="2"/><line x1="1090" y1="240" x2="1090" y2="533" stroke="#CAD7E2" stroke-width="2"/>
+<line x1="180" y1="279" x2="1090" y2="279" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/><text x="275" y="267" font-size="22" fill="#243B53">1  Start registration with a verified account</text>
+<line x1="1090" y1="335" x2="180" y2="335" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/><text x="275" y="323" font-size="22" fill="#243B53">2  Return challenge and registration options</text>
+<line x1="180" y1="391" x2="650" y2="391" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/><text x="211" y="379" font-family="Consolas, monospace" font-size="24" fill="#007F9E">3  credentials.create()</text>
+<line x1="650" y1="447" x2="180" y2="447" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/><text x="211" y="435" font-size="22" fill="#243B53">Create keys; return registration data</text>
+<line x1="180" y1="503" x2="1090" y2="503" stroke="#007F9E" stroke-width="2" marker-end="url(#arrow)"/><text x="275" y="491" font-size="22" fill="#243B53">4  Submit registration response; backend validates</text>
+<text x="650" y="558" text-anchor="middle" font-size="22" fill="#007F9E">Private key stays protected</text><text x="1090" y="558" text-anchor="middle" font-size="22" fill="#102A43">Store ID + public key</text>
+</g>
+<g id="takeaway" data-pptx-bounds="64 590 1152 76"><text x="64" y="625" font-size="28" fill="#102A43">The server binds a public key to Anna's account.</text><text x="64" y="654" font-size="22" fill="#526B80">Protect enrollment. Verify the challenge, origin/RP and WebAuthn response.</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">Sources: W3C WebAuthn; NIST SP 800-63B-4</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">06 / 20</text></g>
+</svg>
