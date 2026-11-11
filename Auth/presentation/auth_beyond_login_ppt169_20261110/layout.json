@@ -1,0 +1,108 @@
+{
+  "canvas": {
+    "width": 1280,
+    "height": 720
+  },
+  "header": {
+    "left": 64,
+    "width": 1152,
+    "top": 33,
+    "height": 148,
+    "section": {
+      "baseline": 55,
+      "size": 18,
+      "color": "#007F9E"
+    },
+    "title": {
+      "baseline": 108,
+      "size": 46,
+      "font": "Cambria, serif",
+      "color": "#102A43"
+    },
+    "context": {
+      "baseline": 157,
+      "size": 22,
+      "color": "#526B80"
+    },
+    "appendix_marker": {
+      "right": 1216,
+      "baseline": 55,
+      "size": 18,
+      "color": "#007F9E"
+    }
+  },
+  "body": {
+    "left": 64,
+    "width": 1152,
+    "top": 198,
+    "first_tile_top": 205,
+    "bottom": 652
+  },
+  "footer": {
+    "left": 64,
+    "right": 1216,
+    "line_y": 675,
+    "text_baseline": 698
+  },
+  "agenda_sections": [
+    {
+      "number": 1,
+      "title": "Authentication & Sign-In",
+      "slides": [
+        "03_authentication_overview",
+        "04_mfa_factor_types",
+        "05_totp_offline",
+        "06_passkey_register_and_sign_in",
+        "07_federated_sign_in",
+        "08_oauth_api_access",
+        "09_pkce_code_exchange",
+        "20_totp_verification",
+        "21_passkey_checks",
+        "22_oauth_oidc_validation",
+        "23_sso_workload_identity"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Sessions & Tokens",
+      "slides": [
+        "10_session_continuity",
+        "11_bearer_token_copy"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Authorization",
+      "slides": [
+        "12_authorization_models",
+        "13_bid_authorization_policy",
+        "14_auth_extension_points",
+        "24_resource_authorization"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Session Security & Revocation",
+      "slides": [
+        "15_refresh_token_reuse",
+        "16_revocation",
+        "25_revocation_propagation"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Choosing an Auth Architecture",
+      "slides": [
+        "17_choosing_auth_architecture"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "BidLab Walkthrough & Q&A",
+      "slides": [
+        "18_bidlab_walkthrough",
+        "19_bid_end_to_end"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">01 · Authentication &amp; Sign-In</text>
+<text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">TOTP: Your Authenticator Works Offline</text>
+<text id="slide-context" x="64" y="157" font-size="22" fill="#526B80">Time-based one-time password</text>
+</g>
+<g id="offline-authenticator" data-pptx-bounds="64 205 486 248">
+<g transform="translate(0 7)"><rect x="64" y="198" width="486" height="248" rx="12" fill="#E8F4F8"/>
+<text x="94" y="243" font-size="28" font-weight="700" fill="#102A43">Authenticator app</text>
+<text x="94" y="287" font-size="22" font-weight="700" fill="#007F9E">NO INTERNET NEEDED</text>
+<text x="94" y="343" font-size="22" fill="#243B53">Shared key + phone clock</text>
+<text x="94" y="405" font-family="Consolas, monospace" font-size="36" fill="#102A43">482 716</text>
+</g></g>
+<g id="matching-code" data-pptx-bounds="562 344 156 105">
+<g transform="translate(0 7)"><text x="640" y="403" text-anchor="middle" font-size="36" fill="#007F9E">=</text>
+</g></g>
+<g id="server-calculation" data-pptx-bounds="730 205 486 248">
+<g transform="translate(0 7)"><rect x="730" y="198" width="486" height="248" rx="12" fill="none" stroke="#CAD7E2" stroke-width="2"/>
+<text x="760" y="243" font-size="28" font-weight="700" fill="#102A43">Server</text>
+<text x="760" y="287" font-size="22" font-weight="700" fill="#007F9E">CALCULATES THE EXPECTED CODE</text>
+<text x="760" y="343" font-size="22" fill="#243B53">Same key + server clock</text>
+<text x="760" y="405" font-family="Consolas, monospace" font-size="36" fill="#102A43">482 716</text>
+</g></g>
+<g id="time-steps" data-pptx-bounds="64 458 1152 100">
+<text x="64" y="481" font-size="18" fill="#526B80">Example: a new code every 30 seconds</text>
+<path d="M 64 508 H 1214 M 1204 500 L 1214 508 L 1204 516" fill="none" stroke="#007F9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 64 501 V 516 M 446 501 V 516 M 828 501 V 516" fill="none" stroke="#007F9E" stroke-width="2"/>
+<text x="64" y="543" font-size="22" fill="#526B80">0 s</text>
+<text x="446" y="543" font-size="22" fill="#526B80">30 s</text>
+<text x="828" y="543" font-size="22" fill="#526B80">60 s</text>
+</g>
+<g id="verification" data-pptx-bounds="64 569 1152 83">
+<line x1="64" y1="572" x2="1216" y2="572" stroke="#CAD7E2"/>
+<text x="64" y="603" font-size="18" fill="#007F9E">AT SIGN-IN</text>
+<text x="64" y="636" font-size="28" font-weight="700" fill="#102A43">Enter the code</text>
+<path d="M 285 626 H 335 M 325 617 L 335 626 L 325 635" fill="none" stroke="#007F9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="359" y="636" font-size="28" font-weight="700" fill="#102A43">Server checks the match for your account</text>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">Source: RFC 6238</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">05 / 19</text></g>
+</svg>

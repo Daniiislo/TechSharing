@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">03 · Authorization</text>
+<text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">Can Anna Bid on This Auction?</text>
+<text id="slide-context" x="64" y="157" font-size="22" fill="#526B80">A single policy can combine role, attribute and relationship checks.</text>
+</g>
+<g id="main-visual" data-pptx-bounds="64 198 1152 448">
+<text x="64" y="231" font-size="23" fill="#102A43" font-weight="700">Request: Anna wants to place a bid.</text>
+<rect x="64" y="257" width="1152" height="63" rx="9" fill="#E8F4F8"/>
+<text x="88" y="296" font-size="23" fill="#102A43" font-weight="700">Policy requires all three checks</text>
+<text x="760" y="296" font-size="22" fill="#102A43" font-weight="700">Auction 42</text>
+<text x="1001" y="296" font-size="22" fill="#102A43" font-weight="700">Auction 99</text>
+<text x="88" y="358" font-size="24" fill="#102A43">Bidder role grants permission to bid</text>
+<text x="760" y="358" font-size="24" fill="#526B80">Yes</text>
+<text x="1001" y="358" font-size="24" fill="#526B80">Yes</text>
+<line x1="64" y1="381" x2="1216" y2="381" stroke="#CAD7E2"/>
+<text x="88" y="421" font-size="24" fill="#102A43">Anna and the auction share a tenant</text>
+<text x="760" y="421" font-size="24" fill="#526B80">Yes</text>
+<text x="1001" y="421" font-size="24" fill="#526B80">Yes</text>
+<line x1="64" y1="444" x2="1216" y2="444" stroke="#CAD7E2"/>
+<text x="88" y="484" font-size="24" fill="#102A43">Anna is invited to this auction</text>
+<text x="760" y="484" font-size="24" fill="#526B80">Yes</text>
+<text x="1001" y="484" font-size="24" fill="#9C5A0A" font-weight="700">No</text>
+<line x1="64" y1="507" x2="1216" y2="507" stroke="#CAD7E2"/>
+<text x="88" y="557" font-size="24" fill="#102A43" font-weight="700">Authorization decision</text>
+<text x="760" y="557" font-size="29" fill="#007F9E" font-weight="700">Allow</text>
+<text x="1001" y="557" font-size="29" fill="#9C5A0A" font-weight="700">Deny</text>
+<text x="64" y="628" font-size="22" fill="#526B80">If allowed, check whether the auction is open and the bid amount is valid.</text>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">BidLab · Illustrative policy</text><text x="1216" y="698" font-size="16" fill="#526B80" text-anchor="end">13 / 19</text></g>
+</svg>

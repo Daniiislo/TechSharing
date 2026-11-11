@@ -8,7 +8,7 @@
 ## communication
 - primary_language: en
 - audience: Geronimo developers with varied .NET experience
-- objective: Explain core auth mechanisms and trace a bid through session, resource authorization and revocation in a 45-minute live talk
+- objective: Explain core auth mechanisms and trace a bid through session, resource authorization and revocation in a 43-minute live talk
 - core_message: Identity proof, session continuity, resource permission and revocation are distinct responsibilities on one request path
 - consumption_mode: presentation
 
@@ -18,7 +18,7 @@
 
 ## visual_style
 - visual_style: custom
-- visual_style_behavior: Inherit editorial serif headlines and navy/cyan colors, use open layouts with meaningful device and server boundaries, and keep related actors fixed across numbered mechanism diagrams
+- visual_style_behavior: Inherit editorial serif headlines and navy/cyan colors, use open layouts and one focal visual per page after the TOTP slide, with concise labels and technical detail in the presenter guide
 
 ## colors
 - background: #F7F9FC
@@ -54,30 +54,29 @@
 ## page_rhythm
 - P01: anchor
 - P02: dense
-- P03: dense
-- P04: dense
+- P03: breathing
+- P04: breathing
 - P05: dense
-- P06: dense
-- P07: dense
-- P08: dense
+- P06: breathing
+- P07: breathing
+- P08: breathing
 - P09: breathing
-- P10: dense
-- P11: dense
-- P12: dense
-- P13: dense
+- P10: breathing
+- P11: breathing
+- P12: breathing
+- P13: breathing
 - P14: breathing
-- P15: dense
-- P16: dense
-- P17: dense
-- P18: dense
-- P19: dense
-- P20: anchor
+- P15: breathing
+- P16: breathing
+- P17: breathing
+- P18: breathing
+- P19: anchor
+- P20: dense
 - P21: dense
 - P22: dense
 - P23: dense
 - P24: dense
 - P25: dense
-- P26: dense
 
 ## pptx_structure
 - mode: flat

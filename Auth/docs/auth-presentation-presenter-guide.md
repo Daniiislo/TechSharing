@@ -2,7 +2,7 @@
 
 **Phiên bản:** 10/11/2026. **Người trình bày:** Tavian Nguyen.
 
-Slide tiếng Anh, trình bày tiếng Việt. Phần chính gồm 20 slide, dự toán 45 phút gồm 5 phút demo và khoảng 3.5 phút Q&A. Sáu slide appendix dùng tra cứu, không đọc nối tiếp sau slide kết. Lời dẫn dưới đây là bản luyện nói; khoảng dừng để chỉ hình và trao đổi ngắn nằm trong thời lượng mỗi trang. Chưa rehearsal nên đây chưa phải thời lượng đã đo.
+Slide tiếng Anh, trình bày tiếng Việt. Phần chính gồm 19 slide, dự toán 43 phút gồm 5 phút demo và khoảng 3.5 phút Q&A. Sáu slide appendix dùng tra cứu, không đọc nối tiếp sau slide kết. Lời dẫn dưới đây là bản luyện nói; khoảng dừng để chỉ hình và trao đổi ngắn nằm trong thời lượng mỗi trang. Chưa rehearsal nên đây chưa phải thời lượng đã đo.
 
 **Phạm vi demo:** kịch bản chuẩn bị cho BidLab, chưa phải chức năng Auth đã triển khai. Deck không tuyên bố mô hình minh họa là kiến trúc thật của eBay hay TravelPledgeAuctions.
 
@@ -14,27 +14,27 @@ Nhưng khi Anna bấm Place Bid, một request mới đi lên server. Server bi�
 
 Đây là những việc phía sau màn hình login mà hôm nay mình muốn lần theo. Mình sẽ dùng cùng một người dùng và một hành động bid để nối các phần lại, thay vì học từng tên công nghệ rời rạc.
 
-**Chỉ hình:** Anna đã login ở bên trái, Place Bid ở giữa, các câu hỏi ở phía server. Không giải thích token ngay tại đây.
+**Chỉ hình:** Đi từ trái sang phải: xác thực Anna, duy trì danh tính qua các request, kiểm tra quyền đặt giá, rồi thu hồi quyền truy cập khi cần. Mũi tên nét đứt đánh dấu bước thu hồi có điều kiện.
 
-**Chuyển:** Trước khi chọn cách đăng nhập, mình cần biết mỗi thành phần của auth chịu trách nhiệm cho câu hỏi nào.
+**Chuyển:** Từ luồng này, mình sẽ đi qua những chủ đề nào trong buổi hôm nay?
 
-## 02. One Bid, Four Security Questions — 1.5 phút
+## 02. Agenda — 0.5 phút
 
-Authentication là kiểm tra bằng chứng để xác thực chủ thể đang truy cập. Có thể là người dùng hoặc ứng dụng; phần chính hôm nay tập trung vào người dùng. Authorization là quyết định chủ thể đó có được thực hiện một hành động trên tài nguyên cụ thể hay không.
+Mình sẽ đi từ đăng nhập qua phiên và phân quyền đến thu hồi. Cuối buổi mình so sánh các cách thiết kế rồi áp dụng một lựa chọn vào BidLab.
 
-Giữa hai việc này có một đoạn thường bị bỏ qua: sau lần xác thực đầu, ứng dụng giữ một phiên hoặc phát credential để nhận biết những request sau. Cuối cùng, mình cần cách chặn credential hoặc phiên cũ khi không còn cho phép truy cập.
+**Chuyển:** Trước khi đi vào chi tiết, nhìn qua bản đồ của phần Authentication.
 
-Vì thế, một bid đi qua bốn câu hỏi: ai đang gọi, request hiện tại còn thuộc phiên được chấp nhận không, người đó có quyền với auction này không, và hệ thống có còn cho phép phiên đó hoạt động không. Điều kiện nghiệp vụ như giá bid hợp lệ cũng phải được kiểm tra trước khi ghi dữ liệu.
+## 03. Authentication Overview — 1 phút
 
-**Chỉ hình:** đi từ trái sang phải một lần; gọi đúng tên authentication/authorization, không gọi tất cả các bước là login.
+Nhìn từ trên xuống. Bên trái là đăng nhập trực tiếp với ứng dụng. Nhắc đến mã OTP quen thuộc: server tạo mã rồi gửi qua SMS hoặc email. Sau đó mình sẽ xem cách ứng dụng xác thực tự tạo mã TOTP, rồi đến passkey. Bên phải là đăng nhập qua một nhà cung cấp danh tính. OIDC cho ứng dụng biết ai đã đăng nhập. OAuth 2.0 dùng khi ứng dụng cần quyền gọi API, còn PKCE bảo vệ bước đổi code.
 
-**Chuyển:** Đầu tiên là bằng chứng: người dùng đưa gì để mình kiểm tra danh tính?
+**Chuyển:** Bắt đầu bên trái, với những loại bằng chứng mà người dùng có thể đưa ra.
 
-## 03. Different Evidence, the Same Identity Question — 2 phút
+## 04. Three Types of Authentication Factors — 2 phút
 
-Password chứng minh người dùng biết một bí mật. Authenticator tạo OTP dựa vào bí mật nó giữ. Passkey dùng khóa riêng để tạo chữ ký mà server kiểm tra bằng khóa công khai. Chúng cùng phục vụ xác thực nhưng không có cùng cách hoạt động hay cùng mức chống lại từng kiểu tấn công.
+**Chỉ hình:** Mật khẩu, PIN và cụm mật khẩu đều là điều mình biết. Khóa bảo mật, thiết bị có ứng dụng OTP đã đăng ký và thẻ thông minh là thứ mình có. Vân tay, khuôn mặt và mống mắt là các đặc điểm sinh trắc. Sau khi chỉ cả ba hình, dùng ví dụ password + TOTP để giải thích cách kết hợp hai loại yếu tố.
 
-MFA nghĩa là Multi-Factor Authentication: kết hợp ít nhất hai loại yếu tố. Những nhóm thường gặp là điều bạn biết, thứ bạn có, và đặc điểm sinh trắc học của bạn. 2FA là trường hợp dùng hai yếu tố. Số màn hình và số lần bấm không quyết định số yếu tố: hai mật khẩu vẫn thuộc cùng loại.
+MFA nghĩa là Multi-Factor Authentication: kết hợp ít nhất hai loại yếu tố. Cả ứng dụng lẫn nhà cung cấp danh tính đều có thể yêu cầu MFA. Những nhóm thường gặp là điều bạn biết, thứ bạn có, và đặc điểm sinh trắc học của bạn. 2FA là trường hợp dùng hai yếu tố. Số màn hình và số lần bấm không quyết định số yếu tố: hai mật khẩu vẫn thuộc cùng loại.
 
 Với password cộng TOTP, mình yêu cầu bí mật đã nhớ và quyền sử dụng authenticator đã đăng ký. Tuy nhiên, từng yếu tố phải được triển khai và bảo vệ đúng. Không mặc định email OTP độc lập nếu chính hộp thư cũng bị chiếm cùng tài khoản. Với passkey, việc thiết bị kiểm tra PIN hoặc sinh trắc học có vai trò khác nhập password cho server; khả năng đáp ứng MFA còn phụ thuộc user verification và chính sách.
 
@@ -42,55 +42,61 @@ eBay công khai hỗ trợ passkey và các lựa chọn xác thực hai bước
 
 **Chuyển:** Bỏ qua password quen thuộc, bắt đầu từ cơ chế mà app và server tự tính cùng một mã.
 
-## 04. HOTP: Keep the Counters in Sync — 2 phút
+## 05. TOTP: Your Authenticator Works Offline — 2 phút
 
-HOTP dùng một khóa bí mật chung, ký hiệu K, và bộ đếm C. Bộ đếm cho biết đang ở bước tạo mã nào; nó không phải số giây còn lại hay số lần login sai.
+Khi đăng ký, app xác thực và server đã có cùng khóa bí mật dành cho tài khoản. Sau đó, dù điện thoại ở chế độ máy bay, app vẫn dùng khóa đã lưu và đồng hồ của máy để tính mã. Server dùng khóa của tài khoản và đồng hồ của mình để tính mã dự kiến. Nếu hai bên cùng khoảng thời gian, thường là 30 giây, chúng tính ra cùng mã. [S2]
 
-Trong ví dụ test vector của chuẩn, hai phía cùng có K và C bằng 0 thì tính ra mã 755224. Người dùng nhập mã; server tự tính kết quả dự kiến và đối chiếu. Khi chấp nhận, server chuyển trạng thái để không chấp nhận lại bước đó. Authenticator tăng bộ đếm khi tạo mã tiếp theo. Mã tiếp theo của test vector là 287082. Đây là dữ liệu kiểm thử công khai, không phải secret dùng trong hệ thống thật.
+**Chỉ hình:** Chỉ hai ô mã giống nhau, rồi chỉ các mốc 0, 30 và 60 giây để cho thấy cả hai bên cùng chuyển sang bước thời gian mới. App tạo mã offline. Khi Anna nhập mã vào trang đăng nhập, request vẫn phải tới server. Mã khớp là bằng chứng rằng người nhập có quyền dùng app xác thực đã đăng ký, nên có thể dùng cùng mật khẩu làm yếu tố thứ hai.
 
-Nếu Anna tạo vài mã mà chưa dùng, authenticator có thể đi trước server. Server có thể kiểm tra một số bước phía trước trong giới hạn rồi cập nhật theo bước được chấp nhận. Cửa sổ rộng hơn cần được cân nhắc cùng giới hạn thử sai.
+Với SMS/email, server thường tạo mã rồi gửi cho người dùng. TOTP không cần bước gửi mã từ server tới app. Hai loại mã nhập tay đều có thể bị lừa lấy và sử dụng trước khi hết hạn. [S2][S6]
 
-Điểm dễ nhầm: HOTP không tự đổi chỉ vì 30 giây đã qua. Nếu dịch vụ đặt thời hạn thì đó là chính sách thêm vào. [S1]
+**Chuyển:** Tiếp theo là passkey, nơi thiết bị ký thử thách để chứng minh quyền sử dụng khóa.
 
-**Chỉ hình:** hai bản counter; chỉ rõ phía tạo mã và phía chấp nhận cập nhật ở những sự kiện khác nhau.
+## 06. Passkeys: Register and Sign In — 4 phút
 
-**Chuyển:** Có thể thay bộ đếm thao tác bằng một giá trị mà hai bên cùng suy ra từ đồng hồ không?
+**Mở đầu:** “Hai hàng là hai lần khác nhau. Hàng trên mình thêm passkey. Hàng dưới mình dùng passkey đã thêm để đăng nhập.”
 
-## 05. TOTP: Let Time Move the Counter — 2 phút
+**Hàng trên — Đăng ký một lần.** Anna đã được xác minh và chọn **Add a passkey**. Chỉ mũi tên **Start registration**: browser gọi backend để bắt đầu. Backend kiểm tra phiên và quyền thêm passkey, rồi trả options cùng challenge. Browser gọi WebAuthn để làm việc với authenticator. Chỉ ô bên phải: Anna xác nhận trên thiết bị, rồi authenticator tạo một cặp khóa cho dịch vụ. Khi nhận kết quả từ authenticator, browser gửi phản hồi đăng ký về backend theo mũi tên **Submit registration**. Sau khi kiểm tra phản hồi, server lưu credential ID và public key gắn với tài khoản Anna. Authenticator hoặc trình quản lý passkey bảo vệ private key.
 
-TOTP dùng HOTP làm nền, nhưng giá trị thay đổi là khoảng thời gian hiện tại. Ví dụ cấu hình 30 giây: cả app và server lấy thời gian rồi tính xem đang ở khoảng thứ mấy. Cùng khóa và cùng khoảng thì hai bên tính được cùng mã.
+**Hàng dưới — Đăng nhập sau đó.** Anna chọn **Use your passkey**. Browser gọi backend theo mũi tên **Start sign-in** để lấy options và một challenge mới. Chỉ ô bên phải: authenticator kiểm tra PIN hoặc sinh trắc học của Anna, rồi dùng private key đã có để ký dữ liệu chứa challenge mới. Browser nhận phản hồi đã ký rồi gửi tới backend theo mũi tên **Submit signed response**. Server tìm public key đã lưu, kiểm tra challenge, origin/RP và chữ ký. Nếu các kiểm tra đạt, ứng dụng tạo phiên cho Anna.
 
-Khóa đã được đưa vào authenticator khi thiết lập, thường qua QR. App không phải gọi server xin một mã mới mỗi 30 giây. Bởi vậy, điện thoại offline vẫn hiển thị mã; nó cần khóa và đồng hồ đủ chính xác.
+**Câu chốt:** “Lúc đăng ký, server lưu public key. Lúc đăng nhập, server dùng đúng public key đó để kiểm tra chữ ký mới.” PIN hoặc sinh trắc học chỉ dùng để xác minh cục bộ. Trình duyệt chuyển thông điệp và phản hồi giữa hai phía. [S3][S5]
 
-Nếu đồng hồ lệch, server có thể kiểm tra một số khoảng lân cận theo chính sách. Dù mã vẫn hiển thị trong cùng khoảng, server phải ngăn mã đã chấp nhận được dùng lại. Mã ngắn cũng cần giới hạn thử sai.
+**Nếu cần chi tiết:** browser gọi `navigator.credentials.create()` khi đăng ký và `navigator.credentials.get()` khi xác thực. Kiểm tra quyền thêm passkey vào tài khoản và bảo vệ quá trình khôi phục.
 
-SMS và email là kênh chuyển mã. Mã ngẫu nhiên do server tạo rồi gửi SMS không tự trở thành TOTP chỉ vì nó có thời hạn. Một giới hạn chung của OTP nhập tay là attacker có thể chuyển tiếp mã từ trang giả sang trang thật ngay lúc đó. [S2][S6]
+**Chuyển:** Tiếp theo là trường hợp một nhà cung cấp danh tính thực hiện bước xác thực và trả kết quả cho ứng dụng.
 
-**Chuyển:** Nếu mình không muốn người dùng nhập một bí mật có thể chuyển tiếp như vậy, passkey thay đổi bằng chứng ra sao?
+## 07. OIDC: Who Signed In? — 2 phút
 
-## 06. Passkeys: Register a Public Key — 2 phút
+**Câu hỏi mở:** “Anna đã có tài khoản ở một nhà cung cấp danh tính. Làm sao app lịch biết người vừa đăng nhập là Anna?”
 
-Trước hết cần hai chức năng: khóa riêng tạo chữ ký; khóa công khai kiểm tra chữ ký. Biết khóa công khai không đủ để ký như người giữ khóa riêng. Mình không cần học phép toán mật mã để theo dõi luồng này.
+Chỉ hai cột. App chuyển browser sang nhà cung cấp danh tính để Anna đăng nhập. Khi xong, browser quay lại app với một authorization code. Backend của app đổi code tại token endpoint và nhận ID token trong phản hồi. App kiểm tra chữ ký, issuer, audience, thời hạn và các điều kiện của flow trước khi xác nhận danh tính và tạo phiên. [S4]
 
-Khi Anna thêm passkey, backend phải xác minh phiên và cho phép thêm credential vào tài khoản. Frontend gọi backend lấy dữ liệu đăng ký, trong đó có challenge ngẫu nhiên cho lần này. Sau đó frontend gọi API WebAuthn của browser, `navigator.credentials.create`.
+**Câu chốt:** “OIDC trả lời ai đã đăng nhập. App kiểm tra ID token để biết người đó là ai.”
 
-Browser làm việc với authenticator để tạo cặp khóa cho dịch vụ. Frontend gửi phản hồi đăng ký về backend. Backend kiểm tra challenge, origin, RP và các điều kiện WebAuthn rồi lưu credential ID cùng public key gắn với tài khoản. Private key do authenticator hoặc trình quản lý passkey bảo vệ, không gửi vào cơ sở dữ liệu ứng dụng.
+**Chuyển:** Bây giờ Anna muốn app đọc sự kiện trong lịch. App cần thêm quyền gì?
 
-Đây là hai lượt HTTP quanh một lần gọi API browser. Không vẽ backend gọi trực tiếp hộp thoại vân tay trên điện thoại. Thêm passkey là thao tác nhạy cảm: nếu cho attacker tự thêm khóa, họ có thể giữ quyền vào tài khoản lâu dài. [S3][S5]
+## 08. OAuth 2.0: What Can the App Access? — 3 phút
 
-**Chuyển:** Đã đăng ký xong public key. Lần đăng nhập tiếp theo server kiểm tra nó thế nào?
+**Chỉ hình:** Bên trái app xin quyền đọc lịch. Sau khi quyền được cấp, app nhận access token ở bước đổi code. Bên phải app gửi access token khi gọi Calendar API. API kiểm tra token và quyền đọc trước khi trả sự kiện.
 
-## 07. Passkeys: Prove Possession Without Sending the Key — 2 phút
+Trong ví dụ, nhà cung cấp danh tính cũng đảm nhiệm vai trò authorization server. Hai vai trò có thể cùng một hệ thống. ID token dành cho app để xác nhận danh tính, còn access token được trình cho API để sử dụng quyền đã cấp. Nếu Anna chỉ đăng nhập và app không cần đọc lịch, app không cần xin quyền đọc lịch. [S4][S9]
 
-Frontend lấy challenge mới từ server rồi gọi `navigator.credentials.get`. Browser tìm credential phù hợp. Thiết bị có thể yêu cầu PIN, vân tay hoặc khuôn mặt để cho phép dùng khóa riêng, theo chính sách xác thực.
+**Chuyển:** Cả hai slide đều đi qua bước đổi authorization code. PKCE bảo vệ chính bước đó.
 
-Authenticator ký dữ liệu của lần xác thực. Frontend gửi assertion về server. Server tìm public key đã gắn với credential, kiểm tra chữ ký, challenge, origin/RP và các điều kiện bắt buộc rồi mới tạo phiên. Vân tay không được gửi cho server để so sánh. Challenge được ràng buộc với lần yêu cầu và phải có thời hạn/sử dụng phù hợp để không dùng lại phản hồi cũ.
+## 09. PKCE: Protecting the Code Exchange — 2 phút
 
-Sự khác biệt cần nhớ so với OTP là bằng chứng mật mã được ràng buộc với dịch vụ. Một trang giả trên domain khác không đơn giản lấy được mã rồi chuyển tiếp như OTP nhập tay. Tuy nhiên, điều này không tự bảo vệ mọi đường khôi phục tài khoản hoặc một session đã bị đánh cắp sau login. Nếu mất thiết bị, vẫn cần quy trình recovery và quản lý credential rõ ràng. [S3][S5]
+**Chỉ hình:** Hàng trên là lúc xin code. App tạo verifier ngẫu nhiên cho giao dịch, giữ lại verifier và gửi challenge được dẫn xuất từ nó. Server gắn challenge với code sẽ trả về.
 
-**Chuyển:** Sau password, TOTP hay passkey, mình đều quay về cùng câu hỏi: request tiếp theo mang gì?
+Hàng dưới là lúc đổi code. App gửi code và verifier. Server dùng cùng cách biến đổi, chẳng hạn S256, để tính lại challenge rồi so với giá trị đã gắn với code. Nếu khớp và các kiểm tra khác đạt, server mới cấp token. [S9][S12]
 
-## 08. The Next Request Still Needs Proof — 1.5 phút
+**Câu chốt:** “PKCE buộc lượt đổi code phải đưa ra verifier khớp với yêu cầu ban đầu.”
+
+**Chuyển:** Sau khi xác nhận Anna là ai, app vẫn cần một cách nhận ra request tiếp theo của cô ấy.
+
+## 10. Sessions and Cookies — 1.5 phút
+
+**Chỉ hình:** Theo cookie từ lần đăng nhập tới request tiếp theo. Ví dụ dùng session ID phía server; ticket và bearer token giải thích bằng lời.
 
 HTTP request mới không tự chứa ký ức về lần login trước. Trong ví dụ session phía server, server tạo một mã ngẫu nhiên, lưu quan hệ với Anna và đặt cookie chứa session ID trên browser. Request tiếp theo browser gửi cookie; server tra phiên rồi kiểm tra trạng thái, thời hạn và quyền.
 
@@ -100,7 +106,9 @@ Trong kiến trúc dùng access token, client gửi token cho API. Hai cách có
 
 **Chuyển:** Vậy chữ ký token hợp lệ đã đủ chứng minh người đang gửi là Anna chưa?
 
-## 09. A Valid Token Can Still Be Stolen — 1.5 phút
+## 11. Bearer Tokens — 1.5 phút
+
+**Chỉ hình:** Chỉ hai token giống nhau. Chữ ký cho phép API xác minh token, nhưng không cho biết thiết bị nào đang giữ bản sao.
 
 JWT là một cách biểu diễn token. Bearer mô tả cách sử dụng: bên giữ credential có thể trình nó để truy cập, nếu các điều kiện kiểm tra khác vẫn đạt. JWT và bearer không phải hai lựa chọn đối lập; một access token dạng JWT có thể được dùng theo kiểu bearer.
 
@@ -108,81 +116,36 @@ Nếu Anna và một client lab giữ cùng token hoặc session cookie, server 
 
 Passkey bảo vệ lần xác thực nhưng sau đó ứng dụng vẫn có thể cấp bearer credential. Đây là lý do login mạnh cần đi cùng bảo vệ phiên và cách thu hồi. [S8][S9]
 
-**Chuyển:** Một nhu cầu khác: ứng dụng của mình muốn gọi API ở dịch vụ khác thay người dùng mà không giữ password của họ.
+**Chuyển:** Server đã nhận diện được request. Giờ cần quyết định người dùng có quyền thực hiện hành động đó không.
 
-## 10. Let an App Act Without Sharing Your Password — 2 phút
+## 12. Common Authorization Models — 1.5 phút
 
-Giả sử một công cụ giúp seller quản lý dữ liệu eBay. Công cụ cần quyền gọi API trên tài khoản của seller. Seller không nên giao password eBay cho công cụ đó.
+**Chỉ hình:** Đọc từ tên ở cột trái sang cách ra quyết định ở cột phải.
 
-OAuth tổ chức cách ứng dụng nhận access token với quyền được cấp. Trong câu chuyện này có người dùng, ứng dụng muốn truy cập, hệ thống cấp quyền/token, và API giữ dữ liệu. Các vai trò có thể chung một hạ tầng nhưng vẫn cần phân biệt trách nhiệm.
+- **RBAC:** Xem người dùng có role nào, rồi tra các quyền gắn với role đó.
+- **ABAC:** Đưa thuộc tính của người dùng, tài nguyên, hành động hoặc ngữ cảnh vào một quy tắc để quyết định cho phép hay từ chối.
+- **ReBAC:** Tìm quan hệ giữa người dùng và tài nguyên, rồi áp dụng quyền dành cho quan hệ đó.
+- **ACL:** Tra người dùng hoặc nhóm trong danh sách gắn với tài nguyên và kiểm tra họ được làm gì.
 
-Ứng dụng đăng ký client ID, redirect URI và các thông tin theo yêu cầu của nhà cung cấp. Client ID nhận diện ứng dụng, không phải password. Scope nói về phạm vi quyền API, không mặc nhiên cho ứng dụng truy cập mọi bản ghi.
+Một policy của ứng dụng có thể kết hợp các cách này. [S15][S23][S24][S25]
 
-eBay công khai phân biệt Application access token và User access token. Với truy cập đại diện người dùng, tài liệu mô tả consent và authorization code. Đây là case OAuth API thật; không dùng nó làm bằng chứng rằng eBay triển khai login website bằng OIDC hay PKCE theo hình minh họa tiếp theo. [S10][S11]
+**Chuyển:** Ở trang sau, xem một policy dùng nhiều điều kiện để quyết định Anna có được đặt giá không.
 
-**Chuyển:** Mình đi qua một flow tổng quát trước, rồi chỉ ra chỗ kết quả danh tính xuất hiện.
+## 13. Can Anna Bid on This Auction? — 2.5 phút
 
-## 11. OAuth Grants Access; OIDC Adds Identity — 3 phút
+**Chỉ hình:** Đi qua ba hàng kiểm tra. Role Bidder cho Anna quyền đặt giá và cả hai phiên đều cùng tenant với Anna. Lời mời là điểm khác biệt. Phiên 42 đạt cả ba điều kiện nên được phép. Phiên 99 thiếu lời mời nên bị từ chối.
 
-Ứng dụng chuyển browser tới hệ thống cấp quyền, mang yêu cầu quyền và thông tin liên quan. Hệ thống đó xác thực người dùng và xử lý consent theo chính sách. Không phải mọi lần đều hiện lại hộp xin phép nếu chính sách/ủy quyền trước đã đủ.
+Đây là resource-based authorization: server tải phiên được yêu cầu và đánh giá policy với dữ liệu của phiên đó. Nếu request đi qua API dùng OAuth, scope `bids:write` cho biết phạm vi token được cấp. Quyền trên từng phiên vẫn được kiểm tra bằng policy của ứng dụng. [S16][S26]
 
-Browser quay về redirect URI với một authorization code. Code này là mã tạm phục vụ bước đổi token, không dùng để gọi API. Client kiểm tra phản hồi thuộc giao dịch nó đã bắt đầu rồi gửi code tới token endpoint cùng các bằng chứng cần thiết. Hệ thống trả access token, và client dùng access token gọi API. API kiểm tra token và quyền trước khi trả dữ liệu.
+Sau khi qua bước phân quyền, ứng dụng vẫn kiểm tra quy tắc nghiệp vụ như auction có đang mở hay số tiền đặt giá có hợp lệ hay không. Endpoint và đường realtime đều cần thực thi điều kiện bắt buộc.
 
-OAuth giải quyết quyền truy cập ứng dụng. Nếu ứng dụng còn cần kết quả xác thực danh tính theo một chuẩn liên kết, OIDC bổ sung lớp đó. Trong authorization-code flow OIDC, token response còn có ID token. Client kiểm tra ID token để nhận kết quả danh tính; API nhận access token. Hai token có mục đích và đối tượng nhận khác nhau.
+**Chuyển:** Khi cần thay đổi logic này, nên tùy chỉnh ở lớp nào?
 
-Ứng dụng còn phải ánh xạ danh tính bên ngoài sang tài khoản nội bộ và có thể tạo session riêng. Logout ở một nơi chưa đủ chứng minh mọi session khác đã kết thúc. [S4][S9]
+Đọc thêm trong [tài liệu Authorization](05-authorization.md).
 
-**Chỉ hình:** đường qua browser và đường đổi code tách rõ; đọc các bước theo số, sau đó chỉ phần ID token như một lớp bổ sung. Sơ đồ là flow tổng quát, không phải sơ đồ nội bộ của eBay.
+## 14. Where to Customize Auth — 2 phút
 
-**Chuyển:** Nếu code bị lấy trước khi client đổi token, mình cần thêm kiểm tra gì?
-
-## 12. A Stolen Code Should Not Be Enough — 2 phút
-
-Client tạo một giá trị ngẫu nhiên riêng cho giao dịch gọi là verifier và giữ lại. Nó tính challenge từ verifier, thường dùng S256, rồi gửi challenge khi bắt đầu yêu cầu.
-
-Đến bước đổi code, client gửi verifier. Authorization server tính lại challenge và kiểm tra có khớp giá trị đã gắn với yêu cầu ban đầu không. Một bên chỉ lấy được code mà không có verifier sẽ thiếu bằng chứng để đổi token. Điều này giả định verifier được giữ đúng và server thực thi PKCE.
-
-Tên của cách bảo vệ này là Proof Key for Code Exchange, viết tắt PKCE. Nó phù hợp với public client không thể giữ một client secret lâu dài chỉ cho mình, và hướng dẫn OAuth hiện đại áp dụng PKCE rộng hơn cả public client.
-
-PKCE bảo vệ code exchange. Nếu attacker đã lấy access token sau khi cấp, PKCE không tự làm token đó vô dụng. State và nonce có nhiệm vụ riêng tùy flow và thư viện; không thay chúng bằng một trường bất kỳ hoặc bỏ kiểm tra theo suy đoán. [S9][S12]
-
-**Chuyển:** Đã hiểu các thành phần, giờ mình chọn cách kết hợp dựa vào nơi credential được giữ.
-
-## 13. Choose Where Credentials Live — 3 phút
-
-Nhìn hình thứ nhất: browser gọi backend riêng; backend giữ token gọi API, browser giữ cookie phiên. Khi backend phục vụ riêng giao diện theo cách này, mình thường gọi nó là Backend for Frontend, hay BFF. Nó giảm việc token API xuất hiện ở browser nhưng vẫn cần bảo vệ session, CSRF, XSS và backend.
-
-Hình thứ hai: giao diện chạy chủ yếu trong browser, tức SPA, gọi API trực tiếp. Browser trở thành nơi dùng token. Khi tích hợp hệ thống danh tính, thường cân nhắc OIDC authorization-code flow với PKCE và xử lý vòng đời token phù hợp. Không nhúng client secret rồi coi mã tải về máy người dùng là nơi giữ bí mật.
-
-Hình thứ ba: mobile dùng browser hệ thống để thực hiện tương tác xác thực, rồi nhận kết quả theo cơ chế native-app đã đăng ký. Authorization Code với PKCE là hướng tiêu chuẩn cần cân nhắc.
-
-SSO là nhu cầu khác: dùng cùng hệ thống danh tính để đi qua nhiều ứng dụng với ít lần xác thực lại hơn, theo policy. Nó có thể cùng tồn tại với các kiến trúc trên. Khi chọn, hỏi ai đang gọi, token ở đâu, có IdP không và phải thu hồi nhanh đến đâu. Không có một nhãn công nghệ quyết định hết cả bốn câu hỏi. [S13][S14]
-
-**Chuyển:** Dù chọn kiến trúc nào, biết Anna là ai vẫn chưa quyết định được cô ấy được bid ở đâu.
-
-## 14. A Bidder Role Is Only the First Check — 1.5 phút
-
-RBAC, Role-Based Access Control, gom quyền theo vai trò. Bidder có quyền tham gia bid, organizer quản lý auction, admin có quyền vận hành theo phạm vi được cấp. Cách này dễ hiểu và giúp quản lý quyền theo chức năng.
-
-Nhưng nếu chỉ kiểm tra Anna có role Bidder, mình chưa biết cô ấy có được bid auction 42 hay auction 99. Hai auction có thể thuộc hai tổ chức khác nhau, hoặc một auction chỉ dành cho người đã được mời.
-
-Ẩn nút Place Bid chỉ thay đổi giao diện. Người dùng vẫn có thể gửi HTTP request hoặc lệnh qua một đường gọi khác. Endpoint cần kiểm tra quyền và các đường realtime cũng phải thực thi điều kiện bắt buộc. [S15]
-
-**Chuyển:** Giờ thêm tài nguyên cụ thể vào câu hỏi phân quyền.
-
-## 15. Can Anna Bid on This Auction? — 2.5 phút
-
-Server nhận danh tính Anna từ kết quả xác thực đã kiểm tra, rồi tải auction được yêu cầu từ nguồn đáng tin. Nó không nhận `tenantId` hay `isOwner` từ request rồi mặc nhiên coi là đúng.
-
-Nếu quyết định dựa vào thuộc tính như tổ chức của người dùng và tài nguyên, đó là hướng ABAC. Nếu dựa vào quan hệ như Anna là thành viên được mời vào auction này, đó là hướng ReBAC. Policy là nơi diễn đạt và kết hợp các điều kiện để đưa ra quyết định; nó không nhất thiết là một mô hình tách rời RBAC/ABAC/ReBAC.
-
-Ví dụ mình yêu cầu có permission PlaceBid, cùng phạm vi tổ chức và có quan hệ được tham gia auction. Sau khi cho phép, vẫn cần kiểm tra nghiệp vụ: auction có đang mở không, số tiền có hợp lệ không, cập nhật đồng thời xử lý ra sao. Không gán mọi điều kiện này vào role.
-
-Một request đã được xác thực nhưng không có quyền phải bị từ chối. Mã tài nguyên khó đoán không thay kiểm tra đó. Trong .NET, resource-based authorization giải quyết quyết định phụ thuộc tài nguyên mà một kiểm tra login chung chưa đủ. [S15][S16]
-
-**Chuyển:** Khi cần custom auth, mình cần sửa chính xác đoạn nào trong đường đi này?
-
-## 16. Customize the Decision at the Right Layer — 2 phút
+**Chỉ hình:** Chỉ đúng vị trí mở rộng. Handler kiểm tra credential, ánh xạ tìm tài khoản, policy quyết định quyền trên auction.
 
 Ba yêu cầu thường bị gọi chung là custom auth nhưng thuộc các lớp khác nhau.
 
@@ -194,7 +157,9 @@ Trong ví dụ, middleware kiểm tra kết quả bên ngoài, lớp identity t�
 
 **Chuyển:** Mình đã kiểm tra đúng credential và quyền. Nhưng chuyện gì xảy ra nếu credential hợp lệ đang nằm trong tay hai người?
 
-## 17. Would We Notice a Stolen Session? — 2 phút
+## 15. Refresh Token Rotation — 2 phút
+
+**Chỉ hình:** Chỉ lần xuất hiện thứ hai của R1. Đây là tín hiệu trong hệ thống có rotation. Giải thích khả năng retry hoặc race bằng lời.
 
 Server thường không có tín hiệu trực tiếp rằng một cookie vừa được sao chép. Một request có credential hợp lệ có thể đến từ Anna hoặc từ người đang giữ bản sao.
 
@@ -204,7 +169,9 @@ Nếu hệ thống dùng refresh-token rotation, sau khi R1 được dùng và t
 
 **Chuyển:** Phát hiện chỉ hữu ích khi mình thực sự chặn được đường truy cập còn lại.
 
-## 18. Revoked Must Mean Rejected — 2 phút
+## 16. Session Revocation — 2 phút
+
+**Chỉ hình:** So sánh cùng một bid trước và sau khi revoke. Giải thích thêm bằng lời với token tự kiểm tra và kết nối SignalR đang mở.
 
 Xóa cookie trên browser của Anna không xóa bản sao ở client khác. Muốn chặn, server hoặc API phải kiểm tra một điều kiện đã thay đổi: session còn active không, token có bị chặn không, phiên bản còn khớp không, hoặc kết quả introspection còn active không.
 
@@ -214,13 +181,29 @@ Với SignalR, kết nối đã mở có thể vẫn giữ danh tính cũ. Cần
 
 Sau sự cố còn phải xử lý nguồn lộ, credential/factor attacker đã thêm và khôi phục chủ tài khoản. Revoke không lấy lại được dữ liệu đã tải xuống. [S19][S20][S21]
 
-**Chuyển:** Demo sẽ kiểm tra hành vi ở phía server thay vì chỉ nhìn màn hình logout.
+**Chuyển:** Yêu cầu về tốc độ thu hồi có thể thay đổi kiến trúc. Giờ so sánh bốn kiểu dự án và chọn cách làm cho BidLab.
 
-## 19. Demo: Bid, Deny, Revoke — 5 phút
+## 17. Four Project Setups and When to Use Them — 3 phút
+
+**Chỉ hình:** Đi theo loại dự án người nghe đang làm, rồi đọc phương án và lý do tương ứng. Kết bằng câu hỏi về thu hồi tức thời để dẫn sang BidLab.
+
+Với web app cùng origin, cookie đăng nhập là điểm xuất phát hợp lý vì trình duyệt chỉ cần duy trì phiên với backend của app. Nếu cần thu hồi từng phiên ngay, có thể để cookie mang ID và tra trạng thái phiên phía server. [S8]
+
+Với web app nội bộ cần SSO, dùng OIDC để nhận danh tính từ IdP công ty, sau đó tạo phiên riêng cho app. App vẫn thực thi quyền nghiệp vụ. [S4][S22]
+
+Với SPA có backend riêng gọi API, BFF giữ access token ở server và trình duyệt dùng cookie phiên. Đổi lại, đội dự án vận hành thêm backend và bảo vệ phiên. Với mobile gọi API, dùng browser hệ thống cho OIDC Authorization Code + PKCE rồi gửi access token tới API. [S9][S13][S14]
+
+Hỏi cả phòng: nếu khóa tài khoản Anna lúc này, request đặt giá tiếp theo có phải bị chặn ngay không? Với BidLab, giả sử có yêu cầu đó. Chọn cookie chứa ID phiên, tra trạng thái ở backend và kiểm tra quyền trên auction. Với kết nối SignalR đang mở, cần kiểm tra lại trước lệnh nhạy cảm hoặc ngắt kết nối theo chính sách. [S8][S21]
+
+**Chuyển:** Dùng các quyết định này để lần theo lượt bid của Anna trong kịch bản BidLab.
+
+## 18. Three Outcomes in BidLab — 5 phút
+
+**Chỉ hình:** Đi qua ba kết quả dự kiến. Đây là kịch bản minh họa, có thể trình bày sơ đồ khi chưa có lab chạy được.
 
 **Trạng thái hiện tại:** kịch bản này là đặc tả cho lab; chưa có bản demo Auth chạy được đi kèm deck. Có thể trình bày sơ đồ tại trang này nếu chưa triển khai. Không giới thiệu là live demo sẵn sàng.
 
-Khi triển khai, dùng một kiến trúc session nhất quán và tài khoản lab. Không thêm refresh-token rotation vào lab session-cookie chỉ để mô phỏng mọi khái niệm.
+Khi triển khai kịch bản này, dùng cookie chứa ID phiên, tra trạng thái ở backend và dùng tài khoản lab. Không thêm refresh-token rotation vào lab session-cookie chỉ để mô phỏng mọi khái niệm.
 
 | Thời gian | Thao tác người trình bày | Điều cần nhìn thấy |
 |---|---|---|
@@ -234,7 +217,9 @@ Nếu cookie HttpOnly được dùng, harness lab cấp bản sao có kiểm so�
 
 Nếu chưa có chức năng chặn trên kết nối dài hạn, ghi nhận đó là phần chưa đạt, không gọi việc logout browser là đã thu hồi đầy đủ. Chuẩn bị recording/screenshot từ chính lab khi lab đã chạy, không tạo ảnh kết quả giả.
 
-## 20. Follow One Request End to End — 4 phút
+## 19. Auth Lifecycle Recap — 4 phút
+
+**Chỉ hình:** Quay lại bốn bước trên trang bìa và gọi tên một kiểm tra ở mỗi bước trước khi mở Q&A.
 
 Quay lại câu hỏi ban đầu. Mình kiểm tra danh tính bằng password, OTP hoặc passkey theo cơ chế đã chọn. Sau đó session/token giúp nhận biết request tiếp theo. Authorization kiểm tra hành động với tài nguyên cụ thể. Và khi có vấn đề, trạng thái thu hồi phải tới được nơi thực thi request và kết nối đang mở.
 
@@ -242,37 +227,49 @@ Khi review một hệ thống auth, mình có thể lấy một hành động nh
 
 **Q&A khoảng 3.5 phút.** Dùng appendix đúng câu hỏi thay vì trình bày tiếp toàn bộ.
 
-## Appendix 21. HOTP and TOTP Verification Details
+## Appendix 20. TOTP Verification Checklist
 
-HOTP tính HMAC với khóa K và counter 8 byte theo quy tắc chuẩn, dynamic truncation rồi lấy modulo theo số chữ số. TOTP dùng `T = floor((UnixTime - T0) / X)` làm counter; X thường là 30 giây nhưng là tham số cấu hình. Hình chính không cần dạy phép toán bit. Test vector RFC 4226: secret ASCII công khai `12345678901234567890`, C=0 cho 755224, C=1 cho 287082. Không dùng secret này trong triển khai.
+**Chỉ hình:** Tra ba trách nhiệm: bảo vệ khóa, chấp nhận lệch giờ có giới hạn và cập nhật trạng thái chống dùng lại.
 
-Verifier cần kiểm soát attempts, lưu trạng thái chống replay nguyên tử và bảo vệ seed. Seed cần dùng để tính mã nên cách bảo vệ khác password hash một chiều. Drift/window là lựa chọn có giới hạn, không mở cửa sổ vô hạn để “đỡ lỗi”. QR enrollment chứa secret phải được xử lý như credential. [S1][S2]
+TOTP dùng số bước thời gian `T = floor((UnixTime - T0) / X)`, trong đó X thường là 30 giây. App và server dùng cùng tham số đã thiết lập khi đăng ký. Giữ khóa riêng cho từng authenticator và bảo vệ QR đăng ký vì nó mang thông tin bí mật. [S2]
 
-## Appendix 22. Passkey Checks and Account Recovery
+Giới hạn số lần thử và phạm vi lệch giờ được chấp nhận. Sau khi chấp nhận một mã, cập nhật trạng thái sao cho cùng bước thời gian không thể được chấp nhận lại do hai request đến đồng thời.
+
+## Appendix 21. Passkey Verification and Recovery
+
+**Chỉ hình:** Tra nhóm kiểm tra lúc đăng nhập hoặc nhóm chính sách khôi phục tùy câu hỏi.
 
 Mỗi lần ceremony cần challenge ngẫu nhiên gắn với giao dịch, thời hạn và kiểm soát sử dụng. Backend kiểm tra loại ceremony, origin, RP ID hash, dữ liệu trả về, chữ ký và user presence/verification theo yêu cầu. Không coi `signCount` là bộ phát hiện clone chắc chắn cho mọi passkey, đặc biệt với credential đồng bộ.
 
 User verification có thể dùng PIN/sinh trắc học cục bộ. Synced passkey và device-bound credential có đặc tính triển khai/khôi phục khác nhau; không nói khóa riêng luôn chỉ tồn tại trên đúng một thiết bị. Bảo vệ thêm/xóa passkey, thông báo thay đổi nhạy cảm, recovery và cấp lại phiên. Sinh trắc học không được dùng như một bí mật server có thể thu hồi giống password. [S3][S5]
 
-## Appendix 23. OAuth and OIDC Validation Boundaries
+## Appendix 22. OAuth and OIDC Validation
+
+**Chỉ hình:** Theo từng dòng đến bên chịu trách nhiệm. Các kiểm tra còn tùy loại token, flow và policy.
 
 Client kiểm tra ID token theo OIDC: issuer đúng, audience phù hợp, chữ ký/thuật toán đúng, thời hạn và các claim/nonce cần kiểm tra theo flow. Dùng thư viện cấu hình đúng; decode payload không thay validation. API kiểm tra access token cho chính API của nó và kiểm tra scope/quyền/tài nguyên; không đưa ID token vào API như access token.
 
 PKCE ràng buộc code exchange với verifier. State liên quan đối chiếu giao dịch và chống request forgery theo thiết kế; nonce ràng buộc kết quả OIDC với yêu cầu theo flow. Các chuẩn cho phép những cơ chế tương tác cụ thể, nên không phát biểu ba trường này luôn thay nhau hay luôn bắt buộc giống nhau ở mọi flow. Redirect URI, client authentication khi có, HTTPS và việc bảo vệ token vẫn cần riêng. [S4][S9][S12]
 
-## Appendix 24. SSO and Application Identity
+## Appendix 23. User SSO and Workload Identity
+
+**Chỉ hình:** Chọn theo chủ thể đang gọi: người dùng tương tác hoặc dịch vụ chạy tự động.
 
 SSO là trải nghiệm dùng danh tính tập trung qua nhiều ứng dụng. OIDC hoặc SAML Web SSO có thể thực hiện liên kết tùy nhà cung cấp. Phiên ở IdP và phiên ở ứng dụng là hai phạm vi; logout cần thiết kế theo các phạm vi đó.
 
 Một worker chạy nền có thể gọi API bằng danh tính riêng, không có người dùng đang login. OAuth Client Credentials là một lựa chọn khi có hệ thống OAuth phù hợp. Quyền của worker phải là quyền ứng dụng được cấp, không giả làm quyền của Anna. API key, certificate/mTLS và sender-constrained token có nhiệm vụ và vòng đời riêng; tra chương machine authentication thay vì thêm chúng vào danh sách cách login cho người dùng.
 
-## Appendix 25. A Resource Authorization Decision
+## Appendix 24. Resource Authorization in ASP.NET Core
+
+**Chỉ hình:** Chỉ ranh giới giữa lấy tài nguyên, quyết định quyền và kiểm tra nghiệp vụ trước khi ghi.
 
 Trình tự tham chiếu: middleware xác thực → ánh xạ account nội bộ → tải resource trong ranh giới dữ liệu đúng → authorization service/handler đánh giá actor + action + resource → kiểm tra nghiệp vụ → ghi dữ liệu. Trình tự cụ thể có thể gộp query có phạm vi và policy nhưng không bỏ một ranh giới bắt buộc.
 
 Trong ASP.NET Core, gọi `IAuthorizationService.AuthorizeAsync` với resource và policy/requirement phù hợp; handler nhận resource đã xác định. `[Authorize]` có thể làm cổng chung nhưng một mình nó chưa thể biết mọi quan hệ của auction. Không nhận role/permission từ body của request. Chỉ thiếu đăng nhập và đã xác thực nhưng thiếu quyền là hai trạng thái khác nhau; có thể trả 404 theo chính sách tránh lộ tài nguyên. [S16][S17]
 
-## Appendix 26. Revocation Across Active Requests
+## Appendix 25. Revocation Across Active Requests
+
+**Chỉ hình:** Lần theo từng điểm từ lúc ghi revoke đến lúc HTTP và kết nối đang mở thực sự từ chối credential cũ.
 
 Một lệnh revoke chỉ tạo hiệu lực ở nơi trạng thái mới được kiểm tra. Timeline cần thể hiện: nhận yêu cầu revoke → commit trạng thái → cập nhật/invalidate cache → API/handler thấy trạng thái → từ chối credential cũ → xử lý kết nối và request đang chạy theo chính sách.
 
@@ -282,7 +279,6 @@ Khi phát hiện refresh token cũ được trình sau rotation, hệ thống c�
 
 ## Nguồn và giới hạn case thật
 
-- **S1:** [RFC 4226 — HOTP](https://www.rfc-editor.org/rfc/rfc4226.html).
 - **S2:** [RFC 6238 — TOTP](https://www.rfc-editor.org/rfc/rfc6238.html).
 - **S3:** [WebAuthn Level 3](https://www.w3.org/TR/webauthn-3/), đối chiếu registration/authentication ceremonies. Trang chuẩn đã được kiểm tra ngày 10/11/2026 và ghi W3C Recommendation ngày 25/08/2026; khi triển khai vẫn cần kiểm tra khả năng hỗ trợ của nền tảng đích.
 - **S4:** [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html).
@@ -303,5 +299,11 @@ Khi phát hiện refresh token cũ được trình sau rotation, hệ thống c�
 - **S19:** [RFC 7009 — Token Revocation](https://www.rfc-editor.org/rfc/rfc7009.html).
 - **S20:** [RFC 7662 — Token Introspection](https://www.rfc-editor.org/rfc/rfc7662.html).
 - **S21:** [ASP.NET Core SignalR authentication and authorization](https://learn.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz?view=aspnetcore-10.0), đối chiếu hành vi cached principal và việc kiểm tra quyền hiện tại; không giả định tính năng authentication refresh của phiên bản mới hơn đã có trong .NET 8/10.
+
+- **S22:** [ASP.NET Core OpenID Connect web authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-oidc-web-authentication?view=aspnetcore-10.0).
+- **S23:** [NIST SP 800-162 — Attribute-Based Access Control](https://csrc.nist.gov/pubs/sp/800/162/upd2/final).
+- **S24:** [Google Research — Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/).
+- **S25:** [NIST — Access control list](https://csrc.nist.gov/glossary/term/access_control_list).
+- **S26:** [RFC 6749, mục 3.3 — Access Token Scope](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.3).
 
 Tài liệu eBay xác nhận các tính năng và API công khai đã dẫn. Không có căn cứ từ các nguồn này để khẳng định eBay dùng JWT, BFF, một mô hình quyền cụ thể, hay một hệ thống thu hồi/phát hiện nội bộ cụ thể. Mọi account, auction và đường quyết định của BidLab trong bài là ví dụ giảng giải.

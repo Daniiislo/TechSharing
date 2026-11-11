@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text x="64" y="55" font-size="18" fill="#007F9E">AUTH TECH SHARING</text><text x="64" y="108" font-family="Cambria, serif" font-size="46" fill="#102A43">Agenda</text>
+</g>
+<g id="agenda" data-pptx-bounds="64 198 1152 434">
+<g transform="translate(0 10)"><g id="authentication">
+<text x="64" y="216" font-size="18" font-weight="700" fill="#007F9E">01</text>
+<text x="124" y="216" font-size="28" font-weight="700" fill="#102A43">Authentication &amp; Sign-In</text>
+<text x="580" y="216" font-size="22" fill="#243B53">Password, OTP, MFA, passkeys and federated sign-in</text>
+<line x1="64" y1="239" x2="1216" y2="239" stroke="#CAD7E2"/>
+</g>
+<g id="sessions-and-tokens">
+<text x="64" y="289" font-size="18" font-weight="700" fill="#007F9E">02</text>
+<text x="124" y="289" font-size="28" font-weight="700" fill="#102A43">Sessions &amp; Tokens</text>
+<text x="580" y="289" font-size="22" fill="#243B53">How apps recognize the next request</text>
+<line x1="64" y1="312" x2="1216" y2="312" stroke="#CAD7E2"/>
+</g>
+<g id="authorization">
+<text x="64" y="362" font-size="18" font-weight="700" fill="#007F9E">03</text>
+<text x="124" y="362" font-size="28" font-weight="700" fill="#102A43">Authorization</text>
+<text x="580" y="362" font-size="22" fill="#243B53">Roles, policies and permissions on a resource</text>
+<line x1="64" y1="385" x2="1216" y2="385" stroke="#CAD7E2"/>
+</g>
+<g id="session-security">
+<text x="64" y="435" font-size="18" font-weight="700" fill="#007F9E">04</text>
+<text x="124" y="435" font-size="28" font-weight="700" fill="#102A43">Session Security &amp; Revocation</text>
+<text x="580" y="435" font-size="22" fill="#243B53">Expiry, logout and revoking access after an incident</text>
+<line x1="64" y1="458" x2="1216" y2="458" stroke="#CAD7E2"/>
+</g>
+<g id="choosing-architecture">
+<text x="64" y="508" font-size="18" font-weight="700" fill="#007F9E">05</text>
+<text x="124" y="508" font-size="28" font-weight="700" fill="#102A43">Choosing an Auth Architecture</text>
+<text x="580" y="508" font-size="22" fill="#243B53">Which approach fits your app, and why</text>
+<line x1="64" y1="531" x2="1216" y2="531" stroke="#CAD7E2"/>
+</g>
+<g id="bidlab-and-qa">
+<text x="64" y="581" font-size="18" font-weight="700" fill="#007F9E">06</text>
+<text x="124" y="581" font-size="28" font-weight="700" fill="#102A43">BidLab Walkthrough &amp; Q&amp;A</text>
+<text x="580" y="581" font-size="22" fill="#243B53">Choose a design and follow one bid through it</text>
+</g>
+</g></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AGENDA</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">02 / 19</text></g>
+</svg>

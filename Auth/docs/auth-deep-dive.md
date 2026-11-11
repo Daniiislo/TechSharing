@@ -17,7 +17,7 @@ Mỗi chủ đề được giải thích theo những thắc mắc có thể n�
 | [3. OAuth, OIDC và SAML](03-oauth-oidc-saml.md) | Cấp quyền API và nhận kết quả xác thực từ hệ thống khác |
 | [4. Xác thực ứng dụng](04-machine-authentication.md) | Basic, API key, mTLS và DPoP |
 | [5. Lựa chọn kiến trúc](#lua-chon-kien-truc) | Khi nào cân nhắc cơ chế nào |
-| [6. Phân quyền](#phan-quyen) | Quyết định quyền đối với tài nguyên |
+| [6. Phân quyền](05-authorization.md) | RBAC, ABAC, ReBAC, ACL và cách kiểm tra quyền trên từng tài nguyên |
 | [7. Tùy biến auth](#tuy-bien-auth) | Phân biệt tùy biến xác thực, danh tính và quyền |
 | [8. Phát hiện đánh cắp](#phat-hien-danh-cap) | Những tín hiệu hệ thống có thể nhận biết |
 | [9. Thu hồi và khôi phục](#thu-hoi-khoi-phuc) | Chặn credential cũ và kiểm tra đã chặn được chưa |
@@ -98,6 +98,8 @@ Thiết kế mới cần theo hướng dẫn bảo mật OAuth, thay vì dùng f
 
 ## 4. Phân quyền: đã biết danh tính thì kiểm tra gì tiếp?
 
+Xem [tài liệu Authorization](05-authorization.md) để so sánh các mô hình và theo dõi quyết định cho hai phiên đấu giá trong ví dụ BidLab.
+
 ### 4.1. Role có đủ không?
 
 **Role** là vai trò dùng gom quyền theo chức năng. **Permission** là hành động hoặc khả năng được phép. Chỉ biết role chưa chắc biết người dùng có quyền với một tài nguyên cụ thể.
@@ -106,14 +108,14 @@ Máy chủ có thể cần kiểm tra tổ chức của tài khoản, quan hệ 
 
 ### 4.2. Các mô hình khác nhau ở cách quyết định
 
-| Mô hình/khái niệm | Quyết định dựa trên gì? |
+| Mô hình hoặc cơ chế | Quyết định dựa trên gì? |
 |---|---|
 | RBAC | Vai trò được gán cho tài khoản hoặc ứng dụng |
 | ABAC | Thuộc tính của bên truy cập, tài nguyên, hành động và môi trường |
 | ReBAC | Quan hệ giữa bên truy cập và tài nguyên |
-| Policy | Tập quy tắc kết hợp các điều kiện để cho phép hoặc từ chối |
+| ACL | Danh sách quyền của từng tài khoản hoặc nhóm trên tài nguyên |
 
-RBAC là Role-Based Access Control; ABAC là Attribute-Based Access Control; ReBAC là Relationship-Based Access Control. Chúng có thể được kết hợp. Nguyên tắc là quyền tối thiểu, không tự cho phép khi chưa có quy tắc và kiểm tra ở các yêu cầu cần bảo vệ. [S13]
+RBAC là Role-Based Access Control, ABAC là Attribute-Based Access Control và ReBAC là Relationship-Based Access Control. ACL là Access Control List. Policy có thể kết hợp các điều kiện từ nhiều mô hình để ra quyết định. Nguyên tắc là quyền tối thiểu, mặc định từ chối và kiểm tra ở các yêu cầu cần bảo vệ. [S13]
 
 ### 4.3. Máy chủ lấy dữ liệu ở đâu để quyết định?
 

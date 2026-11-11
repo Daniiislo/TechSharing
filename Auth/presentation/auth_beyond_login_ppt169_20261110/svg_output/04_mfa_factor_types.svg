@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">01 · Authentication &amp; Sign-In</text>
+<text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">Three Types of Authentication Factors</text>
+<text id="slide-context" x="64" y="157" font-size="22" fill="#526B80">Multi-factor authentication</text>
+</g>
+<g id="knowledge-factor" data-pptx-bounds="64 199 368 338">
+<g transform="translate(0 -18)"><circle cx="248" cy="323" r="100" fill="#E8F4F8"/>
+<g fill="none" stroke="#007F9E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<rect x="184" y="286" width="128" height="74" rx="13"/>
+<line x1="286" y1="306" x2="286" y2="340"/>
+</g>
+<circle cx="208" cy="323" r="6" fill="#007F9E"/>
+<circle cx="233" cy="323" r="6" fill="#007F9E"/>
+<circle cx="258" cy="323" r="6" fill="#007F9E"/>
+<text x="248" y="488" text-anchor="middle" font-size="28" font-weight="700" fill="#102A43">Something you know</text>
+<text x="248" y="530" text-anchor="middle" font-size="22" fill="#526B80">Password · PIN · Passphrase</text>
+</g></g>
+<g id="possession-factor" data-pptx-bounds="456 199 368 338">
+<g transform="translate(0 -18)"><circle cx="640" cy="323" r="100" fill="#E8F4F8"/>
+<g fill="none" stroke="#007F9E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<rect x="573" y="289" width="91" height="68" rx="25"/>
+<path d="M 664 304 H 707 V 342 H 664 M 682 317 H 692 M 682 329 H 692"/>
+<circle cx="602" cy="323" r="9"/>
+</g>
+<text x="640" y="488" text-anchor="middle" font-size="28" font-weight="700" fill="#102A43">Something you have</text>
+<text x="640" y="530" text-anchor="middle" font-size="22" fill="#526B80">Security key · OTP app · Smart card</text>
+</g></g>
+<g id="inherence-factor" data-pptx-bounds="848 199 368 338">
+<g transform="translate(0 -18)"><circle cx="1032" cy="323" r="100" fill="#E8F4F8"/>
+<g fill="none" stroke="#007F9E" stroke-width="4.5" stroke-linecap="round">
+<path d="M 981 310 C 983 282 1004 265 1032 265 C 1061 265 1083 287 1083 315"/>
+<path d="M 986 345 C 990 334 994 320 995 310 C 998 290 1013 278 1032 278 C 1053 278 1069 295 1069 316 C 1069 337 1065 357 1059 372"/>
+<path d="M 998 357 C 1004 342 1007 325 1008 314 C 1009 301 1019 291 1032 291 C 1045 291 1056 302 1056 316 C 1056 338 1051 362 1044 382"/>
+<path d="M 1010 369 C 1017 352 1021 332 1021 316 C 1021 309 1026 304 1032 304 C 1038 304 1043 309 1043 316 C 1043 340 1037 361 1031 380"/>
+<path d="M 1032 316 C 1031 336 1028 353 1022 369"/>
+<path d="M 1082 329 C 1082 340 1080 350 1077 360"/>
+</g>
+<text x="1032" y="488" text-anchor="middle" font-size="28" font-weight="700" fill="#102A43">Something you are</text>
+<text x="1032" y="530" text-anchor="middle" font-size="22" fill="#526B80">Fingerprint · Face scan · Iris scan</text>
+</g></g>
+<g id="mfa-example" data-pptx-bounds="64 568 1152 84">
+<line x1="64" y1="572" x2="1216" y2="572" stroke="#CAD7E2"/>
+<text x="64" y="632" font-size="28" fill="#102A43"><tspan font-weight="700" fill="#007F9E">MFA</tspan> combines <tspan font-weight="700">two or more distinct factor types.</tspan></text>
+<text id="mfa-example-label" x="746" y="599" font-size="16" fill="#526B80">Example</text>
+<text x="746" y="632" font-size="28" fill="#102A43">Password + OTP app</text>
+<path d="M 1027 622 H 1061 M 1051 613 L 1061 622 L 1051 631" fill="none" stroke="#007F9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1084" y="632" font-size="28" font-weight="700" fill="#007F9E">MFA</text>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">Source: NIST SP 800-63B-4</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">04 / 19</text></g>
+</svg>

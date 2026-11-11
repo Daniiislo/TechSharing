@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">01 · Authentication &amp; Sign-In</text>
+<text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">Authentication Overview</text>
+</g>
+<g id="sign-in-routes" data-pptx-bounds="64 198 1152 367">
+<g transform="translate(0 40)"><text x="640" y="186" text-anchor="middle" font-size="28" font-weight="700" fill="#102A43">Sign In</text>
+<path d="M 640 203 V 227 M 332 250 V 227 H 948 V 250" fill="none" stroke="#007F9E" stroke-width="3"/>
+<circle cx="332" cy="250" r="5" fill="#007F9E"/>
+<circle cx="948" cy="250" r="5" fill="#007F9E"/>
+<g id="direct-sign-in">
+<rect x="64" y="267" width="536" height="250" rx="12" fill="#E8F4F8"/>
+<text x="94" y="312" font-size="28" font-weight="700" fill="#102A43">Sign in with the app</text>
+<line x1="94" y1="333" x2="570" y2="333" stroke="#CAD7E2"/>
+<text x="94" y="380" font-size="22" font-weight="700" fill="#102A43">Password</text>
+<text x="260" y="380" font-size="22" fill="#243B53">Shared secret</text>
+<text x="94" y="428" font-size="22" font-weight="700" fill="#102A43">OTP</text>
+<text x="260" y="428" font-size="22" fill="#243B53">SMS/email codes and TOTP</text>
+<text x="94" y="476" font-size="22" font-weight="700" fill="#102A43">Passkey</text>
+<text x="260" y="476" font-size="22" fill="#243B53">Public-key proof</text>
+</g>
+<g id="federated-sign-in">
+<rect x="680" y="267" width="536" height="250" rx="12" fill="#E8F4F8"/>
+<text x="710" y="312" font-size="28" font-weight="700" fill="#102A43">Sign in with an identity provider</text>
+<line x1="710" y1="333" x2="1186" y2="333" stroke="#CAD7E2"/>
+<text x="710" y="380" font-size="22" font-weight="700" fill="#102A43">OIDC</text>
+<text x="862" y="380" font-size="22" fill="#243B53">Confirms who signed in</text>
+<text x="710" y="428" font-size="22" font-weight="700" fill="#102A43">OAuth 2.0</text>
+<text x="862" y="428" font-size="22" fill="#243B53">Delegates API access</text>
+<text x="710" y="476" font-size="22" font-weight="700" fill="#102A43">PKCE</text>
+<text x="862" y="476" font-size="22" fill="#243B53">Protects the code exchange</text>
+</g>
+</g></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AUTHENTICATION &amp; SIGN-IN</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">03 / 19</text></g>
+</svg>

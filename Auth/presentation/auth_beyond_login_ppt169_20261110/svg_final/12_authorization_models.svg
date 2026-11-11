@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">03 · Authorization</text>
+<text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">Common Authorization Models</text>
+<text id="slide-context" x="64" y="157" font-size="22" fill="#526B80">Authorization decides whether an actor may perform an action on a resource.</text>
+</g>
+<g id="main-visual" data-pptx-bounds="64 198 1152 448">
+<text x="86" y="232" font-size="18" fill="#007F9E" font-weight="700">MODEL / MECHANISM</text>
+<text x="432" y="232" font-size="18" fill="#007F9E" font-weight="700">HOW ACCESS IS DECIDED</text>
+<line x1="64" y1="247" x2="1216" y2="247" stroke="#CAD7E2"/>
+<rect x="64" y="258" width="332" height="73" rx="9" fill="#E8F4F8"/>
+<text x="86" y="287" font-size="26" fill="#102A43" font-weight="700">RBAC</text>
+<text x="86" y="315" font-size="18" fill="#526B80">Role-Based Access Control</text>
+<text x="432" y="302" font-size="22" fill="#102A43">Check the permissions granted by the user’s assigned roles.</text>
+<line x1="64" y1="340" x2="1216" y2="340" stroke="#CAD7E2"/>
+<rect x="64" y="349" width="332" height="73" rx="9" fill="#E8F4F8"/>
+<text x="86" y="378" font-size="26" fill="#102A43" font-weight="700">ABAC</text>
+<text x="86" y="406" font-size="18" fill="#526B80">Attribute-Based Access Control</text>
+<text x="432" y="393" font-size="22" fill="#102A43">Evaluate a rule using user, resource, action or context attributes.</text>
+<line x1="64" y1="431" x2="1216" y2="431" stroke="#CAD7E2"/>
+<rect x="64" y="440" width="332" height="73" rx="9" fill="#E8F4F8"/>
+<text x="86" y="469" font-size="26" fill="#102A43" font-weight="700">ReBAC</text>
+<text x="86" y="497" font-size="18" fill="#526B80">Relationship-Based Access Control</text>
+<text x="432" y="484" font-size="22" fill="#102A43">Use the user’s relationship to the resource to determine permissions.</text>
+<line x1="64" y1="522" x2="1216" y2="522" stroke="#CAD7E2"/>
+<rect x="64" y="531" width="332" height="73" rx="9" fill="#E8F4F8"/>
+<text x="86" y="560" font-size="26" fill="#102A43" font-weight="700">ACL</text>
+<text x="86" y="588" font-size="18" fill="#526B80">Access Control List</text>
+<text x="432" y="575" font-size="22" fill="#102A43">Look up the user or group and their permissions on this resource.</text>
+<line x1="64" y1="613" x2="1216" y2="613" stroke="#CAD7E2"/>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">NIST · RBAC and ABAC | Google Research · Zanzibar | Microsoft Learn · ACL</text><text x="1216" y="698" font-size="16" fill="#526B80" text-anchor="end">12 / 19</text></g>
+</svg>
