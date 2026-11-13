@@ -7,13 +7,13 @@
 | --- | --- |
 | Project Name | auth_beyond_login_ppt169_20261110 |
 | Canvas Format | PPT 16:9 (1280 × 720) |
-| Page Count | 25 |
+| Page Count | 17 |
 | Primary Language | en |
 | Target Audience | Developers in the Geronimo team, with varied .NET experience and the previous SignalR sharing as context |
 | Communication Intent | Explain authentication mechanisms, connect sessions and delegated API access to resource authorization, and show why detection and revocation remain necessary |
 | Desired Audience Outcome | Trace one bid from identity proof through session and resource permission to server-enforced revocation |
 | Core Message / Ask / Action | Identity proof, session continuity, resource permission and revocation are distinct responsibilities on one request path |
-| Delivery Context | Live talk in Vietnamese with English slides, 43 minutes including a 5-minute demo slot and Q&A; 19 main pages plus 6 reference pages |
+| Delivery Context | Live talk in Vietnamese with English slides, 43 minutes including a 5-minute demo slot and Q&A; 17 main pages |
 | Artifact Afterlife | Editable PowerPoint plus Vietnamese presenter guide and existing research docs |
 | Reading Mode | presentation |
 | Content Strategy | Preserve the accepted 20-page story and required mechanisms; put protocol validation and implementation details in appendix; distinguish proposed BidLab demo from implemented behavior |
@@ -133,15 +133,15 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Relationships**: The agenda follows the presentation order from authentication to the BidLab walkthrough and Q&A.
 - **Title**: Agenda
 - **Core message**: The talk covers identity proof, request continuity, permissions and revocation, then compares architectures and applies one to BidLab.
-- **Content**: Authentication & Sign-In; Sessions & Tokens; Authorization; Session Security & Revocation; Choosing an Auth Architecture; BidLab Walkthrough & Q&A.
+- **Content**: Authentication & Sign-In; Sessions & Tokens; Authorization; Revocation; Choosing an Auth Architecture; BidLab Walkthrough & Q&A.
 - **Composition**: Six ordered rows, each with a topic and a brief preview of its content.
 
 #### Slide 03 - Authentication Overview
 - **Audience move**: Agenda → map the authentication topics before the details.
-- **Relationships**: A user can sign in directly with the app or through an identity provider. OIDC conveys the sign-in result, OAuth delegates API access and PKCE protects the code exchange.
+- **Relationships**: A user can sign in directly with the app or through an identity provider. OIDC and SAML 2.0 convey the sign-in result from an identity provider. OAuth delegates API access and is explained separately.
 - **Title**: Authentication Overview
 - **Core message**: Direct and federated sign-in are two routes for establishing identity.
-- **Content**: Password; server-issued SMS/email codes and TOTP; passkey; OIDC; OAuth 2.0; PKCE.
+- **Content**: Password; server-issued SMS/email codes and TOTP; passkey; OIDC; SAML 2.0.
 - **Composition**: A sign-in node branches into two routes.
 
 #### Slide 04 - Three Types of Authentication Factors
@@ -167,26 +167,27 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Content**: Add a passkey; registration challenge; create key pair; save public key; sign-in challenge; sign locally; verify against stored key.
 - **Composition**: Two sequence diagrams with the same Server, Browser and Authenticator lifelines. Each shows the request names, the WebAuthn call, and the local work in the authenticator lane.
 
-#### Slide 07 - OIDC: Who Signed In?
-- **Audience move**: Follow federated sign-in from redirect to an app session.
-- **Relationships**: Anna signs in at an identity provider. The browser returns an authorization code. The app exchanges it, validates the ID token and starts its own session.
-- **Title**: OIDC: Who Signed In?
-- **Core message**: The ID token lets the calendar app verify who signed in.
-- **Composition**: Calendar app and identity provider exchange four labeled messages.
+#### Slide 07 - OIDC: Sign In with an Identity Provider
+- **Audience move**: Understand how federated identity becomes an app login session.
+- **Relationships**: App redirects Anna to the trusted identity provider with openid scope; the trusted identity provider returns code; app exchanges code for tokens, validates ID token, identifies Anna and creates its own session.
+- **Title**: OIDC: Sign In with an Identity Provider
+- **Core message**: OIDC confirms identity. The app creates its own login session after validation.
+- **Composition**: Two-actor sequence ending in an explicit app-session takeaway.
 
-#### Slide 08 - OAuth 2.0: What Can the App Access?
-- **Audience move**: Identify Anna → understand what the app can do on her behalf.
-- **Relationships**: The authorization server issues a scoped access token. The calendar app presents it to the Calendar API, which checks the grant and returns events.
-- **Title**: OAuth 2.0: What Can the App Access?
-- **Core message**: The access token gives the app scoped access to the API.
-- **Composition**: The app sits between the authorization server and the Calendar API. The highlighted arrows show where the access token is issued and used.
+#### Slide 08 - OAuth 2.0: Grant Access to an API
+- **Audience move**: Separate delegated API access from user sign-in.
+- **Relationships**: Anna grants access; Google issues an access token; app calls Google Calendar API; API checks token and permissions.
+- **Title**: OAuth 2.0: Grant Access to an API
+- **Core message**: OAuth delegates resource access. OAuth alone does not define user sign-in.
+- **Composition**: Google, app and Google Calendar API sequence focused on access token issuance and use.
 
-#### Slide 09 - PKCE: Protecting the Code Exchange
-- **Audience move**: Follow the authorization code → understand the proof required to redeem it.
-- **Relationships**: The app keeps a random verifier and sends its derived challenge. The server binds the challenge to the code and verifies the revealed verifier at exchange.
-- **Title**: PKCE: Protecting the Code Exchange
-- **Core message**: The authorization server checks for the matching verifier before issuing tokens.
-- **Composition**: Two labeled phases align the app and authorization server and highlight the exchange.
+#### Slide 09 - Service-to-Service Authentication
+- **Audience move**: Distinguish service identity from user sign-in and recognize four proof mechanisms.
+- **Relationships**: Order Service presents a credential/proof to Payment Service; the receiver authenticates then authorizes the calling service.
+- **Title**: Service-to-Service Authentication
+- **Core message**: Authenticate the calling service, then check what it is allowed to do.
+- **Content**: Shared secret: API key / Basic Auth. Access token: e.g. OAuth Client Credentials. mTLS: client certificate + private key. Signed request: HMAC / asymmetric signature.
+- **Composition**: Four spacious icon-led rows following the deck’s pale cyan fields, common header and footer, single takeaway.
 
 #### Slide 10 - Sessions and Cookies
 - **Audience move**: Authentication once → session credential on later requests.
@@ -214,42 +215,23 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Content**: Roles grant permissions; policies evaluate attributes; resource relationships determine permissions; an ACL records grants on a resource.
 - **Composition**: Four rows pair the full model or mechanism name with the access check it performs.
 
-#### Slide 13 - Can Anna Bid on This Auction?
-- **Audience move**: Follow the same policy to two different decisions.
-- **Relationships**: The resource policy requires the role permission, a tenant match and an invitation to the auction.
-- **Title**: Can Anna Bid on This Auction?
-- **Core message**: One resource policy can combine role, attribute and relationship checks.
-- **Content**: Anna has the Bidder role and shares a tenant with both auctions. Auction 42 has an invitation and is allowed. Auction 99 has no invitation and is denied. Business rules apply after authorization succeeds.
-- **Composition**: Compare the checks and decision side by side for the two auctions.
+#### Slide 13 - Custom Authentication: Why and How?
+- **Audience move**: Choose the smallest extension needed when default authentication behavior does not meet app requirements.
+- **Relationships**: Three extension choices: settings for existing scheme; hooks at defined flow points; own handler for own credential.
+- **Title**: Custom Authentication: Why and How?
+- **Core message**: Use configuration first, then hooks. Build a handler for a custom credential.
+- **Content**: Configure: change settings for an existing scheme. Add a hook: run your code at a defined point in the sign-in flow. Custom handler: define how your own credential is read and verified.
+- **Composition**: Three aligned icon-led groups at x=240/640/1040: sliders for scheme settings; validation flow with an inserted code hook; credential-handler-identity pipeline. Common header, takeaway y=630 and footer retained.
 
-#### Slide 14 - Where to Customize Auth
-- **Audience move**: Custom auth as one task → three extension responsibilities.
-- **Relationships**: Credential validation precedes internal identity mapping and resource authorization.
-- **Title**: Where to Customize Auth
-- **Core message**: Customize the layer that owns the requirement.
-- **Content**: Choose the extension point based on what you need to change. Validate credential; Authentication handler; Map the account; Issuer + subject; Decide permission; Resource policy.
-- **Presenter detail**: Validate credential: standard middleware or scheme handler; map identity: issuer + subject → local bidder; authorize resource: policy/handler; use trusted data; no need to invent a protocol.
-- **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
+#### Slide 14 - Revoking Sessions & Tokens
+- **Audience move**: Know one concrete revocation strategy for each credential type.
+- **Relationships**: Session deletion is enforced through session lookup; access-token denylist through API checks; refresh-token revocation through token-store checks at refresh.
+- **Title**: Revoking Sessions & Tokens
+- **Core message**: Revoking a refresh token does not automatically revoke issued access tokens.
+- **Content**: Session: delete from session store and reject subsequent session use. Access token: denylist its ID until expiry; API checks each request. Refresh token: mark token or token family revoked in its store and reject future refresh attempts.
+- **Composition**: Three open icon-led vertical groups aligned with the deck’s three-actor geometry, x=240/640/1040. Icon y=255, credential y=350, cyan action y=414/450, result y=509/545. All text 26px; no row containers, horizontal arrows or small annotations. Shared takeaway divider y=588.
 
-#### Slide 15 - Refresh Token Rotation
-- **Audience move**: Server always knows theft → uncertain signals and reuse evidence.
-- **Relationships**: Rotation replaces R1 with R2; presentation of old R1 is evidence of reuse, not conclusive attacker identity.
-- **Title**: Refresh Token Rotation
-- **Core message**: Signals inform a response; they do not guarantee detection.
-- **Content**: Each successful refresh issues a replacement token and retires the previous one. Client uses R1; Refresh succeeds; Server issues R2; R1 is retired; R1 appears again; Server detects reuse; Possible causes include a stolen copy or two refresh attempts close together.
-- **Presenter detail**: User report, unusual activity, factor changes; new IP is uncertain; R1 used → R2 issued → R1 replayed; investigate copy versus race/retry; only where rotation exists.
-- **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
-
-#### Slide 16 - Session Revocation
-- **Audience move**: Revoke button → enforcement at each access path.
-- **Relationships**: Revocation state must reach session lookup, API checks, refresh issuance and active connection handling as applicable.
-- **Title**: Session Revocation
-- **Core message**: Change a condition that the request handler actually checks.
-- **Content**: After the server revokes Anna’s session, her next bid request must be rejected. Before revocation; Accepted; Session is active; After revocation; Rejected; Session is revoked; Same bid; The request handler must check the updated state.
-- **Presenter detail**: Session: inactive; access token: state check or expiry; refresh: revoke token/family; SignalR: disconnect or recheck sensitive commands; clear-cookie is insufficient; recover account after containment.
-- **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
-
-#### Slide 17 - Four Project Setups and When to Use Them
+#### Slide 15 - Four Project Setups and When to Use Them
 - **Audience move**: Understand the lifecycle → choose a design for project requirements.
 - **Relationships**: Client topology, identity provider and revocation latency inform how an app authenticates users and handles credentials.
 - **Title**: Four Project Setups and When to Use Them
@@ -258,7 +240,7 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Presenter detail**: Same-origin web and cookies; company SSO with OIDC plus app session; SPA with BFF; native mobile with OIDC Code + PKCE and access tokens; immediate revocation requires access to current state.
 - **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
 
-#### Slide 18 - Three Outcomes in BidLab
+#### Slide 16 - Three Outcomes in BidLab
 - **Audience move**: Theory → concrete expected server outcomes.
 - **Relationships**: Valid bid precedes out-of-scope rejection, followed by revocation and retry of old access.
 - **Title**: Three Outcomes in BidLab
@@ -267,7 +249,7 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Presenter detail**: Proposed lab scenario, implementation pending; 1 allowed auction; 2 different auction denied; 3 old session rejected after revoke; include open connection; controlled test credentials only.
 - **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
 
-#### Slide 19 - Auth Lifecycle Recap
+#### Slide 17 - Auth Lifecycle Recap
 - **Audience move**: Many terms → reusable four-question review.
 - **Relationships**: Identity, continuity, permission and termination are complementary checks on one bid.
 - **Title**: Auth Lifecycle Recap
@@ -276,59 +258,6 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Presenter detail**: Who are you? Which session? May you bid here? Can access stop?; Questions.
 - **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
 
-#### Slide 20 - TOTP Verification Checklist
-- **Audience move**: An offline matching code → what the verifier needs to check.
-- **Relationships**: Both sides derive the same time step from the clock and share enrollment parameters.
-- **Title**: TOTP Verification Checklist
-- **Core message**: Protect enrollment, allow limited clock drift and prevent replay.
-- **Content**: The server matches the submitted code against a narrow window around the current time. Protect enrollment; Unique shared key; Match the time step; Allow limited clock drift; Accept a step once; Limit attempts and replay; Time step = floor((UnixTime − T0) / X). X is commonly 30 seconds.
-- **Presenter detail**: T = floor((UnixTime - T0) / X); commonly 30-second steps; unique seed; bounded clock tolerance; attempt limits; atomic replay protection.
-- **Composition**: Topic heading, one sentence of context and a labeled visual.
-
-#### Slide 21 - Passkey Verification and Recovery
-- **Audience move**: Signature success → complete ceremony and lifecycle checks.
-- **Relationships**: Ceremony validation and secure enrollment/recovery both support account access; synchronized credentials affect counter interpretation.
-- **Title**: Passkey Verification and Recovery
-- **Core message**: A registered public key is one part of a complete verifier.
-- **Content**: Check the signed response at sign-in and protect changes to the account’s registered keys. Sign-in checks; Verify the assertion; Challenge · Origin / RP · Signature; Account recovery; Protect changes; New keys · Lost devices · Recovery; Apply user-verification policy at sign-in and during sensitive account changes.
-- **Presenter detail**: Challenge/type; origin/RP; signature; UP/UV policy; signCount limits; synced vs device-bound; protect factor changes and recovery; local biometrics.
-- **Composition**: Topic heading, one sentence of context and a labeled visual.
-
-#### Slide 22 - OAuth and OIDC Validation
-- **Audience move**: Token names → distinct verifiers and checks.
-- **Relationships**: Client validates ID token; API validates access token; PKCE/state/nonce protect different flow properties.
-- **Title**: OAuth and OIDC Validation
-- **Core message**: Validate each artifact at its intended recipient.
-- **Content**: Each response or token has a specific recipient responsible for checking it. Authorization response; Correlate with the sign-in request; Client app; ID token; Issuer, audience, signature, expiry; Client app; Access token; Issuer, audience, expiry, scopes; Protected API.
-- **Presenter detail**: Client ID token: issuer, audience, signature, time, flow claims; API access token: recipient, validity, scope, resource permission; PKCE exchange binding; state transaction/CSRF; nonce OIDC request binding according to flow.
-- **Composition**: Topic heading, one sentence of context and a labeled visual.
-
-#### Slide 23 - User SSO and Workload Identity
-- **Audience move**: One login pattern → cross-app and non-user access contexts.
-- **Relationships**: Two apps may trust one IdP while a background worker uses its own application identity.
-- **Title**: User SSO and Workload Identity
-- **Core message**: User SSO and service identity address different callers.
-- **Content**: The credential depends on whether a person signs in or a service calls an API. Interactive sign-in; User identity; OIDC sign-in through a shared IdP; Service-to-service; Workload identity; Client credentials or managed identity.
-- **Presenter detail**: App A / IdP / App B; OIDC or SAML per integration; separate app and IdP sessions; worker → API with application rights; OAuth Client Credentials where suitable.
-- **Composition**: Topic heading, one sentence of context and a labeled visual.
-
-#### Slide 24 - Resource Authorization in ASP.NET Core
-- **Audience move**: .NET login gate → resource-aware enforcement.
-- **Relationships**: Validated principal and scoped loaded resource feed authorization; business validation precedes commit.
-- **Title**: Resource Authorization in ASP.NET Core
-- **Core message**: Authorize the actual resource before the action.
-- **Content**: Evaluate authorization against the auction before you apply the rules for the bid itself. Load the resource; Within the trusted scope; Check the policy; Actor + action + resource; Apply business rules; Then write the bid.
-- **Presenter detail**: Authenticate; map account; load scoped auction; AuthorizeAsync(user, auction, policy); validate bid; commit; missing login versus insufficient rights; UI checks insufficient.
-- **Composition**: Topic heading, one sentence of context and a labeled visual.
-
-#### Slide 25 - Revocation Across Active Requests
-- **Audience move**: Instant global logout assumption → propagation and validation timeline.
-- **Relationships**: Revocation commit precedes cache/API awareness; ongoing connection and request handling require separate enforcement.
-- **Title**: Revocation Across Active Requests
-- **Core message**: Effective revocation ends when old access paths reject.
-- **Content**: Trace when the updated state reaches both new requests and already open connections. Commit revocation; Update access state; Propagate state; Caches and handlers; Reject old access; HTTP and open connections; Measure when each access path starts rejecting the old credential.
-- **Presenter detail**: Commit revoke; update state/cache; API rejects; connection rechecks/disconnects; offline JWT may remain until expiry; refresh-family response differs; validate API, refresh and reconnect.
-- **Composition**: Topic heading, one sentence of context and a labeled visual.
 
 ## X. Speaker Notes Requirements
 

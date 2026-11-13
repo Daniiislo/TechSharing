@@ -46,5 +46,5 @@
 <rect x="177" y="610" width="252" height="30" rx="6" fill="#E8F4F8"/>
 <text x="303" y="631" font-size="18" fill="#007F9E" font-weight="700" text-anchor="middle">Verify with stored public key</text>
 </g>
-<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">W3C WebAuthn · Registration and authentication</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">06 / 19</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">W3C WebAuthn · Registration and authentication</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">06 / 17</text></g>
 </svg>

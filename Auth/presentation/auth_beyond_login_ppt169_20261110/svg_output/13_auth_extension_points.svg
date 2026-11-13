@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
+<rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
+<g id="title" data-pptx-bounds="64 33 1152 148">
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">03 · Authorization</text>
+<text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">Custom Authentication: Why and How?</text>
+<text id="slide-context" x="64" y="157" font-size="22" fill="#526B80">Customize when your app needs behavior beyond the default authentication flow.</text>
+</g>
+<g id="main-visual" data-pptx-bounds="64 198 1152 448">
+<circle cx="240" cy="257" r="50" fill="#E8F4F8"/>
+<g transform="translate(240 257)" fill="none" stroke="#007F9E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M -26 -18 H 26 M -26 0 H 26 M -26 18 H 26"/><circle cx="-9" cy="-18" r="5" fill="#E8F4F8"/><circle cx="14" cy="0" r="5" fill="#E8F4F8"/><circle cx="-2" cy="18" r="5" fill="#E8F4F8"/></g>
+<text x="240" y="351" text-anchor="middle" font-size="28" fill="#102A43" font-weight="700">Configure</text>
+<circle cx="640" cy="257" r="50" fill="#E8F4F8"/>
+<g transform="translate(640 257)" fill="none" stroke="#007F9E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M -25 -19 V 5 Q -25 20 -10 20 H 12 Q 25 20 25 7 V -19 M 14 -8 L 25 -19 L 36 -8"/><circle cx="-25" cy="-19" r="5" fill="#E8F4F8"/></g>
+<text x="640" y="351" text-anchor="middle" font-size="28" fill="#102A43" font-weight="700">Add a hook</text>
+<circle cx="1040" cy="257" r="50" fill="#E8F4F8"/>
+<g transform="translate(1040 257)" fill="none" stroke="#007F9E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="-29" y="-23" width="58" height="46" rx="5"/><path d="M -10 -11 L -20 0 L -10 11 M 10 -11 L 20 0 L 10 11 M 4 -13 L -4 13"/></g>
+<text x="1040" y="351" text-anchor="middle" font-size="28" fill="#102A43" font-weight="700">Custom handler</text>
+<text x="90" y="404" font-size="18" fill="#526B80">Issuer</text>
+<line x1="207" y1="398" x2="374" y2="398" stroke="#CAD7E2" stroke-width="3"/>
+<circle cx="250" cy="398" r="6" fill="#007F9E"/>
+<text x="90" y="447" font-size="18" fill="#526B80">Audience</text>
+<line x1="207" y1="441" x2="374" y2="441" stroke="#CAD7E2" stroke-width="3"/>
+<circle cx="280" cy="441" r="6" fill="#007F9E"/>
+<text x="90" y="490" font-size="18" fill="#526B80">Expiry</text>
+<line x1="207" y1="484" x2="374" y2="484" stroke="#CAD7E2" stroke-width="3"/>
+<circle cx="232" cy="484" r="6" fill="#007F9E"/>
+<text x="240" y="552" text-anchor="middle" font-size="22" fill="#526B80">Adjust existing settings.</text>
+<rect x="457" y="430" width="110" height="48" rx="8" fill="#E8F4F8"/>
+<text x="512" y="460" text-anchor="middle" font-size="18" fill="#102A43" font-weight="700">Validate</text>
+<rect x="713" y="430" width="110" height="48" rx="8" fill="#E8F4F8"/>
+<text x="768" y="460" text-anchor="middle" font-size="18" fill="#102A43" font-weight="700">Continue</text>
+<path d="M 567 454 H 605 M 598 449 L 605 454 L 598 459" fill="none" stroke="#007F9E" stroke-width="2"/>
+<path d="M 675 454 H 713 M 706 449 L 713 454 L 706 459" fill="none" stroke="#007F9E" stroke-width="2"/>
+<circle cx="640" cy="454" r="23" fill="#007F9E"/>
+<text x="640" y="461" text-anchor="middle" font-size="24" fill="#FFFFFF" font-weight="700">+</text>
+<path d="M 640 431 V 403" fill="none" stroke="#007F9E" stroke-width="2"/>
+<text x="640" y="391" text-anchor="middle" font-size="20" fill="#007F9E" font-weight="700">Your code</text>
+<text x="640" y="552" text-anchor="middle" font-size="22" fill="#526B80">Extend a defined flow step.</text>
+<rect x="875" y="430" width="100" height="48" rx="8" fill="#E8F4F8"/>
+<text x="925" y="459" text-anchor="middle" font-size="17" fill="#102A43" font-weight="700">Credential</text>
+<rect x="990" y="430" width="100" height="48" rx="8" fill="#007F9E"/>
+<text x="1040" y="459" text-anchor="middle" font-size="17" fill="#FFFFFF" font-weight="700">Handler</text>
+<rect x="1105" y="430" width="100" height="48" rx="8" fill="#E8F4F8"/>
+<text x="1155" y="459" text-anchor="middle" font-size="17" fill="#102A43" font-weight="700">Identity</text>
+<path d="M 975 454 H 990 M 983 449 L 990 454 L 983 459" fill="none" stroke="#007F9E" stroke-width="2"/>
+<path d="M 1090 454 H 1105 M 1098 449 L 1105 454 L 1098 459" fill="none" stroke="#007F9E" stroke-width="2"/>
+<text x="1040" y="552" text-anchor="middle" font-size="22" fill="#526B80">Validate your credential type.</text>
+<line x1="64" y1="588" x2="1216" y2="588" stroke="#CAD7E2" stroke-width="2"/>
+<text x="640" y="630" text-anchor="middle" font-size="22" fill="#526B80">Start with configuration. Extend with hooks. Add a handler when needed.</text>
+</g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2" stroke-width="1"/><text x="64" y="698" font-size="16" fill="#526B80">ASP.NET Core · Authentication schemes, events and claims</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">13 / 17</text></g>
+</svg>

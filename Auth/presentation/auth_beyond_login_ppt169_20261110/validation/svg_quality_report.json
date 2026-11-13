@@ -4,114 +4,82 @@
   "target": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "82cc20bbf95d23427c7e451837d6cad12574fc49708efdb96b07039619022164",
-    "file_count": 25,
+    "digest": "db8e6f9bdde9cda175f6c2aeb4beaa0859be4937640d755a6be6396fe2151bf3",
+    "file_count": 17,
     "files": [
       {
         "file": "01_beyond_login.svg",
-        "sha256": "5b7c0e5cf300870d0cd3e9953e71b6b8539c24bb63d72bad696c3435ca47a137"
+        "sha256": "28cec67024473a86a86f390206423ddee14e62cab520fa0d5c34e6c0ab526172"
       },
       {
         "file": "02_agenda.svg",
-        "sha256": "e9f35193d99c8c7543b522bddd2d402956cd58e28a131432d8469920e6aed54a"
+        "sha256": "2c7fe37fd445642cf8acc93adad48159b92f506e85fdafbac87eed393df6e856"
       },
       {
         "file": "03_authentication_overview.svg",
-        "sha256": "75597d7c3ff208bba6af8ad9db8c002cb518e42b65225a0123c2368efe167b58"
+        "sha256": "1ef354b4e97f359d3eddeb71d3e0889eab81e6dbae98f3c7cdaf2d7794e001e0"
       },
       {
         "file": "04_mfa_factor_types.svg",
-        "sha256": "e67dd73d6fe4ea811e841ea9f5c7b0e510fa3fcb075bb85328c286f7b96f770a"
+        "sha256": "d70b65e377cba03fbde43b97f54462638f65602bcb6c082e802772892163f237"
       },
       {
         "file": "05_totp_offline.svg",
-        "sha256": "16ba210cb7d439b783e3d31a8815ec36f51621187e6eb5adb3a01c5662907270"
+        "sha256": "926eacd16a4d52d471717554f40edb6862473680ae3115d24a4a889b5a444874"
       },
       {
         "file": "06_passkey_register_and_sign_in.svg",
-        "sha256": "c9841f60772dd2da5d3b2bdaa482a7b6bed991fe15006402d568d1e22e53d490"
+        "sha256": "500ffe53e68baff91ab000b151697d45bcc7f3d9d512329a5334c0272d20f056"
       },
       {
         "file": "07_federated_sign_in.svg",
-        "sha256": "5ee401f12fe1e403be1b596fbe16709abc1e6c4dbb21d13ca3d2cd7ebf9c6ea2"
+        "sha256": "6f141a6c41a622c785342819cba531e7c56bde3d598e695abc1785f5aa2af0c0"
       },
       {
         "file": "08_oauth_api_access.svg",
-        "sha256": "107ff079d676533874bc20d69c08255b798ba782741987aeba588d774ecfde24"
+        "sha256": "50f6a75e89a34f728ee3ecf83aa95ea8dc09261094ba927a71256ba653101cba"
       },
       {
-        "file": "09_pkce_code_exchange.svg",
-        "sha256": "033426ac2d2877aa5112378aabe85fc9a30cdd5a08745302918a49eab5118b95"
+        "file": "09_service_to_service_authentication.svg",
+        "sha256": "f33e2408bff0cd769cb8ac7bc34cda37cdf9eacfc0beb2d3e28808af44abf8db"
       },
       {
         "file": "10_session_continuity.svg",
-        "sha256": "1bce40f41ba76b2557abe6c42f7d26f18bd1c704ae9c43d3d6844dac5435f94c"
+        "sha256": "a7662eb1331945273c4924aeb2c6bdf3007b24e2c19b1a80be1a650a84a12677"
       },
       {
         "file": "11_bearer_token_copy.svg",
-        "sha256": "5f3dd1fab898ef53319bc587467c001dcf6ae5ba366b1df65e300e36cab60186"
+        "sha256": "8832db77003d435c08487a9b19333d0b3e756563b1136118f7b3853c5f6533a9"
       },
       {
         "file": "12_authorization_models.svg",
-        "sha256": "0a8d66353ae5d3260dd2cc61b461cee3c22aa2a081b896f210eb10d02e769702"
+        "sha256": "e939cb751bb142ab4fa79d6b29c69e9f2b96c6a70f8b14b4691d7f49a4c4b0c4"
       },
       {
-        "file": "13_bid_authorization_policy.svg",
-        "sha256": "484c3af3efd766b8ac6e5dbe076139cd18df1342ea770d608e9c727ab5de9579"
+        "file": "13_auth_extension_points.svg",
+        "sha256": "bfe3c329fc7006014dafbc2f5bc4fb09854c0ed58a2223576eff39e9078a1c6a"
       },
       {
-        "file": "14_auth_extension_points.svg",
-        "sha256": "c680db977a358eb1bdf377d486d31f24b3cfaad7d51927e901547cfe03935408"
+        "file": "14_revocation.svg",
+        "sha256": "16d22eaf1de37b82de9c7e5a47fe3bb112285e08c738cb218e72190619581fa0"
       },
       {
-        "file": "15_refresh_token_reuse.svg",
-        "sha256": "b15bbfa1223685bb3039dfd975b3cc9db388f9a6ebb8e1d99a894ea8bc9e1dd6"
+        "file": "15_choosing_auth_architecture.svg",
+        "sha256": "cabfdf4ba8665d72a9678b9b2dfaf8d44279cf462bdca731abce34243b277d88"
       },
       {
-        "file": "16_revocation.svg",
-        "sha256": "2ea77a87b16025088f1bd6aa1b82468c0d0d1ee3f1a318ad5dcf68dda1a44108"
+        "file": "16_bidlab_walkthrough.svg",
+        "sha256": "d97d777bc11db3311a5a4f883c6ecbb8549bbc4268d5818ca98a2be6a410c2ce"
       },
       {
-        "file": "17_choosing_auth_architecture.svg",
-        "sha256": "84ce31e3752b497665683d99e86b5895bed9e6b20ad9c2b96679a59b8e57971e"
-      },
-      {
-        "file": "18_bidlab_walkthrough.svg",
-        "sha256": "28e098c17ee9c0f4dc4454e782a5f509f8561a570e02b900c4dc14c6993b39a1"
-      },
-      {
-        "file": "19_bid_end_to_end.svg",
-        "sha256": "d1d486d48d35797d8235f502f01cd2968a5105a2c53a50a1892062c816adb0f2"
-      },
-      {
-        "file": "20_totp_verification.svg",
-        "sha256": "c28a03feacfb15561e8512196f0e1dc2d973f026ea8a46115124077de4bc0341"
-      },
-      {
-        "file": "21_passkey_checks.svg",
-        "sha256": "7b589d9d4606252669be20bef1a56a8b24c858998d4360138a591b94e27a6a12"
-      },
-      {
-        "file": "22_oauth_oidc_validation.svg",
-        "sha256": "69762940561431aab7a3c094dd96f8ff18fb237644d0cb215f17b9962dfcae27"
-      },
-      {
-        "file": "23_sso_workload_identity.svg",
-        "sha256": "6e4e64cde7a42bbdfc6070f7fe35ac2d1b53fe1ac97135f5f47426dcb7a99b9c"
-      },
-      {
-        "file": "24_resource_authorization.svg",
-        "sha256": "5ce2233df01707403425f101b9e2165a00140dc223178d5abf91b5259edee8c3"
-      },
-      {
-        "file": "25_revocation_propagation.svg",
-        "sha256": "cb3e59811a33d2cbbbf4246b72f66a2bac382fc59bc4581b962da323d3a3ea53"
+        "file": "17_bid_end_to_end.svg",
+        "sha256": "460c293b7e8d6b625f7be0622d8654ceaa03261b733739fc63e4ea3ab896f87d"
       }
     ]
   },
   "summary": {
-    "total": 25,
-    "passed": 25,
+    "total": 17,
+    "passed": 17,
     "warnings": 0,
     "errors": 0
   },
@@ -138,20 +106,24 @@
     }
   },
   "drift": {
-    "colors": {},
+    "colors": {
+      "#FFFFFF": [
+        "13_auth_extension_points.svg"
+      ]
+    },
     "fonts": {},
     "sizes": {}
   },
   "carrier_receipt": {
     "scope": "informational-not-a-quota",
-    "pages": 25,
+    "pages": 17,
     "totals": {
-      "text_elements": 376,
+      "text_elements": 277,
       "image_placements": 0,
       "icons": 0,
-      "svg_geometry_elements": 344,
+      "svg_geometry_elements": 262,
       "preset_shapes": 0,
-      "page_frame_elements": 25,
+      "page_frame_elements": 17,
       "marker_uses": 0,
       "inline_emphasis_runs": 2,
       "gradient_uses": 0,
@@ -170,15 +142,15 @@
       "filter_uses": 0,
       "text_effects": 0
     },
-    "relationship_pages": 1,
+    "relationship_pages": 2,
     "geometry_elements": {
-      "circle": 64,
+      "circle": 51,
       "ellipse": 0,
-      "line": 71,
-      "path": 124,
+      "line": 56,
+      "path": 87,
       "polygon": 0,
       "polyline": 0,
-      "rect": 85
+      "rect": 68
     },
     "preset_names": {},
     "native_objects": {
@@ -200,7 +172,7 @@
   "files": [
     {
       "file": "01_beyond_login.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\01_beyond_login.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\01_beyond_login.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -255,11 +227,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "5b7c0e5cf300870d0cd3e9953e71b6b8539c24bb63d72bad696c3435ca47a137"
+      "source_sha256": "28cec67024473a86a86f390206423ddee14e62cab520fa0d5c34e6c0ab526172"
     },
     {
       "file": "02_agenda.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\02_agenda.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\02_agenda.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -314,18 +286,18 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "e9f35193d99c8c7543b522bddd2d402956cd58e28a131432d8469920e6aed54a"
+      "source_sha256": "2c7fe37fd445642cf8acc93adad48159b92f506e85fdafbac87eed393df6e856"
     },
     {
       "file": "03_authentication_overview.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\03_authentication_overview.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\03_authentication_overview.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 19,
+          "text_elements": 18,
           "images": {
             "placements": 0,
             "files": [],
@@ -369,15 +341,15 @@
           "Cambria, serif",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 19,
+        "text_elements": 18,
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "75597d7c3ff208bba6af8ad9db8c002cb518e42b65225a0123c2368efe167b58"
+      "source_sha256": "1ef354b4e97f359d3eddeb71d3e0889eab81e6dbae98f3c7cdaf2d7794e001e0"
     },
     {
       "file": "04_mfa_factor_types.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\04_mfa_factor_types.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\04_mfa_factor_types.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -432,11 +404,11 @@
         "tspan_elements": 2
       },
       "passed": true,
-      "source_sha256": "e67dd73d6fe4ea811e841ea9f5c7b0e510fa3fcb075bb85328c286f7b96f770a"
+      "source_sha256": "d70b65e377cba03fbde43b97f54462638f65602bcb6c082e802772892163f237"
     },
     {
       "file": "05_totp_offline.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\05_totp_offline.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\05_totp_offline.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -492,11 +464,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "16ba210cb7d439b783e3d31a8815ec36f51621187e6eb5adb3a01c5662907270"
+      "source_sha256": "926eacd16a4d52d471717554f40edb6862473680ae3115d24a4a889b5a444874"
     },
     {
       "file": "06_passkey_register_and_sign_in.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\06_passkey_register_and_sign_in.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\06_passkey_register_and_sign_in.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -552,11 +524,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "c9841f60772dd2da5d3b2bdaa482a7b6bed991fe15006402d568d1e22e53d490"
+      "source_sha256": "500ffe53e68baff91ab000b151697d45bcc7f3d9d512329a5334c0272d20f056"
     },
     {
       "file": "07_federated_sign_in.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\07_federated_sign_in.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\07_federated_sign_in.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -611,11 +583,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "5ee401f12fe1e403be1b596fbe16709abc1e6c4dbb21d13ca3d2cd7ebf9c6ea2"
+      "source_sha256": "6f141a6c41a622c785342819cba531e7c56bde3d598e695abc1785f5aa2af0c0"
     },
     {
       "file": "08_oauth_api_access.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\08_oauth_api_access.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\08_oauth_api_access.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -670,18 +642,18 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "107ff079d676533874bc20d69c08255b798ba782741987aeba588d774ecfde24"
+      "source_sha256": "50f6a75e89a34f728ee3ecf83aa95ea8dc09261094ba927a71256ba653101cba"
     },
     {
-      "file": "09_pkce_code_exchange.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\09_pkce_code_exchange.svg",
+      "file": "09_service_to_service_authentication.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\09_service_to_service_authentication.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 16,
+          "text_elements": 14,
           "images": {
             "placements": 0,
             "files": [],
@@ -696,13 +668,13 @@
           },
           "geometry": {
             "svg_elements": {
-              "rect": 3,
-              "circle": 0,
+              "rect": 6,
+              "circle": 2,
               "ellipse": 0,
-              "line": 4,
+              "line": 2,
               "polyline": 0,
               "polygon": 0,
-              "path": 3
+              "path": 5
             },
             "preset_shapes": 0,
             "preset_names": {},
@@ -725,15 +697,15 @@
           "Cambria, serif",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 16,
+        "text_elements": 14,
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "033426ac2d2877aa5112378aabe85fc9a30cdd5a08745302918a49eab5118b95"
+      "source_sha256": "f33e2408bff0cd769cb8ac7bc34cda37cdf9eacfc0beb2d3e28808af44abf8db"
     },
     {
       "file": "10_session_continuity.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\10_session_continuity.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\10_session_continuity.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -788,11 +760,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "1bce40f41ba76b2557abe6c42f7d26f18bd1c704ae9c43d3d6844dac5435f94c"
+      "source_sha256": "a7662eb1331945273c4924aeb2c6bdf3007b24e2c19b1a80be1a650a84a12677"
     },
     {
       "file": "11_bearer_token_copy.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\11_bearer_token_copy.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\11_bearer_token_copy.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -847,11 +819,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "5f3dd1fab898ef53319bc587467c001dcf6ae5ba366b1df65e300e36cab60186"
+      "source_sha256": "8832db77003d435c08487a9b19333d0b3e756563b1136118f7b3853c5f6533a9"
     },
     {
       "file": "12_authorization_models.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\12_authorization_models.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\12_authorization_models.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -906,11 +878,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "0a8d66353ae5d3260dd2cc61b461cee3c22aa2a081b896f210eb10d02e769702"
+      "source_sha256": "e939cb751bb142ab4fa79d6b29c69e9f2b96c6a70f8b14b4691d7f49a4c4b0c4"
     },
     {
-      "file": "13_bid_authorization_policy.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\13_bid_authorization_policy.svg",
+      "file": "13_auth_extension_points.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\13_auth_extension_points.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -932,13 +904,13 @@
           },
           "geometry": {
             "svg_elements": {
-              "rect": 2,
-              "circle": 0,
+              "rect": 7,
+              "circle": 11,
               "ellipse": 0,
-              "line": 4,
+              "line": 5,
               "polyline": 0,
               "polygon": 0,
-              "path": 0
+              "path": 8
             },
             "preset_shapes": 0,
             "preset_names": {},
@@ -962,80 +934,26 @@
           "Segoe UI, sans-serif"
         ],
         "text_elements": 22,
-        "tspan_elements": 0
+        "tspan_elements": 0,
+        "contextual_values": {
+          "colors": [
+            "#FFFFFF"
+          ]
+        }
       },
       "passed": true,
-      "source_sha256": "484c3af3efd766b8ac6e5dbe076139cd18df1342ea770d608e9c727ab5de9579"
+      "source_sha256": "bfe3c329fc7006014dafbc2f5bc4fb09854c0ed58a2223576eff39e9078a1c6a"
     },
     {
-      "file": "14_auth_extension_points.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\14_auth_extension_points.svg",
+      "file": "14_revocation.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\14_revocation.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
       "info": {
         "viewbox": "0 0 1280 720",
         "carrier_receipt": {
-          "text_elements": 11,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 1,
-              "circle": 4,
-              "ellipse": 0,
-              "line": 1,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 7
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 11,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "c680db977a358eb1bdf377d486d31f24b3cfaad7d51927e901547cfe03935408"
-    },
-    {
-      "file": "15_refresh_token_reuse.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\15_refresh_token_reuse.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 12,
+          "text_elements": 18,
           "images": {
             "placements": 0,
             "files": [],
@@ -1051,12 +969,12 @@
           "geometry": {
             "svg_elements": {
               "rect": 2,
-              "circle": 5,
+              "circle": 4,
               "ellipse": 0,
               "line": 2,
               "polyline": 0,
               "polygon": 0,
-              "path": 7
+              "path": 3
             },
             "preset_shapes": 0,
             "preset_names": {},
@@ -1079,74 +997,15 @@
           "Cambria, serif",
           "Segoe UI, sans-serif"
         ],
-        "text_elements": 12,
+        "text_elements": 18,
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "b15bbfa1223685bb3039dfd975b3cc9db388f9a6ebb8e1d99a894ea8bc9e1dd6"
+      "source_sha256": "16d22eaf1de37b82de9c7e5a47fe3bb112285e08c738cb218e72190619581fa0"
     },
     {
-      "file": "16_revocation.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\16_revocation.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 13,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 3,
-              "circle": 2,
-              "ellipse": 0,
-              "line": 2,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 2
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 13,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "2ea77a87b16025088f1bd6aa1b82468c0d0d1ee3f1a318ad5dcf68dda1a44108"
-    },
-    {
-      "file": "17_choosing_auth_architecture.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\17_choosing_auth_architecture.svg",
+      "file": "15_choosing_auth_architecture.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\15_choosing_auth_architecture.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -1201,11 +1060,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "84ce31e3752b497665683d99e86b5895bed9e6b20ad9c2b96679a59b8e57971e"
+      "source_sha256": "cabfdf4ba8665d72a9678b9b2dfaf8d44279cf462bdca731abce34243b277d88"
     },
     {
-      "file": "18_bidlab_walkthrough.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\18_bidlab_walkthrough.svg",
+      "file": "16_bidlab_walkthrough.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\16_bidlab_walkthrough.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -1260,11 +1119,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "28e098c17ee9c0f4dc4454e782a5f509f8561a570e02b900c4dc14c6993b39a1"
+      "source_sha256": "d97d777bc11db3311a5a4f883c6ecbb8549bbc4268d5818ca98a2be6a410c2ce"
     },
     {
-      "file": "19_bid_end_to_end.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\19_bid_end_to_end.svg",
+      "file": "17_bid_end_to_end.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\17_bid_end_to_end.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -1319,361 +1178,7 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "d1d486d48d35797d8235f502f01cd2968a5105a2c53a50a1892062c816adb0f2"
-    },
-    {
-      "file": "20_totp_verification.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\20_totp_verification.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 13,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 2,
-              "circle": 5,
-              "ellipse": 0,
-              "line": 2,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 7
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 13,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "c28a03feacfb15561e8512196f0e1dc2d973f026ea8a46115124077de4bc0341"
-    },
-    {
-      "file": "21_passkey_checks.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\21_passkey_checks.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 13,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 3,
-              "circle": 1,
-              "ellipse": 0,
-              "line": 2,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 2
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 13,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "7b589d9d4606252669be20bef1a56a8b24c858998d4360138a591b94e27a6a12"
-    },
-    {
-      "file": "22_oauth_oidc_validation.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\22_oauth_oidc_validation.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 15,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 5,
-              "circle": 5,
-              "ellipse": 0,
-              "line": 3,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 9
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 15,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "69762940561431aab7a3c094dd96f8ff18fb237644d0cb215f17b9962dfcae27"
-    },
-    {
-      "file": "23_sso_workload_identity.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\23_sso_workload_identity.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 12,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 5,
-              "circle": 1,
-              "ellipse": 0,
-              "line": 1,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 2
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 12,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "6e4e64cde7a42bbdfc6070f7fe35ac2d1b53fe1ac97135f5f47426dcb7a99b9c"
-    },
-    {
-      "file": "24_resource_authorization.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\24_resource_authorization.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 12,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 2,
-              "circle": 3,
-              "ellipse": 0,
-              "line": 1,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 7
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 12,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "5ce2233df01707403425f101b9e2165a00140dc223178d5abf91b5259edee8c3"
-    },
-    {
-      "file": "25_revocation_propagation.svg",
-      "path": "Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\25_revocation_propagation.svg",
-      "exists": true,
-      "errors": [],
-      "warnings": [],
-      "info": {
-        "viewbox": "0 0 1280 720",
-        "carrier_receipt": {
-          "text_elements": 13,
-          "images": {
-            "placements": 0,
-            "files": [],
-            "max_frame_share": 0.0
-          },
-          "icons": 0,
-          "effects": {
-            "inline_emphasis_runs": 0,
-            "gradient_uses": 0,
-            "filter_uses": 0,
-            "text_effects": 0
-          },
-          "geometry": {
-            "svg_elements": {
-              "rect": 4,
-              "circle": 4,
-              "ellipse": 0,
-              "line": 2,
-              "polyline": 0,
-              "polygon": 0,
-              "path": 7
-            },
-            "preset_shapes": 0,
-            "preset_names": {},
-            "page_frame_elements": 1,
-            "marker_uses": {
-              "start": 0,
-              "mid": 0,
-              "end": 0
-            }
-          },
-          "native_objects": {
-            "chart": 0,
-            "table": 0,
-            "formula_block": 0,
-            "formula_inline": 0,
-            "other": 0
-          }
-        },
-        "fonts": [
-          "Cambria, serif",
-          "Segoe UI, sans-serif"
-        ],
-        "text_elements": 13,
-        "tspan_elements": 0
-      },
-      "passed": true,
-      "source_sha256": "cb3e59811a33d2cbbbf4246b72f66a2bac382fc59bc4581b962da323d3a3ea53"
+      "source_sha256": "460c293b7e8d6b625f7be0622d8654ceaa03261b733739fc63e4ea3ab896f87d"
     }
   ]
 }

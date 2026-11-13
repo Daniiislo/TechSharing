@@ -2,7 +2,7 @@
 
 **Phiên bản:** 10/11/2026. **Người trình bày:** Tavian Nguyen.
 
-Slide tiếng Anh, trình bày tiếng Việt. Phần chính gồm 19 slide, dự toán 43 phút gồm 5 phút demo và khoảng 3.5 phút Q&A. Sáu slide appendix dùng tra cứu, không đọc nối tiếp sau slide kết. Lời dẫn dưới đây là bản luyện nói; khoảng dừng để chỉ hình và trao đổi ngắn nằm trong thời lượng mỗi trang. Chưa rehearsal nên đây chưa phải thời lượng đã đo.
+Slide tiếng Anh, trình bày tiếng Việt. Phần chính gồm 17 slide, dự toán 43 phút gồm 5 phút demo và khoảng 3.5 phút Q&A. Lời dẫn dưới đây là bản luyện nói; khoảng dừng để chỉ hình và trao đổi ngắn nằm trong thời lượng mỗi trang. Chưa rehearsal nên đây chưa phải thời lượng đã đo.
 
 **Phạm vi demo:** kịch bản chuẩn bị cho BidLab, chưa phải chức năng Auth đã triển khai. Deck không tuyên bố mô hình minh họa là kiến trúc thật của eBay hay TravelPledgeAuctions.
 
@@ -26,7 +26,7 @@ Mình sẽ đi từ đăng nhập qua phiên và phân quyền đến thu hồi.
 
 ## 03. Authentication Overview — 1 phút
 
-Nhìn từ trên xuống. Bên trái là đăng nhập trực tiếp với ứng dụng. Nhắc đến mã OTP quen thuộc: server tạo mã rồi gửi qua SMS hoặc email. Sau đó mình sẽ xem cách ứng dụng xác thực tự tạo mã TOTP, rồi đến passkey. Bên phải là đăng nhập qua một nhà cung cấp danh tính. OIDC cho ứng dụng biết ai đã đăng nhập. OAuth 2.0 dùng khi ứng dụng cần quyền gọi API, còn PKCE bảo vệ bước đổi code.
+Nhìn từ trên xuống. Bên trái là đăng nhập trực tiếp với ứng dụng. Nhắc đến mã OTP quen thuộc: server tạo mã rồi gửi qua SMS hoặc email. Sau đó mình sẽ xem cách ứng dụng xác thực tự tạo mã TOTP, rồi đến passkey. Bên phải là đăng nhập qua một nhà cung cấp danh tính. OIDC và SAML 2.0 cho ứng dụng biết ai đã đăng nhập qua nhà cung cấp danh tính. OAuth là cơ chế cấp quyền truy cập API, sẽ giải thích riêng; PKCE là cơ chế bảo vệ bước đổi code, không phải phương thức đăng nhập.
 
 **Chuyển:** Bắt đầu bên trái, với những loại bằng chứng mà người dùng có thể đưa ra.
 
@@ -66,33 +66,31 @@ Với SMS/email, server thường tạo mã rồi gửi cho người dùng. TOTP
 
 **Chuyển:** Tiếp theo là trường hợp một nhà cung cấp danh tính thực hiện bước xác thực và trả kết quả cho ứng dụng.
 
-## 07. OIDC: Who Signed In? — 2 phút
+## 07. OIDC: Sign In with an Identity Provider — 2 phút
 
-**Câu hỏi mở:** “Anna đã có tài khoản ở một nhà cung cấp danh tính. Làm sao app lịch biết người vừa đăng nhập là Anna?”
+OIDC được nhiều nhà cung cấp hỗ trợ, ví dụ Google, Microsoft Entra ID, Okta và Keycloak. Anna muốn đăng nhập vào app bằng tài khoản tại nhà cung cấp danh tính mà app tin cậy. App chuyển Anna sang nhà cung cấp danh tính với scope openid. Sau khi nhà cung cấp danh tính xác thực Anna, trình duyệt quay về app với code. App đổi code lấy token, kiểm tra ID token bằng thư viện chuẩn để xác định Anna. Sau đó chính app tạo session đăng nhập riêng. OIDC cung cấp kết quả xác thực; app quản lý phiên của mình. Không dùng ID token để gọi Google Calendar API.
 
-Chỉ hai cột. App chuyển browser sang nhà cung cấp danh tính để Anna đăng nhập. Khi xong, browser quay lại app với một authorization code. Backend của app đổi code tại token endpoint và nhận ID token trong phản hồi. App kiểm tra chữ ký, issuer, audience, thời hạn và các điều kiện của flow trước khi xác nhận danh tính và tạo phiên. [S4]
+**Chỉ hình:** nhà cung cấp danh tính xác nhận danh tính, rồi chỉ dòng cuối app tạo session.
 
-**Câu chốt:** “OIDC trả lời ai đã đăng nhập. App kiểm tra ID token để biết người đó là ai.”
+## 08. OAuth 2.0: Grant Access to an API — 2 phút
 
-**Chuyển:** Bây giờ Anna muốn app đọc sự kiện trong lịch. App cần thêm quyền gì?
+Đây là nhu cầu khác: app muốn đọc lịch Google của Anna. Anna cấp quyền; Google phát access token; app gửi token khi gọi Google Calendar API. Token có thể cho phép đọc dữ liệu, gửi email hoặc thao tác khác tùy scope. OAuth chuẩn hóa việc cấp quyền truy cập tài nguyên, không tự định nghĩa đăng nhập. Có thể lấy profile qua API, nhưng lấy được profile chưa đủ để kết luận đã triển khai login an toàn; cần giao thức hoặc quy tắc xác minh danh tính của nhà cung cấp. OIDC chuẩn hóa việc xác thực danh tính trên nền OAuth. Nếu chỉ Login with Google, không cần xin quyền đọc lịch.
 
-## 08. OAuth 2.0: What Can the App Access? — 3 phút
+**Chỉ hình:** Theo access token từ Google đến app rồi Google Calendar API.
 
-**Chỉ hình:** Bên trái app xin quyền đọc lịch. Sau khi quyền được cấp, app nhận access token ở bước đổi code. Bên phải app gửi access token khi gọi Calendar API. API kiểm tra token và quyền đọc trước khi trả sự kiện.
+**Chuyển:** Sau khi xác thực thành công, app duy trì đăng nhập ra sao?
 
-Trong ví dụ, nhà cung cấp danh tính cũng đảm nhiệm vai trò authorization server. Hai vai trò có thể cùng một hệ thống. ID token dành cho app để xác nhận danh tính, còn access token được trình cho API để sử dụng quyền đã cấp. Nếu Anna chỉ đăng nhập và app không cần đọc lịch, app không cần xin quyền đọc lịch. [S4][S9]
+## 09. Service-to-Service Authentication — 2 phút
 
-**Chuyển:** Cả hai slide đều đi qua bước đổi authorization code. PKCE bảo vệ chính bước đó.
+Order Service gọi Payment Service bằng danh tính của chính nó, không phải người dùng đăng nhập. Có bốn nhóm bằng chứng: shared secret (API key hoặc Basic Auth); access token; client certificate qua mTLS; chữ ký trên request bằng HMAC hoặc khóa bất đối xứng. Các cơ chế có thể kết hợp, không phải những lựa chọn loại trừ nhau.
 
-## 09. PKCE: Protecting the Code Exchange — 2 phút
+API key chỉ xác thực service nếu là bí mật được ánh xạ riêng đến service; có sản phẩm dùng API key chỉ để đo quota/billing. Basic là encoding credential, không phải mã hóa; dùng HTTPS. Với Client Credentials, service xác thực ở token endpoint bằng client secret, private_key_jwt hoặc mTLS để nhận access token, rồi gửi token cho API. Đây là luồng cấp token; JWT assertion là bằng chứng xin token, khác JWT access token. Token hết hạn thì service thường xác thực và xin token mới; không cần refresh token theo luồng chuẩn.
 
-**Chỉ hình:** Hàng trên là lúc xin code. App tạo verifier ngẫu nhiên cho giao dịch, giữ lại verifier và gửi challenge được dẫn xuất từ nó. Server gắn challenge với code sẽ trả về.
+mTLS chứng minh giữ private key tương ứng certificate đáng tin cậy; vẫn cần ánh xạ danh tính và kiểm tra quyền. Request signing bảo vệ các thành phần đã ký; cần canonicalization và chống replay phù hợp. Workload identity như Managed Identity hoặc SPIFFE/SPIRE tự động cấp/quản lý token hay certificate, không phải phương thức song song độc lập với bốn hàng. Không chọn giải pháp chỉ theo số service.
 
-Hàng dưới là lúc đổi code. App gửi code và verifier. Server dùng cùng cách biến đổi, chẳng hạn S256, để tính lại challenge rồi so với giá trị đã gắn với code. Nếu khớp và các kiểm tra khác đạt, server mới cấp token. [S9][S12]
+**Chỉ hình:** Đi qua bốn hàng, kết bằng AuthN xác định service nào đang gọi, AuthZ quyết định service đó được làm gì. Service thay mặt người dùng là phạm vi khác, cần bảo toàn quyền người dùng.
 
-**Câu chốt:** “PKCE buộc lượt đổi code phải đưa ra verifier khớp với yêu cầu ban đầu.”
-
-**Chuyển:** Sau khi xác nhận Anna là ai, app vẫn cần một cách nhận ra request tiếp theo của cô ấy.
+**Nguồn:** RFC 6749 §4.4 https://www.rfc-editor.org/rfc/rfc6749.html#section-4.4 ; RFC 8705 https://www.rfc-editor.org/rfc/rfc8705.html ; RFC 9421 https://www.rfc-editor.org/rfc/rfc9421.html ; SPIFFE https://spiffe.io/docs/latest/spiffe/concepts/ .
 
 ## 10. Sessions and Cookies — 1.5 phút
 
@@ -131,59 +129,29 @@ Một policy của ứng dụng có thể kết hợp các cách này. [S15][S23
 
 **Chuyển:** Ở trang sau, xem một policy dùng nhiều điều kiện để quyết định Anna có được đặt giá không.
 
-## 13. Can Anna Bid on This Auction? — 2.5 phút
+## 13. Custom Authentication: Why and How? — 2 phút
 
-**Chỉ hình:** Đi qua ba hàng kiểm tra. Role Bidder cho Anna quyền đặt giá và cả hai phiên đều cùng tenant với Anna. Lời mời là điểm khác biệt. Phiên 42 đạt cả ba điều kiện nên được phép. Phiên 99 thiếu lời mời nên bị từ chối.
+Cần custom khi ứng dụng muốn thay đổi cấu hình, bổ sung xử lý trong luồng đăng nhập hoặc xác minh credential mà scheme có sẵn chưa hỗ trợ. Đọc ba hàng theo mức độ can thiệp.
 
-Đây là resource-based authorization: server tải phiên được yêu cầu và đánh giá policy với dữ liệu của phiên đó. Nếu request đi qua API dùng OAuth, scope `bids:write` cho biết phạm vi token được cấp. Quyền trên từng phiên vẫn được kiểm tra bằng policy của ứng dụng. [S16][S26]
+Configure: thay đổi issuer, audience, provider hoặc thời hạn cookie trong scheme có sẵn. Add a hook: đăng ký đoạn code chạy ở một điểm thư viện cung cấp, ví dụ sau khi token được xác minh hoặc khi xác thực thất bại; dùng để bổ sung kiểm tra hay xử lý kết quả theo yêu cầu ứng dụng. Hook không tự thay thế việc kiểm tra chữ ký và giao thức của thư viện. Custom handler: dùng khi có loại credential riêng, cần tự định nghĩa cách đọc, xác minh và tạo principal, ví dụ credential từ hệ thống cũ.
 
-Sau khi qua bước phân quyền, ứng dụng vẫn kiểm tra quy tắc nghiệp vụ như auction có đang mở hay số tiền đặt giá có hợp lệ hay không. Endpoint và đường realtime đều cần thực thi điều kiện bắt buộc.
+**Chỉ hình:** Mỗi hàng là một lựa chọn, không phải ba bước bắt buộc. Ưu tiên cấu hình, sau đó hooks; chỉ viết handler khi cần hỗ trợ credential riêng. Quyền thực hiện hành động thuộc authorization.
 
-**Chuyển:** Khi cần thay đổi logic này, nên tùy chỉnh ở lớp nào?
+**Chuyển:** Khi cần chấm dứt truy cập, mình thu hồi session và token như thế nào?
 
-Đọc thêm trong [tài liệu Authorization](05-authorization.md).
+## 14. Revoking Sessions & Tokens — 2 phút
 
-## 14. Where to Customize Auth — 2 phút
+Slide này chọn một cách thu hồi cụ thể cho mỗi loại credential. Session minh họa phiên có store: xóa hoặc vô hiệu hóa session trong kho lưu trữ; request tiếp theo tra session sẽ bị từ chối. Không áp dụng máy móc cho cookie chứa ticket tự xác minh, vốn cần cơ chế kiểm tra trạng thái riêng.
 
-**Chỉ hình:** Chỉ đúng vị trí mở rộng. Handler kiểm tra credential, ánh xạ tìm tài khoản, policy quyết định quyền trên auction.
+Access token: đưa định danh token vào blacklist/denylist, chẳng hạn jti của JWT khi hệ thống phát hành hỗ trợ định danh duy nhất. Giữ bản ghi đến lúc token hết hạn. API phải kiểm tra denylist khi nhận request, ngoài chữ ký, issuer, audience và thời hạn. Nếu chỉ kiểm tra JWT cục bộ mà không kiểm tra trạng thái, token vẫn có thể dùng đến khi hết hạn. Cache và đồng bộ giữa các API ảnh hưởng độ trễ thu hồi.
 
-Ba yêu cầu thường bị gọi chung là custom auth nhưng thuộc các lớp khác nhau.
+Refresh token: server lưu trạng thái token (thường bằng hash thay vì token thô). Đánh dấu token revoked hoặc thu hồi cả token family khi cần. Token endpoint kiểm tra trạng thái này và từ chối refresh tiếp theo. Thu hồi cả family giúp vô hiệu hóa các token thay thế đã cấp trong cùng chuỗi rotation. Nếu provider bên ngoài phát token thì dùng endpoint/cơ chế revocation mà provider hỗ trợ; app không thể chỉ sửa database nội bộ để thu hồi token của provider.
 
-Thứ nhất là kiểm tra credential theo một scheme. Khi dùng cookie, bearer hay OIDC chuẩn, ưu tiên middleware và thư viện đã có; chỉ cân nhắc authentication handler riêng khi thật sự có scheme khác cần được xử lý.
+**Chỉ hình:** Xóa session; blacklist access token; đánh dấu refresh token đã thu hồi. Kết bằng dòng cuối: thu hồi refresh token chỉ chặn việc cấp token mới, access token đã cấp cần thu hồi riêng hoặc chờ hết hạn.
 
-Thứ hai là ánh xạ identity: subject do IdP phát hành phải được liên kết an toàn với account và bidder nội bộ. Thứ ba là quyền: bidder đó có được làm hành động này trên auction đã tải không? Đây là nhiệm vụ policy/resource handler, không phải lý do tự viết giao thức đăng nhập.
+**Chuyển:** Chọn kiến trúc theo nơi lưu credential và yêu cầu thu hồi của ứng dụng.
 
-Trong ví dụ, middleware kiểm tra kết quả bên ngoài, lớp identity tìm bidder nội bộ, rồi authorization handler kiểm tra phạm vi tài nguyên. Claims transformation có thể hỗ trợ bổ sung/ánh xạ claim nhưng không được biến dữ liệu tùy ý từ client thành quyền đáng tin. Việc liên kết tài khoản và thay yếu tố xác thực cần chính sách riêng. [S16][S17]
-
-**Chuyển:** Mình đã kiểm tra đúng credential và quyền. Nhưng chuyện gì xảy ra nếu credential hợp lệ đang nằm trong tay hai người?
-
-## 15. Refresh Token Rotation — 2 phút
-
-**Chỉ hình:** Chỉ lần xuất hiện thứ hai của R1. Đây là tín hiệu trong hệ thống có rotation. Giải thích khả năng retry hoặc race bằng lời.
-
-Server thường không có tín hiệu trực tiếp rằng một cookie vừa được sao chép. Một request có credential hợp lệ có thể đến từ Anna hoặc từ người đang giữ bản sao.
-
-Hệ thống có thể quan sát phiên lạ do người dùng báo, thay đổi mạng/thiết bị, hành vi tải dữ liệu bất thường hoặc thay email khôi phục/MFA. Đây là tín hiệu để đánh giá, yêu cầu xác thực bổ sung hay chặn theo policy. IP mới có thể do mạng di động hoặc VPN; User-Agent có thể giả. Không có một tín hiệu đó là đủ kết luận chắc chắn.
-
-Nếu hệ thống dùng refresh-token rotation, sau khi R1 được dùng và thay bằng R2, việc R1 xuất hiện lại cho biết token cũ đã được trình. Có thể có bản sao, nhưng cũng phải xử lý race/retry để tránh báo động nhầm. Server không tự biết bên nào là attacker. Nó có thể thu hồi chuỗi token liên quan, nhưng access token đã phát cần cách xử lý riêng. [S9][S18]
-
-**Chuyển:** Phát hiện chỉ hữu ích khi mình thực sự chặn được đường truy cập còn lại.
-
-## 16. Session Revocation — 2 phút
-
-**Chỉ hình:** So sánh cùng một bid trước và sau khi revoke. Giải thích thêm bằng lời với token tự kiểm tra và kết nối SignalR đang mở.
-
-Xóa cookie trên browser của Anna không xóa bản sao ở client khác. Muốn chặn, server hoặc API phải kiểm tra một điều kiện đã thay đổi: session còn active không, token có bị chặn không, phiên bản còn khớp không, hoặc kết quả introspection còn active không.
-
-Nếu API chỉ kiểm tra JWT tại chỗ, chữ ký và thời hạn có thể vẫn hợp lệ sau khi mình bấm revoke ở nơi khác. Access token có thể tiếp tục dùng tới hạn nếu kiến trúc không có đường nhận trạng thái thu hồi. Token ngắn hạn giới hạn cửa sổ, không chặn ngay lập tức. Thu hồi refresh token chặn việc xin token mới theo cơ chế đó, không tự hủy token cũ.
-
-Với SignalR, kết nối đã mở có thể vẫn giữ danh tính cũ. Cần ngắt server-side hoặc kiểm tra lại trước lệnh nhạy cảm theo thiết kế. Đừng chỉ gửi event yêu cầu client logout rồi giả định attacker sẽ làm theo. Cache và request đang chạy cũng ảnh hưởng thời điểm chặn thật.
-
-Sau sự cố còn phải xử lý nguồn lộ, credential/factor attacker đã thêm và khôi phục chủ tài khoản. Revoke không lấy lại được dữ liệu đã tải xuống. [S19][S20][S21]
-
-**Chuyển:** Yêu cầu về tốc độ thu hồi có thể thay đổi kiến trúc. Giờ so sánh bốn kiểu dự án và chọn cách làm cho BidLab.
-
-## 17. Four Project Setups and When to Use Them — 3 phút
+## 15. Four Project Setups and When to Use Them — 3 phút
 
 **Chỉ hình:** Đi theo loại dự án người nghe đang làm, rồi đọc phương án và lý do tương ứng. Kết bằng câu hỏi về thu hồi tức thời để dẫn sang BidLab.
 
@@ -197,7 +165,7 @@ Hỏi cả phòng: nếu khóa tài khoản Anna lúc này, request đặt giá 
 
 **Chuyển:** Dùng các quyết định này để lần theo lượt bid của Anna trong kịch bản BidLab.
 
-## 18. Three Outcomes in BidLab — 5 phút
+## 16. Three Outcomes in BidLab — 5 phút
 
 **Chỉ hình:** Đi qua ba kết quả dự kiến. Đây là kịch bản minh họa, có thể trình bày sơ đồ khi chưa có lab chạy được.
 
@@ -217,7 +185,7 @@ Nếu cookie HttpOnly được dùng, harness lab cấp bản sao có kiểm so�
 
 Nếu chưa có chức năng chặn trên kết nối dài hạn, ghi nhận đó là phần chưa đạt, không gọi việc logout browser là đã thu hồi đầy đủ. Chuẩn bị recording/screenshot từ chính lab khi lab đã chạy, không tạo ảnh kết quả giả.
 
-## 19. Auth Lifecycle Recap — 4 phút
+## 17. Auth Lifecycle Recap — 4 phút
 
 **Chỉ hình:** Quay lại bốn bước trên trang bìa và gọi tên một kiểm tra ở mỗi bước trước khi mở Q&A.
 
@@ -226,56 +194,6 @@ Quay lại câu hỏi ban đầu. Mình kiểm tra danh tính bằng password, O
 Khi review một hệ thống auth, mình có thể lấy một hành động như Place Bid và lần theo đúng những điểm đó: bằng chứng ban đầu, credential của request, quyết định quyền và cách chặn lại. Nếu chưa chỉ ra được một điểm, mình đã tìm thấy câu hỏi cần làm rõ trong thiết kế.
 
 **Q&A khoảng 3.5 phút.** Dùng appendix đúng câu hỏi thay vì trình bày tiếp toàn bộ.
-
-## Appendix 20. TOTP Verification Checklist
-
-**Chỉ hình:** Tra ba trách nhiệm: bảo vệ khóa, chấp nhận lệch giờ có giới hạn và cập nhật trạng thái chống dùng lại.
-
-TOTP dùng số bước thời gian `T = floor((UnixTime - T0) / X)`, trong đó X thường là 30 giây. App và server dùng cùng tham số đã thiết lập khi đăng ký. Giữ khóa riêng cho từng authenticator và bảo vệ QR đăng ký vì nó mang thông tin bí mật. [S2]
-
-Giới hạn số lần thử và phạm vi lệch giờ được chấp nhận. Sau khi chấp nhận một mã, cập nhật trạng thái sao cho cùng bước thời gian không thể được chấp nhận lại do hai request đến đồng thời.
-
-## Appendix 21. Passkey Verification and Recovery
-
-**Chỉ hình:** Tra nhóm kiểm tra lúc đăng nhập hoặc nhóm chính sách khôi phục tùy câu hỏi.
-
-Mỗi lần ceremony cần challenge ngẫu nhiên gắn với giao dịch, thời hạn và kiểm soát sử dụng. Backend kiểm tra loại ceremony, origin, RP ID hash, dữ liệu trả về, chữ ký và user presence/verification theo yêu cầu. Không coi `signCount` là bộ phát hiện clone chắc chắn cho mọi passkey, đặc biệt với credential đồng bộ.
-
-User verification có thể dùng PIN/sinh trắc học cục bộ. Synced passkey và device-bound credential có đặc tính triển khai/khôi phục khác nhau; không nói khóa riêng luôn chỉ tồn tại trên đúng một thiết bị. Bảo vệ thêm/xóa passkey, thông báo thay đổi nhạy cảm, recovery và cấp lại phiên. Sinh trắc học không được dùng như một bí mật server có thể thu hồi giống password. [S3][S5]
-
-## Appendix 22. OAuth and OIDC Validation
-
-**Chỉ hình:** Theo từng dòng đến bên chịu trách nhiệm. Các kiểm tra còn tùy loại token, flow và policy.
-
-Client kiểm tra ID token theo OIDC: issuer đúng, audience phù hợp, chữ ký/thuật toán đúng, thời hạn và các claim/nonce cần kiểm tra theo flow. Dùng thư viện cấu hình đúng; decode payload không thay validation. API kiểm tra access token cho chính API của nó và kiểm tra scope/quyền/tài nguyên; không đưa ID token vào API như access token.
-
-PKCE ràng buộc code exchange với verifier. State liên quan đối chiếu giao dịch và chống request forgery theo thiết kế; nonce ràng buộc kết quả OIDC với yêu cầu theo flow. Các chuẩn cho phép những cơ chế tương tác cụ thể, nên không phát biểu ba trường này luôn thay nhau hay luôn bắt buộc giống nhau ở mọi flow. Redirect URI, client authentication khi có, HTTPS và việc bảo vệ token vẫn cần riêng. [S4][S9][S12]
-
-## Appendix 23. User SSO and Workload Identity
-
-**Chỉ hình:** Chọn theo chủ thể đang gọi: người dùng tương tác hoặc dịch vụ chạy tự động.
-
-SSO là trải nghiệm dùng danh tính tập trung qua nhiều ứng dụng. OIDC hoặc SAML Web SSO có thể thực hiện liên kết tùy nhà cung cấp. Phiên ở IdP và phiên ở ứng dụng là hai phạm vi; logout cần thiết kế theo các phạm vi đó.
-
-Một worker chạy nền có thể gọi API bằng danh tính riêng, không có người dùng đang login. OAuth Client Credentials là một lựa chọn khi có hệ thống OAuth phù hợp. Quyền của worker phải là quyền ứng dụng được cấp, không giả làm quyền của Anna. API key, certificate/mTLS và sender-constrained token có nhiệm vụ và vòng đời riêng; tra chương machine authentication thay vì thêm chúng vào danh sách cách login cho người dùng.
-
-## Appendix 24. Resource Authorization in ASP.NET Core
-
-**Chỉ hình:** Chỉ ranh giới giữa lấy tài nguyên, quyết định quyền và kiểm tra nghiệp vụ trước khi ghi.
-
-Trình tự tham chiếu: middleware xác thực → ánh xạ account nội bộ → tải resource trong ranh giới dữ liệu đúng → authorization service/handler đánh giá actor + action + resource → kiểm tra nghiệp vụ → ghi dữ liệu. Trình tự cụ thể có thể gộp query có phạm vi và policy nhưng không bỏ một ranh giới bắt buộc.
-
-Trong ASP.NET Core, gọi `IAuthorizationService.AuthorizeAsync` với resource và policy/requirement phù hợp; handler nhận resource đã xác định. `[Authorize]` có thể làm cổng chung nhưng một mình nó chưa thể biết mọi quan hệ của auction. Không nhận role/permission từ body của request. Chỉ thiếu đăng nhập và đã xác thực nhưng thiếu quyền là hai trạng thái khác nhau; có thể trả 404 theo chính sách tránh lộ tài nguyên. [S16][S17]
-
-## Appendix 25. Revocation Across Active Requests
-
-**Chỉ hình:** Lần theo từng điểm từ lúc ghi revoke đến lúc HTTP và kết nối đang mở thực sự từ chối credential cũ.
-
-Một lệnh revoke chỉ tạo hiệu lực ở nơi trạng thái mới được kiểm tra. Timeline cần thể hiện: nhận yêu cầu revoke → commit trạng thái → cập nhật/invalidate cache → API/handler thấy trạng thái → từ chối credential cũ → xử lý kết nối và request đang chạy theo chính sách.
-
-Với access token kiểm tra offline, chờ hết hạn là chặn có độ trễ. Với introspection/cache, TTL và phân phối trạng thái giới hạn tốc độ chặn. Với version, API phải thực sự so với giá trị hiện tại, chỉ nhét version vào JWT không có tác dụng thu hồi. Thu hồi signing key ảnh hưởng rộng và không nên được coi là cách mặc định để logout một tài khoản.
-
-Khi phát hiện refresh token cũ được trình sau rotation, hệ thống cần quản lý token family và xử lý race/retry theo policy. Xác minh lại quyền truy cập API, refresh và reconnect sau khi xử lý. Không tuyên bố đã giảm thời gian thu hồi nếu chưa đo trên các đường liên quan. [S9][S19][S20][S21]
 
 ## Nguồn và giới hạn case thật
 

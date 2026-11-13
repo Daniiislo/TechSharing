@@ -30,5 +30,5 @@
 <text x="432" y="575" font-size="22" fill="#102A43">Look up the user or group and their permissions on this resource.</text>
 <line x1="64" y1="613" x2="1216" y2="613" stroke="#CAD7E2"/>
 </g>
-<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">NIST · RBAC and ABAC | Google Research · Zanzibar | Microsoft Learn · ACL</text><text x="1216" y="698" font-size="16" fill="#526B80" text-anchor="end">12 / 19</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">NIST · RBAC and ABAC | Google Research · Zanzibar | Microsoft Learn · ACL</text><text x="1216" y="698" font-size="16" fill="#526B80" text-anchor="end">12 / 17</text></g>
 </svg>

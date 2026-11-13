@@ -26,11 +26,10 @@
 <line x1="710" y1="333" x2="1186" y2="333" stroke="#CAD7E2"/>
 <text x="710" y="380" font-size="22" font-weight="700" fill="#102A43">OIDC</text>
 <text x="862" y="380" font-size="22" fill="#243B53">Confirms who signed in</text>
-<text x="710" y="428" font-size="22" font-weight="700" fill="#102A43">OAuth 2.0</text>
-<text x="862" y="428" font-size="22" fill="#243B53">Delegates API access</text>
-<text x="710" y="476" font-size="22" font-weight="700" fill="#102A43">PKCE</text>
-<text x="862" y="476" font-size="22" fill="#243B53">Protects the code exchange</text>
+<text x="710" y="428" font-size="22" font-weight="700" fill="#102A43">SAML 2.0</text>
+<text x="862" y="428" font-size="22" fill="#243B53">Federated enterprise sign-in</text>
+<text x="710" y="476" font-size="20" fill="#526B80">The provider confirms the user identity.</text>
 </g>
 </g></g>
-<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AUTHENTICATION &amp; SIGN-IN</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">03 / 19</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AUTHENTICATION &amp; SIGN-IN</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">03 / 17</text></g>
 </svg>

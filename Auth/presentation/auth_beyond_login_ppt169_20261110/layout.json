@@ -55,11 +55,7 @@
         "06_passkey_register_and_sign_in",
         "07_federated_sign_in",
         "08_oauth_api_access",
-        "09_pkce_code_exchange",
-        "20_totp_verification",
-        "21_passkey_checks",
-        "22_oauth_oidc_validation",
-        "23_sso_workload_identity"
+        "09_service_to_service_authentication"
       ]
     },
     {
@@ -75,33 +71,29 @@
       "title": "Authorization",
       "slides": [
         "12_authorization_models",
-        "13_bid_authorization_policy",
-        "14_auth_extension_points",
-        "24_resource_authorization"
+        "13_auth_extension_points"
       ]
     },
     {
       "number": 4,
-      "title": "Session Security & Revocation",
+      "title": "Revocation",
       "slides": [
-        "15_refresh_token_reuse",
-        "16_revocation",
-        "25_revocation_propagation"
+        "14_revocation"
       ]
     },
     {
       "number": 5,
       "title": "Choosing an Auth Architecture",
       "slides": [
-        "17_choosing_auth_architecture"
+        "15_choosing_auth_architecture"
       ]
     },
     {
       "number": 6,
       "title": "BidLab Walkthrough & Q&A",
       "slides": [
-        "18_bidlab_walkthrough",
-        "19_bid_end_to_end"
+        "16_bidlab_walkthrough",
+        "17_bid_end_to_end"
       ]
     }
   ]

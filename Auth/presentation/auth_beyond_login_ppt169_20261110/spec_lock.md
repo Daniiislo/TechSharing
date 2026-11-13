@@ -60,7 +60,6 @@
 - P06: breathing
 - P07: breathing
 - P08: breathing
-- P09: breathing
 - P10: breathing
 - P11: breathing
 - P12: breathing
@@ -68,15 +67,9 @@
 - P14: breathing
 - P15: breathing
 - P16: breathing
-- P17: breathing
-- P18: breathing
-- P19: anchor
-- P20: dense
-- P21: dense
-- P22: dense
-- P23: dense
-- P24: dense
-- P25: dense
+- P17: anchor
+
+- P09: breathing
 
 ## pptx_structure
 - mode: flat

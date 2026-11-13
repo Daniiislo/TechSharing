@@ -48,5 +48,5 @@
 <path d="M 1027 622 H 1061 M 1051 613 L 1061 622 L 1051 631" fill="none" stroke="#007F9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <text x="1084" y="632" font-size="28" font-weight="700" fill="#007F9E">MFA</text>
 </g>
-<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">Source: NIST SP 800-63B-4</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">04 / 19</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">Source: NIST SP 800-63B-4</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">04 / 17</text></g>
 </svg>

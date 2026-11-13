@@ -7,7 +7,7 @@
 <g transform="translate(0 10)"><g id="authentication">
 <text x="64" y="216" font-size="18" font-weight="700" fill="#007F9E">01</text>
 <text x="124" y="216" font-size="28" font-weight="700" fill="#102A43">Authentication &amp; Sign-In</text>
-<text x="580" y="216" font-size="22" fill="#243B53">Password, OTP, MFA, passkeys and federated sign-in</text>
+<text x="580" y="216" font-size="22" fill="#243B53">User sign-in and service-to-service authentication</text>
 <line x1="64" y1="239" x2="1216" y2="239" stroke="#CAD7E2"/>
 </g>
 <g id="sessions-and-tokens">
@@ -24,8 +24,8 @@
 </g>
 <g id="session-security">
 <text x="64" y="435" font-size="18" font-weight="700" fill="#007F9E">04</text>
-<text x="124" y="435" font-size="28" font-weight="700" fill="#102A43">Session Security &amp; Revocation</text>
-<text x="580" y="435" font-size="22" fill="#243B53">Expiry, logout and revoking access after an incident</text>
+<text x="124" y="435" font-size="28" font-weight="700" fill="#102A43">Revocation</text>
+<text x="580" y="435" font-size="22" fill="#243B53">Revoking sessions, access tokens and refresh tokens</text>
 <line x1="64" y1="458" x2="1216" y2="458" stroke="#CAD7E2"/>
 </g>
 <g id="choosing-architecture">
@@ -40,5 +40,5 @@
 <text x="580" y="581" font-size="22" fill="#243B53">Choose a design and follow one bid through it</text>
 </g>
 </g></g>
-<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AGENDA</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">02 / 19</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AGENDA</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">02 / 17</text></g>
 </svg>
