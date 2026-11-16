@@ -34,11 +34,11 @@
 <text x="580" y="508" font-size="22" fill="#243B53">Which approach fits your app, and why</text>
 <line x1="64" y1="531" x2="1216" y2="531" stroke="#CAD7E2"/>
 </g>
-<g id="bidlab-and-qa">
+<g id="recap-and-qa">
 <text x="64" y="581" font-size="18" font-weight="700" fill="#007F9E">06</text>
-<text x="124" y="581" font-size="28" font-weight="700" fill="#102A43">BidLab Walkthrough &amp; Q&amp;A</text>
-<text x="580" y="581" font-size="22" fill="#243B53">Choose a design and follow one bid through it</text>
+<text x="124" y="581" font-size="28" font-weight="700" fill="#102A43">Recap &amp; Q&amp;A</text>
+<text x="580" y="581" font-size="22" fill="#243B53">Connect the auth lifecycle and discuss questions</text>
 </g>
 </g></g>
-<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AGENDA</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">02 / 17</text></g>
+<g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/><text x="64" y="698" font-size="16" fill="#526B80">AUTH / AGENDA</text><text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">02 / 16</text></g>
 </svg>

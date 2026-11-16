@@ -8,7 +8,7 @@
 ## communication
 - primary_language: en
 - audience: Geronimo developers with varied .NET experience
-- objective: Explain core auth mechanisms and trace a bid through session, resource authorization and revocation in a 43-minute live talk
+- objective: Explain core auth mechanisms and trace a request through continued sign-in, resource authorization and revocation in a 38-minute live talk
 - core_message: Identity proof, session continuity, resource permission and revocation are distinct responsibilities on one request path
 - consumption_mode: presentation
 
@@ -66,8 +66,7 @@
 - P13: breathing
 - P14: breathing
 - P15: breathing
-- P16: breathing
-- P17: anchor
+- P16: anchor
 
 - P09: breathing
 

@@ -1,148 +1,173 @@
-# Authorization — Phân quyền trong ứng dụng web và API
+# 05. Đã biết người dùng là ai, còn phải kiểm tra họ được làm gì
 
-Sau khi xác thực Anna, server biết ai đang gửi yêu cầu. Khi Anna muốn đặt giá vào phiên đấu giá 42, **authorization** quyết định cô ấy có quyền thực hiện hành động đó trên phiên này hay không. Một quyết định thường có bốn đầu vào: **chủ thể**, **hành động**, **tài nguyên** và **ngữ cảnh**.
+**Biên tập lại 16/11/2026 — đọc cùng slide 12.** Slide 13 nói về các điểm mở rộng authentication; custom authorization là trách nhiệm khác. Chương này giải thích bốn mô hình bằng cùng một ví dụ trước, rồi mới chuyển tới code .NET và bài toán đấu giá.
 
-## 1. Các mô hình thường gặp
+[Mục lục chuyên đề](auth-deep-dive.md) · [Học theo slide](auth-study-guide.md#slide-12)
 
-| Mô hình hoặc cơ chế | Dựa vào đâu để quyết định? | Ví dụ | Khi phù hợp |
-|---|---|---|---|
-| **RBAC** (Role-Based Access Control) | Vai trò của tài khoản và các quyền gắn với vai trò đó. | Role `Bidder` có permission `bid:place`. | Quyền ổn định theo chức năng, chẳng hạn Bidder, Organizer, Admin. |
-| **ABAC** (Attribute-Based Access Control) | Thuộc tính của chủ thể, tài nguyên, hành động hoặc môi trường. | Anna được đọc tài liệu cùng phòng ban nếu mức truy cập của cô đủ cao. | Quyền phụ thuộc phòng ban, mức bảo mật của tài liệu hoặc thời gian truy cập. |
-| **ReBAC** (Relationship-Based Access Control) | Quan hệ giữa chủ thể và tài nguyên, có thể đi qua các quan hệ trung gian. | Anna có quan hệ `invited_bidder` với phiên 42. | Quyền phụ thuộc vào chủ sở hữu, lời mời, thành viên nhóm hoặc quyền kế thừa từ thư mục cha. |
-| **ACL** (Access Control List) | Danh sách lưu trên hoặc gắn với từng tài nguyên, ghi rõ user hoặc nhóm được làm gì. | Phiên 42 có mục cấp `bid:place` cho Anna. | Cần cấp trực tiếp một số quyền cho từng tài nguyên. ACL là cách biểu diễn quyền và có thể dùng cùng các mô hình trên. |
+## 1. Hỏi một câu cụ thể trước khi gọi tên mô hình
 
-**DAC** (Discretionary Access Control) mô tả việc chủ thể có thẩm quyền có thể cấp quyền tiếp, ví dụ chủ tài liệu mời người khác chỉnh sửa. **MAC** (Mandatory Access Control) áp dụng quy tắc bắt buộc do hệ thống kiểm soát, ví dụ đối chiếu nhãn phân loại tài liệu với mức clearance. Hai khái niệm này giúp trả lời ai có quyền thay đổi việc cấp quyền. ACL có thể được dùng để triển khai DAC.
+**An có được sửa tài liệu Kế hoạch Q4 không?** Đây là câu hỏi phân quyền. Việc An đã login thành công chỉ xác định danh tính, không tự cho quyền sửa.
 
-## 2. RBAC — Cấp quyền qua role
+| Đầu vào | Ví dụ |
+|---|---|
+| Chủ thể | An, lấy từ danh tính đã xác thực |
+| Hành động | document.edit, xác định bởi thao tác server |
+| Tài nguyên | Document 42 — Kế hoạch Q4 |
+| Ngữ cảnh | Thời điểm, trạng thái, tenant, thiết bị… nếu policy cần |
 
-**Cơ chế.** Khi Anna thực hiện `bid:place`, server tìm các role của Anna trong tenant của phiên đấu giá. Server kiểm tra xem có role nào cấp permission đó hay không. Anna có role `Bidder`, và role `Bidder` có permission `bid:place`, nên điều kiện RBAC đạt. [NIST — Role-Based Access Control](https://csrc.nist.gov/projects/role-based-access-control/faqs).
+Permission là một khả năng được phép, chẳng hạn document.edit. Role gom quyền theo chức năng. Policy là quy tắc ra quyết định. Scope OAuth giới hạn phạm vi API đã cấp cho client; không tự thay quyền trên từng tài liệu.
 
-```text
-Anna ── có role trong tenant T1 ──► Bidder ── cấp ──► bid:place
-```
+Server lấy user từ principal được xác minh, tải tài liệu đúng phạm vi và dùng dữ liệu tin cậy để quyết định. Không tin isOwner, department, tenantId hay userId chỉ vì client gửi. Ẩn nút Edit và dùng ID khó đoán không thay kiểm tra server-side.
 
-**Dữ liệu cần lưu.** Ví dụ này dùng bộ role chung cho mọi tenant, với mỗi lần gán role giới hạn trong một tenant.
+## 2. RBAC — An có vai trò nào, vai trò đó cấp quyền gì?
 
-| Bảng | Cột chính | Dữ liệu mẫu |
+RBAC là Role-Based Access Control. Ví dụ:
+
+~~~text
+An → Editor trong Project A
+Editor → document.read, document.edit
+Document 42 thuộc phạm vi Project A
+~~~
+
+Server tìm role của An trong phạm vi cần xét, tra permission gắn role rồi kiểm tra document.edit. Một cách tổ chức dữ liệu:
+
+| Bảng | Dữ liệu ví dụ |
+|---|---|
+| UserRoles(UserId, ProjectId, RoleId) | An, A, Editor |
+| RolePermissions(RoleId, Permission) | Editor, document.edit |
+
+**Điều quyết định quyền:** permission An có qua role trong đúng phạm vi. Editor Project A không tự là Editor mọi project. Nếu có rule theo tài nguyên/trạng thái, thêm rule đó thay vì cho rằng role đã giải quyết hết.
+
+Khi thêm một người có cùng chức năng, gán role. Khi thay bộ quyền của chức năng, đổi RolePermissions. Không nhất thiết dùng role name trực tiếp rải khắp code; ứng dụng có thể kiểm tra permission theo thiết kế.
+
+Nguồn: [NIST RBAC](https://csrc.nist.gov/projects/role-based-access-control/faqs).
+
+## 3. ABAC — Những thuộc tính nào phải thỏa điều kiện?
+
+ABAC là Attribute-Based Access Control. Ví dụ policy cho sửa nếu cùng phòng ban, đủ clearance và tài liệu còn Draft.
+
+| Dữ liệu An | Dữ liệu tài liệu |
+|---|---|
+| department = Finance | department = Finance |
+| clearance = 3 | classificationLevel = 2 |
+| accountActive = true | status = Draft |
+
+~~~text
+allow edit = accountActive
+             AND user.department == document.department
+             AND user.clearance >= document.classificationLevel
+             AND document.status == Draft
+~~~
+
+Server tải hồ sơ An và document 42 từ nguồn tin cậy, kiểm tra thuộc tính bắt buộc rồi đánh giá rule. Thiếu dữ liệu cần thiết không có nghĩa tự cho phép. Hành động và môi trường cũng có thể cung cấp thuộc tính; không chỉ có thông tin user.
+
+Nếu tài liệu đổi Draft → Published, lần kiểm tra dùng trạng thái mới sẽ từ chối An dù role không đổi. Nếu tài liệu nâng level từ 2 lên 4, clearance 3 không còn đủ. Đó là lý do ABAC diễn đạt tốt điều kiện/hạn mức mà không cần tạo role cho mọi tổ hợp.
+
+Đổi giá trị trong DB chưa chắc mọi quyết định thấy ngay: cache hoặc claim cũ có thể tạo độ trễ. Phải biết policy đọc từ đâu và mới tới mức nào.
+
+Nguồn: [NIST SP 800-162 — ABAC](https://csrc.nist.gov/pubs/sp/800/162/upd2/final).
+
+## 4. ReBAC — An có quan hệ gì với tài nguyên?
+
+ReBAC là Relationship-Based Access Control. Dùng cùng tài liệu nhưng biểu diễn quyền bằng quan hệ:
+
+~~~text
+An → thành viên → Team Finance
+Team Finance → có quyền editor → Folder Budget
+Document 42 → thuộc → Folder Budget
+
+Rule: thành viên team có quyền editor trên folder được sửa tài liệu trong folder.
+~~~
+
+Server không tự suy cứ “thuộc folder” là có quyền. **Model phải quy định quan hệ nào dẫn tới permission nào.** Dữ liệu quan hệ có thể được lưu như:
+
+| Đối tượng | Quan hệ | Đối tượng liên quan |
 |---|---|---|
-| `Roles` | `Id`, `Name` | `bidder`, `Bidder` |
-| `UserRoles` | `UserId`, `TenantId`, `RoleId` | `anna`, `T1`, `bidder` |
-| `RolePermissions` | `RoleId`, `Permission` | `bidder`, `bid:place` |
+| Team Finance | member | An |
+| Folder Budget | editor | Thành viên Team Finance |
+| Document 42 | parent | Folder Budget |
 
-**Triển khai.** Server truyền ID người dùng từ principal đã xác thực, tenant từ bản ghi phiên đấu giá và permission từ thao tác đang xử lý. Có ít nhất một dòng kết quả thì điều kiện RBAC đạt.
+Một ứng dụng nhỏ có thể dùng các bảng SQL và JOIN/EXISTS; ReBAC không bắt buộc graph database. Khi có nhiều loại tài nguyên, nhóm lồng nhau, nhiều cấp kế thừa và truy vấn quyền phức tạp, có thể cân nhắc engine phù hợp.
 
-```sql
-SELECT 1
-FROM UserRoles AS ur
-JOIN RolePermissions AS rp ON rp.RoleId = ur.RoleId
-WHERE ur.UserId = @userId
-  AND ur.TenantId = @auctionTenantId
-  AND rp.Permission = @permission;
-```
+Nếu An rời team, đường quyền qua team mất hiệu lực khi nơi kiểm tra thấy dữ liệu mới. Nếu An còn editor trực tiếp trên document thì vẫn có thể sửa: policy có thể có nhiều đường OR. Muốn thu hồi hết phải biết tất cả đường cấp liên quan, không chỉ xóa một membership.
 
-Tạo ràng buộc duy nhất cho `(UserId, TenantId, RoleId)` và `(RoleId, Permission)`. Khi thêm người dùng có cùng chức năng, gán cùng role. Khi thay đổi quyền của một chức năng, sửa `RolePermissions` để áp dụng cho toàn bộ người có role đó. Dùng RBAC khi nhóm quyền bám theo chức năng như `Bidder`, `Organizer` hoặc `Admin`. Với quyền riêng trên từng phiên, giữ role chung và bổ sung kiểm tra trên phiên cụ thể.
+Nguồn: [Google Research — Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/).
 
-## 3. ABAC — Đánh giá thuộc tính theo policy
+## 5. ACL — Danh sách quyền của tài liệu ghi ai được làm gì?
 
-**Cơ chế.** Server lấy các thuộc tính cần cho policy rồi đánh giá một biểu thức. Ví dụ công ty cho phép nhân viên đọc tài liệu khi **cùng phòng ban** và **mức truy cập của nhân viên bằng hoặc cao hơn mức bảo mật của tài liệu**. Phòng ban và mức truy cập là thuộc tính của nhân viên. Phòng ban sở hữu và mức bảo mật là thuộc tính của tài liệu. [NIST SP 800-162 — Guide to Attribute Based Access Control](https://csrc.nist.gov/pubs/sp/800/162/upd2/final).
+ACL là Access Control List. Ví dụ khi bấm Share trên document 42:
 
-Anna thuộc phòng A và có mức truy cập `2`. Cùng một người mở ba tài liệu sẽ cho ba kết quả sau.
+| Principal | Quyền được cấp |
+|---|---|
+| An | Read, Edit |
+| Bình | Read |
+| Team Management | Read, Edit |
 
-| Phòng ban của tài liệu | Mức bảo mật | Kết quả |
-|---|---:|---|
-| A | 2 | Cho phép vì cùng phòng ban và `2 >= 2`. |
-| A | 3 | Từ chối vì mức truy cập `2` thấp hơn mức yêu cầu `3`. |
-| B | 1 | Từ chối vì khác phòng ban, dù `2 >= 1`. |
+Server tra grant cho user hiện tại hoặc group user thuộc về, trên đúng resource và action. Ví dụ dữ liệu:
 
-**Dữ liệu cần lưu.** `Employees(UserId, DepartmentId, ClearanceLevel)` lưu hồ sơ truy cập của nhân viên. `Documents(Id, DepartmentId, ClassificationLevel)` lưu phòng ban sở hữu và mức bảo mật của từng tài liệu.
+~~~text
+ResourceGrants(ResourceType, ResourceId, PrincipalType, PrincipalId, Permission)
+document | 42 | user  | An             | edit
+document | 42 | group | TeamManagement | edit
+~~~
 
-**Triển khai.** Khi xử lý `document:read`, server dùng ID từ principal đã xác thực để tải hồ sơ nhân viên và dùng `documentId` từ request để tải bản ghi tài liệu. Nếu tài liệu hoặc bất kỳ thuộc tính bắt buộc nào bị thiếu, server không cấp quyền đọc. Sau khi có đủ dữ liệu hợp lệ, server áp dụng policy.
+Ví dụ này dùng allow-only: không có grant phù hợp thì từ chối. Nếu muốn edit bao hàm read, policy phải định nghĩa hoặc cấp cả hai; không tự suy từ tên permission.
 
-```csharp
-var canRead = employee.DepartmentId == document.DepartmentId
-    && employee.ClearanceLevel >= document.ClassificationLevel;
-```
+Một ACL cụ thể có thể hỗ trợ deny, thứ tự xử lý và kế thừa. Tuân semantics hệ thống, không khẳng định mọi ACL đều “deny luôn thắng” hoặc không có kế thừa. Xóa grant riêng của An cũng chưa chắc mất quyền qua group.
 
-Nếu công ty chỉ yêu cầu cùng phòng ban, policy dùng phép so sánh đầu tiên. Điều kiện mức bảo mật là một quy tắc bổ sung. Khi tài liệu của phòng A được nâng từ mức `2` lên `3`, lần kiểm tra đọc tiếp theo dùng mức mới và từ chối Anna.
+API chia sẻ phải kiểm tra quyền quản lý chia sẻ của bên gọi trước khi thêm/xóa grant. Người được xem tài liệu không tự được cấp quyền cho người khác.
 
-## 4. ReBAC — Suy ra quyền từ quan hệ
+Nguồn: [Microsoft — Access Control Lists](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists).
 
-**Cơ chế.** Policy định nghĩa quan hệ nào cấp một khả năng. BidLab có thể cho phép Anna đáp ứng điều kiện lời mời theo hai đường. Cô ấy có lời mời trực tiếp, hoặc cô ấy là thành viên của một team được mời. Cùng một quy tắc có thể kiểm tra lời mời trên phiên 42 và phiên 99, với kết quả tùy dữ liệu từng phiên. [Google Research — Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/).
+## 6. Các điểm dễ bối rối cần đặt cạnh nhau
 
-```text
-Lời mời trực tiếp   Anna ── được mời ───────────────────────► Phiên 42
-Lời mời qua nhóm    Anna ── thành viên ──► Team A ── được mời ──► Phiên 42
-```
+### 6.1. ABAC khác ReBAC thế nào?
 
-**Dữ liệu cần lưu.** Một ứng dụng dùng cơ sở dữ liệu quan hệ có thể lưu ba loại quan hệ bằng `AuctionUserInvitations(AuctionId, UserId)`, `AuctionTeamInvitations(AuctionId, TeamId)` và `TeamMembers(TeamId, UserId)`. Ví dụ dưới đây giả định ID phiên và team là duy nhất toàn hệ thống, và thao tác tạo lời mời đã kiểm tra team thuộc cùng tenant với phiên. Chỉ các lời mời và membership còn hiệu lực xuất hiện trong các bảng dùng để kiểm tra. Nếu lưu lịch sử trong cùng bảng, thêm điều kiện trạng thái hoặc hạn dùng vào truy vấn.
-
-**Triển khai.** Trong biểu thức `WHERE` của truy vấn kiểm tra quyền, kiểm tra có ít nhất một đường hợp lệ:
-
-```sql
-EXISTS (
-    SELECT 1 FROM AuctionUserInvitations
-    WHERE AuctionId = @auctionId AND UserId = @userId
-)
-OR EXISTS (
-    SELECT 1
-    FROM AuctionTeamInvitations AS ai
-    JOIN TeamMembers AS tm ON tm.TeamId = ai.TeamId
-    WHERE ai.AuctionId = @auctionId AND tm.UserId = @userId
-)
-```
-
-Nếu Anna rời Team A, nhánh qua team sẽ mất hiệu lực. Một lời mời trực tiếp còn hiệu lực vẫn đáp ứng điều kiện vì policy dùng `OR`. Dùng bảng và phép `JOIN` khi các đường suy ra quyền ngắn và cố định. Với nhiều loại tài nguyên, nhóm lồng nhau hoặc quyền kế thừa nhiều cấp, cân nhắc dịch vụ authorization có thể đánh giá các đường quan hệ và xác định dữ liệu quyền phải mới đến mức nào.
-
-## 5. ACL — Tra danh sách quyền của từng tài nguyên
-
-**Cơ chế.** Mỗi tài nguyên có thể có danh sách các mục cấp quyền. Một mục xác định **ai** được thực hiện **hành động nào**. Ví dụ dưới đây dùng ACL chỉ chứa các mục `allow`. Nếu không có mục khớp, policy từ chối. [Microsoft Learn — Access Control Lists](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists).
-
-**Dữ liệu cần lưu.** Ví dụ tính năng chia sẻ báo cáo kết quả đấu giá dùng bảng `ResourceGrants(ResourceType, ResourceId, PrincipalType, PrincipalId, Permission)`.
-
-| Tài nguyên | Loại principal | Principal | Permission |
-|---|---|---|---|
-| `report:42` | `user` | `anna` | `report:view` |
-| `report:42` | `group` | `organizers-t1` | `report:edit` |
-
-**Triển khai.** Server truy vấn theo loại tài nguyên, ID và permission. Sau đó kiểm tra mục tương ứng với user hiện tại hoặc một nhóm mà user đang thuộc về. Nhóm cũng có thể được đối chiếu bằng `JOIN` với bảng membership. Với dữ liệu trên, Anna xem được báo cáo 42. Nếu cô ấy không thuộc nhóm `organizers-t1` và không có mục cấp `report:edit` khác, yêu cầu chỉnh sửa bị từ chối. Nếu muốn người có quyền chỉnh sửa đồng thời được xem, policy cần thể hiện điều đó hoặc hệ thống cấp cả hai permission.
-
-```sql
-SELECT 1
-FROM ResourceGrants AS g
-WHERE g.ResourceType = 'report'
-  AND g.ResourceId = @reportId
-  AND g.Permission = @permission
-  AND (
-      (g.PrincipalType = 'user' AND g.PrincipalId = @userId)
-      OR (g.PrincipalType = 'group' AND EXISTS (
-          SELECT 1 FROM GroupMembers AS gm
-          WHERE gm.GroupId = g.PrincipalId AND gm.UserId = @userId
-      ))
-  );
-```
-
-Khi xây API chia sẻ, kiểm tra riêng quyền quản lý chia sẻ của người gọi trước khi thêm hoặc xóa grant. Việc xóa grant của Anna chỉ loại bỏ đường cấp trực tiếp. Nếu quyền còn đến từ một nhóm, truy vấn vẫn tìm được mục phù hợp. ACL hữu ích khi người quản lý cần cấp và xem quyền cụ thể trên từng tài nguyên. ReBAC cũng có thể biểu diễn quyền chia sẻ trực tiếp. Khác biệt trong hai ví dụ ở đây là ACL lưu **permission đã cấp**, còn policy ReBAC suy ra khả năng từ **quan hệ nghiệp vụ** như lời mời hoặc membership.
-
-## 6. Một request có thể kết hợp nhiều điều kiện
-
-Trong kịch bản BidLab minh họa, policy cho phép đặt giá khi **cả ba** điều kiện đều đạt.
-
-| Kiểm tra | Phiên 42 | Phiên 99 |
+| | ABAC | ReBAC |
 |---|---|---|
-| Role Bidder cấp quyền `bid:place` (RBAC) | Có | Có |
-| Anna là thành viên đang hoạt động của tenant chứa phiên (điều kiện thuộc tính) | Có | Có |
-| Anna được mời vào đúng phiên (điều kiện quan hệ) | Có | Không |
-| **Kết quả phân quyền** | **Cho phép** | **Từ chối** |
+| Trọng tâm mô hình | Thuộc tính và điều kiện | Quan hệ và rule suy quyền |
+| Với An sửa document | Cùng phòng ban, đủ clearance, còn Draft? | Có đường quan hệ hợp lệ tới document/folder/project? |
+| Ví dụ thay đổi làm mất quyền | Draft → Published | An rời team được cấp editor |
+| Nhu cầu nổi bật | Hạn mức, trạng thái, ngữ cảnh | Cộng tác, team/project, kế thừa |
 
-Với một ứng dụng nội bộ có chức năng ổn định, RBAC có thể đủ cho các thao tác chung. Khi nhiều tenant dùng chung hệ thống, kiểm tra thuộc tính tenant giới hạn phạm vi của role. Khi hai người cùng role và cùng tenant nhưng có quyền khác nhau trên từng tài nguyên, lưu quan hệ hoặc mục ACL phù hợp với cách ứng dụng cấp quyền.
+Một bên chủ yếu so giá trị với rule; bên kia chủ yếu xét quan hệ theo model. Nhưng ranh giới không tuyệt đối: thuộc tính có thể được suy từ quan hệ và ReBAC có thể kèm điều kiện. Cùng yêu cầu có thể được biểu diễn theo nhiều cách. Chọn cách phù hợp dữ liệu/nghiệp vụ, không cố phân loại mọi dòng if bằng một nhãn duy nhất.
 
-Sau khi phân quyền cho phép, nghiệp vụ vẫn kiểm tra phiên còn mở và số tiền đặt giá hợp lệ. Hai bước trả lời hai câu hỏi khác nhau: Anna có quyền đặt giá ở đây không, và lượt đặt giá cụ thể này có hợp lệ không?
+### 6.2. ACL khác ReBAC thế nào?
 
-## 7. Role, permission, policy và OAuth scope
+ACL thường lưu grant trên tài nguyên; ReBAC thường lưu quan hệ nghiệp vụ rồi suy permission bằng model. ACL có group/kế thừa và ReBAC có viewer/editor trực tiếp có thể trông giống nhau. Không dạy “ACL luôn trực tiếp, ReBAC luôn gián tiếp”.
 
-- **Role** gom một tập quyền theo chức năng. **Permission** mô tả một khả năng, ví dụ `bid:place`. Ứng dụng có thể áp dụng permission ở phạm vi tenant hoặc tài nguyên.
-- **Policy** là quy tắc server đánh giá. **Resource-based authorization** là việc đánh giá quy tắc với một tài nguyên cụ thể. Policy có thể dùng cả role, thuộc tính, quan hệ và dữ liệu cấp quyền trực tiếp.
-- **OAuth scope** giới hạn phạm vi truy cập API đã cấp cho client. Nếu API yêu cầu scope `bids:write`, scope đó cho biết token được cấp phạm vi ghi bid. API vẫn kiểm tra quyền đối với phiên 42. [RFC 6749, mục 3.3](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.3).
+### 6.3. Policy, DAC và MAC nằm ở đâu?
+
+Policy là quy tắc đánh giá, không phải mô hình thứ năm ngang hàng mọi cơ chế. Nó có thể kết hợp role, thuộc tính, quan hệ và ACL. DAC mô tả khả năng bên có thẩm quyền cấp lại quyền; MAC mô tả quy tắc bắt buộc do hệ thống quản lý. ACL có thể được dùng để triển khai một phần DAC, nhưng không phải từ đồng nghĩa.
+
+### 6.4. Có phải phải chọn duy nhất một loại?
+
+Không. Với document: RBAC cho phép chức năng sửa; ReBAC/ACL giới hạn tài liệu được sửa; ABAC yêu cầu còn Draft. Model phải định nghĩa rõ AND/OR và những điều kiện tenant/tài khoản nào luôn bắt buộc.
+
+Để nối với ví dụ code bên dưới, đổi sang tình huống đấu giá minh họa. Anna được bid khi cả ba điều kiện đạt: có permission bid:place trong tenant của auction; membership tenant còn active; có lời mời vào đúng auction (trực tiếp hoặc qua team theo model). Đây là một policy kết hợp, không phải demo đã triển khai.
+
+### 6.5. Phân quyền khác nghiệp vụ và scope
+
+Anna có quyền bid nhưng bid thấp hơn mức tối thiểu vẫn có thể bị nghiệp vụ từ chối. Scope bids:write cho biết token được cấp phạm vi API; không tự cho quyền vào mọi auction. Một điều kiện trạng thái có thể đặt ở policy hoặc domain theo thiết kế, nhưng phải có trách nhiệm rõ và thực thi nhất quán.
+
+Nguồn: [OAuth scope](https://www.rfc-editor.org/rfc/rfc6749.html#section-3.3), [OWASP Authorization](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html).
+
+## 7. Ưu, nhược điểm và khi nào dùng
+
+| Cách | Điểm mạnh | Chi phí/rủi ro quản trị | Nhu cầu phù hợp |
+|---|---|---|---|
+| RBAC | Dễ gán bộ quyền chung, thay đổi theo vai trò | Role explosion nếu mã hóa mọi ngoại lệ thành role | Chức năng công việc ổn định: Admin, Editor, kế toán |
+| ABAC | Rule chung cho nhiều điều kiện/tài nguyên | Thuộc tính sai/cũ, policy chồng chéo, cần giải thích quyết định | Hạn mức duyệt, mức bảo mật, trạng thái, thiết bị/mạng |
+| ReBAC | Tự nhiên cho quan hệ và kế thừa | Nhiều đường cấp quyền, cập nhật quan hệ/cache | Workspace, team, project, folder, sở hữu |
+| ACL | Trực quan trên từng tài nguyên, dễ chia sẻ ngoại lệ | Nhiều grant riêng lẻ, thu hồi qua group dễ sót | Share file/report cho người hoặc nhóm cụ thể |
+
+Với hệ thống nhỏ, có thể bắt đầu bằng role/permission và kiểm tra tài nguyên rõ ràng. Không thêm engine phức tạp chỉ để có tên ABAC/ReBAC. Nhưng cũng không giữ role toàn cục khi nghiệp vụ đã yêu cầu phân quyền theo tenant/project. Đánh giá theo khả năng quản trị, truy vấn danh sách tài nguyên được xem, thu hồi và giải thích quyết định.
+
+Quyền trong claim/token/cookie không tự đổi khi DB thay đổi. Nếu cần quyền hiện tại, policy phải đọc nguồn mới hoặc có version/revalidation/cache invalidation phù hợp. Request kiểm tra xong rồi mới ghi còn có race; yêu cầu nhất quán trước lúc commit phải được thiết kế ở tầng giao dịch/domain.
+
+## Phần triển khai đọc sau khi đã hiểu mô hình
+
+Ví dụ bên dưới dùng auction thay vì document để nối với tình huống của bài thuyết trình. Đây là mã minh họa có dependencies của ứng dụng, không phải một chương trình standalone hay bằng chứng lab đã triển khai. Giữ các kiểm tra tenant, membership và lời mời như mô tả ở mục 6.4.
 
 ## 8. Triển khai policy trên server với ASP.NET Core
 
@@ -223,14 +248,9 @@ Với API dùng bearer token, request thiếu thông tin xác thực hợp lệ 
 - **Quyền thay đổi trong lúc ghi.** Nếu nghiệp vụ yêu cầu từ chối một bid khi việc thu hồi quyền đã có hiệu lực trước lúc ghi, thiết kế kiểm tra và ghi với cơ chế nhất quán phù hợp, chẳng hạn kiểm tra lại trong giao dịch có isolation hoặc khóa phù hợp với cách cập nhật quyền. Việc gọi handler trước khi ghi chỉ kiểm tra trạng thái tại thời điểm đọc.
 - **Nhiều đường vào cùng thao tác.** Dùng cùng policy cho các đường ghi được người dùng gọi, chẳng hạn HTTP và SignalR. Với API liệt kê tài nguyên, giới hạn truy vấn theo quyền trước khi phân trang hoặc tính tổng để kết quả phản ánh đúng phạm vi được xem.
 
-## 9. Chọn cách triển khai và kiểm thử
+## 9. Kiểm thử policy bằng kết quả mong đợi
 
-| Nhu cầu | Cách bắt đầu |
-|---|---|
-| Nhiều tài khoản dùng cùng bộ quyền theo chức năng | RBAC với role và permission. |
-| Quyền phụ thuộc phòng ban, trạng thái tài khoản hoặc mức bảo mật | Thêm policy ABAC dùng các thuộc tính do server quản lý. |
-| Quyền đi theo lời mời, nhóm, chủ sở hữu hoặc tài nguyên cha | ReBAC với các quan hệ biểu diễn đúng nghiệp vụ. |
-| Người quản lý chia sẻ một tài nguyên cụ thể cho một user hoặc nhóm | ACL với các mục cấp quyền trên tài nguyên. |
+Bên cạnh happy path, kiểm tra từng điều kiện thất bại độc lập và các đường cấp quyền thay thế.
 
 | Ca kiểm thử | Kết quả mong đợi |
 |---|---|
@@ -242,12 +262,26 @@ Với API dùng bearer token, request thiếu thông tin xác thực hợp lệ 
 | ACL cấp `report:view` cho Anna trên báo cáo 42, và không có grant nào khác cho Anna. | Xem báo cáo 42 được phép, chỉnh sửa hoặc xem báo cáo 99 bị từ chối. |
 | Anna qua policy nhưng đặt giá sau khi phiên đã đóng. | Policy cho phép thao tác, bước kiểm tra nghiệp vụ từ chối lượt đặt giá. |
 
-Đọc cùng slide 12–13 và phần ASP.NET Core ở phụ lục A5 của [Auth — Beyond the Login Screen](../presentation/Auth%20-%20Beyond%20the%20Login%20Screen.pptx). Lời dẫn theo từng slide nằm trong [presenter guide](auth-presentation-presenter-guide.md).
+Với ví dụ document, thử thêm: An rời team nhưng còn grant trực tiếp; document chuyển Published; user gửi department giả; cùng permission nhưng khác tenant. Kết quả phải theo policy đã định nghĩa, không theo trạng thái UI.
+
+Với listing, giới hạn truy vấn theo quyền trước khi phân trang/tính tổng; không tải tất cả rồi chỉ lọc ở giao diện. Với HTTP và SignalR cùng thực hiện thao tác, dùng cùng quy tắc bắt buộc để tránh đường vòng.
+
+## 10. Tự kiểm tra trước khi giải thích
+
+- Nói được lý do An được sửa document theo từng mô hình mà không chỉ đọc tên viết tắt.
+- Chỉ ra một thay đổi thuộc tính và một thay đổi quan hệ làm quyền mất hiệu lực.
+- Giải thích vì sao ACL và ReBAC có thể chồng lấn.
+- Xác định user/action/resource/context lấy từ đâu và dữ liệu nào không được tin từ client.
+- Biết permission cũ trong token được cập nhật hoặc vô hiệu hóa thế nào.
+- Giải thích được quyền hành động khác điều kiện hợp lệ của nghiệp vụ.
+
+[Đọc lại theo slide 12](auth-study-guide.md#slide-12) · [Presenter guide](auth-presentation-presenter-guide.md). Bộ 16 slide hiện tại không có appendix hoặc demo riêng.
 
 ## Nguồn tham khảo
 
-- [NIST — Role-Based Access Control](https://csrc.nist.gov/projects/role-based-access-control).
-- [NIST SP 800-162 — Guide to Attribute Based Access Control](https://csrc.nist.gov/pubs/sp/800/162/upd2/final).
-- [Google Research — Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/).
-- [NIST — Access control list](https://csrc.nist.gov/glossary/term/access_control_list), [DAC](https://csrc.nist.gov/glossary/term/discretionary_access_control) và [MAC](https://csrc.nist.gov/glossary/term/mandatory_access_control).
-- [Microsoft Learn — Resource-based authorization in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resource-based?view=aspnetcore-10.0).
+- [NIST RBAC](https://csrc.nist.gov/projects/role-based-access-control/faqs).
+- [NIST ABAC — SP 800-162](https://csrc.nist.gov/pubs/sp/800/162/upd2/final).
+- [Google Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/).
+- [Microsoft ACL](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists).
+- [Microsoft resource-based authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resource-based?view=aspnetcore-10.0).
+- [NIST DAC](https://csrc.nist.gov/glossary/term/discretionary_access_control), [NIST MAC](https://csrc.nist.gov/glossary/term/mandatory_access_control).

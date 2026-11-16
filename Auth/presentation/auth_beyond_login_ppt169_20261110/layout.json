@@ -90,10 +90,9 @@
     },
     {
       "number": 6,
-      "title": "BidLab Walkthrough & Q&A",
+      "title": "Recap & Q&A",
       "slides": [
-        "16_bidlab_walkthrough",
-        "17_bid_end_to_end"
+        "16_auth_lifecycle_recap"
       ]
     }
   ]

@@ -1,3 +1,13 @@
+# Current state — 16 November 2026
+
+The current deck contains 16 slides, with an estimated 38-minute talk including Q&A. The standalone BidLab walkthrough and the old appendix are not in this roster. No Auth demo implementation is claimed. Current titles/content come from svg_output/ and the active outline in ../../docs/auth-presentation-outline.md.
+
+The five project setups and four independent auth columns on slide 15 are retained. Protocol flow names are not presented as substitutes for password/OTP/passkey. The cover and ending share the same lifecycle visual and cyan icons. Stay Signed In replaces Maintain Session as the general lifecycle label. Sources remain in the documents, not slide footers.
+
+Preview revisions do not update existing PPTX exports. The user requested final export only after confirming the last version. Do not export, commit or push merely because documentation is now synchronized.
+
+## Historical planning record below — superseded where it conflicts with the current state
+
 # Retained planning decisions
 
 User accepted the prior proposed outline with “làm đi”, after explicitly constraining the talk to 30–45 minutes and requesting the previous slide style and rules. Proceed within that established scope without asking the same choices again. No browser confirmation receipts have been fabricated.

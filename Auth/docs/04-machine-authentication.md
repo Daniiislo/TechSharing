@@ -1,151 +1,200 @@
-﻿# 4. Xác thực ứng dụng: Basic, API key, mTLS và DPoP
+# 04. Khi Order Service gọi Payment Service, ai chứng minh danh tính?
 
-[Về mục lục](auth-deep-dive.md)
+**Biên tập lại 16/11/2026 — đọc cùng slide 09.** Bốn nhóm trên slide là shared secret, access token, mTLS và signed request. Chương đi đúng thứ tự đó, giải thích HMAC/chữ ký ngay trong signed request; DPoP là phần mở rộng sau cùng.
 
-Một dịch vụ chạy nền cũng có thể gọi API mà không có người dùng đang thao tác. API cần nhận biết bên gọi và quyền của nó. Những cơ chế bên dưới giải quyết việc này theo các cách khác nhau; từng phần làm rõ những điểm dễ thắc mắc khi tìm hiểu cơ chế đó.
+[Mục lục chuyên đề](auth-deep-dive.md) · [Giải thích theo slide](auth-study-guide.md#slide-09)
 
-## 1. HTTP Basic authentication
+## 1. Bắt đầu bằng một cuộc gọi cụ thể
 
-### 1.1. Client gửi gì?
+Order muốn yêu cầu Payment xử lý một giao dịch. Payment cần xác định **bên gọi là service nào**, rồi kiểm tra service đó được phép làm gì. Không phải lúc nào cũng có người dùng đứng đó nhập OTP.
 
-Client gửi tên tài khoản và mật khẩu trong header:
+~~~text
+Order → credential / bằng chứng phù hợp → Payment
+Payment: xác thực Order → kiểm tra quyền → kiểm tra nghiệp vụ thanh toán
+~~~
 
-```http
-Authorization: Basic <chuỗi Base64 của tên tài khoản và mật khẩu>
-```
+Có hai tình huống cần tách:
 
-**Base64 chỉ là cách biểu diễn dữ liệu. Ai đọc được header có thể lấy lại tên tài khoản và mật khẩu.** Đường truyền cần được bảo vệ, thường bằng HTTPS. [RFC 7617](https://www.rfc-editor.org/rfc/rfc7617.html).
+- **Quyền riêng của ứng dụng:** job đối soát chạy bằng danh tính của job/service.
+- **Thay mặt người dùng:** Order thực hiện thao tác được ủy quyền cho Anna; cần bảo toàn giới hạn quyền Anna và đúng API đích.
 
-### 1.2. Máy chủ xác thực thế nào?
+App-only token không tự thay được quyền người dùng. Cũng không dùng một access token sai audience để chuyển tới mọi service. Giao thức token exchange/delegation cụ thể phụ thuộc nền tảng/hợp đồng.
 
-1. Máy chủ nhận header và đọc thông tin tài khoản.
-2. Máy chủ kiểm tra credential theo hệ thống của mình.
-3. Nếu hợp lệ, máy chủ xác định danh tính rồi kiểm tra quyền.
+## 2. Shared secret: Payment kiểm tra một bí mật bên gọi biết
 
-Basic không tự tạo access token ngắn hạn. Client có thể gửi lại credential ở nhiều yêu cầu.
+### 2.1. API key
 
-### 1.3. Chặn truy cập bằng cách nào?
+Hệ thống cấp một key cho bên tích hợp, Payment ánh xạ key tới danh tính/quyền và trạng thái. Nhưng tên “API key” không tự bảo đảm là bí mật hay thực hiện authentication: có sản phẩm dùng key để nhận diện project/quota/billing. Phải đọc hợp đồng.
 
-Máy chủ vô hiệu hóa hoặc thay credential và bảo đảm các nơi kiểm tra nhận biết thay đổi. Header không được để lộ trong nhật ký hoặc chuyển tiếp tới sai dịch vụ.
+Client gửi key theo quy ước, chẳng hạn một header; server kiểm tra dữ liệu lưu và quyền. Key ngẫu nhiên đủ mạnh chỉ cần so khớp có thể được lưu dưới dạng hash. Nếu phải dùng chính secret để tạo HMAC hoặc gọi hệ thống khác, chỉ giữ hash không đủ cho việc đó; cần lưu và sử dụng secret an toàn theo chức năng.
 
-Basic có thể phục vụ tích hợp đơn giản/hệ thống cũ yêu cầu nó. Nó không tự giải quyết cấp quyền đại diện người dùng, MFA hoặc quản lý token.
+Cấp key riêng từng bên để audit, rotate và thu hồi độc lập. Không nhúng service secret vào JavaScript/mobile app rồi coi nó chỉ service giữ. Không đặt secret trong URL hoặc log.
 
-## 2. API key
+### 2.2. Basic Auth
 
-### 2.1. Ý tưởng chính
+~~~http
+Authorization: Basic <Base64 của username:password>
+~~~
 
-API key là credential hệ thống cấp cho bên tích hợp. Client trình key; API kiểm tra key để biết bên gọi và quyền được cấp.
+Base64 biểu diễn dữ liệu, không mã hóa bí mật. Người đọc được header có thể khôi phục cặp credential. Server kiểm tra user/password hoặc credential ứng dụng theo hợp đồng, rồi tạo danh tính và kiểm tra quyền.
 
-Tên “API key” không bảo đảm key có hạn dùng hoặc quyền hẹp. Các thuộc tính đó phải do hệ thống thiết kế.
+Basic không tự cấp access token ngắn hạn. Bên gọi có thể gửi lại credential ở nhiều request. Nếu tích hợp yêu cầu Basic, cần HTTPS, secret service riêng, giới hạn quyền và khả năng thay/thu hồi.
 
-### 2.2. Mỗi bên giữ gì?
+### 2.3. Khi nào phù hợp, giới hạn ở đâu?
 
-| Bên gọi API | Máy chủ |
-|---|---|
-| Giữ key để gửi yêu cầu | Giữ dữ liệu kiểm tra key và thông tin quyền |
-| Bảo vệ key khỏi rò rỉ | Quản lý chủ sở hữu, trạng thái và thời hạn |
+Hợp đồng đơn giản hoặc hệ thống cũ có thể yêu cầu API key/Basic. Chi phí triển khai thấp hơn một số hệ thống cấp token/chứng chỉ, nhưng secret có thể được dùng lại nếu lộ. Phải vận hành vòng đời và phạm vi quyền, không chỉ “có key là an toàn”.
 
-Với key ngẫu nhiên đủ mạnh và chỉ cần so khớp, máy chủ có thể lưu giá trị băm thay key nguyên bản. Nếu cần dùng chính bí mật để ký hoặc gọi hệ thống khác, phải có cách lưu và lấy bí mật an toàn phù hợp.
+Nguồn: [Basic — RFC 7617](https://www.rfc-editor.org/rfc/rfc7617.html), [OWASP REST Security](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html).
 
-### 2.3. API kiểm tra thế nào?
+## 3. Access token: Order xin quyền từ bên phát hành, Payment kiểm tra token
 
-1. Client gửi key theo cách API quy định.
-2. Máy chủ tìm thông tin và kiểm tra key.
-3. Máy chủ kiểm tra key còn hoạt động, còn hạn và có quyền phù hợp.
-4. API xử lý yêu cầu nếu các điều kiện đều đạt.
+### 3.1. Credential xin token khác token gửi API
 
-Không đặt key trong URL vì có nguy cơ lộ qua các nơi lưu địa chỉ. Cần đường truyền an toàn và khả năng thu hồi. [OWASP REST Security](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html).
+~~~text
+Order → authorization server: xác thực client + yêu cầu Client Credentials
+Order ← authorization server: access token cho quyền ứng dụng
+Order → Payment: access token
+Payment: kiểm tra issuer/audience/hiệu lực/quyền
+~~~
 
-### 2.4. Khi thay key thì sao?
+**Client Credentials** là grant OAuth cho ứng dụng dùng quyền riêng. Client secret, private_key_jwt hoặc mTLS là các cơ chế có thể dùng để xác thực client tại token endpoint. Chúng là hai tầng khác nhau.
 
-Có thể cấp key mới, chuyển bên tích hợp sang key mới rồi vô hiệu hóa key cũ trong khoảng đã quy định. Nên cấp riêng từng bên để biết ai dùng và thu hồi độc lập.
+JWT assertion mà client ký để xin token không phải cùng vai trò với access token mà authorization server cấp để gọi Payment. Cùng là JWT không làm hai thứ dùng thay nhau được.
 
-Key nhúng trong mã SPA hoặc ứng dụng di động có thể bị lấy. Không coi đó là bí mật chỉ máy chủ giữ. Với nhu cầu quyền phức tạp hoặc rủi ro cao, phải đánh giá thêm các cơ chế phù hợp.
+Theo Client Credentials chuẩn, không kỳ vọng refresh token như phiên người dùng. Service có thể xác thực để xin token mới. Thiết kế phải xử lý caching token, hết hạn và lỗi cấp token phù hợp, không xin token cho mọi request một cách máy móc.
 
-## 3. mTLS: xác thực bằng chứng chỉ và khóa riêng
+### 3.2. Bên phát hành có phải IdP bên ngoài không?
 
-### 3.1. Khác HTTPS thông thường ở đâu?
+Có thể là authorization server nội bộ hoặc thuộc nền tảng danh tính đã chọn. Payment cần tin cấu hình issuer và token dành cho mình. JWT/opaque là định dạng/cách xử lý, không nói ai cấp. Token có chữ ký vẫn cần audience và authorization đúng.
 
-Trong HTTPS thông thường, client kiểm tra danh tính máy chủ. Với **mutual TLS — mTLS**, máy chủ còn yêu cầu client chứng minh mình giữ khóa riêng tương ứng với chứng chỉ được chấp nhận. Hai phía xác thực trong quá trình thiết lập kết nối TLS. [TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446.html).
+### 3.3. Workload identity giải quyết gì?
 
-### 3.2. Các bên có gì?
+Workload identity tổ chức cấp/quản lý danh tính cho service/job đang chạy. Nền tảng có thể dùng token, certificate, federation hoặc credential ngắn hạn, giảm secret tĩnh và tự động hóa gia hạn.
 
-| Client | Máy chủ |
-|---|---|
-| Chứng chỉ và khóa riêng tương ứng | Quy tắc tin cậy và kiểm tra chứng chỉ client |
-| Dùng khóa để thực hiện bằng chứng theo TLS | Kiểm tra bằng chứng và ánh xạ sang danh tính |
+Đây không phải một header duy nhất, cũng không phải hàng thứ năm luôn độc lập với bốn cơ chế trên slide. Cần biết nền tảng cấp gì, ứng dụng chứng minh gì, ai tin issuer/certificate và vòng đời thế nào.
 
-Chỉ có bản chứng chỉ công khai không đủ giả làm client: còn cần khả năng sử dụng khóa riêng tương ứng.
+**Phù hợp khi:** nhiều service cần quyền API có hạn và trust nhất quán. Đánh đổi là vận hành authorization server/integration, credential, audience và quyền. Số lượng service một mình chưa đủ chọn giải pháp.
 
-### 3.3. API cho quyền dựa vào đâu?
+Nguồn: [RFC 6749 §4.4](https://www.rfc-editor.org/rfc/rfc6749.html#section-4.4).
 
-Sau khi TLS xác thực client, hệ thống vẫn phải xác định danh tính đó được gọi API nào. Chứng chỉ hợp lệ không có nghĩa được phép dùng mọi tài nguyên.
+## 4. mTLS: xác thực hai bên khi thiết lập kết nối
 
-Nếu TLS kết thúc ở reverse proxy, backend không trực tiếp kiểm tra bằng chứng của client. Backend chỉ nên tin thông tin proxy chuyển khi proxy đã xác minh và không cho người ngoài tự giả header.
+### 4.1. Certificate và private key khác nhau
 
-### 3.4. Mất khóa hoặc đổi chứng chỉ thì sao?
+Certificate gắn public key với thông tin nhận dạng theo hệ thống trust. Private key là khóa bí mật dùng tạo bằng chứng mật mã. Certificate công khai có thể được sao chép; chỉ có certificate không đủ giả client nếu thiếu khả năng dùng private key tương ứng.
 
-Cần cấp lại, thu hồi và cập nhật chính sách tin cậy. Xóa một file trên máy không làm bản sao khóa ở nơi khác biến mất. Cũng cần kiểm tra tác động tới kết nối đang mở; không mặc nhiên cho rằng mọi kết nối cũ đã bị ngắt.
+Với HTTPS thường gặp, client kiểm tra danh tính server. Với mutual TLS, server cũng yêu cầu client trình certificate và chứng minh giữ private key trong handshake TLS.
 
-mTLS phù hợp khi hạ tầng có khả năng cấp phát, bảo vệ và quản lý chứng chỉ. Chi phí chính nằm ở vận hành khóa và cấu hình các điểm kết thúc TLS.
+~~~text
+Order kiểm tra certificate của Payment
+Payment kiểm tra certificate của Order
+Hai bên chứng minh khả năng dùng private key tương ứng theo TLS
+→ Thiết lập kết nối được xác thực hai chiều
+~~~
 
-## 4. mTLS trong OAuth: xác thực client khác với ràng buộc token
+Không phải client gửi private key cho server. TLS thực hiện bằng chứng theo giao thức. Trust có thể dựa trên PKI/CA hoặc cấu hình phù hợp hệ thống; không đơn giản nhận một certificate bất kỳ có public key rồi tin.
 
-### 4.1. Hai việc cần phân biệt
+### 4.2. Sau mTLS có cần phân quyền?
 
-Client có thể dùng mTLS để xác thực khi xin token. Ngoài ra, OAuth còn hỗ trợ **certificate-bound access token**, tức token gắn với chứng chỉ của client.
+Có. Certificate được chấp nhận giúp xác định bên gọi theo mapping. Payment còn phải kiểm tra Order có quyền gọi endpoint/hành động nào. “Certificate hợp lệ” không đồng nghĩa được hoàn tiền mọi giao dịch.
 
-Với loại token được gắn này:
+Nếu TLS kết thúc tại proxy/gateway, backend không trực tiếp chứng kiến handshake của client. Nó chỉ nên tin thông tin proxy chuyển trên đường đã được bảo vệ, sau khi chặn header giả và bypass. Không cho client tự gắn header certificate/userId rồi coi là mTLS.
 
-1. Máy chủ cấp token ghi nhận ràng buộc với chứng chỉ.
-2. Client gọi API bằng token qua kết nối dùng chứng chỉ phù hợp.
-3. API kiểm tra cả token và ràng buộc chứng chỉ.
+### 4.3. mTLS tại token endpoint khác certificate-bound token
 
-Vì vậy, chỉ lấy được chuỗi token chưa đủ dùng. Nhưng client dùng mTLS ở nơi xin token không tự chứng minh API đã kiểm tra ràng buộc này. [RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html).
+Một client có thể dùng mTLS **chỉ để xin token**. Việc đó chưa chứng minh API yêu cầu certificate khi token được sử dụng.
 
-### 4.2. Khi đổi chứng chỉ cần xét gì?
+Với certificate-bound access token, issuer ràng buộc token với certificate; client gọi API qua mTLS phù hợp; API kiểm tra cả token và ràng buộc. Khi đó chỉ lấy chuỗi token mà không dùng được private key có thể chưa đủ truy cập.
 
-Token cũ có thể vẫn gắn với chứng chỉ cũ. Máy chủ cấp token, client và API phải phối hợp về thời hạn và thay khóa. Quyền truy cập và khả năng thu hồi vẫn cần được kiểm tra riêng.
+Hai khả năng có thể dùng cùng hoặc riêng theo chuẩn. Chứng chỉ đổi cũng ảnh hưởng token đang ràng buộc với chứng chỉ cũ; cần kế hoạch rotation/expiry.
 
-## 5. DPoP: ký bằng chứng cho yêu cầu dùng token
+### 4.4. Khi nào chọn mTLS?
 
-### 5.1. Vấn đề cần giải quyết
+Khi cần xác thực hai chiều tại kết nối và hạ tầng có khả năng cấp, bảo vệ, gia hạn, thu hồi certificate, xử lý TLS termination và ánh xạ service identity. Chi phí lớn nằm ở vận hành. Mất khóa phải thu hồi/cập nhật trust và xem xét kết nối đang mở; xóa một file không xóa bản sao của attacker.
 
-Bearer token có thể bị bên lấy được nó sử dụng. DPoP thêm yêu cầu: bên trình token phải tạo được bằng chứng bằng khóa riêng mà token đã gắn với nó.
+Nguồn: [TLS 1.3 — RFC 8446](https://www.rfc-editor.org/rfc/rfc8446.html), [OAuth mTLS — RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html).
 
-DPoP viết đầy đủ là **Demonstrating Proof of Possession**. Điểm cốt lõi là **token và bằng chứng giữ khóa được kiểm tra cùng nhau**.
+## 5. Signed request: xác minh nội dung request đã quy định
 
-### 5.2. Client gửi thêm gì?
+### 5.1. Cần bảo vệ dữ liệu nào?
 
-Client tạo một **proof**, là dữ liệu được ký dưới dạng JWT. Nó gắn với yêu cầu cụ thể, gồm những thông tin như phương thức HTTP, địa chỉ, thời điểm và mã định danh; khi dùng với access token còn có thông tin gắn với token. [RFC 9449](https://www.rfc-editor.org/rfc/rfc9449.html).
+Order tạo request thanh toán. Ngoài việc biết ai kết nối, Payment có thể cần bằng chứng rằng các thành phần quan trọng được gửi bởi bên giữ khóa và không bị sửa.
 
-### 5.3. Quá trình xử lý
+~~~text
+Method: POST
+Target: /payments
+Body: orderId=42, amount=500000
+Timestamp + nonce + key identifier
+MAC/chữ ký trên các thành phần theo hợp đồng
+~~~
 
-1. Client có một cặp khóa.
-2. Client gửi proof khi xin token theo DPoP.
-3. Máy chủ cấp token gắn với khóa công khai tương ứng.
-4. Client gọi API bằng token và proof cho yêu cầu đó.
-5. API kiểm tra token, chữ ký, sự phù hợp của yêu cầu và điều kiện chống dùng lại proof.
+Không phải cứ có header Signature là toàn bộ request tự được bảo vệ. Phải quy định phạm vi ký. Body có thể được ràng buộc qua Content-Digest được kiểm tra và ký theo profile. Nếu chỉ ký timestamp mà bỏ amount, không thể nói amount đã được bảo vệ.
 
-Proof không phải một header cố định để sao chép cho mọi lần gọi.
+### 5.2. HMAC là gì?
 
-### 5.4. Giới hạn là gì?
+HMAC tạo mã xác thực từ **shared secret** và dữ liệu. Order và Payment biết cùng secret K.
 
-DPoP giúp khi attacker lấy token nhưng không tạo được proof hợp lệ. Nếu attacker kiểm soát cả client và có thể yêu cầu ký, lợi ích giảm.
+~~~text
+Order:   HMAC(K, dữ liệu chuẩn hóa) → MAC; gửi dữ liệu + MAC
+Payment: HMAC(K, dữ liệu nhận theo cùng quy tắc) → so khớp an toàn
+~~~
 
-Nó không thay HTTPS hoặc kiểm tra quyền tài nguyên. Muốn dùng phải có hỗ trợ từ client, máy chủ cấp token và API. Các chi tiết như nonce, địa chỉ qua proxy, chống dùng lại proof và thay khóa là phần nghiên cứu sau luồng chính.
+Dữ liệu bị sửa thì MAC tính lại không khớp. Không biết K thì không tạo được MAC hợp lệ cho dữ liệu mới theo giả định bảo mật của thuật toán. Nhưng Payment cũng có K nên **Payment cũng tạo được MAC**. HMAC không cho mô hình “chỉ bên gửi có khả năng ký” như khi bên nhận chỉ giữ public key.
 
-## 6. Cần chọn theo yêu cầu nào?
+HMAC là mã xác thực thông điệp, không phải chữ ký số bất đối xứng. Không dùng SHA256(secret + message) tự nghĩ ra thay HMAC chuẩn.
 
-| Yêu cầu | Điều phải tìm hiểu |
-|---|---|
-| Tích hợp đơn giản | Cơ chế bên kia hỗ trợ, bảo vệ credential và thu hồi |
-| Danh tính riêng từng dịch vụ | Cách cấp credential, giới hạn quyền và theo dõi |
-| Giảm secret dài hạn | Khả năng cấp token/chứng chỉ ngắn hạn và tự gia hạn |
-| Token bị lấy không đủ sử dụng | Khả năng ràng buộc khóa bằng mTLS hoặc DPoP |
+### 5.3. Asymmetric signature là gì?
 
-**Workload identity** là cách cấp và quản lý danh tính cho ứng dụng hoặc tác vụ đang chạy. Đây là nhu cầu tổ chức danh tính, không phải một header duy nhất. Cách thực hiện phụ thuộc nền tảng.
+Order giữ private key và ký dữ liệu. Payment giữ public key đã được tin là của Order để kiểm tra. Chỉ có public key không tạo được chữ ký mới tương ứng. Public key tự gửi kèm request không tự chứng minh nó thuộc Order; cần trust/key registration đúng.
 
-## Đọc tiếp
+| | HMAC | Chữ ký bất đối xứng |
+|---|---|---|
+| Khóa tạo | Shared secret K | Private key |
+| Khóa kiểm tra | Cùng K | Public key |
+| Bên nhận tự tạo bằng chứng được? | Có, vì biết K | Không nếu chỉ có public key |
+| Có che giấu dữ liệu? | Không | Không |
+| Ví dụ | HMAC-SHA256 | RSA-PSS, ECDSA, Ed25519 |
 
-[Phân quyền và xử lý mất credential](auth-deep-dive.md#phan-quyen): sau khi biết bên gọi là ai, hệ thống quyết định và thu hồi quyền thế nào?
+### 5.4. Raw data hoặc nguyên request bị lấy thì sao?
+
+Chỉ đọc dữ liệu không đủ giả MAC/chữ ký mới nếu thiếu khóa. Nhưng attacker có thể gửi lại **nguyên dữ liệu và bằng chứng hợp lệ** nếu verifier không kiểm tra replay.
+
+Timestamp giới hạn cửa sổ; nonce/định danh request và trạng thái đã dùng có thể ngăn replay trong cửa sổ theo policy. Hai request đồng thời và retry cần được xử lý nhất quán. Idempotency ngăn tác dụng nghiệp vụ lặp, không thay authentication hay mọi kiểm soát replay.
+
+Hai bên phải chuẩn hóa dữ liệu cùng quy tắc: method, URL, header, encoding và digest. Reverse proxy đổi một số thành phần có thể ảnh hưởng xác minh; dùng giao thức/library đã xác định thay vì tự nối chuỗi tùy ý.
+
+### 5.5. mTLS và signed request khác nhau ở đâu?
+
+mTLS xác thực các bên của **kết nối TLS**. Signed request bảo vệ **các thành phần thông điệp đã ký**. Có thể dùng chung và có thể kết hợp OAuth. Chữ ký không cung cấp bí mật nội dung, nên không thay HTTPS.
+
+**Phù hợp khi:** đối tác/webhook yêu cầu ký request hoặc cần bằng chứng trên thông điệp cụ thể. Đánh đổi là canonicalization, key management, replay và phối hợp profile giữa hai bên.
+
+Nguồn: [HTTP Message Signatures — RFC 9421](https://www.rfc-editor.org/rfc/rfc9421.html).
+
+## 6. DPoP: phần mở rộng để token bị copy chưa chắc dùng được
+
+DPoP là Demonstrating Proof of Possession. Client dùng cặp khóa; issuer ràng buộc token với khóa; client trình proof được ký khi gọi API; API kiểm tra token và proof theo giao thức.
+
+Proof gắn với các thông tin request như method, URI, thời điểm, định danh và ràng buộc token khi cần. Không phải một header cố định để copy mọi lần. Khi gọi resource theo DPoP, giao thức dùng scheme/header tương ứng; không chỉ đổi chữ Bearer mà giữ nguyên validator.
+
+Nếu attacker chỉ lấy token mà không tạo proof phù hợp, có thể bị chặn. Nếu kiểm soát client và gọi được ký, lợi ích giảm. DPoP không mặc nhiên bảo vệ body như một HTTP Message Signature profile; không gộp hai cơ chế thành một. Cần toàn chuỗi hỗ trợ và vẫn cần HTTPS, quyền và thu hồi.
+
+Nguồn: [DPoP — RFC 9449](https://www.rfc-editor.org/rfc/rfc9449.html).
+
+## 7. Chọn theo nhu cầu và khả năng vận hành
+
+| Nhu cầu chính | Hướng cân nhắc | Cần chịu trách nhiệm |
+|---|---|---|
+| Tích hợp đơn giản theo hợp đồng | API key/Basic qua HTTPS | Secret riêng, quyền hẹp, rotation/revoke |
+| Quyền ứng dụng qua hệ thống token chung | Client Credentials/workload identity | Issuer/audience, cấp token, lifecycle |
+| Xác thực kết nối hai chiều | mTLS | PKI/trust, certificate lifecycle, proxy |
+| Bảo vệ request cụ thể | HMAC/chữ ký theo giao thức | Phạm vi ký, canonicalization, replay |
+| Giảm khả năng dùng token bị lấy | DPoP/certificate-bound token | Proof/key, hỗ trợ toàn chuỗi, giới hạn client compromise |
+
+Các cơ chế không loại trừ nhau. “Nhiều service” không tự có nghĩa bắt buộc mTLS. “Có JWT” không tự có nghĩa bỏ kiểm tra resource authorization.
+
+## 8. Tự kiểm tra
+
+Giải thích được: ai giữ secret/private/public key; Payment kiểm tra gì; MAC/signature bảo vệ dữ liệu nào; bản sao credential/request còn dùng được khi nào; xoay vòng/thu hồi tác động ở đâu. Sau đó chỉ ra đâu là xác thực, đâu là quyết định quyền.
+
+Đọc tiếp [05 — Phân quyền trên tài nguyên](05-authorization.md).

@@ -26,5 +26,5 @@
 <text x="64" y="630" font-size="22" fill="#526B80">Authenticate the calling service, then check what it is allowed to do.</text>
 </g>
 <g id="footer" data-pptx-role="footer" data-pptx-bounds="64 670 1152 40"><line x1="64" y1="675" x2="1216" y2="675" stroke="#CAD7E2"/>
-<text x="64" y="698" font-size="16" fill="#526B80">RFC 6749 §4.4 · RFC 8705 · RFC 9421</text>
-<text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">09 / 17</text></g></svg>
+<text x="64" y="698" font-size="16" fill="#526B80">AUTH · Beyond the Login Screen</text>
+<text x="1216" y="698" text-anchor="end" font-size="16" fill="#526B80">09 / 16</text></g></svg>

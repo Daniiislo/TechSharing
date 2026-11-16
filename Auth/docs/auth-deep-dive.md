@@ -1,8 +1,8 @@
 # Authentication & Authorization — Tài liệu nghiên cứu
 
-**Bản nháp đang được bổ sung qua quá trình tìm hiểu và trao đổi.**
+**Tài liệu chuyên đề hiện hành.** Bản học chính theo 16 slide và các câu hỏi trong buổi chỉnh sửa nằm ở [auth-study-guide.md](auth-study-guide.md); lời dẫn nằm ở [presenter guide](auth-presentation-presenter-guide.md).
 
-**Cập nhật:** 08/11/2026.
+**Đối chiếu lại:** 16/11/2026.
 
 Tài liệu dành cho người muốn hiểu cách xác thực và phân quyền hoạt động, không yêu cầu đã biết OAuth, OIDC hay SAML. Có thể dùng để học và tra cứu; không giới hạn theo thời lượng thuyết trình.
 
@@ -15,7 +15,7 @@ Mỗi chủ đề được giải thích theo những thắc mắc có thể n�
 | [1. Xác thực người dùng](01-user-authentication.md) | Mật khẩu, HOTP, TOTP, magic link, passkey và MFA |
 | [2. Session, cookie và token](02-sessions-and-tokens.md) | Nhận biết yêu cầu sau đăng nhập; JWT, access và refresh token |
 | [3. OAuth, OIDC và SAML](03-oauth-oidc-saml.md) | Cấp quyền API và nhận kết quả xác thực từ hệ thống khác |
-| [4. Xác thực ứng dụng](04-machine-authentication.md) | Basic, API key, mTLS và DPoP |
+| [4. Xác thực ứng dụng](04-machine-authentication.md) | Secret, Client Credentials, mTLS, signed request; DPoP mở rộng |
 | [5. Lựa chọn kiến trúc](#lua-chon-kien-truc) | Khi nào cân nhắc cơ chế nào |
 | [6. Phân quyền](05-authorization.md) | RBAC, ABAC, ReBAC, ACL và cách kiểm tra quyền trên từng tài nguyên |
 | [7. Tùy biến auth](#tuy-bien-auth) | Phân biệt tùy biến xác thực, danh tính và quyền |
@@ -62,22 +62,21 @@ Nên bắt đầu từ [chương xác thực người dùng](01-user-authenticat
 
 ## 3. Chọn cơ chế cho loại ứng dụng nào?
 
-### 3.1. Bắt đầu bằng yêu cầu
+### 3.1. Năm cấu trúc dự án và bốn câu hỏi độc lập
 
-Trước khi chọn, cần xác định: ai gọi hệ thống, credential được giữ ở đâu, có cần IdP bên ngoài không và phải chặn truy cập cũ nhanh đến mức nào.
+Slide 15 phân biệt kiến trúc, credential request sau login, nơi xử lý login và yếu tố người dùng. Password/OTP/passkey có thể dùng tại app hoặc IdP; OIDC/SAML là giao thức kết nối tới IdP. Không ghi OIDC như phương thức bắt buộc của mọi web/API/mobile.
 
-| Bối cảnh | Hướng thường đáng cân nhắc | Vì sao? |
+| Cấu trúc | Request sau login theo ví dụ | Nơi xử lý |
 |---|---|---|
-| Web tạo giao diện ở máy chủ | Cookie và tài khoản nội bộ hoặc OIDC | Quản lý phiên trình duyệt thuận tiện |
-| SPA có backend riêng | BFF: trình duyệt dùng cookie, backend giữ token | Hạn chế token xuất hiện ở trình duyệt |
-| SPA gọi API trực tiếp | Authorization Code + PKCE | Client xin token theo cơ chế phù hợp ứng dụng không giữ được secret |
-| Ứng dụng di động | Authorization Code + PKCE qua trình duyệt hệ thống | Tách tương tác xác thực khỏi mã ứng dụng |
-| SSO doanh nghiệp | OIDC hoặc SAML theo hệ thống tích hợp | Dùng danh tính tập trung |
-| Dịch vụ gọi API bằng quyền riêng | Danh tính ứng dụng; Client Credentials nếu dùng OAuth | Không giả định luôn có người dùng tham gia |
+| Web monolith | Cookie phiên | App hoặc IdP |
+| Web tách frontend/API | Access token | Auth backend hoặc IdP |
+| Web + BFF | Cookie browser→BFF; token BFF→API | Backend/BFF hoặc IdP |
+| Mobile + API | Access token | Auth backend hoặc IdP |
+| Microservices | API xác minh token/quyền | Danh tính chung cho user, credential workload riêng cho máy-máy |
 
-**SPA** là ứng dụng web có giao diện chủ yếu chạy trong trình duyệt. **BFF — Backend for Frontend** là backend phục vụ riêng giao diện và có thể gọi API thay trình duyệt.
+Đây là hướng cân nhắc, không phải ánh xạ bắt buộc. Microservices có thể đứng sau BFF/web/mobile. Web tách API vẫn có thể dùng cookie nếu deployment và biện pháp bảo vệ phù hợp. Access token có thể do backend trong vai trò issuer hoặc authorization server của nền tảng danh tính cấp; JWT chỉ là định dạng. [Giải thích đầy đủ từng cấu trúc, ưu/nhược và điều kiện chọn](auth-study-guide.md#slide-15).
 
-Đây là định hướng, không phải quy tắc bắt buộc cho mọi dự án. Với mobile, đọc hướng dẫn OAuth cho ứng dụng native; với browser, đối chiếu kiến trúc BFF và client trực tiếp. [S9][S10]
+PKCE bảo vệ code exchange khi dùng OAuth/OIDC theo flow tương ứng, không phải tên kiến trúc. BFF giảm token phía JavaScript, không loại bỏ XSS hoặc nghĩa vụ chống CSRF. Với browser/native OAuth, đối chiếu chuẩn phù hợp. [S9][S10]
 
 ### 3.2. Cách giữ credential quan trọng không kém tên công nghệ
 

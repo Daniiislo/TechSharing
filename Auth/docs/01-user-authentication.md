@@ -1,339 +1,207 @@
-# 1. Các phương thức xác thực người dùng
+# 01. Người dùng chứng minh danh tính bằng cách nào?
 
-[Về mục lục](auth-deep-dive.md)
+**Biên tập lại 16/11/2026 — đọc cùng slide 03–06.** Chương này đi từ password/OTP quen thuộc tới passkey và MFA. Các câu hỏi về challenge, chữ ký, dữ liệu raw và public key được giải thích ngay trong luồng passkey, không tách thành phần bổ sung ở cuối.
 
-Chương này trả lời một câu hỏi: **Máy chủ dựa vào đâu để biết người đang đăng nhập đúng là chủ tài khoản?**
+[Mục lục chuyên đề](auth-deep-dive.md) · [Học theo 16 slide](auth-study-guide.md)
 
-Với mật khẩu, máy chủ kiểm tra một bí mật người dùng biết. Với OTP, hai bên tính hoặc kiểm tra cùng một mã dùng một lần. Với passkey, thiết bị tạo chữ ký và máy chủ kiểm tra chữ ký đó.
+## 1. Trước hết, đừng đặt những tên khác tầng ngang hàng nhau
 
-Các phần bên dưới đi vào những câu hỏi riêng của từng phương thức. Nếu một khái niệm còn khó hiểu, cần giải thích tiếp ngay tại đó thay vì chỉ nêu tên rồi chuyển sang phần khác.
+Anna đăng nhập vào website bằng password rồi nhập mã OTP. Website có thể tự kiểm tra hai bằng chứng đó. Nó cũng có thể chuyển Anna sang dịch vụ danh tính của công ty, để dịch vụ đó kiểm tra rồi trả kết quả.
 
-## 1. Đăng nhập bằng mật khẩu
-
-### 1.1. Máy chủ lưu gì?
-
-Khi tạo tài khoản, người dùng đặt một mật khẩu. Máy chủ không nên lưu nguyên mật khẩu đó. Thay vào đó, thư viện bảo mật tính một **giá trị băm**, rồi máy chủ lưu giá trị này cùng thông tin cần để kiểm tra về sau.
-
-| Dữ liệu | Ý nghĩa |
+| Câu hỏi | Ví dụ câu trả lời |
 |---|---|
-| Mã tài khoản | Cho biết dữ liệu thuộc người dùng nào |
-| Giá trị băm mật khẩu | Dùng kiểm tra mật khẩu được nhập khi đăng nhập |
-| Salt | Dữ liệu ngẫu nhiên riêng cho lần băm; giúp cùng mật khẩu không tạo cùng kết quả lưu |
-| Thuật toán và tham số | Cho thư viện biết cách kiểm tra |
+| Anna dùng bằng chứng gì? | Password, OTP, quyền sử dụng private key của passkey |
+| Ai kiểm tra bằng chứng? | Backend của app hoặc identity provider |
+| App nhận kết quả từ provider thế nào? | Qua OIDC hoặc SAML |
+| Request sau login mang gì? | Cookie hoặc access token theo thiết kế |
 
-Salt có thể được lưu cùng giá trị băm. Nó không phải mật khẩu và không cần giữ bí mật.
+Vì thế **dùng OIDC không loại bỏ password/OTP/passkey**. Chúng có thể được kiểm tra tại provider. Chương này tập trung vào bằng chứng; [chương 03](03-oauth-oidc-saml.md) nói về giao thức liên kết, [chương 02](02-sessions-and-tokens.md) nói về request sau đăng nhập.
 
-### 1.2. Đăng nhập diễn ra thế nào?
+## 2. Password: server kiểm tra một bí mật người dùng biết
 
-1. Người dùng gửi tên tài khoản và mật khẩu qua kết nối HTTPS.
-2. Máy chủ tìm bản ghi tài khoản.
-3. Thư viện kiểm tra mật khẩu vừa nhập với giá trị băm đã lưu, sử dụng salt và tham số tương ứng.
-4. Nếu khớp, máy chủ kiểm tra tài khoản có được đăng nhập không.
-5. Máy chủ tạo phiên đăng nhập hoặc cấp token theo thiết kế.
+### Server giữ gì, nhận gì?
 
-**Máy chủ không cần giải mã giá trị băm để lấy lại mật khẩu.** Nó dùng thuật toán xác minh để biết đầu vào có đúng hay không.
+Khi đặt mật khẩu, thư viện password hashing tạo giá trị kiểm tra từ mật khẩu, salt và tham số thuật toán. Server lưu kết quả cùng thông tin cần để xác minh về sau, không lưu password nguyên bản.
 
-### 1.3. Vì sao phải dùng thuật toán riêng cho mật khẩu?
+~~~text
+Đăng ký: password → thư viện password hashing → bản ghi hash + tham số
+Đăng nhập: password vừa nhập + bản ghi đã lưu → thư viện xác minh → đúng/sai
+~~~
 
-Nếu cơ sở dữ liệu bị lấy, attacker có thể thử đoán mật khẩu mà không gọi chức năng đăng nhập. Thuật toán băm dành cho mật khẩu được thiết kế để mỗi lần thử tốn tài nguyên, làm việc dò hàng loạt khó hơn.
+Salt là dữ liệu ngẫu nhiên giúp những lần băm cùng password không cho cùng kết quả lưu; salt không phải bí mật như password. Một chuỗi hash có thể đóng gói cả salt, thuật toán và tham số, không nhất thiết là các cột riêng.
 
-Một hàm băm nhanh như SHA-256 không nên được dùng trực tiếp thay cho thuật toán băm mật khẩu. Khi triển khai, chọn thư viện và tham số theo [OWASP Password Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
+Server **không giải mã hash lấy password gốc**. Nó xác minh đầu vào theo thuật toán. Password hashing phải làm việc đoán offline tốn tài nguyên; không thay bằng SHA-256 chạy nhanh chỉ vì SHA-256 cũng là hàm băm.
 
-### 1.4. Đổi mật khẩu có đăng xuất mọi thiết bị không?
+### Đúng password đã đủ cho truy cập chưa?
 
-Không mặc nhiên. Đổi mật khẩu thay dữ liệu dùng cho lần đăng nhập tiếp theo. Phiên và token đã được cấp là những dữ liệu khác; hệ thống phải có bước thu hồi nếu muốn chúng ngừng hoạt động.
+Chưa. Server còn kiểm tra trạng thái tài khoản, bước xác thực bổ sung nếu cần, rồi tạo phiên/cấp credential truy cập. Quyền với tài nguyên được kiểm tra sau đó. Phải bảo vệ login bằng HTTPS, giới hạn thử sai, thông báo lỗi phù hợp và tránh log bí mật.
 
-Tương tự, chức năng quên mật khẩu là một đường khác để lấy lại quyền tài khoản. Nó cần xác minh chủ tài khoản và kiểm soát token khôi phục. [OWASP Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html).
+Đổi password thay dữ liệu dùng xác thực lần sau; **không tự sửa hay thu hồi cookie/token đã cấp**. Quy trình đổi/quên password phải quyết định riêng việc chặn các phiên cũ. Recovery là một đường vào tài khoản cần được bảo vệ tương xứng.
 
-### 1.5. Khi nào dùng? Cần nghiên cứu gì tiếp?
+**Phù hợp khi:** app tự quản lý tài khoản và có khả năng vận hành cả login, lưu password, recovery và MFA. Chọn provider cũng là cách giao một phần trách nhiệm này cho bên khác, không phải lựa chọn ngăn người dùng dùng password.
 
-Dùng mật khẩu khi ứng dụng tự quản lý tài khoản và có khả năng bảo vệ đăng nhập, đổi mật khẩu và khôi phục. Các vấn đề tiếp theo gồm giới hạn số lần thử, ngăn dùng mật khẩu đã lộ và bảo vệ trước trang đăng nhập giả. [OWASP Authentication](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html).
+Nguồn: [OWASP Password Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html), [Authentication](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html), [Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html).
 
-## 2. HOTP: mã thay đổi theo bộ đếm
+## 3. OTP: nhìn mã giống nhau nhưng nguồn tạo có thể khác nhau
 
-### 2.1. Bộ đếm là gì?
+OTP là one-time password/passcode theo cơ chế cụ thể. Đừng suy thuật toán chỉ vì thấy sáu chữ số hoặc đồng hồ đếm ngược.
 
-Bộ đếm là một số nguyên được lưu lại để biết đang tạo mã ở bước thứ mấy. Nó không phải đồng hồ đếm ngược, số lần đăng nhập sai hay tổng số lần đăng nhập.
-
-HOTP tính mã từ hai dữ liệu:
-
-```text
-Khóa bí mật dùng chung + bộ đếm → mã HOTP
-```
-
-HOTP viết đầy đủ là HMAC-based One-Time Password. HMAC là phép tính dùng khóa bí mật để tạo mã xác thực; khi mới học, điều cần nhớ là **cùng khóa, cùng bộ đếm và tham số thì hai bên tính được cùng mã**.
-
-### 2.2. Ứng dụng và máy chủ lưu gì?
-
-Cả hai giữ cùng khóa bí mật và theo dõi bộ đếm. Các mã dưới đây chỉ minh họa cách hoạt động, không phải kết quả tính từ một khóa cụ thể.
-
-| Bộ đếm | Mã minh họa |
-|---|---|
-| 10 | `482193` |
-| 11 | `705821` |
-| 12 | `139604` |
-
-### 2.3. Máy chủ kiểm tra ra sao?
-
-1. Ứng dụng dùng khóa và bộ đếm 10 để tạo mã.
-2. Người dùng gửi mã cho máy chủ.
-3. Máy chủ dùng khóa đã lưu và bộ đếm đang chờ để tính mã đối chiếu.
-4. Nếu khớp, máy chủ chấp nhận và cập nhật sang bước tiếp theo.
-
-Ứng dụng tăng bộ đếm khi tạo mã tiếp theo. Máy chủ cập nhật sau khi chấp nhận mã. Nếu người dùng tạo nhiều mã nhưng chưa gửi, ứng dụng có thể đi trước máy chủ. Vì vậy, máy chủ có thể kiểm tra thêm một số bước phía trước hoặc yêu cầu đồng bộ lại theo chính sách. [RFC 4226](https://www.rfc-editor.org/rfc/rfc4226.html).
-
-### 2.4. Mã có hết hạn sau 30 giây không?
-
-Bản thân HOTP không có quy tắc đó. Thời gian trôi qua không tự tăng bộ đếm. Dịch vụ có thể đặt thêm thời hạn, nhưng đó là điều kiện bổ sung.
-
-## 3. TOTP: mã thay đổi theo thời gian
-
-### 3.1. TOTP khác HOTP ở đâu?
-
-TOTP dùng cách tính của HOTP, nhưng lấy giá trị thay đổi từ **khoảng thời gian hiện tại** thay vì số lần tạo mã.
-
-```text
-Khóa bí mật dùng chung + khoảng thời gian hiện tại → mã TOTP
-```
-
-Chu kỳ thường gặp là 30 giây. Trong cùng khoảng, đầu vào giữ nguyên nên mã giữ nguyên. Khi sang khoảng mới, đầu vào thay đổi dù người dùng chưa nhập mã.
-
-### 3.2. Vì sao ứng dụng và máy chủ biết cùng mã?
-
-Khi thiết lập, dịch vụ cấp một khóa bí mật cho ứng dụng authenticator, thường thông qua mã QR. Máy chủ giữ khóa tương ứng với tài khoản.
-
-Khi đăng nhập:
-
-1. Ứng dụng lấy khóa bí mật và thời gian hiện tại để tính mã.
-2. Người dùng nhập mã vào dịch vụ.
-3. Máy chủ dùng cùng khóa và khoảng thời gian để tính mã đối chiếu.
-4. Máy chủ chấp nhận nếu mã phù hợp các điều kiện kiểm tra.
-
-Ứng dụng tự tính, không cần nhận mã qua mạng. Đây là lý do nó vẫn hiển thị mã khi điện thoại không có Internet. Đồng hồ sai có thể khiến hai bên tính cho các khoảng khác nhau. [RFC 6238](https://www.rfc-editor.org/rfc/rfc6238.html).
-
-### 3.3. Nhập mã có làm mã thay đổi ngay không?
-
-Không. Việc nhập mã không làm đồng hồ chuyển khoảng. Tuy nhiên, máy chủ phải ngăn một mã đã chấp nhận bị dùng lại trong thời gian còn hiệu lực.
-
-Máy chủ có thể chấp nhận một số khoảng lân cận để xử lý chênh lệch đồng hồ. Khoảng chấp nhận càng rộng thì càng có nhiều mã có thể được thử. [RFC 6238](https://www.rfc-editor.org/rfc/rfc6238.html).
-
-### 3.4. Các ứng dụng authenticator dùng loại nào?
-
-Kiểu mã có đồng hồ đếm ngược và tự thay theo chu kỳ thường là TOTP. Tuy nhiên, một ứng dụng có thể hỗ trợ nhiều cơ chế; dịch vụ đăng nhập quyết định cách thiết lập.
-
-Microsoft Authenticator hỗ trợ TOTP và còn có thông báo phê duyệt hoặc passkey. Bấm chấp thuận thông báo không phải nhập mã TOTP. [Microsoft Authenticator](https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-authenticator-app).
-
-2FAS hỗ trợ cả TOTP và HOTP. [2FAS](https://2fas.com/support/2fa-knowledge/i-have-changed-my-phone-number-what-should-i-do/).
-
-### 3.5. So sánh để tránh nhầm
-
-| | HOTP | TOTP |
+| Cách | Mã từ đâu ra? | Hai phía phải biết gì? |
 |---|---|---|
-| Dữ liệu thay đổi | Bộ đếm số lần tạo mã | Khoảng thời gian |
-| Không thao tác thì sao? | Bộ đếm không tự tăng theo thời gian | Vẫn chuyển sang khoảng tiếp theo |
-| Khó khăn đồng bộ | Bộ đếm hai bên lệch nhau | Đồng hồ hai bên lệch nhau |
-| Có tự giới hạn theo thời gian? | Không, trừ chính sách bổ sung | Có khoảng chấp nhận theo cấu hình |
+| Mã ngẫu nhiên gửi SMS/email | Server tạo rồi gửi qua kênh nhận | Server giữ dữ liệu kiểm tra; người dùng nhận được mã |
+| TOTP | Authenticator và server tự tính | Cùng secret và tham số, thời gian phù hợp |
+| HOTP | Authenticator và server tự tính | Cùng secret và tham số, bộ đếm được đồng bộ |
 
-### 3.6. Phần cần nghiên cứu sau khi hiểu cơ chế
+### 3.1. TOTP: vì sao app tạo được mã khi offline?
 
-OTP ngắn nên cần giới hạn số lần thử. Khóa dùng tạo mã phải được bảo vệ; ai lấy được khóa có thể tạo mã tương ứng. Mã nhập trên trang giả cũng có thể bị chuyển tiếp ngay sang dịch vụ thật. OTP gửi qua SMS/email có quá trình khác, được giải thích ở mục tiếp theo. [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html).
+Khi thiết lập, dịch vụ cấp một secret riêng cho credential, thường qua QR. Authenticator giữ secret; server cũng có khả năng sử dụng secret tương ứng. Sau đó hai bên tính mã từ secret và bước thời gian hiện tại.
 
-## 4. OTP gửi qua SMS hoặc email
+~~~text
+Điện thoại: secret + đồng hồ điện thoại → mã
+Server:     cùng secret + đồng hồ server → mã dự kiến
+~~~
 
-### 4.1. Mã này có phải TOTP không?
+Điện thoại không cần nhận mã từ server nên có thể tạo khi offline. Khi Anna nhập mã vào trang login, request vẫn phải tới server. “Offline” không có nghĩa hoàn tất đăng nhập một dịch vụ online mà không liên lạc dịch vụ.
 
-Không thể kết luận chỉ vì mã có thời hạn. **TOTP là cách tính mã từ khóa bí mật và khoảng thời gian. SMS và email là kênh chuyển mã đến người dùng.**
+Ví dụ bước 30 giây: trong cùng bước, đầu vào thời gian giữ nguyên. Khi qua bước mới, đầu vào đổi dù không ai bấm nút. 30 giây là cấu hình phổ biến, không phải mọi dịch vụ đều giống nhau. Việc nhập mã không tự làm mã đổi ngay.
 
-Với cách gửi OTP thường gặp, máy chủ tạo một mã ngẫu nhiên, ghi nhận thông tin để kiểm tra rồi gửi qua SMS hoặc email. Người dùng không cần ứng dụng authenticator có chung khóa để tự tính mã.
+Server lấy secret đúng tài khoản/credential, tính mã, kiểm tra cửa sổ thời gian được phép, giới hạn thử sai và chống sử dụng lại sau khi mã được chấp nhận. Có thể chấp nhận bước lân cận để xử lý lệch đồng hồ; cửa sổ rộng hơn cũng mở thêm khả năng thử. Các request đồng thời không được cùng tiêu thụ mã đã dùng nếu policy yêu cầu dùng một lần.
 
-### 4.2. Khi bấm “Gửi mã”, điều gì xảy ra?
+Secret TOTP không giống password hash: server cần dùng secret để tính mã. Chỉ giữ hash một chiều của seed thường không đủ cho phép tính chuẩn. Phải bảo vệ seed khi lưu, phân quyền và ghi log. Ai lấy được seed có thể tạo mã; ai lấy được một mã có thể dùng/chuyển tiếp trong điều kiện còn hiệu lực.
 
-Giả sử hệ thống cần xác minh một lần đăng nhập:
+### 3.2. Mã SMS/email khác TOTP thế nào?
 
-1. Máy chủ xác định lần xác minh và số điện thoại/email đã gắn với tài khoản theo chính sách.
-2. Máy chủ tạo mã ngẫu nhiên bằng bộ sinh số an toàn cho mục đích bảo mật.
-3. Máy chủ lưu dữ liệu kiểm tra mã, thời hạn, số lần thử và mục đích sử dụng.
-4. Máy chủ gửi mã qua nhà cung cấp SMS hoặc dịch vụ email.
-5. Người dùng nhập mã; máy chủ kiểm tra mã có thuộc đúng lần xác minh, đúng mục đích, còn hạn và chưa bị dùng hay không.
-6. Nếu đạt, máy chủ đánh dấu đã sử dụng và cho phép tiếp tục thao tác.
+Trong cách thường gặp, server tạo mã ngẫu nhiên, gắn với tài khoản/giao dịch/mục đích, đặt thời hạn rồi gửi. Người dùng không có seed chung để tự tính.
 
-Máy chủ có thể lưu giá trị băm thay mã nguyên bản để giảm việc lộ mã khi dữ liệu lưu trữ bị đọc. Tuy nhiên, mã ngắn có ít khả năng, nên giá trị băm không thay thế thời hạn ngắn và giới hạn số lần thử. [OWASP — Xử lý và lưu OTP](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html#one-time-password-otp-handling-and-storage).
+Khi kiểm tra, phải biết mã thuộc lần xác minh nào, có đúng mục đích không, còn hạn, chưa dùng, còn số lần thử hay không. Mã xác minh địa chỉ email không tự được dùng làm mã đổi password. Lưu hash mã có thể giảm lộ trực tiếp khi DB bị đọc nhưng mã ngắn vẫn dễ bị thử hết không gian; không thay thời hạn và rate limit.
 
-### 4.3. Máy chủ kiểm tra điều gì ngoài việc nhập đúng mã?
+Gửi lại cần quy định mã cũ còn hiệu lực không. Không để thao tác gửi lại xóa bộ đếm thử sai và tạo vòng đoán vô hạn. Cũng giới hạn tần suất gửi để tránh spam và chi phí.
 
-Mã phải thuộc đúng tài khoản và đúng yêu cầu. Mã dùng xác minh email không được tự trở thành mã cho phép đổi mật khẩu hoặc đăng nhập. Nếu có nhiều yêu cầu cùng lúc, hệ thống phải xác định rõ mỗi mã dùng cho yêu cầu nào.
+SMS phụ thuộc quyền kiểm soát số điện thoại, có rủi ro SIM swap/chuyển số/cấp lại số. Email phụ thuộc hộp thư; nếu hộp thư bị chiếm thì mã có thể bị đọc. Không tự coi email OTP là yếu tố độc lập nếu cùng chuỗi thông tin đăng nhập đã bị xâm phạm. Trong phạm vi chuẩn NIST, email không được chấp nhận làm kênh out-of-band authentication; điều đó không cấm mọi chức năng xác minh địa chỉ email.
 
-Hai yêu cầu đồng thời gửi cùng mã không được cùng sử dụng thành công. Sau khi mã được chấp nhận, trạng thái đã dùng phải có hiệu lực với các yêu cầu sau đó.
+### 3.3. HOTP: “bộ đếm” là gì?
 
-Điểm quan trọng là: **nhập đúng mã chứng minh người nhập đã có được mã gửi tới kênh đó.** Nó không chứng minh tuyệt đối người nhập là chủ tài khoản, vì mã có thể bị đọc trộm, chuyển tiếp hoặc lấy qua trang giả.
+HOTP tính từ secret và một số nguyên chỉ vị trí đang tạo mã. Nó không phải đồng hồ đếm ngược, tổng số login thành công hay số lần nhập sai.
 
-### 4.4. Bấm “Gửi lại mã” thì mã cũ còn dùng được không?
+~~~text
+Secret K + counter 10 → mã cho bước 10
+Secret K + counter 11 → mã cho bước 11
+~~~
 
-Đó là chính sách của hệ thống, không phải quy tắc chung của SMS/email. Nếu phát mã mới, hệ thống cần quy định rõ mã cũ có bị vô hiệu hóa hay không. Nên tránh để nhiều mã cùng hiệu lực mà người dùng không biết mã nào đang được chấp nhận.
+Authenticator có thể tiến bộ đếm khi tạo mã; server tiến sau khi chấp nhận theo cơ chế triển khai. Người dùng tạo nhiều mã chưa dùng có thể làm hai bên lệch. Server có thể dùng cửa sổ phía trước hoặc quy trình đồng bộ lại được kiểm soát. Thời gian trôi qua không tự tăng counter, nên HOTP không mặc nhiên hết hạn sau 30 giây. TOTP xây trên HOTP nhưng lấy moving factor từ bước thời gian.
 
-Gửi lại không được xóa giới hạn số lần thử để người gọi có thể đoán mã vô hạn. Cũng cần giới hạn tần suất gửi để tránh spam và phát sinh chi phí SMS. [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html).
+### 3.4. OTP có chống phishing không?
 
-### 4.5. SMS và email có rủi ro khác nhau không?
+Mã nhập tay có thể bị người dùng nhập vào trang giả rồi bị chuyển ngay sang trang thật. Có thời hạn và chống dùng lại không tự tạo ràng buộc với website như WebAuthn. Không nói “mã dùng một lần thì không thể bị lấy cắp”.
 
-**SMS** phụ thuộc quyền kiểm soát số điện thoại và hạ tầng viễn thông. Nếu attacker chiếm số bằng SIM swap hoặc chuyển số trái phép, hắn có thể nhận mã. Số đã bỏ dùng còn có thể được cấp lại.
+Nguồn: [HOTP — RFC 4226](https://www.rfc-editor.org/rfc/rfc4226.html), [TOTP — RFC 6238](https://www.rfc-editor.org/rfc/rfc6238.html), [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html), [NIST authenticator requirements](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/).
 
-**Email** phụ thuộc quyền truy cập hộp thư. Nếu hộp thư bị chiếm, bị chuyển tiếp hoặc còn mở trên thiết bị khác, mã có thể bị đọc. Email OTP không mặc nhiên là yếu tố độc lập nếu email cũng được truy cập bằng cùng thông tin đang bị xâm phạm.
+## 4. Passkey: hiểu ký và kiểm tra trước khi đọc tên trường
 
-Cả hai đều có thể bị phishing thời gian thực: người dùng nhập mã vào trang giả và attacker chuyển ngay mã đó sang dịch vụ thật. [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html).
+### 4.1. Thiết bị giữ gì, server giữ gì?
 
-Trong phạm vi hướng dẫn xác thực số của NIST, email không được chấp nhận làm kênh xác thực ngoài băng; việc dùng mạng điện thoại để xác thực bị xếp vào nhóm hạn chế và cần đánh giá rủi ro. Đây là yêu cầu trong phạm vi chuẩn đó, không có nghĩa mọi chức năng xác minh địa chỉ email đều là cùng một bài toán. [NIST SP 800-63B](https://pages.nist.gov/800-63-4/sp800-63b.html#out-of-band).
+Authenticator là thành phần quản lý và dùng credential, có thể ở thiết bị hoặc security key. Với credential khóa công khai, phía người dùng có private key được bảo vệ; server lưu public key và liên kết credential ID với tài khoản.
 
-### 4.6. So với TOTP trong authenticator
+Private key tạo chữ ký. Public key kiểm tra chữ ký có hợp lệ với dữ liệu theo thuật toán không. **Ký không phải “private key mã hóa, public key giải mã”.** Chữ ký không tự che giấu dữ liệu, cũng không cần server lấy dữ liệu gốc từ chữ ký.
 
-| | TOTP | OTP ngẫu nhiên gửi qua SMS/email |
+Giữ public key công khai không đủ tạo chữ ký mới. Nhưng bản ghi public key phải toàn vẹn và thuộc đúng user: sửa được liên kết này có thể làm server tin credential của attacker.
+
+### 4.2. Challenge để làm gì, có phải giữ bí mật không?
+
+Server tạo challenge ngẫu nhiên cho một giao dịch đăng ký/login và ghi nhận thông tin đối chiếu. Challenge không cần bí mật như private key. Nó cần đủ ngẫu nhiên, còn hiệu lực, đúng giao dịch và được tiêu thụ/chống dùng lại theo policy.
+
+Ví dụ chuỗi ngắn chỉ để học:
+
+~~~text
+Lần 1: server chờ ABC123 → assertion chứa ABC123, có chữ ký S1
+Lần 2: server chờ XYZ789 → assertion cũ ABC123 + S1 không khớp
+~~~
+
+Đổi ABC123 thành XYZ789 nhưng giữ chữ ký cũ cũng không được, vì dữ liệu ràng buộc với chữ ký đã đổi. Challenge giúp chống replay kết quả cũ; không thay mọi kiểm soát khác của giao thức và endpoint.
+
+### 4.3. Server lấy challenge ở đâu để so?
+
+Browser gửi dữ liệu phản hồi, trong đó có clientDataJSON chứa challenge, cùng authenticatorData và signature. Ở authentication WebAuthn, dữ liệu ký là authenticatorData nối với SHA-256(clientDataJSON).
+
+~~~text
+Server đọc challenge từ dữ liệu phản hồi → so với giao dịch đang chờ
+Server dựng dữ liệu theo WebAuthn → dùng public key xác minh chữ ký
+Server kiểm tra thêm loại thao tác, origin, RP ID và flags bắt buộc
+~~~
+
+Challenge không được “giấu trong chữ ký chờ giải mã”. Hash làm dữ liệu client được ràng buộc vào chữ ký theo giao thức.
+
+### 4.4. Nếu người khác đọc được dữ liệu raw thì sao?
+
+Chỉ biết dữ liệu không tạo được chữ ký mới nếu thiếu private key. Nhưng nếu lấy được nguyên phản hồi còn hiệu lực, vẫn phải xét khả năng gửi lại hoặc gửi trước người dùng. Server cần HTTPS, liên kết giao dịch/phiên, thời hạn và chống dùng lại. Không nói mọi raw + signature luôn vô dụng với attacker.
+
+### 4.5. Đăng ký: Verify and store public key
+
+Trước tiên phải biết ai có quyền thêm credential vào tài khoản. Có thể là phiên đã được xác thực hoặc luồng tạo tài khoản/binding được bảo vệ. Public key đúng cấu trúc không tự chứng minh chủ tài khoản.
+
+1. Frontend gọi backend bắt đầu đăng ký; backend kiểm tra tài khoản/quyền và trả creation options + challenge.
+2. Frontend gọi navigator.credentials.create(); browser làm việc với authenticator và người dùng xác nhận theo yêu cầu.
+3. Authenticator tạo credential; browser gửi kết quả đăng ký về backend. Public key/credential ID nằm trong dữ liệu credential, private key không gửi cho backend.
+4. Backend kiểm tra clientDataJSON và attestationObject theo WebAuthn: loại webauthn.create, challenge, origin, RP ID hash, presence/verification theo policy, thuật toán và cấu trúc credential được chấp nhận, trùng credential và liên kết tài khoản.
+5. Backend xử lý attestation theo format/policy; chỉ sau khi chấp nhận mới lưu credential ID, public key và metadata phù hợp với user.
+
+**Điểm khác đăng nhập:** chưa có public key cũ để xác minh một assertion đăng nhập. Attestation none không có attestation signature. Format khác có quy tắc xác minh riêng; không khẳng định mọi registration đều ký bằng private key mới và server luôn kiểm tra theo cùng một cách. Attestation không thay account binding và quyền thêm credential.
+
+### 4.6. Đăng nhập: Verify with stored public key
+
+1. Frontend xin request options và challenge mới từ backend.
+2. Browser gọi navigator.credentials.get(); chọn credential phù hợp.
+3. Authenticator thực hiện presence/verification theo yêu cầu rồi ký bằng private key của credential.
+4. Browser gửi assertion; backend tìm credential đã đăng ký và xác minh chữ ký cùng loại webauthn.get, challenge, origin, RP ID hash, user/account và flags bắt buộc.
+5. Nếu đạt, app tạo phiên/cấp credential cho các request sau theo thiết kế.
+
+Credential ID giúp tra bản ghi, không phải bằng chứng đủ để login. Một user có thể có nhiều credential. Với discoverable credential, cách nhận diện account khác luồng yêu cầu username trước, nhưng vẫn cần kiểm tra quan hệ user/credential đúng.
+
+### 4.7. Vân tay, khuôn mặt, PIN và security key nằm ở đâu?
+
+Passkey là credential; security key là authenticator vật lý; PIN/sinh trắc học có thể xác minh người dùng cục bộ trước khi cho dùng private key. Trong luồng WebAuthn đó, server nhận bằng chứng mật mã và thông tin xác minh, không nhận ảnh vân tay/khuôn mặt để tự so.
+
+Chạm key xác nhận user presence khác user verification bằng PIN/sinh trắc. Một key có thể hỗ trợ nhiều giao thức/chức năng; không suy mọi USB key là cùng một loại passkey.
+
+### 4.8. Đổi thiết bị, mất key và giới hạn bảo vệ
+
+Synced passkey có thể được đồng bộ theo cơ chế nhà cung cấp; device-bound credential không tự xuất hiện trên máy mới. Không khẳng định mọi private key luôn chỉ tồn tại trên một thiết bị. Cần bảo vệ recovery, thêm/xóa credential và tài khoản quản lý đồng bộ.
+
+WebAuthn có ràng buộc RP/origin hỗ trợ chống phishing theo giao thức. Sau login, app vẫn có thể cấp bearer cookie/token; passkey không tự thu hồi hoặc bảo vệ mọi bản sao credential sau login. Signature counter cũng phải diễn giải theo loại authenticator, không mặc định synced passkey nào cũng có counter tăng hữu ích.
+
+Các bước ở đây để hiểu cơ chế, không thay thuật toán kiểm tra đầy đủ của thư viện. Nguồn: [W3C WebAuthn](https://www.w3.org/TR/webauthn-3/).
+
+## 5. MFA: ghép yếu tố đúng, không đếm số màn hình
+
+| Nhóm | Ví dụ | Chú ý |
 |---|---|---|
-| Mã từ đâu ra? | Ứng dụng và máy chủ tự tính từ khóa và thời gian | Máy chủ tạo mã rồi gửi |
-| Người dùng lấy mã bằng cách nào? | Mở ứng dụng authenticator | Nhận tin nhắn hoặc email |
-| Cần nhận tin qua kênh gửi không? | Không, ứng dụng có thể tính khi ngoại tuyến | Có, để nhận mã |
-| Thời hạn do đâu? | Khoảng thời gian và quy tắc kiểm tra TOTP | Thời hạn máy chủ đặt cho lần phát mã |
-| Rủi ro chính cần bảo vệ | Khóa tạo mã, thiết bị, phishing | Kênh nhận mã, việc gửi và phishing |
+| Điều biết | Password, passphrase, PIN | PIN cục bộ có vai trò khác password gửi server |
+| Thứ có/kiểm soát | Secret OTP, security key, quyền dùng private key, smart card | Tên thiết bị không đủ xác định mức bảo đảm |
+| Sinh trắc học | Vân tay, khuôn mặt, mống mắt | Dùng theo cơ chế và policy, thường kích hoạt authenticator |
 
-## 5. Đăng nhập bằng liên kết email — magic link
+MFA yêu cầu ít nhất hai yếu tố thuộc các nhóm khác nhau theo mô hình bảo đảm phù hợp; 2FA là trường hợp hai yếu tố. Hai password không tự thành MFA. Passwordless không tự chứng minh MFA hay mức an toàn nào.
 
-### 5.1. Ý tưởng chính
+Một passkey có thể kết hợp quyền sử dụng khóa với user verification; đánh giá theo credential, cờ xác minh và policy, không chỉ vì màn hình có Face ID. Trong phạm vi NIST, sinh trắc học không phải một bí mật độc lập thay thế mọi authenticator; phải tuân quy tắc dùng kèm authenticator và mức bảo đảm tương ứng.
 
-Dịch vụ gửi một liên kết có chứa token tới email tài khoản. Người dùng mở liên kết; máy chủ kiểm tra token rồi tạo phiên đăng nhập.
+Server giữ trạng thái đã hoàn thành các bước xác thực, thời điểm và giao dịch/phiên. Không nhận cờ mfaCompleted=true từ client rồi tin. Step-up là yêu cầu xác thực bổ sung phù hợp thao tác/rủi ro; reauthentication là xác thực lại và không nhất thiết thêm yếu tố khác.
 
-Ở đây, quyền sử dụng email trở thành một phần quan trọng của việc xác minh. Liên kết có thể cho phép đăng nhập, nên phải được bảo vệ như thông tin nhạy cảm.
+Recovery codes cần quản lý vòng đời/dùng một lần theo chính sách. Thêm yếu tố hoặc đổi kênh khôi phục là thao tác nhạy cảm. Login mạnh nhưng recovery yếu có thể làm mất lợi ích của MFA.
 
-### 5.2. Hai bên lưu gì và trao đổi thế nào?
+Nguồn: [NIST Authenticator Requirements](https://pages.nist.gov/800-63-4/sp800-63b/authenticators/), [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html).
 
-Máy chủ giữ thông tin kiểm tra token: tài khoản, mục đích, thời hạn và trạng thái đã sử dụng. Email của người dùng nhận liên kết chứa token.
+## 6. Magic link: phần mở rộng ngoài các ví dụ chính trên slide
 
-1. Người dùng yêu cầu gửi liên kết.
-2. Máy chủ tạo token ngẫu nhiên và gắn với tài khoản.
-3. Người dùng mở liên kết.
-4. Máy chủ kiểm tra token còn hạn, đúng mục đích và chưa được dùng.
-5. Máy chủ đánh dấu token đã dùng và tạo phiên mới.
+Dịch vụ gửi liên kết có token đăng nhập tới email. Server kiểm tra token đúng tài khoản, mục đích, thời hạn và chưa dùng trước khi tạo phiên. Token cần đủ ngẫu nhiên; hai request đồng thời không được cùng tiêu thụ nếu yêu cầu một lần.
 
-Hai yêu cầu đồng thời không được cùng sử dụng thành công một token. Token đăng nhập cũng không được chấp nhận nhầm thành token đặt lại mật khẩu. Các nguyên tắc này có thể đối chiếu với [OWASP Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html).
+Quyền truy cập email trở thành một phần quyết định. Link bị chuyển tiếp, bị lộ hoặc hộp thư bị chiếm có thể ảnh hưởng login. Cần xét phần mềm quét email mở link trước và việc mở khác thiết bị, không chỉ “bấm đúng link là xong”. Token login và token reset password không được dùng lẫn. [OWASP Forgot Password](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html).
 
-### 5.3. Khi nào dùng? Giới hạn là gì?
+## 7. Tự kiểm tra đã hiểu chưa
 
-Phương thức này thuận tiện khi chấp nhận email là kênh xác minh chính. Nếu hộp thư bị chiếm hoặc liên kết bị lộ, quyền đăng nhập cũng có thể bị ảnh hưởng.
+- TOTP offline được ở bước nào, còn bước nào vẫn cần gọi server?
+- Vì sao public key không cần giải mã để lấy challenge?
+- Biết dữ liệu raw khác có nguyên response còn hiệu lực thế nào?
+- Registration none có chữ ký attestation để kiểm tra không?
+- Vân tay, security key và passkey có thể cùng xuất hiện trong một lần login không?
+- Dùng OIDC có cấm app/provider yêu cầu password + OTP không?
 
-Khi triển khai cần xét việc liên kết bị chuyển tiếp, mở trên thiết bị khác hoặc bị phần mềm bảo mật email mở trước. Đây là các tình huống xử lý liên kết, không thay đổi nguyên lý xác thực chính.
-
-## 6. Passkey: thiết bị ký, máy chủ kiểm tra chữ ký
-
-### 6.1. Vân tay có được gửi lên máy chủ không?
-
-Không. Khi dùng vân tay, khuôn mặt hoặc PIN với passkey, thiết bị kiểm tra người dùng có được phép sử dụng khóa riêng hay không. Dịch vụ nhận kết quả mật mã, không nhận dữ liệu vân tay để so sánh.
-
-**Điểm cần hiểu trước tiên: passkey dùng một cặp khóa. Khóa riêng tạo chữ ký; khóa công khai kiểm tra chữ ký.**
-
-### 6.2. Mỗi bên giữ gì?
-
-| Dữ liệu | Ai giữ? | Dùng làm gì? |
-|---|---|---|
-| Private key — khóa riêng | Thiết bị hoặc trình quản lý passkey bảo vệ | Ký dữ liệu khi xác thực |
-| Public key — khóa công khai | Dịch vụ lưu cùng tài khoản | Kiểm tra chữ ký |
-| Credential ID | Được dùng để nhận diện passkey đã đăng ký | Giúp tìm đúng thông tin xác thực và tài khoản |
-
-Khóa công khai không cần giữ bí mật. Lấy được khóa công khai không đủ để tạo chữ ký như người giữ khóa riêng.
-
-### 6.3. Đăng ký passkey diễn ra thế nào?
-
-Giả sử người dùng đã được xác minh và nhấn **Tạo passkey**. Trong luồng này, frontend gọi backend trước; máy chủ không tự đẩy một yêu cầu HTTP xuống trình duyệt.
-
-1. **Frontend gọi API bắt đầu đăng ký.** Backend kiểm tra phiên và quyền thêm passkey vào tài khoản.
-2. **Backend trả dữ liệu thiết lập.** Dữ liệu gồm thông tin tài khoản, dịch vụ và một **challenge**: dữ liệu ngẫu nhiên cho lần đăng ký đó. Backend giữ thông tin cần để đối chiếu kết quả về sau.
-3. **Frontend nhận phản hồi rồi gọi `navigator.credentials.create(...)`.** Đây là API của trình duyệt, không phải một lần gọi HTTP tới backend. Frontend truyền dữ liệu thiết lập vào API này.
-4. **Trình duyệt làm việc với authenticator.** Authenticator là thành phần quản lý và sử dụng khóa, có thể nằm trong thiết bị hoặc khóa bảo mật. Người dùng xác nhận theo yêu cầu và authenticator tạo cặp khóa cho dịch vụ.
-5. **Frontend nhận kết quả từ trình duyệt rồi gọi API hoàn tất đăng ký.** Kết quả gửi về backend chứa dữ liệu đăng ký, trong đó có khóa công khai và Credential ID. Khóa riêng không được gửi lên backend.
-6. **Backend kiểm tra và lưu.** Backend đối chiếu challenge, kiểm tra các điều kiện WebAuthn rồi lưu thông tin xác thực gắn với tài khoản.
-
-Như vậy, thường có hai lượt gọi backend: **xin dữ liệu bắt đầu** và **gửi kết quả để hoàn tất**. Giữa hai lượt đó, frontend gọi WebAuthn để trình duyệt giao tiếp với authenticator. Tên API và cách đóng gói dữ liệu do ứng dụng quyết định. [MDN — Web Authentication API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API).
-
-### 6.4. Đăng nhập ở lần sau diễn ra thế nào?
-
-1. **Frontend gọi API bắt đầu đăng nhập bằng passkey**, chẳng hạn sau khi người dùng chọn cách đăng nhập này.
-2. **Backend trả dữ liệu xác thực**, gồm challenge mới và những tùy chọn cần thiết.
-3. **Frontend gọi `navigator.credentials.get(...)`** với dữ liệu vừa nhận. Trình duyệt tìm passkey phù hợp; thiết bị có thể yêu cầu vân tay, khuôn mặt hoặc PIN để cho phép dùng khóa.
-4. **Authenticator dùng khóa riêng ký dữ liệu xác thực**, trong đó có thông tin gắn với challenge và dịch vụ, rồi trả kết quả qua trình duyệt cho frontend.
-5. **Frontend gọi API hoàn tất đăng nhập**, gửi kết quả xác thực về backend.
-6. **Backend tìm khóa công khai và kiểm tra** chữ ký, challenge cùng các điều kiện của WebAuthn.
-
-Nếu hợp lệ, máy chủ nhận biết thông tin xác thực đó thuộc tài khoản nào rồi tạo phiên hoặc cấp token theo thiết kế.
-
-### 6.5. Vì sao máy chủ biết đúng tài khoản?
-
-Máy chủ đã lưu quan hệ giữa tài khoản, Credential ID và khóa công khai khi đăng ký. Một tài khoản có thể đăng ký nhiều passkey.
-
-| Tài khoản | Credential ID minh họa | Khóa công khai |
-|---|---|---|
-| Alice | `credential-A1` | Khóa của passkey thứ nhất |
-| Alice | `credential-A2` | Khóa của passkey thứ hai |
-| Bob | `credential-B1` | Khóa của Bob |
-
-Credential ID giúp tra thông tin, nhưng **không phải bằng chứng đủ để đăng nhập**. Máy chủ chỉ chấp nhận khi chữ ký và các điều kiện xác thực hợp lệ.
-
-Máy chủ còn kiểm tra challenge, nguồn yêu cầu và danh tính dịch vụ theo WebAuthn. Challenge mới giúp ngăn việc lấy kết quả cũ gửi lại để đăng nhập. Cơ chế cũng gắn thông tin xác thực với dịch vụ, giúp chống trang giả. [WebAuthn Level 3](https://www.w3.org/TR/webauthn-3/).
-
-### 6.6. Đổi thiết bị thì sao?
-
-| Loại | Cách hiểu |
-|---|---|
-| Passkey được đồng bộ | Trình quản lý passkey có thể giúp sử dụng trên các thiết bị khác theo cơ chế của nhà cung cấp |
-| Passkey gắn với thiết bị | Không mặc nhiên có trên máy mới; cần phương án đăng ký hoặc truy cập khác |
-
-Vì có cơ chế đồng bộ, không nên khẳng định mọi khóa riêng luôn chỉ tồn tại trên một thiết bị. Điều cần bảo đảm là khóa được quản lý và bảo vệ đúng với yêu cầu hệ thống. Tham khảo phân loại authenticator trong [NIST SP 800-63B](https://pages.nist.gov/800-63-4/sp800-63b.html).
-
-### 6.7. Phân biệt với mật khẩu
-
-| Mật khẩu | Passkey |
-|---|---|
-| Người dùng gửi một bí mật để máy chủ kiểm tra | Authenticator dùng khóa riêng tạo chữ ký |
-| Máy chủ lưu dữ liệu băm mật khẩu | Máy chủ lưu khóa công khai và thông tin đăng ký |
-| Có thể bị lừa nhập vào trang giả | Có cơ chế gắn xác thực với dịch vụ |
-
-Sau khi đăng nhập, hệ thống vẫn có thể dùng cookie hoặc token. Nếu cookie đó bị đánh cắp, passkey không tự thu hồi nó. Đây là vấn đề của phiên sau đăng nhập, được giải thích ở chương tiếp theo.
-
-### 6.8. Những phần có thể đào sâu tiếp
-
-Sau khi hiểu cặp khóa và hai quá trình đăng ký/đăng nhập, có thể nghiên cứu thêm RP ID, origin, các kiểm tra phản hồi và việc đăng ký/thu hồi nhiều passkey. RP ID xác định phạm vi dịch vụ; origin cho biết nguồn trang thực hiện yêu cầu. Không cần bắt đầu bằng toàn bộ tên trường của WebAuthn.
-
-## 7. MFA — xác thực nhiều yếu tố — và xác thực bổ sung
-
-### 7.1. MFA nghĩa là gì?
-
-**MFA viết tắt của Multi-Factor Authentication, nghĩa là xác thực nhiều yếu tố.** Hệ thống yêu cầu ít nhất hai loại bằng chứng khác nhau để xác thực người dùng.
-
-Để hiểu vì sao cần MFA, bắt đầu từ đăng nhập bằng mật khẩu: nếu một người biết mật khẩu của bạn, hệ thống có thể chấp nhận họ như bạn. MFA thêm yêu cầu khác để chỉ biết mật khẩu vẫn chưa đủ.
-
-Chẳng hạn, đăng nhập bằng mật khẩu rồi nhập mã từ ứng dụng authenticator:
-
-1. Mật khẩu chứng minh bạn biết bí mật của tài khoản.
-2. Mã authenticator cung cấp bằng chứng bạn kiểm soát thông tin xác thực đã được thiết lập trong ứng dụng.
-3. Hệ thống chỉ hoàn tất đăng nhập khi các yêu cầu xác thực đều đạt.
-
-**“Yếu tố” là loại bằng chứng, không phải số màn hình hoặc số lần nhập.** Ba nhóm thường dùng là:
-
-| Nhóm yếu tố | Ý nghĩa | Ví dụ |
-|---|---|---|
-| Điều bạn biết | Một bí mật bạn có thể cung cấp | Mật khẩu, PIN |
-| Thứ bạn sở hữu hoặc kiểm soát | Thiết bị hoặc thông tin xác thực bạn có khả năng sử dụng | Khóa bảo mật, khóa tạo mã trong authenticator |
-| Đặc điểm của bạn | Đặc điểm sinh học được kiểm tra theo cơ chế phù hợp | Vân tay, khuôn mặt |
-
-Nhập hai mật khẩu vẫn thuộc cùng nhóm “điều bạn biết”, nên không tự trở thành MFA. **2FA — Two-Factor Authentication** là xác thực hai yếu tố, một trường hợp của MFA. [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html).
-
-Passwordless chỉ nói rằng không cần nhập mật khẩu. Nó không tự xác định mức bảo đảm hoặc số yếu tố đã được kiểm tra. [NIST SP 800-63B](https://pages.nist.gov/800-63-4/sp800-63b.html).
-
-### 7.2. Máy chủ biết đã hoàn thành MFA bằng cách nào?
-
-Máy chủ quản lý trạng thái xác thực: đã qua bước nào, vào thời điểm nào và thuộc phiên nào. Không chấp nhận cờ `mfaCompleted=true` chỉ vì client gửi lên.
-
-Khi một hành động cần bằng chứng mới hoặc mạnh hơn, hệ thống yêu cầu **step-up authentication**, tức xác thực bổ sung. **Reauthentication** là xác thực lại, có thể bằng phương thức cũ. Kết quả phải gắn với đúng phiên và có thời hạn phù hợp.
-
-### 7.3. Mất phương thức xác thực thì sao?
-
-Cần có quy trình khôi phục đã thiết kế trước. Mã dự phòng chỉ dùng một lần; việc thêm, xóa hoặc thay yếu tố phải được bảo vệ. Nếu quy trình khôi phục quá yếu, attacker có thể bỏ qua lợi ích của MFA bằng đường này. [OWASP MFA](https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html).
-
-## Đọc tiếp
-
-[Session, cookie và token](02-sessions-and-tokens.md): sau khi xác thực, máy chủ nhận biết người dùng ở yêu cầu tiếp theo bằng cách nào?
+Nếu trả lời được bằng luồng dữ liệu thay vì chỉ tên công nghệ, bạn đã có nền để giải thích phần này. Đọc tiếp [02 — Cookie, session và token](02-sessions-and-tokens.md).

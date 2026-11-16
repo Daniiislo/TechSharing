@@ -1,33 +1,29 @@
 # Auth — Beyond the Login Screen
 
-Deck: `../Auth - Beyond the Login Screen.pptx`.
+**Hiện hành: 16 slide, đối chiếu 16/11/2026.** English slides, Vietnamese learning/presenter documents. Không có appendix hoặc demo riêng. Thời lượng dự toán 38 phút gồm Q&A, chưa rehearsal để đo thật.
 
-English slides with a separate Vietnamese guide at `../../docs/auth-presentation-presenter-guide.md`. Nineteen main slides target 43 minutes including a five-minute demo slot and Q&A. Six appendix slides follow the main closing. No speaker notes or narration audio.
+## Nguồn và trạng thái xuất
 
-Slides 12–13 and appendix A5 are supported by the Vietnamese [Authorization study guide](../../docs/05-authorization.md).
+- svg_output/ là nguồn biên tập hiện tại; svg_final/ là bản SVG self-contained được tạo lại từ nguồn.
+- [Tài liệu học sâu](../../docs/auth-study-guide.md), [presenter guide](../../docs/auth-presentation-presenter-guide.md), [outline hiện hành](../../docs/auth-presentation-outline.md).
+- ../Auth - Beyond the Login Screen.pptx và các file trong exports/ là các lần xuất trước; không mặc định khớp 16 SVG đang chỉnh sửa. Chỉ xuất PPTX mới sau khi người dùng chốt.
+- Không khẳng định bản 16 slide hiện tại đã được mở/QA trong PowerPoint chỉ dựa vào việc một bản export cũ từng được kiểm tra.
 
-The Auth demo is a proposed BidLab scenario, not an implemented feature. Slide 18 makes that status explicit. Rehearse timing before presenting; the 43-minute budget is an estimate.
+## Biên tập
 
-Authored through ppt-master's SVG-to-native-DrawingML workflow. The original 26-slide export was opened in Microsoft PowerPoint and visually inspected. Edit slide-local text and diagram shapes directly in PowerPoint, or revise the authoritative `svg_output/` pages and re-export. `design_spec.md` and `spec_lock.md` retain the content/design contract.
+Dùng PPT Master preview để xem. Mọi thay đổi nội dung phải đồng bộ design_spec.md và tài liệu liên quan; đổi số trang thì cập nhật layout.json, spec_lock.md và roster. Giữ style navy/cyan, Cambria/Segoe UI và tọa độ header/footer theo layout.json. Slide đầu và recap dùng cùng visual lifecycle, icon cùng màu. Footer nguồn đã thay bằng nhãn của bài; nguồn nằm trong tài liệu.
 
-Use `layout.json` as the shared slide layout. It records the fixed header, content area, first-tile anchor and footer coordinates on the 1280 × 720 canvas. Keep these coordinates when editing or adding slides. On topic slides, show the exact numbered section from the Agenda in the small cyan label above the slide title. Use the same title and optional context positions across the deck.
+## Thư mục
 
-When a slide's topic changes, keep its numeric prefix and rename the SVG to match the new topic in both `svg_output/` and `svg_final/`.
+- svg_output/: 16 trang nguồn SVG.
+- svg_final/: 16 trang SVG dẫn xuất; không phải nguồn export PPTX.
+- sources/: snapshot đầu vào lịch sử; xem README trong thư mục đó, không dùng thay docs/ hiện hành.
+- notes/: không bật speaker notes; lời dẫn là tài liệu riêng.
+- images/, icons/, templates/: tài nguyên theo workflow; không tự bổ sung dependency mới.
+- live_preview/: trạng thái/log/history của editor.
+- validation/: báo cáo kiểm tra; báo cáo cũ chỉ chứng minh đúng artifact lúc nó chạy.
+- exports/: các bản PPTX xuất theo thời điểm, không tự cập nhật khi sửa SVG.
+- backup/: lịch sử trước sửa; giữ để khôi phục, không dùng làm tài liệu đọc chính.
+- analysis/: dữ liệu phân tích/import.
 
-- Canvas format: ppt169
-- Created: 20261110
-
-## Directories
-
-- `svg_output/`: raw SVG output
-- `svg_final/`: self-contained SVG visual preview; may be inserted manually as an SVG image, but PowerPoint Convert to Shape is unsupported
-- `images/`: runtime image pool; converter assets keep their original short filenames when possible
-- `icons/`: project icon set — selected library icons copied in (via icon_sync.py) plus any custom icons you add; embedded from here at export
-- `notes/`: speaker notes
-- `templates/`: project templates
-- `live_preview/`: browser preview runtime files and history (lock.json, server.log, edits.jsonl, annotations.jsonl)
-- `sources/`: source materials and normalized markdown
-- `analysis/`: machine-extracted intermediate analysis (PPTX intake, image_analysis.csv) — the pipeline's canonical must-read source/asset facts
-- `validation/`: cold workflow audit log, SVG quality reports, and PPTX postflight audit reports
-- `exports/`: final native DrawingML pptx deliverables only (timestamped); `_native_charts_tables.pptx` name with `--native-charts-and-tables`, `_narrated.pptx` name when narration audio is embedded
-- `backup/<timestamp>/`: svg_output/ archive (always written in default-flow mode; safe to delete old timestamps)
+planning-decisions.md giữ lịch sử các quyết định; phần CURRENT STATE ở đầu ghi những điều đã thay thế. Canvas 1280 × 720 (16:9), workspace tạo ngày 10/11/2026.

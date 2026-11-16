@@ -7,16 +7,16 @@
 | --- | --- |
 | Project Name | auth_beyond_login_ppt169_20261110 |
 | Canvas Format | PPT 16:9 (1280 × 720) |
-| Page Count | 17 |
+| Page Count | 16 |
 | Primary Language | en |
 | Target Audience | Developers in the Geronimo team, with varied .NET experience and the previous SignalR sharing as context |
 | Communication Intent | Explain authentication mechanisms, connect sessions and delegated API access to resource authorization, and show why detection and revocation remain necessary |
-| Desired Audience Outcome | Trace one bid from identity proof through session and resource permission to server-enforced revocation |
-| Core Message / Ask / Action | Identity proof, session continuity, resource permission and revocation are distinct responsibilities on one request path |
-| Delivery Context | Live talk in Vietnamese with English slides, 43 minutes including a 5-minute demo slot and Q&A; 17 main pages |
-| Artifact Afterlife | Editable PowerPoint plus Vietnamese presenter guide and existing research docs |
+| Desired Audience Outcome | Trace one request from identity proof through continued recognition and resource permission to server-enforced revocation |
+| Core Message / Ask / Action | Identity proof, continued recognition after sign-in, resource permission and revocation are distinct responsibilities on one request path |
+| Delivery Context | Live talk in Vietnamese with English slides, 38 minutes including Q&A; 16 main pages |
+| Artifact Afterlife | SVG preview plus Vietnamese study guide, presenter guide and specialized references; existing PPTX remains an earlier export until final approval |
 | Reading Mode | presentation |
-| Content Strategy | Preserve the accepted 20-page story and required mechanisms; put protocol validation and implementation details in appendix; distinguish proposed BidLab demo from implemented behavior |
+| Content Strategy | Preserve the current 16-slide roster; detailed protocol checks and implementation examples live in the Vietnamese study guide and specialized documents. No standalone demo or appendix in the current deck. |
 | Design Style | Custom editorial engineering narrative inheriting SignalR typography and navy/cyan identity |
 | AI Image Acquisition Path | not applicable |
 | Generation Mode | continuous |
@@ -116,7 +116,7 @@ No icon asset is needed: actor names and credential labels carry precise identit
 | Filename | Dimensions | Ratio | Purpose | Type | Image pattern | Crop Policy | Acquire Via | Status | Reference | text_policy | page_role |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
-Apply the common header, body and footer coordinates in `layout.json` to all slides. On topic slides, use the exact numbered Agenda section as the small cyan label above the slide title. Keep the title and optional context aligned with the cover and Agenda.
+Apply the common header, body and footer coordinates in `layout.json` to all slides. On topic slides, use the exact numbered Agenda section as the small cyan label above the slide title. Keep the title and optional context aligned with the cover and Agenda. Source-citation footers on slides 04–15 are replaced by “AUTH · Beyond the Login Screen”; page numbers stay. References remain in the presenter guide.
 
 ## IX. Content Outline
 
@@ -125,15 +125,16 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Relationships**: Authentication establishes identity. The session carries it across requests. Authorization checks what that identity can do. Revocation ends access when needed.
 - **Title**: Beyond the Login Screen
 - **Core message**: Login begins a longer access-control lifecycle.
-- **Content**: Authenticate → Maintain Session → Authorize → Revoke Access; Tavian Nguyen.
-- **Composition**: Large title above a horizontal flow of four labeled icons. The final arrow is dashed to indicate revocation when needed. Presenter name sits just above the footer.
+- **Content**: Authenticate / Prove identity → Stay Signed In / Recognize the request → Authorize / Check resource access → Revoke Access / Reject old access; Tavian Nguyen.
+- **Composition**: Same lifecycle visual as slide 16: four 64px pale-cyan circles centered at x=195/492/788/1085 and y=328, matching icons, 28px labels at y=441 and 22px descriptions at y=483. Preserve recap main-visual transforms for exact geometry match. All four icons use cyan #007F9E; last arrow is dashed. Cover title, presenter name and footer remain.
+
 
 #### Slide 02 - Agenda
 - **Audience move**: The cover's four-step lifecycle → know what the session will cover.
-- **Relationships**: The agenda follows the presentation order from authentication to the BidLab walkthrough and Q&A.
+- **Relationships**: The agenda follows the presentation order from authentication to the lifecycle recap and Q&A.
 - **Title**: Agenda
-- **Core message**: The talk covers identity proof, request continuity, permissions and revocation, then compares architectures and applies one to BidLab.
-- **Content**: Authentication & Sign-In; Sessions & Tokens; Authorization; Revocation; Choosing an Auth Architecture; BidLab Walkthrough & Q&A.
+- **Core message**: The talk covers identity proof, request continuity, permissions and revocation, then compares architectures and recaps the auth lifecycle.
+- **Content**: Authentication & Sign-In; Sessions & Tokens; Authorization; Revocation; Choosing an Auth Architecture; Recap & Q&A.
 - **Composition**: Six ordered rows, each with a topic and a brief preview of its content.
 
 #### Slide 03 - Authentication Overview
@@ -228,33 +229,31 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Relationships**: Session deletion is enforced through session lookup; access-token denylist through API checks; refresh-token revocation through token-store checks at refresh.
 - **Title**: Revoking Sessions & Tokens
 - **Core message**: Revoking a refresh token does not automatically revoke issued access tokens.
-- **Content**: Session: delete from session store and reject subsequent session use. Access token: denylist its ID until expiry; API checks each request. Refresh token: mark token or token family revoked in its store and reject future refresh attempts.
-- **Composition**: Three open icon-led vertical groups aligned with the deck’s three-actor geometry, x=240/640/1040. Icon y=255, credential y=350, cyan action y=414/450, result y=509/545. All text 26px; no row containers, horizontal arrows or small annotations. Shared takeaway divider y=588.
+- **Content**: Three credentials, three revocation actions. Session → Delete the session. Access token → Add to denylist / until token expiry. Refresh token → Revoke the token / or its token family. Refresh revocation does not revoke existing access tokens. Per-method result descriptions are omitted from the slide and retained in the guide.
+- **Composition**: Three open icon-led vertical groups aligned with the deck’s three-actor geometry, x=240/640/1040. Icon center y=300, credential baseline y=398, cyan action baselines y=456/492; the one-line Session action is centered at y=474. No result descriptions below the actions. All text 26px; no row containers, horizontal arrows or small annotations. Shared takeaway divider y=588.
 
-#### Slide 15 - Four Project Setups and When to Use Them
-- **Audience move**: Understand the lifecycle → choose a design for project requirements.
-- **Relationships**: Client topology, identity provider and revocation latency inform how an app authenticates users and handles credentials.
-- **Title**: Four Project Setups and When to Use Them
-- **Core message**: Choose sign-in and session handling by project needs, including how quickly access must stop.
-- **Content**: Start with who signs in, what calls the API, and where credentials are stored. Same-origin web; Session cookie; Browser talks to one backend.; Company SSO; OIDC + app session; Reuse the company identity provider.; SPA with a backend; Backend for Frontend; Keep API tokens on the server.; Mobile + API; OIDC code flow + PKCE; Use the system browser for sign-in.; Need immediate revocation? Check current state on the request path.
-- **Presenter detail**: Same-origin web and cookies; company SSO with OIDC plus app session; SPA with BFF; native mobile with OIDC Code + PKCE and access tokens; immediate revocation requires access to current state.
-- **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
+#### Slide 15 - Auth Choices by Architecture
+- **Audience move**: Separate architecture, post-login credential, sign-in handler, and user authentication evidence.
+- **Relationships**: Five architecture rows map to post-login request handling and sign-in location. A shared user-proof cell spans all rows. Microservices can combine with all frontend patterns.
+- **Title**: Auth Choices by Architecture
+- **Core message**: The architecture influences auth organization, not which user proof is permitted. OIDC connects an app to an identity provider; password/OTP/passkey remain separate evidence choices.
+- **Content**: ARCHITECTURE | AFTER SIGN-IN | SIGN-IN HANDLER | USER FACTORS. Web monolith | Session cookie | App / Identity provider. Separate web + API | Access token | Auth backend / Identity provider. Web + BFF | Cookie to BFF; token to APIs | BFF / Identity provider. Mobile + API | Access token | Auth backend / Identity provider. Microservices | Access tokens; service checks | Shared identity service. Shared user-factor examples: Knowledge — Password, PIN; Possession — Passkey, OTP, Security key, Smart card; Biometric — Fingerprint, face, iris.
+- **Presenter detail**: These are representative arrangements, not mandatory client/token mappings. The user-proof column refers to end-user login in systems containing these architectures, never service-to-service authentication. Services/jobs authenticate their own workload identity when appropriate using service credentials, Client Credentials or mTLS; delegated calls retain appropriately scoped user context. BFF can manage a local login session or delegate to an IdP; a provider can validate any listed user proof. OTP alone is not automatically MFA. Token issuer is the auth backend or authorization server associated with the identity platform; APIs require the configured issuer, audience and permissions. JWT is format, not issuer; ID tokens are not API access tokens. Native OIDC uses system browser plus Code + PKCE; cookie CSRF and browser token exposure remain guide details.
+- **Composition**: Four columns; five rows in the first three columns; a single merged fourth column for common user-proof choices avoids repetition. 23px body with wrapped cells, 23px factor headings and 20px examples; no explanatory lines beneath. Qualitative table rendered as native-safe shapes and text.
+- **Native-ready**: architecture-table=no
 
-#### Slide 16 - Three Outcomes in BidLab
-- **Audience move**: Theory → concrete expected server outcomes.
-- **Relationships**: Valid bid precedes out-of-scope rejection, followed by revocation and retry of old access.
-- **Title**: Three Outcomes in BidLab
-- **Core message**: Observe server decisions on the same request path.
-- **Content**: Three expected outcomes in the proposed lab, using Anna’s account. Allow the bid; Auction 42 is within scope; Deny the bid; Auction 99 is outside scope; Revoke the session; Retry on Auction 42 fails; Design choice: check server-side session state on the next request.
-- **Presenter detail**: Proposed lab scenario, implementation pending; 1 allowed auction; 2 different auction denied; 3 old session rejected after revoke; include open connection; controlled test credentials only.
-- **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
+- **User-factor clarification**: Examples inherit slide 4. Passkeys/security keys can combine possession with local PIN or biometric user verification. Fingerprint/face/iris are not necessarily sent to a server; WebAuthn uses local verification and returns cryptographic proof. These are factor categories and examples, not seven mutually exclusive protocols or automatic MFA.
 
-#### Slide 17 - Auth Lifecycle Recap
+- **Terminology**: IdP abbreviates Identity Provider, an identity-system role. OIDC abbreviates OpenID Connect, a federation/authentication protocol, not a provider type or abbreviation of Identity Provider. SAML is another federation protocol. Provider location and federation protocol are labeled separately.
+
+- **Column fit**: Architecture x=80; request credential x=330; sign-in handler x=590 with approximately 374px usable width; user factors x=988 in a 236px shared field. Every sign-in handler is one 23px line, vertically centered in its row.
+
+#### Slide 16 - Auth Lifecycle Recap & Q&A
 - **Audience move**: Many terms → reusable four-question review.
 - **Relationships**: Identity, continuity, permission and termination are complementary checks on one bid.
-- **Title**: Auth Lifecycle Recap
+- **Title**: Auth Lifecycle Recap & Q&A
 - **Core message**: Trace proof, session, permission and revocation.
-- **Content**: Follow one bid through sign-in, session handling, authorization and revocation. Authenticate; Prove identity; Maintain session; Recognize the request; Authorize; Check the auction; Revoke access; Reject old access.
+- **Content**: Prove identity, stay signed in, check permissions and revoke access. Authenticate; Prove identity; Stay Signed In; Recognize the request; Authorize; Check resource access; Revoke access; Reject old access.
 - **Presenter detail**: Who are you? Which session? May you bid here? Can access stop?; Questions.
 - **Composition**: Cyan section label, topic heading, one sentence of context and a labeled visual.
 
@@ -262,3 +261,5 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 ## X. Speaker Notes Requirements
 
 - **Generation**: disabled
+
+- **Lifecycle consistency**: Share the exact main-visual geometry, icons, labels and descriptions with slide 1. Revoke Access uses the same cyan #007F9E as the other three icons; no warning-colored icon.

@@ -1,311 +1,220 @@
-﻿# 2. Session, cookie và token
+# 02. Sau đăng nhập, server nhận ra request tiếp theo bằng gì?
 
-[Về mục lục](auth-deep-dive.md)
+**Biên tập lại 16/11/2026 — đọc cùng slide 10–11, 14 và nhãn Stay Signed In ở slide đầu/cuối.** Đọc [chương 01](01-user-authentication.md) nếu cần ôn bằng chứng đăng nhập; chương này bắt đầu từ lúc bằng chứng đó đã được chấp nhận.
 
-Người dùng vừa nhập đúng mật khẩu hoặc hoàn thành passkey. Nhưng khi họ bấm sang trang khác, máy chủ nhận một yêu cầu mới. **Làm sao máy chủ biết yêu cầu mới vẫn thuộc người đã đăng nhập?**
+[Mục lục chuyên đề](auth-deep-dive.md) · [Học theo slide](auth-study-guide.md#slide-10)
 
-Session và token giải quyết việc nhận biết các yêu cầu tiếp theo. Cookie là một cách để trình duyệt giữ và gửi dữ liệu cần thiết. JWT là một định dạng token. Chương này giải thích từng phần riêng trước khi nối chúng lại.
+## 1. Một request mới không tự nhớ lần login trước
 
-## 1. Session: khi máy chủ lưu phiên đăng nhập
+Anna đăng nhập rồi bấm xem đơn hàng. Server nhận một HTTP request khác. Hệ thống cần credential để liên kết request này với danh tính/quyền đã được chấp nhận.
 
-Đây là một cách thiết kế, không phải bước bắt buộc của mọi hệ thống. Nếu API xác minh token theo cách stateless, nó không cần bản ghi phiên để nhận biết từng yêu cầu. Mục 1.6 giải thích cách đó.
+Hai ví dụ nền tảng:
 
-### 1.1. Mỗi bên giữ gì?
+~~~text
+Cách A: Client gửi session ID → server tra phiên → nhận ra Anna
+Cách B: Client gửi access token → API xác minh token → nhận ra chủ thể/quyền
+~~~
 
-Session là một phiên truy cập mà hệ thống quản lý sau đăng nhập. Với **server-side session**, máy chủ giữ thông tin phiên; trình duyệt thường chỉ giữ một mã khó đoán, gọi là Session ID.
+Mỗi request được bảo vệ vẫn phải được xác thực theo cơ chế đang dùng, rồi kiểm tra quyền. Không phải chỉ có một lần authentication ở màn hình login và từ đó mọi request tự đáng tin.
 
-| Trình duyệt | Máy chủ |
-|---|---|
-| Giữ Session ID, thường trong cookie | Giữ bản ghi phiên gắn với tài khoản |
-| Gửi ID theo yêu cầu | Tra ID để biết tài khoản và hiệu lực phiên |
+## 2. Các tên này đang trả lời những câu hỏi khác nhau
 
-Một bản ghi có thể trông như sau. Giá trị trong bảng chỉ minh họa cấu trúc:
-
-| Session ID | Tài khoản | Hết hạn | Trạng thái |
-|---|---|---|---|
-| `random-session-A` | Alice | Thời điểm đã đặt | Còn hiệu lực |
-
-### 1.2. Lần đăng nhập đầu tiên
-
-1. Người dùng hoàn thành xác thực.
-2. Máy chủ tạo Session ID mới, khó đoán.
-3. Máy chủ lưu bản ghi liên kết ID với tài khoản.
-4. Máy chủ gửi ID cho trình duyệt, thường bằng cookie.
-
-### 1.3. Yêu cầu tiếp theo
-
-1. Trình duyệt gửi Session ID.
-2. Máy chủ tìm bản ghi phiên tương ứng.
-3. Máy chủ kiểm tra phiên còn hiệu lực và được phép sử dụng.
-4. Máy chủ xác định tài khoản rồi kiểm tra quyền của yêu cầu.
-
-**Máy chủ không cần nhận lại mật khẩu ở từng yêu cầu.** Nó tin bản ghi phiên do chính hệ thống tạo và kiểm soát.
-
-### 1.4. Đăng xuất làm gì?
-
-Máy chủ vô hiệu hóa phiên, đồng thời yêu cầu trình duyệt bỏ cookie. Nếu attacker còn giữ bản sao ID, yêu cầu của hắn phải bị từ chối khi máy chủ kiểm tra phiên đã bị thu hồi.
-
-Việc này chỉ có hiệu lực ở nơi thực sự kiểm tra trạng thái mới. Khi có nhiều máy chủ hoặc bộ nhớ đệm, phải bảo đảm thay đổi được nhận biết trong thời gian cần thiết.
-
-### 1.5. Khi nào phù hợp? Đào sâu thêm ở đâu?
-
-Session phù hợp khi cần quản lý và thu hồi truy cập tập trung. Chi phí là nơi lưu phiên và bước tra cứu khi xử lý yêu cầu.
-
-Sau khi hiểu cơ chế, cần nghiên cứu thời hạn không hoạt động, tuổi tối đa của phiên và cách thay ID sau đăng nhập để chống session fixation. Session fixation là việc attacker tìm cách khiến người dùng dùng một ID mà hắn đã biết. [OWASP Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html).
-
-### 1.6. Nếu dùng stateless thì không có session, vậy nhận biết người dùng bằng cách nào?
-
-Đúng là API có thể không lưu bản ghi phiên đăng nhập. **Stateless trong ngữ cảnh này nghĩa là API không cần nhớ lần đăng nhập trước để xác thực yêu cầu hiện tại.** Nó không có nghĩa toàn hệ thống không có cơ sở dữ liệu, tài khoản hoặc khóa.
-
-Một cách thực hiện là dùng access token tự chứa thông tin và có chữ ký, chẳng hạn JWT:
-
-1. Client hoàn thành xác thực với bên cấp token.
-2. Bên cấp token tạo token chứa thông tin cần thiết, ký rồi trả cho client.
-3. Client gửi token khi gọi API.
-4. API dùng khóa tin cậy kiểm tra token, bên phát hành, bên nhận, thời hạn và các điều kiện bắt buộc.
-5. API lấy danh tính từ kết quả hợp lệ rồi kiểm tra quyền truy cập.
-
-API không phải tìm `Session ID → tài khoản` trong một bảng phiên. Dữ liệu trong token và kết quả kiểm tra giúp nó nhận biết bên gọi. Chi tiết JWT nằm ở mục 3.
-
-| Lưu phiên ở máy chủ | API kiểm tra token tự chứa theo cách stateless |
-|---|---|
-| Client gửi mã để tra phiên | Client gửi token có thông tin và chữ ký |
-| Máy chủ dựa vào bản ghi phiên | API dựa vào token hợp lệ và cấu hình tin cậy |
-| Có thể vô hiệu hóa bản ghi để thu hồi | Không có bản ghi phiên để xóa; phải xét cơ chế thu hồi token |
-
-**Vậy đăng xuất làm gì?** Client có thể bỏ token để ngừng gửi nó. Nhưng nếu attacker giữ bản sao, bỏ token ở client không khiến bản sao mất hiệu lực. Nếu API chỉ kiểm tra token tại chỗ, token có thể còn được chấp nhận tới lúc hết hạn.
-
-Muốn chặn trước hạn, API cần biết thêm trạng thái mới, chẳng hạn danh sách token bị thu hồi hoặc trạng thái tài khoản/phiên. Đây là phần trạng thái được bổ sung vào thiết kế. Không thể vừa chỉ tin token chưa hết hạn, vừa tự biết một quyết định thu hồi mới mà không nhận hay kiểm tra thông tin đó. OAuth mô tả các đánh đổi này trong [RFC 7009, mục 3](https://www.rfc-editor.org/rfc/rfc7009.html#section-3).
-
-Trong thực tế, API có thể kiểm tra access token mà không tra phiên, trong khi bên cấp token vẫn quản lý refresh token ở máy chủ. Khi đăng xuất, hệ thống thu hồi refresh token để ngăn cấp thêm token; access token đã cấp vẫn cần hết hạn hoặc có cơ chế thu hồi riêng. Vì vậy, phải nói rõ thành phần và bước nào là stateless, thay vì gọi cả hệ thống là hoàn toàn không có trạng thái.
-
-## 2. Cookie: trình duyệt giữ và gửi dữ liệu
-
-### 2.1. Cookie có phải session không?
-
-Không. **Cookie là cách mang dữ liệu; session là trạng thái mà hệ thống quản lý.** Cookie có thể chứa Session ID hoặc một gói dữ liệu khác phục vụ xác thực.
-
-Máy chủ đặt cookie bằng `Set-Cookie`. Ở các yêu cầu phù hợp, trình duyệt tự gửi dữ liệu đó trong header `Cookie`.
-
-```http
-Set-Cookie: session=example-value; Secure; HttpOnly; SameSite=Lax
-```
-
-Đây chỉ là minh họa cấu trúc header, không phải cấu hình đủ cho mọi ứng dụng.
-
-### 2.2. Các thuộc tính giúp gì?
-
-| Thuộc tính | Giải thích |
-|---|---|
-| `Secure` | Giới hạn gửi cookie qua kết nối bảo mật theo quy tắc trình duyệt |
-| `HttpOnly` | Không cho JavaScript đọc cookie qua API của trình duyệt |
-| `SameSite` | Kiểm soát gửi cookie trong ngữ cảnh truy cập từ site khác |
-| `Domain` và `Path` | Xác định phạm vi gửi cookie |
-| `Max-Age` hoặc `Expires` | Xác định thời gian trình duyệt giữ cookie |
-
-Thời gian trình duyệt giữ cookie không thay việc máy chủ kiểm tra hiệu lực. `Path` cũng không phải ranh giới bảo mật giữa các ứng dụng. Chi tiết các thuộc tính nằm trong [MDN Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie).
-
-### 2.3. Cookie có thể chứa dữ liệu đăng nhập luôn không?
-
-Có. Một số framework tạo **authentication ticket**, là gói thông tin danh tính và thời hạn được bảo vệ chống sửa đổi. Cookie chứa ticket thay vì chỉ chứa mã tra cứu phiên.
-
-Máy chủ kiểm tra ticket rồi lấy danh tính, có thể không cần tra bản ghi phiên ở mỗi lần gọi. Vì vậy, muốn thu hồi ticket trước hạn thì phải có bước kiểm tra bổ sung phù hợp.
-
-Trong ASP.NET Core, cookie handler xử lý ticket; có thể cấu hình kiểm tra lại trạng thái tài khoản hoặc dùng nơi lưu ticket. Các máy chủ cần quản lý khóa nhất quán nếu cùng kiểm tra ticket. [Microsoft Cookie Authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-10.0).
-
-### 2.4. Vì sao có HttpOnly vẫn cần bảo vệ ứng dụng?
-
-HttpOnly ngăn JavaScript đọc cookie, nhưng mã độc chạy trong trang vẫn có thể gửi yêu cầu bằng phiên đang mở. Đây là một phần rủi ro của **XSS**, tức mã độc được thực thi trong trang ứng dụng.
-
-Trình duyệt tự gửi cookie cũng có thể bị lợi dụng để tạo hành động người dùng không chủ động cho phép. Đó là vấn đề **CSRF**. Cần cơ chế chống CSRF theo kiến trúc, không chỉ đặt thuộc tính cookie. [OWASP CSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
-
-## 3. JWT: token chứa thông tin có thể kiểm tra
-
-### 3.1. JWT chứa gì?
-
-JWT là định dạng token chứa các **claim**: thông tin bên phát hành khẳng định về chủ thể hoặc token.
-
-Một token có thể mô tả:
-
-| Thông tin | Claim thường dùng |
-|---|---|
-| Ai phát hành? | `iss` |
-| Token đề cập tài khoản hoặc chủ thể nào? | `sub` |
-| Dịch vụ nào được nhận? | `aud` |
-| Đến khi nào thì hết hạn? | `exp` |
-
-Mỗi loại token có quy tắc yêu cầu claim riêng. Không phải mọi JWT đều chứa đúng cùng một tập trường.
-
-### 3.2. Chữ ký dùng để làm gì?
-
-JWT được ký ở dạng phổ biến có ba phần:
-
-```text
-header.payload.signature
-```
-
-Header mô tả thông số xử lý. Payload chứa claim. Signature là chữ ký hoặc mã xác thực để phát hiện sửa đổi và kiểm tra token theo khóa được tin cậy.
-
-**Đọc được payload chưa có nghĩa token hợp lệ.** JWT có chữ ký cũng không mặc nhiên che giấu nội dung; không đặt bí mật vào đó chỉ vì đã ký. JWT có thể có dạng mã hóa riêng, gọi là JWE. [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519.html).
-
-### 3.3. API kiểm tra token thế nào?
-
-1. API nhận token.
-2. API dùng cấu hình đã xác định để kiểm tra chữ ký và khóa phù hợp.
-3. API kiểm tra bên phát hành có được tin, token có dành cho mình và còn hạn không.
-4. API kiểm tra các điều kiện bổ sung của loại token.
-5. Nếu đạt, API lấy danh tính và tiếp tục kiểm tra quyền trên tài nguyên.
-
-API không được tin một thuật toán hoặc địa chỉ tải khóa chỉ vì token tự khai báo. Token đúng chữ ký nhưng dành cho dịch vụ khác vẫn phải bị từ chối. [RFC 8725](https://www.rfc-editor.org/rfc/rfc8725.html).
-
-### 3.4. Máy chủ cần giữ khóa nào?
-
-Với chữ ký bất đối xứng, bên cấp token giữ **khóa riêng để ký**. API có thể dùng **khóa công khai để kiểm tra**, không cần giữ khóa ký.
-
-Với HMAC, bên tạo và bên kiểm tra dùng chung bí mật. Vì vậy, bên có bí mật kiểm tra cũng có thể tạo mã xác thực tương ứng.
-
-Khi thay khóa, phải xác định API lấy khóa mới từ đâu và còn chấp nhận khóa cũ đến khi nào. Trường `kid` chỉ giúp nhận diện khóa; nó không tự khiến khóa trở nên đáng tin.
-
-### 3.5. Khóa tài khoản có làm JWT cũ vô hiệu ngay không?
-
-Không nếu API chỉ kiểm tra chữ ký và thời hạn. Token đã phát không tự thay nội dung khi tài khoản bị khóa.
-
-Muốn chặn trước hạn, API cần kiểm tra thêm trạng thái thu hồi, phiên hoặc dữ liệu quyền hiện tại. Đây là đánh đổi quan trọng: giảm tra cứu giúp kiểm tra độc lập, nhưng muốn thu hồi nhanh thường cần thêm trạng thái.
-
-### 3.6. Khi nào phù hợp?
-
-JWT phù hợp khi cần một định dạng token để các dịch vụ kiểm tra theo quy tắc thống nhất. Nó không tự quy định đăng nhập, làm mới hay đăng xuất. Các việc đó thuộc giao thức và thiết kế sử dụng token.
-
-## 4. Opaque token: API hỏi bên có thẩm quyền
-
-### 4.1. Khác JWT ở đâu?
-
-Với opaque token, client không dựa vào cấu trúc bên trong để hiểu danh tính hoặc quyền. Token có thể chỉ là một chuỗi tham chiếu; máy chủ có thẩm quyền biết cách kiểm tra nó.
-
-### 4.2. API biết token còn hợp lệ thế nào?
-
-Một cách là **token introspection**:
-
-1. Client gửi token tới API.
-2. API hỏi máy chủ cấp token về trạng thái token.
-3. Máy chủ trả kết quả, gồm trạng thái hoạt động và thông tin liên quan.
-4. API dùng kết quả để tiếp tục kiểm tra quyền.
-
-Chức năng hỏi thông tin phải được bảo vệ. [RFC 7662](https://www.rfc-editor.org/rfc/rfc7662.html).
-
-### 4.3. Lợi ích và chi phí
-
-Trạng thái có thể được quản lý tập trung, nhưng API phụ thuộc nơi kiểm tra. Nếu lưu đệm kết quả để giảm số lần hỏi, việc thu hồi có thể chậm tới lúc bộ đệm cập nhật. Opaque token không mặc nhiên bị thu hồi nhanh hơn JWT.
-
-## 5. Access token, refresh token và bearer token
-
-### 5.1. Vì sao cần hai loại token?
-
-**Access token** được gửi tới API để thực hiện quyền đã cấp. **Refresh token** được gửi tới máy chủ cấp token để xin access token mới.
-
-```text
-Client → API: access token
-Client → Máy chủ cấp token: refresh token để xin token mới
-```
-
-Không gửi refresh token cho API thay access token. Access token hết hạn chưa chắc yêu cầu nhập lại mật khẩu nếu client còn được phép làm mới.
-
-### 5.2. Bearer nghĩa là gì?
-
-**Bearer có nghĩa là “người cầm giữ”. Với bearer token, người có token có thể gửi nó để sử dụng quyền mà token cho phép.**
-
-Giả sử bạn đăng nhập thành công và nhận một access token. Khi gọi API, ứng dụng gửi token đó trong HTTP header:
-
-```http
-Authorization: Bearer <access_token>
-```
-
-`Authorization` là tên header; `Bearer` cho API biết cách nhận thông tin xác thực; phần sau là token thực tế.
-
-API kiểm tra token còn hợp lệ, dành cho mình và đáp ứng yêu cầu truy cập hay không. Nếu đạt, API xử lý yêu cầu. Trong cách dùng bearer thông thường, API không yêu cầu người gọi cung cấp thêm một bằng chứng mật mã riêng để chứng minh mình là người đã được cấp token.
-
-**Nếu attacker sao chép được token rồi gửi nó tới API, token có thể vẫn được chấp nhận.** API chỉ dựa vào token sẽ không phân biệt được người gửi là bạn hay attacker đang giữ bản sao. Các điều kiện khác như quyền, thời hạn và trạng thái thu hồi vẫn được kiểm tra theo thiết kế.
-
-Vì vậy, phải giữ token bí mật, dùng HTTPS và tránh để token trong URL hoặc nhật ký. Bearer token có thể có định dạng JWT hoặc opaque: **bearer nói về cách sử dụng token, còn JWT nói về định dạng token.** [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.html).
-
-### 5.3. API thực sự xử lý `Bearer` thế nào?
-
-Giả sử API đã được cấu hình hỗ trợ bearer token. Một yêu cầu có thể là:
-
-```http
-GET /api/profile HTTP/1.1
-Host: api.example.com
-Authorization: Bearer <access_token>
-```
-
-Các bước phía máy chủ:
-
-1. Thành phần xác thực đọc header `Authorization`, nhận ra tên cơ chế `Bearer` và lấy chuỗi token phía sau.
-2. Token được kiểm tra theo cấu hình. Nếu dùng JWT, thành phần kiểm tra chữ ký, bên phát hành, bên nhận, thời hạn và các điều kiện bắt buộc. Nếu dùng opaque token, nó có thể hỏi dịch vụ kiểm tra hoặc tra dữ liệu tương ứng.
-3. Nếu token hợp lệ, hệ thống tạo kết quả danh tính cho yêu cầu, gồm thông tin chủ thể và quyền/claim theo thiết kế.
-4. Thành phần phân quyền kiểm tra yêu cầu có được thực hiện hay không.
-5. Nếu được phép, API mới thực hiện chức năng.
-
-Với API được bảo vệ, thiếu hoặc có token không hợp lệ thường dẫn đến `401 Unauthorized`. Token được chấp nhận nhưng thiếu quyền cần thiết có thể dẫn đến `403 Forbidden`. RFC 6750 quy định phản hồi Bearer và các lỗi như `invalid_token`, `insufficient_scope`. [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.html).
-
-**Chữ `Bearer` không kiểm tra token thay máy chủ.** Backend phải có thành phần xử lý được cấu hình đúng. Nếu backend chỉ đọc token rồi tin dữ liệu mà không xác minh, đó là lỗi triển khai, không phải cách Bearer hoạt động.
-
-### 5.4. Có phải mỗi lần gọi API đều tạo chữ ký mới?
-
-Không trong cách dùng bearer thông thường. Client gửi lại access token còn hiệu lực ở nhiều yêu cầu. Nếu token là JWT có chữ ký, chữ ký đó do bên phát hành tạo khi cấp token. Client không cần ký riêng từng yêu cầu chỉ để sử dụng bearer token.
-
-Đó là điểm cần phân biệt: chữ ký JWT giúp API kiểm tra **token**, không chứng minh người đang gửi token hôm nay là người đã nhận nó ban đầu. Attacker sao chép nguyên token cũng sao chép cả chữ ký hợp lệ đi kèm.
-
-### 5.5. Những cách khác khác ở đâu?
-
-Không phải mọi cách trong bảng đều là một giá trị thay trực tiếp vào chỗ `Bearer`; chúng là những cơ chế truy cập để đối chiếu.
-
-| Cơ chế | Client gửi hoặc thực hiện gì? | Máy chủ kiểm tra gì? |
+| Tên | Nó nói về gì? | Không nên hiểu thành |
 |---|---|---|
-| HTTP Basic | Gửi tên tài khoản và mật khẩu được biểu diễn Base64 trong `Authorization: Basic ...` | Kiểm tra credential theo hệ thống tài khoản |
-| Bearer | Gửi access token trong `Authorization: Bearer ...` | Kiểm tra token và quyền được cấp |
-| Cookie chứa Session ID | Trình duyệt tự gửi cookie theo quy tắc | Tra phiên rồi kiểm tra quyền |
-| API key | Gửi key theo quy ước API | Kiểm tra key, bên sở hữu, trạng thái và quyền |
-| DPoP | Gửi token ràng buộc khóa và proof được ký cho yêu cầu theo giao thức | Kiểm tra token, bằng chứng giữ khóa và chống dùng lại proof |
-| mTLS | Chứng minh kiểm soát khóa riêng của chứng chỉ trong TLS | Kiểm tra chứng chỉ và bằng chứng TLS; kiểm tra token nếu API cũng yêu cầu token |
+| Session | Trạng thái/ngữ cảnh truy cập được quản lý | Luôn là một DB row hoặc một kết nối TCP |
+| Cookie | Cách browser lưu và gửi dữ liệu | Đồng nghĩa server-side session |
+| Access token | Credential dùng cho quyền truy cập API | Luôn là JWT hoặc luôn do provider ngoài cấp |
+| Refresh token | Credential để xin token mới tại token endpoint | Token gửi thay access token cho API |
+| ID token | Kết quả xác thực OIDC dành cho client | Token đăng nhập được mọi API chấp nhận |
+| JWT | Định dạng chứa claim theo chuẩn | Giao thức login hoặc tính chất chống copy |
+| Bearer | Cách dùng dựa vào việc đang cầm token | Một định dạng khác, đối lập JWT |
 
-Basic truyền cặp tài khoản/mật khẩu thay vì access token đã cấp. Base64 không mã hóa bí mật; Basic và Bearer đều cần đường truyền an toàn. [RFC 7617](https://www.rfc-editor.org/rfc/rfc7617.html).
+Một access token có thể vừa là JWT vừa dùng kiểu bearer. Cookie có thể chứa ID tra phiên hoặc protected ticket. “Cookie hay JWT?” vì vậy thường là câu hỏi chưa xác định đúng tầng.
 
-Cookie chứa Session ID và nhiều loại API key cũng có đặc tính “ai có bản sao thì có thể sử dụng” nếu không có bảo vệ bổ sung. Khác header hoặc cách lưu không tự giải quyết nguy cơ sao chép credential.
+## 3. Server-side session: server giữ bản ghi, browser mang mã tra cứu
 
-DPoP tạo khác biệt ở bằng chứng giữ khóa: chỉ có token chưa đủ, bên gọi còn phải tạo proof phù hợp. Khi gọi tài nguyên theo DPoP, giao thức dùng `Authorization: DPoP ...` cùng header proof riêng; không đơn giản đổi chữ Bearer bằng DPoP mà giữ nguyên cách kiểm tra. [RFC 9449](https://www.rfc-editor.org/rfc/rfc9449.html).
+### 3.1. Lúc đăng nhập
 
-mTLS có thể dùng độc lập để xác thực client. Với OAuth certificate-bound token, API còn kiểm tra token gắn với chứng chỉ của bên gọi, nên chỉ lấy token sẽ chưa đủ nếu không có khả năng sử dụng khóa tương ứng. [RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html).
+1. Server xác thực bằng chứng và các điều kiện tài khoản.
+2. Server tạo session ID khó đoán, lưu liên kết với user, thời hạn và trạng thái.
+3. Server gửi session ID cho browser, thường trong Set-Cookie.
+4. Browser giữ cookie theo các thuộc tính của nó.
 
-### 5.6. Khi nào cân nhắc Bearer hoặc cơ chế có bằng chứng giữ khóa?
+### 3.2. Request sau đó
 
-Bearer thuận tiện cho API vì client chỉ cần giữ và gửi token, còn API có thể dùng các thư viện tiêu chuẩn để kiểm tra. Đổi lại, thiết kế phải bảo vệ nơi giữ token, đường truyền, thời hạn và thu hồi.
+Browser gửi cookie theo phạm vi được phép. Server lấy ID, tìm phiên, kiểm tra trạng thái/thời hạn, tạo principal cho request rồi đánh giá quyền.
 
-Nếu cần giảm khả năng sử dụng token bị sao chép, có thể đánh giá DPoP hoặc token ràng buộc chứng chỉ. Chi phí là quản lý khóa và phối hợp hỗ trợ giữa client, bên cấp token và API. Không có cơ chế nào tự thay việc kiểm tra quyền tài nguyên.
+~~~text
+Cookie: session=<ID ngẫu nhiên>
+                       ↓
+Session store: ID → Anna, còn hiệu lực, thông tin quản lý phù hợp
+                       ↓
+Principal → policy cho tài nguyên → nghiệp vụ
+~~~
 
-### 5.7. Refresh token bị lấy có nguy hiểm không?
+Session ID không cần chứa tên user hay quyền ở dạng đọc được. Nó cần đủ khó đoán và được bảo vệ như credential. Sau login/thay đổi mức quyền phải xử lý việc thay ID phù hợp để tránh session fixation — attacker biết trước ID mà người dùng tiếp tục sử dụng.
 
-Có. Attacker có thể dùng nó xin thêm access token. Vì vậy, nhiều hệ thống áp dụng **refresh token rotation**: dùng token hiện tại để xin token mới, rồi token cũ bị vô hiệu hóa.
+### 3.3. Đăng xuất và thu hồi
 
-Máy chủ giữ quan hệ giữa các token để phát hiện token cũ xuất hiện lại. Phải xử lý nhiều yêu cầu cùng làm mới để không nhầm hoạt động hợp lệ thành đánh cắp. [OAuth Security BCP](https://www.rfc-editor.org/rfc/rfc9700.html).
+Xóa/vô hiệu hóa bản ghi là điều kiện để request cũ bị từ chối **nếu nơi xử lý tra đúng trạng thái mới**. Yêu cầu browser xóa cookie chỉ xử lý bản sao trên browser đó. Nhiều server, cache và kết nối đang mở có thể tạo độ trễ cần được thiết kế.
 
-### 5.8. Thu hồi refresh có chặn access token không?
+**Ưu:** dễ quản lý từng phiên và thu hồi ở nguồn tập trung. **Đánh đổi:** lưu/tra phiên, đồng bộ giữa instance và chính sách khi store lỗi. Có thể dùng DB/cache phù hợp; session không mặc nhiên bắt buộc một loại storage.
 
-Không mặc nhiên. Thu hồi refresh ngăn việc xin thêm token; access token đã cấp phải được xử lý bằng thời hạn hoặc cơ chế thu hồi của API.
+## 4. Cookie là phương tiện mang dữ liệu, không phải loại bằng chứng ban đầu
 
-## 6. Ghép lại để tránh nhầm
+### 4.1. Server đặt, browser gửi
 
-| Tên | Nói về điều gì? |
+~~~http
+Set-Cookie: session=example; Secure; HttpOnly; SameSite=Lax
+~~~
+
+Header này chỉ minh họa, không phải cấu hình đủ cho mọi deployment. Browser quyết định khi nào gửi cookie theo domain/path, site context, thời hạn và quy tắc nền tảng. Server vẫn tự kiểm tra credential, không tin chỉ vì browser còn gửi nó.
+
+| Thuộc tính | Vai trò | Giới hạn |
+|---|---|---|
+| Secure | Giới hạn gửi theo kết nối bảo mật | Không thay HTTPS và bảo vệ endpoint toàn hệ thống |
+| HttpOnly | Hạn chế JavaScript đọc cookie | XSS vẫn có thể thực hiện hành động bằng phiên |
+| SameSite | Điều khiển gửi cookie trong ngữ cảnh cross-site | Không thay mọi kiểm soát CSRF |
+| Domain, Path | Xác định phạm vi cookie | Path không phải ranh giới bảo mật giữa các app |
+| Expires, Max-Age | Thời gian browser giữ cookie | Không thay server-side expiry/revocation |
+
+Same-origin và same-site không phải cùng một khái niệm. Khi web/API khác origin, phải xét cookie/CORS/CSRF theo deployment cụ thể; không suy ngay “khác domain thì phải JWT”.
+
+### 4.2. Cookie có thể mang protected ticket
+
+Một framework có thể đóng gói danh tính và thời hạn thành authentication ticket được bảo vệ chống sửa đổi; cookie mang ticket thay vì ID tra session. Server giải bảo vệ/xác minh ticket rồi lấy principal, có thể không cần tra session DB mỗi request.
+
+Trong ASP.NET Core, cookie authentication và Session middleware không phải một chức năng. Cookie handler xử lý authentication ticket; Session middleware có mục tiêu lưu trạng thái ứng dụng. Đừng thấy cả hai có cookie rồi coi chúng là một.
+
+Muốn thu hồi protected ticket trước hạn, cần cơ chế trạng thái/phiên bản/kiểm tra lại/ticket store phù hợp. Security stamp cũng chỉ có hiệu lực theo nơi và chu kỳ kiểm tra. Nhiều instance phải quản lý Data Protection keys và cấu hình chia sẻ theo thiết kế.
+
+### 4.3. XSS khác CSRF
+
+XSS là mã độc chạy trong trang/ngữ cảnh ứng dụng. CSRF lợi dụng việc browser tự mang credential để tạo hành động người dùng không chủ động cho phép. HttpOnly ngăn đọc cookie, không ngăn mọi hành động của XSS. SameSite hỗ trợ hạn chế một số CSRF, không có nghĩa mọi flow đã được bảo vệ.
+
+Token trong localStorage có thể bị JavaScript cùng origin đọc; giữ token trong memory giảm lưu lâu nhưng không giải quyết client đã bị mã độc kiểm soát. Không chọn nơi lưu chỉ theo slogan “cookie an toàn” hay “JWT an toàn”.
+
+Nguồn: [Cookie authentication — ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-10.0), [MDN Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie), [OWASP CSRF](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
+
+## 5. Access token do ai cấp? “API token” nghĩa là gì?
+
+Khi nói credential để gọi API, chương này dùng **access token** thay nhãn chung “API token”. Nó có thể do:
+
+- Backend của hệ thống trong vai trò phát hành token.
+- Authorization server thuộc nền tảng danh tính mà API đã cấu hình tin cậy.
+
+BE là thành phần triển khai; issuer là vai trò/định danh phát hành. Một backend có thể chính là nơi triển khai authorization server; provider thường cũng đảm nhiệm nhiều vai trò. Không mặc định hai khái niệm này luôn tương ứng hai máy hoặc hai nhà cung cấp khác nhau.
+
+### 5.1. API tin nguồn nào?
+
+API phải biết issuer nào được tin, token dành cho audience nào, cơ chế xác minh và quyền. Token hợp lệ để gọi Google Calendar hay Microsoft Graph không tự hợp lệ cho Order API của mình.
+
+JWT chỉ là định dạng. Cả backend tự quản lý lẫn nền tảng danh tính đều có thể phát token dạng JWT nếu thiết kế hỗ trợ; access token cũng có thể opaque. Đừng suy nguồn token từ hình dạng chuỗi.
+
+Nếu app nhận kết quả OIDC rồi phát token nội bộ, đó là một bước thiết lập trust và ánh xạ danh tính phải bảo vệ rõ. Không decode token ngoài rồi ký lại tùy ý như thể đã xác minh.
+
+### 5.2. Ba mục đích không dùng lẫn
+
+~~~text
+ID token      → client kiểm tra kết quả login OIDC
+Access token  → resource API xử lý quyền truy cập
+Refresh token → token endpoint xem có được cấp token mới không
+~~~
+
+API không dùng ID token thay access token. Access token hết hạn không mặc nhiên buộc nhập lại password nếu còn cơ chế refresh được phép. Chi tiết cấp quyền và login ở [chương 03](03-oauth-oidc-saml.md).
+
+## 6. JWT: đọc được khác với xác minh được
+
+### 6.1. Nội dung và chữ ký
+
+JWT mang claim theo profile sử dụng. Một JWT ký dạng phổ biến có header.payload.signature; header mô tả thông số, payload chứa claim, signature/MAC phục vụ kiểm tra theo thuật toán và khóa được tin.
+
+| Claim thường gặp | Ý nghĩa |
 |---|---|
-| Session | Trạng thái truy cập được hệ thống quản lý |
-| Cookie | Cách trình duyệt giữ và gửi dữ liệu |
-| JWT | Một định dạng token |
-| Access token | Token để gọi API |
-| Refresh token | Token để xin token mới |
-| Bearer token | Cách sử dụng token dựa trên việc đang giữ nó |
+| iss | Bên phát hành |
+| sub | Chủ thể được đề cập |
+| aud | Bên nhận token |
+| exp | Hết hạn |
+| jti | Định danh token nếu issuer/profile có sử dụng |
 
-Các tên không loại trừ nhau: access token có thể vừa là JWT vừa được dùng theo kiểu bearer. Cookie có thể mang Session ID hoặc ticket tự chứa dữ liệu.
+Không phải mọi JWT có tất cả các claim này. Decode Base64url không xác minh chữ ký hay nguồn tin cậy. JWT ký không tự che giấu payload; JWE là cơ chế mã hóa khác. Không đặt secret vào payload chỉ vì token được ký.
 
-## Đọc tiếp
+### 6.2. Bên nào giữ khóa?
 
-[OAuth, OIDC và SAML](03-oauth-oidc-saml.md): ai cấp quyền, ai xác thực và các hệ thống trao đổi kết quả bằng cách nào?
+Với chữ ký bất đối xứng, issuer giữ private key ký; API giữ public key được tin để kiểm tra. Với HMAC, bên phát và bên kiểm tra giữ cùng secret; bên có secret verify cũng có thể tạo MAC hợp lệ. Không gọi HMAC là một cặp public/private key.
+
+API không tin algorithm/key URL chỉ vì token tự khai. kid giúp chọn khóa trong tập được quản lý, không tự làm khóa đáng tin. Rotation cần kế hoạch cập nhật và khoảng chấp nhận khóa cũ.
+
+### 6.3. API xác minh gì?
+
+Xác minh cấu trúc/profile được phép, thuật toán/khóa theo cấu hình, issuer, audience, thời gian và điều kiện bắt buộc. Sau đó mới dùng claim để tạo principal và kiểm tra quyền trên tài nguyên. Chữ ký đúng nhưng audience khác vẫn phải bị từ chối.
+
+Khóa tài khoản hay đổi role trong DB không tự sửa claim đã phát. Nếu API chỉ kiểm tra token tại chỗ, token có thể còn được chấp nhận tới hạn. Cần trạng thái hoặc enforcement bổ sung để biết thay đổi mới.
+
+Nguồn: [RFC 7519](https://www.rfc-editor.org/rfc/rfc7519.html), [JWT BCP — RFC 8725](https://www.rfc-editor.org/rfc/rfc8725.html).
+
+## 7. Opaque token và chữ “stateless”
+
+Opaque token thường được xử lý như chuỗi tham chiếu; client không dựa vào cấu trúc của nó để hiểu danh tính/quyền. API có thể tra store hoặc gọi introspection tới nơi có thẩm quyền. Không phải cứ opaque là mọi request bắt buộc gọi một endpoint mạng; đó là lựa chọn triển khai.
+
+Introspection hỏi token có active và metadata liên quan hay không. Endpoint phải được bảo vệ. Cache kết quả có thể tạo độ trễ thu hồi. JWT cũng có thể được kiểm tra trạng thái/introspection nếu hệ thống hỗ trợ, nên đừng phân loại JWT = không bao giờ tra, opaque = luôn thu hồi tức thì.
+
+**Stateless phải gắn với thành phần và bước cụ thể.** API có thể xác minh JWT không cần session lookup nhưng vẫn đọc DB nghiệp vụ/quyền/denylist. Issuer vẫn có thể quản lý account, consent, phiên và refresh token. Không thể chỉ tin JWT chưa hết hạn mà tự biết quyết định khóa user vừa xảy ra nếu không nhận/kiểm tra thông tin mới.
+
+Nguồn: [Token Introspection — RFC 7662](https://www.rfc-editor.org/rfc/rfc7662.html).
+
+## 8. Bearer: ai cầm bản sao có thể trình nó
+
+### 8.1. Header Bearer làm gì?
+
+~~~http
+GET /api/orders/42 HTTP/1.1
+Authorization: Bearer <access_token>
+~~~
+
+Handler nhận scheme Bearer, lấy token, xác minh theo cấu hình rồi tạo danh tính nếu hợp lệ. Chữ Bearer không tự kiểm tra token thay backend. API vẫn phải được cấu hình bảo vệ endpoint và kiểm tra quyền.
+
+### 8.2. Chữ ký JWT có chống copy không?
+
+Không. Anna gửi token A và attacker gửi nguyên token A đều có thể trình cùng chữ ký hợp lệ. Chữ ký ngăn sửa/tự tạo token không có khóa, không chứng minh ai đang giữ bản sao của bearer token.
+
+~~~text
+Sửa payload nhưng giữ chữ ký → kiểm tra chữ ký thất bại
+Copy nguyên token còn được chấp nhận → chữ ký vẫn có thể hợp lệ
+~~~
+
+Đây là điểm khác phản hồi passkey gắn challenge mới. Client dùng bearer thông thường không tạo chữ ký mới cho từng API request; chữ ký token do issuer tạo khi cấp.
+
+Session ID cookie và API key bí mật cũng có thể mang đặc tính người cầm bản sao có thể sử dụng. Đổi header thành cookie không tự giải quyết replay.
+
+### 8.3. Có cách yêu cầu thêm bằng chứng giữ khóa không?
+
+Có, chẳng hạn DPoP hoặc certificate-bound token qua mTLS khi toàn chuỗi hỗ trợ. API kiểm tra cả token và bằng chứng/ràng buộc khóa. Token bị lấy mà không dùng được khóa có thể không đủ để truy cập. Nếu attacker kiểm soát client và gọi được ký, không hứa chặn mọi hành vi.
+
+Bảo vệ truyền tải và nơi lưu, không log token, quyền hẹp, thời hạn và thu hồi vẫn cần. Xem [chương 04](04-machine-authentication.md).
+
+Nguồn: [Bearer — RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.html), [DPoP — RFC 9449](https://www.rfc-editor.org/rfc/rfc9449.html), [OAuth mTLS — RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html).
+
+## 9. Refresh, logout và revoke: ba việc không được gộp thành một
+
+Refresh token cho phép client xin token mới theo quyền còn được phép. Rotation thay refresh token sau sử dụng và quản lý quan hệ giữa các token. Reuse token cũ là tín hiệu cần xử lý; retry/race cũng phải được tính tới, không tự biết ai là attacker chỉ từ reuse.
+
+| Việc xảy ra | Điều chắc chắn phải xác định riêng |
+|---|---|
+| Client xóa cookie/token | Server có vô hiệu hóa credential cũ hay chỉ client ngừng gửi? |
+| Thu hồi session | Những nơi xử lý nào tra trạng thái và cache có trễ không? |
+| Thu hồi refresh token | Access token đã cấp còn được API chấp nhận không? |
+| Đổi password/khóa user | Validator có biết trạng thái mới không? |
+| Token tới hạn | Clock skew và kết nối đang mở được xử lý thế nào? |
+
+Denylist, session/version check, introspection hay các cơ chế khác chỉ có tác dụng tại nơi thực sự kiểm tra. Entry denylist phải tồn tại đến khi token không còn được chấp nhận, kể cả khoảng clock skew nếu có. Lifetime ngắn giảm cửa sổ rủi ro, không phải thu hồi trước hạn.
+
+Với SignalR/WebSocket, mỗi message không mặc nhiên chạy lại HTTP authentication. Cần kiểm tra tại thao tác phù hợp hoặc chủ động ngắt kết nối theo thiết kế. Không chỉ gửi lệnh client tự logout. Đọc sâu [slide 14](auth-study-guide.md#slide-14).
+
+Nguồn: [RFC 7009](https://www.rfc-editor.org/rfc/rfc7009.html), [OAuth Security BCP — RFC 9700](https://www.rfc-editor.org/rfc/rfc9700.html), [SignalR auth](https://learn.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz?view=aspnetcore-10.0).
+
+## 10. Tự kiểm tra bằng cách giải thích một request
+
+Nói rõ client mang gì, ai cấp, API tin ai, API kiểm tra gì và quyền tài nguyên ở đâu. Sau đó giả sử credential bị copy hoặc user vừa bị khóa: điều kiện nào đổi và validator biết bằng cách nào?
+
+Nếu vẫn trả lời “vì dùng JWT” hoặc “vì có HttpOnly” cho mọi câu hỏi, cần quay lại đúng tầng khái niệm. Đọc tiếp [03 — Login với provider và cấp quyền API](03-oauth-oidc-saml.md).
