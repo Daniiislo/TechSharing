@@ -43,6 +43,8 @@ public sealed class LabState
         var access = Token(); var refresh = Token();
         var expires = DateTimeOffset.UtcNow.AddSeconds(accessSeconds);
         var id = "AT-" + Convert.ToHexString(RandomNumberGenerator.GetBytes(3));
+        // Demo policy: only the most recently issued access token remains valid in this lab.
+        foreach (var key in Access.Keys.ToArray()) Access[key] = Access[key] with { Revoked = true };
         Access[access] = new(id, expires);
         Refresh[refresh] = new(DateTimeOffset.UtcNow.AddMinutes(30));
         return new { accessToken = access, refreshToken = refresh, accessId = id, expiresAt = expires, tokenType = "Bearer", user = "Anna" };

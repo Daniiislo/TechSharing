@@ -55,6 +55,40 @@ test('auth lifecycle and all role combinations', async () => {
     assert.equal((await call('/api/event/close', {}, c.accessToken)).status, mask & 2 ? 200 : 403);
   }
 });
+test('issuing new access invalidates old copies until B copies the current token', async () => {
+  const { call, login } = await lab();
+  const first = await login();
+  const tokenB = first.accessToken;
+  assert.equal((await call('/api/me', undefined, tokenB)).status, 200);
+  const failedLogin = await call('/api/login', { username: 'anna', password: 'wrong' });
+  assert.equal(failedLogin.status, 401);
+  assert.equal((await call('/api/me', undefined, tokenB)).status, 200);
+  const second = await login();
+  assert.notEqual(second.accessToken, tokenB);
+  assert.equal((await call('/api/me', undefined, tokenB)).status, 401);
+  assert.equal((await call('/api/me', undefined, second.accessToken)).status, 200);
+  const refreshed = await call('/api/refresh', { refreshToken: second.refreshToken });
+  assert.equal(refreshed.status, 200);
+  assert.notEqual(refreshed.body.accessToken, second.accessToken);
+  assert.equal((await call('/api/me', undefined, second.accessToken)).status, 401);
+  assert.equal((await call('/api/me', undefined, tokenB)).status, 401);
+  assert.equal((await call('/api/me', undefined, refreshed.body.accessToken)).status, 200);
+});
+
+test('refresh revocation reports whether any active token was revoked', async () => {
+  const { call, login } = await lab();
+  const empty = await call('/api/presenter/revoke-refresh', {});
+  assert.equal(empty.status, 200);
+  assert.equal(empty.body.message, 'Không có refresh token còn hiệu lực để thu hồi.');
+  const c = await login();
+  const revoked = await call('/api/presenter/revoke-refresh', {});
+  assert.equal(revoked.status, 200);
+  assert.equal(revoked.body.message, 'Đã thu hồi 1 refresh token của Anna.');
+  assert.equal((await call('/api/refresh', { refreshToken: c.refreshToken })).status, 401);
+  const repeated = await call('/api/presenter/revoke-refresh', {});
+  assert.equal(repeated.body.message, 'Không có refresh token còn hiệu lực để thu hồi.');
+});
+
 test('role removal is 403, refresh revocation leaves access, access revoke blocks both copies', async () => {
   const { call, login } = await lab();
   const c = await login();

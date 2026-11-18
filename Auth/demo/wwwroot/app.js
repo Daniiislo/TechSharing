@@ -27,17 +27,17 @@ function render() {
   for (const [action, permission, button] of [['bid', 'bid:place', 'bid-action'], ['close', 'event:close', 'close-action'], ['edit', 'product:update', 'edit-action']]) {
     const sources = lab.roles.filter(r => lab.rolePermissions[r].includes(permission));
     const badge = permissionBadge(permission, sources.length ? 'granted' : 'missing');
-    const source = Object.assign(document.createElement('span'), { className: 'permission-source', textContent: sources.length ? sources.join(' · ') : 'Chưa được cấp' });
+    const source = Object.assign(document.createElement('span'), { className: 'permission-source', textContent: sources.length ? sources.join(' · ') : 'Chưa được cấp quyền' });
     $(`reason-${action}`).replaceChildren(badge, source);
     $(button).classList.toggle('denied', !sources.length);
-    $(button).title = `${permission} · ${sources.length ? 'Được cấp' : 'Chưa được cấp'}`;
+    $(button).title = `${permission} · ${sources.length ? 'Đã được cấp quyền' : 'Chưa được cấp quyền'}`;
   }
-  $('status-bid').textContent = permissions.includes('bid:place') ? 'Có quyền' : 'Không có quyền';
+  $('status-bid').textContent = permissions.includes('bid:place') ? 'Đã được cấp quyền' : 'Chưa được cấp quyền';
   $('status-bid').classList.toggle('allowed', permissions.includes('bid:place'));
   const stateA = accessState(credentialA);
   $('anna-state').textContent = stateA;
   $('anna-state').className = 'state' + (stateA === 'Đã xác thực' ? '' : stateA === 'Chưa đăng nhập' ? ' neutral' : ' bad');
-  $('access-label').textContent = credentialA?.accessToken || 'Chưa được cấp';
+  $('access-label').textContent = credentialA?.accessToken || 'Chưa có token';
   $('access-label').title = credentialA?.accessToken || '';
   updateCopiedToken();
   updateCredentialStatus();
@@ -75,6 +75,12 @@ function result(target, response, fallback = '') {
   const code = Object.assign(document.createElement('span'), { className: 'result-code', textContent: `${response.status}` });
   box.replaceChildren(code, formattedMessage(response.data.message || fallback));
 }
+function localResult(target, message, ok = false) {
+  const box = $(target);
+  box.hidden = false;
+  box.className = 'result ' + (ok ? 'success' : 'error');
+  box.textContent = message;
+}
 function trace(method, path, response, who) {
   const list = $('trace-list'); list.querySelector('.trace-empty')?.remove();
   const entry = document.createElement('li'); entry.className = 'trace-entry';
@@ -101,68 +107,66 @@ async function sync() {
   if (!response.ok) throw new Error('Không tải được trạng thái lab.');
   lab = await response.json(); render();
 }
-async function run(action) {
+async function run(target, action) {
   if (busy) return; busy = true;
   const focused = document.activeElement;
   const controls = [...document.querySelectorAll('button,input')]; controls.forEach(c => c.disabled = true);
   $('main-content').setAttribute('aria-busy', 'true');
-  try { await action(); await sync(); } catch (e) { notice('Không kết nối được server: ' + e.message); }
+  try { await action(); await sync(); } catch (e) { localResult(target, 'Không kết nối được server: ' + e.message); }
   finally {
     busy = false; controls.forEach(c => c.disabled = false);
     $('main-content').removeAttribute('aria-busy');
     if (document.activeElement === document.body && focused instanceof HTMLElement && focused.isConnected) focused.focus({ preventScroll: true });
   }
 }
-$('login-form').addEventListener('submit', e => { e.preventDefault(); run(async () => {
+$('login-form').addEventListener('submit', e => { e.preventDefault(); run('result-login', async () => {
   const res = await request('/api/login', { username: $('username').value, password: $('password').value });
   if (res.ok) credentialA = res.data;
   result('result-login', res, `Đăng nhập thành công · ${res.data.accessId}`);
 }); });
-$('wrong-password').onclick = () => run(async () => result('result-login', await request('/api/login', { username: 'anna', password: 'wrong-password' })));
-$('view-action').onclick = () => run(async () => result('result-a', await request('/api/products/current', undefined, null, 'Public')));
-$('identity-b').onclick = () => run(async () => result('result-b', await request('/api/me', undefined, credentialB?.accessToken, 'Client B')));
+$('wrong-password').onclick = () => run('result-login', async () => result('result-login', await request('/api/login', { username: 'anna', password: 'wrong-password' })));
+$('identity-b').onclick = () => run('result-b', async () => result('result-b', await request('/api/me', undefined, credentialB?.accessToken, 'Client B')));
 $('product-name-input').oninput = $('product-description-input').oninput = () => { productDraftDirty = true; };
-$('product-form').addEventListener('submit', e => { e.preventDefault(); run(async () => {
+$('product-form').addEventListener('submit', e => { e.preventDefault(); run('result-product', async () => {
   const res = await request('/api/products/current', { name: $('product-name-input').value, description: $('product-description-input').value }, credentialA?.accessToken);
   if (res.ok) productDraftDirty = false;
-  result('result-a', res);
+  result('result-product', res);
 }); });
-$('bid-action').onclick = () => run(async () => {
+$('bid-action').onclick = () => run('result-bid', async () => {
   const input = $('bid-amount'), amount = Number(input.value);
-  if (!input.value || !Number.isFinite(amount)) { notice('Nhập một giá đặt hợp lệ.'); return; }
-  const response = await request('/api/bids', { amount }, credentialA?.accessToken); result('result-a', response);
+  if (!input.value || !Number.isFinite(amount)) { localResult('result-bid', 'Nhập một giá đặt hợp lệ.'); return; }
+  const response = await request('/api/bids', { amount }, credentialA?.accessToken); result('result-bid', response);
   if (response.ok) input.value = amount + 100000;
 });
-$('close-action').onclick = () => run(async () => result('result-a', await request('/api/event/close', {}, credentialA?.accessToken)));
+$('close-action').onclick = () => run('result-close', async () => result('result-close', await request('/api/event/close', {}, credentialA?.accessToken)));
 document.querySelectorAll('[name=role]').forEach(c => c.onchange = () => {
   const roles = [...document.querySelectorAll('[name=role]:checked')].map(c => c.value);
-  run(async () => { const res = await request('/api/presenter/roles', { roles }, null, 'Quản trị'); if (!res.ok) notice(res.data.message); });
+  run('result-roles', async () => { const res = await request('/api/presenter/roles', { roles }, null, 'Quản trị'); result('result-roles', res, 'Đã cập nhật vai trò.'); });
 });
 $('copy-token').onclick = () => {
-  if (!credentialA) { notice('Đăng nhập Anna trước để có access token.'); return; }
+  if (!credentialA) { localResult('result-b', 'Đăng nhập Anna trước để có access token.'); return; }
   credentialB = { ...credentialA }; render();
-  $('result-b').className = 'result'; $('result-b').textContent = `Đã sao chép ${credentialB.accessId}.`;
+  localResult('result-b', `Đã sao chép ${credentialB.accessId}.`, true);
 };
-$('revoke-refresh').onclick = () => run(async () => {
-  const res = await request('/api/presenter/revoke-refresh', {}, null, 'Quản trị'); notice(res.data.message);
+$('revoke-refresh').onclick = () => run('result-token', async () => {
+  const res = await request('/api/presenter/revoke-refresh', {}, null, 'Quản trị'); result('result-token', res);
 });
-$('revoke-access').onclick = () => run(async () => {
-  if (!credentialA) { notice('Chưa có access token A để thu hồi.'); return; }
-  const res = await request('/api/presenter/revoke-access', { accessToken: credentialA.accessToken }, null, 'Quản trị'); notice(res.data.message);
+$('revoke-access').onclick = () => run('result-token', async () => {
+  if (!credentialA) { localResult('result-token', 'Chưa có access token A để thu hồi.'); return; }
+  const res = await request('/api/presenter/revoke-access', { accessToken: credentialA.accessToken }, null, 'Quản trị'); result('result-token', res);
 });
-$('refresh').onclick = () => run(async () => {
-  if (!credentialA) { notice('Đăng nhập trước để có refresh token.'); return; }
+$('refresh').onclick = () => run('result-token', async () => {
+  if (!credentialA) { localResult('result-token', 'Đăng nhập trước để có refresh token.'); return; }
   const res = await request('/api/refresh', { refreshToken: credentialA.refreshToken });
   if (res.ok) credentialA = res.data;
-  result('result-a', res, `Đã cấp token mới · ${res.data.accessId}`);
+  result('result-token', res, `Đã cấp token mới · ${res.data.accessId}`);
 });
-$('reset').onclick = () => run(async () => {
+$('reset').onclick = () => run('result-reset', async () => {
   const res = await request('/api/presenter/reset', {}, null, 'Quản trị');
-  if (!res.ok) { notice(res.data.message); return; }
+  if (!res.ok) { result('result-reset', res); return; }
   credentialA = null; credentialB = null; productDraftDirty = false; $('bid-amount').value = '1600000'; $('username').value = 'anna'; $('password').value = 'Anna@123!';
-  $('result-login').hidden = true; $('result-login').replaceChildren();
-  for (const id of ['result-a', 'result-b']) { $(id).className = 'result'; $(id).textContent = 'Chưa có yêu cầu.'; }
-  notice('Đã khôi phục trạng thái ban đầu.');
+  for (const box of document.querySelectorAll('.result')) { box.hidden = true; box.className = 'result'; box.replaceChildren(); }
+  localResult('result-reset', 'Đã khôi phục trạng thái ban đầu.', true);
 });
 $('clear-trace').onclick = () => $('trace-list').replaceChildren(Object.assign(document.createElement('li'), { className: 'trace-empty', textContent: 'Chưa có yêu cầu.' }));
 sync().catch(e => notice(e.message)); setInterval(updateCredentialStatus, 1000);

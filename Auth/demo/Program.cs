@@ -88,8 +88,11 @@ app.MapPost("/api/presenter/revoke-refresh", (HttpContext ctx) =>
 {
     var lab = Lab(ctx); lock (lab.Gate)
     {
+        var activeCount = lab.Refresh.Values.Count(token => !token.Revoked && token.ExpiresAt > DateTimeOffset.UtcNow);
         foreach (var key in lab.Refresh.Keys.ToArray()) lab.Refresh[key] = lab.Refresh[key] with { Revoked = true };
-        return Results.Ok(new { stage = "revoke", message = "Đã thu hồi refresh token của Anna." });
+        return Results.Ok(new { stage = "revoke", message = activeCount == 0
+            ? "Không có refresh token còn hiệu lực để thu hồi."
+            : $"Đã thu hồi {activeCount} refresh token của Anna." });
     }
 });
 app.MapPost("/api/presenter/revoke-access", (RevokeInput input, HttpContext ctx) =>

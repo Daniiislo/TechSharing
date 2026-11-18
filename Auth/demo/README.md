@@ -25,7 +25,7 @@ Tests tự mở server ở cổng **5091**, tạo các lab riêng và đóng ti�
 
 ### 01 — Xác thực
 - Reset: Anna chưa đăng nhập và chưa có role.
-- Xem sản phẩm → **200** ngay cả khi chưa đăng nhập: đây là dữ liệu công khai.
+- Sản phẩm hiển thị sẵn. API `GET /api/products/current` vẫn công khai; không cần nút xem riêng.
 - Thử đặt giá hoặc lưu sản phẩm khi chưa đăng nhập → **401**.
 - Thử sai mật khẩu → **401**; đăng nhập đúng → **200**, nhận access/refresh token.
 
@@ -48,12 +48,13 @@ Tests tự mở server ở cổng **5091**, tạo các lab riêng và đóng ti�
 - Gỡ Bidder → đặt giá **403**; B kiểm tra danh tính vẫn **200**.
 - Thu hồi refresh → Cấp token mới **401**; B kiểm tra danh tính vẫn **200**.
 - Thu hồi access token A → B kiểm tra danh tính và A thử đặt giá đều **401**. Xem sản phẩm vẫn **200**.
-- Đăng nhập lại/refresh thành công chỉ thay credential của A; B vẫn giữ bản sao cũ.
+- Đăng nhập lại/refresh thành công cấp token mới cho A và vô hiệu hóa mọi access token cũ trong lab. B giữ bản sao cũ nên kiểm tra danh tính trả **401**; sao chép lại token mới từ A rồi kiểm tra → **200**.
 
 ## Phạm vi và cơ chế
 
 - Access token là **opaque bearer** ngẫu nhiên 256 bit, mặc định 10 phút; refresh token 30 phút, rotation sau khi dùng. Không phải JWT và không phải triển khai OAuth/OIDC. Server dùng random generator và password hasher của framework.
 - Authentication handler kiểm tra token tồn tại, hết hạn và denylist. Role/permission được đọc từ trạng thái server mỗi request; không nhúng role vào access token.
+- Chính sách demo chỉ cho phép access token được cấp gần nhất còn hiệu lực trong mỗi lab. Cấp mới sẽ thu hồi các access token trước đó; đây là lựa chọn của demo, không phải quy tắc bắt buộc của bearer token. Đăng nhập thất bại không thu hồi token hiện tại.
 - Thu hồi refresh tác động toàn bộ refresh token của Anna **trong lab**; thu hồi access chỉ tác động token A hiện đang chọn và mọi bản sao của nó. Không tuyên bố đây là hành vi bắt buộc của mọi hệ thống.
 - Quyền, chỉnh sửa sản phẩm, bid và đóng event được xử lý dưới cùng một khóa để tránh thay đổi giữa kiểm tra và ghi trong demo một process.
 - Lab tách theo cookie HttpOnly/SameSite=Strict. Mở tab cùng browser có thể dùng chung trạng thái server; để hai lab độc lập dùng browser profile/private context khác. Cookie chỉ định sandbox thuyết trình; credential truy cập API vẫn là access token. Trạng thái quá 2 giờ không hoạt động được dọn; tối đa 200 lab.

@@ -102,6 +102,9 @@ input[type=checkbox]:focus-visible {
 .permission-status { white-space: normal; text-align: right; }
 .bid-row { padding-bottom: 8px; }
 .bid-form button { font-size: .8125rem; }
+.action-group { border-bottom: 1px solid var(--line); }
+.action-group > .bid-form, .action-group > .action-row { border-bottom: 0; }
+.action-group > .result { margin-bottom: 16px; }
 .result { min-height: 46px; border: 1px solid #c6d7bd; border-radius: 6px; font-size: .8125rem; line-height: 1.8; }
 .result.success { border-color: #8eac98; }
 .result.error { border-color: #d2a79b; }
@@ -197,7 +200,7 @@ footer { font-size: .75rem; }
 }
 .product-description { overflow-wrap: anywhere; }
 #product-title { overflow-wrap: anywhere; }
-.product-editor { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
+.product-editor { margin-top: 20px; padding-top: 20px; }
 .product-editor h3 { margin-bottom: 8px; }
 .product-editor .permission-reason { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
 .product-editor label { display: block; margin-top: 12px; }

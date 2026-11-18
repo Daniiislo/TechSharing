@@ -6,6 +6,7 @@
 <header class="masthead"><a href="/" class="brand" aria-label="Auth Lab — Trang chủ"><svg class="brand-symbol" viewBox="0 0 40 44" fill="none" aria-hidden="true"><path d="M20 3 35 9v12c0 10-8 16-15 20C13 37 5 31 5 21V9L20 3Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="m13 24 7-12 7 12M16 20h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 29h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><span class="brand-wordmark">AUTH<span>LAB</span></span><span class="brand-sub">TECH SHARING</span></a><span class="local-label"><i></i> LOCAL DEMO</span><button type="button" id="reset" class="quiet">Reset demo</button></header>
 <main id="main-content" tabindex="-1">
   <section class="intro"><h1>Quản lý event đấu giá</h1></section>
+  <div id="result-reset" class="result" role="status" aria-live="polite" hidden></div>
   <section class="lifecycle" aria-label="Lộ trình demo">
     <ol class="lifecycle-flow">
       <li><svg class="flow-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="13" cy="10" r="5"/><path d="M4 27v-3a9 9 0 0 1 14-7M21 23l3 3 5-6"/></svg><strong>Xác thực</strong><span>Đăng nhập Anna</span></li>
@@ -27,23 +28,28 @@
       <div class="section-top"><div class="person"><span class="avatar">AN</span><div><h2 id="anna-title">Anna</h2><span class="muted">Client A · Người tham gia</span></div></div><span class="state neutral" id="anna-state">Chưa đăng nhập</span></div>
       <form id="login-form"><div class="login-fields"><label>Tên đăng nhập<input id="username" name="username" value="anna" autocomplete="username" required maxlength="40"></label><label>Mật khẩu<input id="password" name="password" type="password" value="Anna@123!" autocomplete="current-password" required maxlength="200"></label></div><div class="login-actions"><button type="submit" class="primary">Đăng nhập</button><button type="button" id="wrong-password" class="quiet">Thử sai mật khẩu</button></div></form>
       <div id="result-login" class="result login-result" role="status" aria-live="polite" hidden></div>
-      <div class="credential"><div><span class="eyebrow">ACCESS TOKEN · OPAQUE BEARER</span><strong id="access-label">Chưa được cấp</strong></div><span id="token-expiry">—</span></div>
+      <div class="credential"><div><span class="eyebrow">ACCESS TOKEN · OPAQUE BEARER</span><strong id="access-label">Chưa có token</strong></div><span id="token-expiry">—</span></div>
       <div class="permission-heading"><h2>Quyền thao tác</h2></div>
       <div class="actions">
-        <div class="action-row"><div><strong>Xem sản phẩm</strong><p class="permission-source">Công khai</p></div><button type="button" id="view-action" class="action-button">Xem sản phẩm</button></div>
-        <div class="action-row bid-row"><div><strong>Đặt giá</strong><p id="reason-bid">Chưa có role cấp bid:place</p></div><span class="permission-status" id="status-bid">Không có quyền</span></div>
-        <div class="bid-form"><label for="bid-amount">Giá đặt (₫)</label><div><input id="bid-amount" type="number" min="1600000" max="1000000000" step="100000" value="1600000"><button type="button" id="bid-action" class="primary">Đặt giá</button></div></div>
-        <div class="action-row"><div><strong>Đóng event</strong><p id="reason-close">Chưa có role cấp event:close</p></div><button type="button" id="close-action" class="action-button">Đóng event</button></div>
+        <div class="action-row bid-row"><div><strong>Đặt giá</strong><p id="reason-bid">Chưa được cấp quyền</p></div><span class="permission-status" id="status-bid">Chưa được cấp quyền</span></div>
+        <div class="action-group">
+          <div class="bid-form"><label for="bid-amount">Giá đặt (₫)</label><div><input id="bid-amount" type="number" min="1600000" max="1000000000" step="100000" value="1600000"><button type="button" id="bid-action" class="primary">Đặt giá</button></div></div>
+          <div id="result-bid" class="result" role="status" aria-live="polite" hidden></div>
+        </div>
+        <div class="action-group">
+          <div class="action-row"><div><strong>Đóng event</strong><p id="reason-close">Chưa được cấp quyền</p></div><button type="button" id="close-action" class="action-button">Đóng event</button></div>
+          <div id="result-close" class="result" role="status" aria-live="polite" hidden></div>
+        </div>
         <details class="product-editor">
           <summary>Chỉnh sửa sản phẩm<span id="reason-edit" class="permission-reason"></span></summary>
           <form id="product-form">
           <label for="product-name-input">Tên sản phẩm</label><input id="product-name-input" name="productName" required maxlength="100" autocomplete="off">
           <label for="product-description-input">Mô tả</label><input id="product-description-input" name="productDescription" maxlength="300" autocomplete="off">
           <button type="submit" id="edit-action" class="action-button">Lưu sản phẩm</button>
+          <div id="result-product" class="result" role="status" aria-live="polite" hidden></div>
           </form>
         </details>
       </div>
-      <div id="result-a" class="result" role="status" aria-live="polite">Chưa có yêu cầu.</div>
     </section>
     <aside class="presenter" aria-labelledby="presenter-title">
       <div class="section-top"><div><h2 id="presenter-title">Vai trò & quyền</h2></div><span class="small-tag">RBAC</span></div>
@@ -51,8 +57,10 @@
         <label class="role-option"><input type="checkbox" name="role" value="Bidder"><span><strong>Bidder</strong><small>Đặt giá</small></span></label>
         <label class="role-option"><input type="checkbox" name="role" value="Auctioneer"><span><strong>Auctioneer</strong><small>Chỉnh sửa sản phẩm · Đóng event</small></span></label>
       </fieldset>
+      <div id="result-roles" class="result" role="status" aria-live="polite" hidden></div>
       <div class="effective"><span class="eyebrow">PERMISSION HIỆU LỰC</span><div id="effective-permissions"></div><p id="role-summary" class="muted">0 vai trò · 0 permission</p></div>
       <div class="revoke-controls"><h3>Quản lý token</h3><button type="button" id="revoke-refresh" class="outline">Thu hồi refresh token</button><button type="button" id="revoke-access" class="danger-outline">Thu hồi access token A</button><button type="button" id="refresh" class="quiet">Cấp token mới</button></div>
+      <div id="result-token" class="result" role="status" aria-live="polite" hidden></div>
     </aside>
   </div>
   <section class="second-client" aria-labelledby="client-b-title"><div class="second-intro"><span class="avatar secondary">B</span><div><h2 id="client-b-title">Client B</h2><p class="muted">Bearer token · Anna</p></div></div><div class="second-controls"><span id="copy-token-label" class="mono muted">Chưa có token</span><button type="button" id="copy-token" class="outline">Sao chép token từ A</button><button type="button" id="identity-b" class="action-button">B kiểm tra danh tính</button></div><div id="result-b" class="result" role="status" aria-live="polite">Chưa có yêu cầu.</div></section>
