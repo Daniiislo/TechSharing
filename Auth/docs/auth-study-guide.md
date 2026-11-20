@@ -54,7 +54,7 @@ Thu hồi phiên → những đường kiểm tra trạng thái mới phải t�
 <a id="slide-02"></a>
 ## Slide 02 — Agenda
 
-Sáu phần trên agenda: Authentication & Sign-In; Sessions & Tokens; Authorization; Revocation; Choosing an Auth Architecture; Recap & Q&A. Không còn slide demo BidLab riêng hoặc appendix trong bộ 16 trang hiện tại. Các ví dụ đấu giá vẫn dùng để giải thích, không phải cam kết có lab chạy được.
+Sáu phần trên agenda: Authentication & Sign-In; Sessions & Tokens; Authorization & Custom Auth; Revocation; Choosing an Auth Architecture; Recap & Q&A. Phần 03 gồm mô hình phân quyền (slide 12) và mở rộng authentication (slide 13). Không còn slide demo BidLab riêng hoặc appendix trong bộ 16 trang hiện tại. Các ví dụ đấu giá vẫn dùng để giải thích, không phải cam kết có lab chạy được.
 
 Đừng mở bài bằng việc đọc một loạt tên công nghệ. Hãy dẫn bằng câu hỏi: đăng nhập bằng gì; request tiếp theo mang gì; ai được làm gì; làm sao chặn truy cập; sau cùng mới ghép vào kiến trúc dự án.
 

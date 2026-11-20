@@ -1,10 +1,10 @@
 {
   "schema": "ppt-master.svg-quality-report.v1",
   "stage": "final",
-  "target": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110",
+  "target": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "90c63596679d40021b882352fe35de1aabba6e466a1412644bdad6622d059bf7",
+    "digest": "426ff1d829de8f5dd46abd12b913f5613e937bc3f2e712a796efb344c07ace48",
     "file_count": 16,
     "files": [
       {
@@ -13,7 +13,7 @@
       },
       {
         "file": "02_agenda.svg",
-        "sha256": "c7a43916fb19f6a5d636d12c61d390a5fa35c702dff8740415a4faa5f2c79a47"
+        "sha256": "d4fd285081226441a2c71f00fbb95a4c7f3bff310e1e4a31a604bee5981d5a76"
       },
       {
         "file": "03_authentication_overview.svg",
@@ -53,11 +53,11 @@
       },
       {
         "file": "12_authorization_models.svg",
-        "sha256": "84d95f383fe5067b6bf4992c1a04c7da31f979461cb31f7e94e47210be8c8e2a"
+        "sha256": "d014bc2de4b5be0c278e459bffae150cdcda6bfa5d9cd531388504af413298a4"
       },
       {
         "file": "13_auth_extension_points.svg",
-        "sha256": "e1fcb073f7cb9fbe429a73b26d1068877014a555c21bd53996ae1ae834681299"
+        "sha256": "4ec6fc098352061fe419f071c0e6db042313d9b2217d0e892e59d782529dcc59"
       },
       {
         "file": "14_revocation.svg",
@@ -168,7 +168,7 @@
   "files": [
     {
       "file": "01_beyond_login.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\01_beyond_login.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\01_beyond_login.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -227,7 +227,7 @@
     },
     {
       "file": "02_agenda.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\02_agenda.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\02_agenda.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -282,11 +282,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "c7a43916fb19f6a5d636d12c61d390a5fa35c702dff8740415a4faa5f2c79a47"
+      "source_sha256": "d4fd285081226441a2c71f00fbb95a4c7f3bff310e1e4a31a604bee5981d5a76"
     },
     {
       "file": "03_authentication_overview.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\03_authentication_overview.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\03_authentication_overview.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -345,7 +345,7 @@
     },
     {
       "file": "04_mfa_factor_types.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\04_mfa_factor_types.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\04_mfa_factor_types.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -404,7 +404,7 @@
     },
     {
       "file": "05_totp_offline.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\05_totp_offline.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\05_totp_offline.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -464,7 +464,7 @@
     },
     {
       "file": "06_passkey_register_and_sign_in.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\06_passkey_register_and_sign_in.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\06_passkey_register_and_sign_in.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -524,7 +524,7 @@
     },
     {
       "file": "07_federated_sign_in.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\07_federated_sign_in.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\07_federated_sign_in.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -583,7 +583,7 @@
     },
     {
       "file": "08_oauth_api_access.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\08_oauth_api_access.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\08_oauth_api_access.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -642,7 +642,7 @@
     },
     {
       "file": "09_service_to_service_authentication.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\09_service_to_service_authentication.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\09_service_to_service_authentication.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -701,7 +701,7 @@
     },
     {
       "file": "10_session_continuity.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\10_session_continuity.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\10_session_continuity.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -760,7 +760,7 @@
     },
     {
       "file": "11_bearer_token_copy.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\11_bearer_token_copy.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\11_bearer_token_copy.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -819,7 +819,7 @@
     },
     {
       "file": "12_authorization_models.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\12_authorization_models.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\12_authorization_models.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -874,11 +874,11 @@
         "tspan_elements": 0
       },
       "passed": true,
-      "source_sha256": "84d95f383fe5067b6bf4992c1a04c7da31f979461cb31f7e94e47210be8c8e2a"
+      "source_sha256": "d014bc2de4b5be0c278e459bffae150cdcda6bfa5d9cd531388504af413298a4"
     },
     {
       "file": "13_auth_extension_points.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\13_auth_extension_points.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\13_auth_extension_points.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -938,11 +938,11 @@
         }
       },
       "passed": true,
-      "source_sha256": "e1fcb073f7cb9fbe429a73b26d1068877014a555c21bd53996ae1ae834681299"
+      "source_sha256": "4ec6fc098352061fe419f071c0e6db042313d9b2217d0e892e59d782529dcc59"
     },
     {
       "file": "14_revocation.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\14_revocation.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\14_revocation.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -1001,7 +1001,7 @@
     },
     {
       "file": "15_choosing_auth_architecture.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\15_choosing_auth_architecture.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\15_choosing_auth_architecture.svg",
       "exists": true,
       "errors": [],
       "warnings": [],
@@ -1060,7 +1060,7 @@
     },
     {
       "file": "16_auth_lifecycle_recap.svg",
-      "path": "F:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\16_auth_lifecycle_recap.svg",
+      "path": "D:\\TechSharing\\Auth\\presentation\\auth_beyond_login_ppt169_20261110\\svg_output\\16_auth_lifecycle_recap.svg",
       "exists": true,
       "errors": [],
       "warnings": [],

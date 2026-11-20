@@ -134,7 +134,7 @@ Apply the common header, body and footer coordinates in `layout.json` to all sli
 - **Relationships**: The agenda follows the presentation order from authentication to the lifecycle recap and Q&A.
 - **Title**: Agenda
 - **Core message**: The talk covers identity proof, request continuity, permissions and revocation, then compares architectures and recaps the auth lifecycle.
-- **Content**: Authentication & Sign-In; Sessions & Tokens; Authorization; Revocation; Choosing an Auth Architecture; Recap & Q&A.
+- **Content**: Authentication & Sign-In; Sessions & Tokens; Authorization & Custom Auth; Revocation; Choosing an Auth Architecture; Recap & Q&A. Section 03 covers authorization models on slide 12 and authentication extension points on slide 13.
 - **Composition**: Six ordered rows, each with a topic and a brief preview of its content.
 
 #### Slide 03 - Authentication Overview

@@ -1,6 +1,6 @@
 # Auth — Outline hiện hành
 
-**Cập nhật 16/11/2026.** 16 slide, 38 phút dự toán gồm Q&A. Chưa phải thời lượng đã đo. Không có demo BidLab riêng hoặc appendix. Nội dung SVG hiện tại là chuẩn; PPTX cũ chưa được xuất lại trong vòng chỉnh sửa này.
+**Cập nhật 20/11/2026.** 16 slide, 38 phút dự toán gồm Q&A. Chưa phải thời lượng đã đo. Không có demo BidLab riêng hoặc appendix. Nội dung SVG hiện tại là chuẩn; đã xuất lại bản `auth_beyond_login_20261120_114026.pptx` với agenda đồng bộ phần Authorization & Custom Auth.
 
 Slide tiếng Anh; [presenter guide](auth-presentation-presenter-guide.md) và [tài liệu học sâu](auth-study-guide.md) tiếng Việt.
 

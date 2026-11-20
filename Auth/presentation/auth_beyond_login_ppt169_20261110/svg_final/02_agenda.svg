@@ -18,8 +18,8 @@
 </g>
 <g id="authorization">
 <text x="64" y="362" font-size="18" font-weight="700" fill="#007F9E">03</text>
-<text x="124" y="362" font-size="28" font-weight="700" fill="#102A43">Authorization</text>
-<text x="580" y="362" font-size="22" fill="#243B53">Roles, policies and permissions on a resource</text>
+<text x="124" y="362" font-size="28" font-weight="700" fill="#102A43">Authorization &amp; Custom Auth</text>
+<text x="580" y="362" font-size="22" fill="#243B53">Access models and custom authentication</text>
 <line x1="64" y1="385" x2="1216" y2="385" stroke="#CAD7E2"/>
 </g>
 <g id="session-security">

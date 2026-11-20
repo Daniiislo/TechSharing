@@ -16,7 +16,7 @@ Anna đã đăng nhập rồi bấm Place Bid. Mình còn bốn việc phải l�
 
 ## 02. Agenda — 0.5 phút
 
-**Chỉ hình:** Sáu phần từ Authentication & Sign-In tới Recap & Q&A.
+**Chỉ hình:** Sáu phần từ Authentication & Sign-In tới Recap & Q&A; phần 03 gồm Authorization & Custom Auth, tương ứng slide 12–13.
 
 Đầu tiên mình xem người dùng và service chứng minh danh tính thế nào. Sau đó là cookie/token cho các request tiếp theo, quyền trên tài nguyên và cách thu hồi. Cuối cùng mình ghép vào năm cấu trúc dự án. Bộ hiện tại không có slide demo/appendix riêng; các ví dụ đấu giá để giải thích, không phải cam kết có lab chạy được.
 

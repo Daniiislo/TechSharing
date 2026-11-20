@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" data-pptx-page-role="content" font-family="Segoe UI, sans-serif">
 <rect id="background" data-pptx-role="background" width="1280" height="720" fill="#F7F9FC"/>
 <g id="title" data-pptx-bounds="64 33 1152 148">
-<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">03 · Authorization</text>
+<text id="agenda-section" x="64" y="55" font-size="18" fill="#007F9E">03 · Authorization &amp; Custom Auth</text>
 <text id="slide-title" x="64" y="108" font-size="46" fill="#102A43" font-family="Cambria, serif">Custom Authentication: Why and How?</text>
 <text id="slide-context" x="64" y="157" font-size="22" fill="#526B80">Customize when your app needs behavior beyond the default authentication flow.</text>
 </g>

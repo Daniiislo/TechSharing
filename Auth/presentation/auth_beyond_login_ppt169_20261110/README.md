@@ -6,7 +6,8 @@
 
 - svg_output/ là nguồn biên tập hiện tại; svg_final/ là bản SVG self-contained được tạo lại từ nguồn.
 - [Tài liệu học sâu](../../docs/auth-study-guide.md), [presenter guide](../../docs/auth-presentation-presenter-guide.md), [outline hiện hành](../../docs/auth-presentation-outline.md).
-- ../Auth - Beyond the Login Screen.pptx và các file trong exports/ là các lần xuất trước; không mặc định khớp 16 SVG đang chỉnh sửa. Chỉ xuất PPTX mới sau khi người dùng chốt.
+- Bản xuất hiện hành: [Auth - Beyond the Login Screen.pptx](../Auth%20-%20Beyond%20the%20Login%20Screen.pptx), đã cập nhật từ `auth_beyond_login_20261120_114026.pptx`, gồm 16 slide; agenda và nhãn phần 03 đã bổ sung Custom Auth. Quality gate và postflight đều passed, không có cảnh báo.
+- Các file PPTX không tự cập nhật khi sửa SVG; cần xuất lại và cập nhật bản chính sau mỗi vòng chỉnh sửa.
 - Không khẳng định bản 16 slide hiện tại đã được mở/QA trong PowerPoint chỉ dựa vào việc một bản export cũ từng được kiểm tra.
 
 ## Biên tập
